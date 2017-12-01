@@ -106,6 +106,7 @@ gulp.task('build:library',
   'post-transpile',
   'transpile-less',
   'copy-html',
+  'bundle',
   'copy-static-assets'
 ]);
 
@@ -122,7 +123,6 @@ gulp.task('watch', ['build:library', 'copy-watch-all'], function (c) {
     util.log(util.colors.cyan(e.path) + ' has been changed. Compiling.');
     runSequence('transpile',
                  'post-transpile',
-                 'bundle',
                  'copy-watch',
                  c);
 
