@@ -137,6 +137,37 @@ describe('Dynamic form should be created for json that comes from the server', (
     expect(input.getAttribute('type')).toBe('radio');
   }));
 
+  it('should convert options with struct of id and name', fakeAsync(() => {
+    // given
+    setupUI(typeSelect);
+    // when
+    const convertedOptions = comp.convertToOptions(['value1', 'value2']);
+    // then
+    expect(convertedOptions[0][<any>'id']).toBe('value1');
+    expect(convertedOptions[0][<any>'name']).toBe('value1');
+    expect(convertedOptions[1][<any>'id']).toBe('value2');
+    expect(convertedOptions[1][<any>'name']).toBe('value2');
+  }));
+
+  it('should return a message if existing', fakeAsync(() => {
+    // given
+    setupUI(typeSelect);
+    const error1 = {
+      description: 'error1 description',
+      input: 'error1',
+      severity: 'High',
+      showError: true
+    };
+    comp.messages = [error1];
+
+    // when
+    const messageError1 = comp.messageForInput('error1');
+    const messageError2 = comp.messageForInput('error2');
+    // then
+    expect(messageError1).toBe(error1);
+    expect(messageError2).toBe(undefined);
+  }));
+
   function setupUI(obj: any) {
     comp.gui = Object.assign(baseJson, obj);
     fixture.detectChanges();
