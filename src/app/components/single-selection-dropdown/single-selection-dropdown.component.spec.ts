@@ -60,4 +60,13 @@ describe ('SingleSelectionDropDownComponent', () => {
     it('should create', () => {
         expect(component).toBeTruthy();
     });
+
+  it('should record selected choice once selected', async(() => {
+    // when
+    component.selected({id: 'select_id'});
+    fixture.detectChanges();
+    // then
+    expect(component).toBeTruthy();
+    expect(component.field.value).toEqual('select_id');
+  }));
 });
