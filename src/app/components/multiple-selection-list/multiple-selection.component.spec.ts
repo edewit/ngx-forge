@@ -63,4 +63,54 @@ describe ('MultipleSelectionListComponent', () => {
     it('should create', () => {
         expect(component).toBeTruthy();
     });
+
+  it('should detect when select component has value', () => {
+    // given
+    guiInput.value = 'pickme';
+    // when
+    const hasValue = component.hasValue(guiInput);
+    // then
+    expect(hasValue).toBeTruthy();
+  });
+
+  it('should detect when select component is null', () => {
+    // given
+    guiInput.value = null;
+    const hasNoValue = component.hasValue(guiInput);
+    // when
+    const hasValue = component.hasValue(guiInput);
+    // then
+    expect(hasNoValue).toBeFalsy();
+  });
+
+  it('should detect when select component is empty', () => {
+    // given
+    guiInput.value = '';
+    const hasNoValue = component.hasValue(guiInput);
+    // when
+    const hasValue = component.hasValue(guiInput);
+    // then
+    expect(hasNoValue).toBeFalsy();
+  });
+
+  it('should mark dirty when a new selection is done', () => {
+    // given
+    const option: Option = {
+      id: 'opt1',
+      key: 'opt1',
+      description: 'opt1 description',
+      name: 'opt1 name',
+      selected: false,
+      visible: true,
+      descriptionMarkdown: '',
+      display: '',
+      stages: ''
+    };
+
+    // when
+    const hasValue = component.selectChoice(option, true);
+    // then
+    expect(option.selected).toBe(true);
+    expect(component.form.controls['field1'].dirty).toBeTruthy();
+  });
 });
