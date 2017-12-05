@@ -34,4 +34,15 @@ describe('Project select component', () => {
     expect(isTechPreviewNode).toBe(true);
   });
 
+  it('should record project id once selected', () => {
+    // given
+    let optionNode = { id: 'Node.js'} as Option;
+
+    // when
+    projectSelect.setSelected(optionNode);
+
+    // then
+    expect(projectSelect.isSelected(optionNode)).toBe(true);
+  });
+
 });

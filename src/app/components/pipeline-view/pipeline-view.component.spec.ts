@@ -1,5 +1,4 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {By} from '@angular/platform-browser';
 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -57,4 +56,21 @@ describe ('PipelineViewComponent', () => {
     it('should create', () => {
         expect(component).toBeTruthy();
     });
+
+  it('should use warning color and icon for approve state', () => {
+    // given
+    const buildState = {stages: ['approve', 'anything_else']};
+
+    // when
+    const stages = component.buildStages(buildState);
+
+    // then
+    expect(component).toBeTruthy();
+    expect(stages[0][<any>'name']).toEqual('approve');
+    expect(stages[0][<any>'icon']).toEqual('fa-pause-circle');
+    expect(stages[0][<any>'color']).toEqual('warning');
+    expect(stages[1][<any>'name']).toEqual('anything_else');
+    expect(stages[1][<any>'icon']).toEqual('fa-check-circle');
+    expect(stages[1][<any>'color']).toEqual('success');
+  });
 });

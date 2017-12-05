@@ -17,6 +17,23 @@ export class PipelineViewComponent implements OnInit {
     this.addDisplay(this.field);
   }
 
+  buildStages(value: any): Array<string> {
+    let stages: Array<string> = [];
+    let n: number = 0;
+    for (let s of value.stages) {
+      let stage: any = {
+        name: s,
+        index: n,
+        icon: this.determineIcon(s),
+        color: this.determineColor(s)
+      };
+      n++;
+      stages.push(stage);
+
+    }
+    return stages;
+  }
+
   private addDisplay(field: GuiInput) {
     let index: number = 0;
     for (let choice of field.valueChoices) {
@@ -45,23 +62,6 @@ export class PipelineViewComponent implements OnInit {
     return 'fa-check-circle';
   }
 
-  private buildStages(value: any): Array<string> {
-    let stages: Array<string> = [];
-    let n: number = 0;
-    for (let s of value.stages) {
-      let stage: any = {
-        name: s,
-        index: n,
-        icon: this.determineIcon(s),
-        color: this.determineColor(s)
-      };
-      n++;
-      stages.push(stage);
-
-    }
-    return stages;
-  }
-
   private formatHtml(choice: Option, index: number) {
     choice.display = {
       isDefault: true,
@@ -76,10 +76,6 @@ export class PipelineViewComponent implements OnInit {
     choice.name = choice.id;
     choice.description = choice.descriptionMarkdown;
     choice.description = choice.description.replace(/\n\n/g, '\n');
-    // choice.description = marked(choice.description, (err, parseResult) => { console.log(err); });
-    // if (choice.stages && choice.stages[0] && !choice.stages[0].name) { // deal with back button format ouput only once.
-    //   choice.stages = this.buildStages(choice);
-    // }
     let renderer = new marked.Renderer();
     choice.description = marked(choice.description, { renderer: renderer });
     if (choice.stages && choice.stages[0] && !choice.stages[0].name) { // deal with back button format ouput only once.
