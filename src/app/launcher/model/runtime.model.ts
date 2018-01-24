@@ -4,5 +4,6 @@ export class Runtime {
   description: string;
   logo: string;
   supportedMissions: string[];
+  version?: string;
   versions: string[];
 }

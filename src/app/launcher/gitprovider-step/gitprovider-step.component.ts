@@ -1,4 +1,5 @@
-import { Component, Host, Input, ViewEncapsulation } from '@angular/core';
+import { Component, Host, OnInit, ViewEncapsulation } from '@angular/core';
+import { GitProviderService } from '../service/gitprovider.service';
 import { WizardComponent } from '../wizard.component';
 
 @Component({
@@ -7,8 +8,16 @@ import { WizardComponent } from '../wizard.component';
   templateUrl: './gitprovider-step.component.html',
   styleUrls: ['./gitprovider-step.component.less']
 })
-export class GitProviderStepComponent {
+export class GitProviderStepComponent implements OnInit {
 
-  constructor(@Host() public wizardComponent: WizardComponent) {
+  constructor(@Host() public wizardComponent: WizardComponent,
+              private gitProviderService: GitProviderService) {
+  }
+
+  ngOnInit() {
+  }
+
+  authorize($event: MouseEvent): void {
+    this.gitProviderService.authorize(this.wizardComponent.userSelection);
   }
 }

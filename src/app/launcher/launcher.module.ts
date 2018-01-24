@@ -38,6 +38,7 @@ export class LauncherModule {
   constructor() {}
 }
 
+export { GitProviderService } from './service/gitprovider.service';
 export { MissionRuntimeService } from './service/mission-runtime.service';
 export { PipelineService } from './service/pipeline.service';
 export { Mission } from './model/mission.model';

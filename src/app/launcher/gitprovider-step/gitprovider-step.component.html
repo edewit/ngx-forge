@@ -15,7 +15,8 @@
           <h3>Authorized Account</h3>
           <div class="f8launcher-provider-card-information-authorize">
             <i class="fa fa-ban fa-2x"></i> <span class="f8launcher-username">None</span>
-            <button class="btn btn-primary f8launcher-authorize-account">Authorize Account</button>
+            <button class="btn btn-primary f8launcher-authorize-account"
+                    (click)="authorize($event)">Authorize Account</button>
           </div>
           <h4>Organization &amp; Repository</h4>
           <form class="form-horizontal">
