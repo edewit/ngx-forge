@@ -22,8 +22,8 @@
             </div>
             <div class="card-pf-body">
               <div class="list-group list-view-pf list-view-pf-view">
-                <div class="list-group-item">
-                  <div class="f8launcher-tag-featured">
+                <div class="list-group-item" *ngFor="let pipeline of pipelines; let i = index">
+                  <div class="f8launcher-tag-featured" *ngIf="pipeline.suggested">
                     Suggested Pipeline
                   </div>
                   <div class="list-group-item-header">
@@ -37,14 +37,14 @@
                       <div class="list-view-pf-body">
                         <div class="list-view-pf-description">
                           <div class="list-group-item-heading">
-                            <b>Name of Pipeline</b>
+                            <b>{{pipeline.name}}</b>
                           </div>
                           <div class="list-group-item-text">
-                            <b>5</b> Stages
+                            <b>{{pipeline.stages.length}}</b> Stages
                           </div>
                           <div class="list-view-pf-additional-info">
                             <div class="list-view-pf-additional-info-item">
-                              A slightly longer description of this pipeline's capabilities and usage.
+                              {{pipeline.description}}
                             </div>
                           </div>
                         </div>
@@ -54,104 +54,12 @@
                   <div class="list-group-item-container container-fluid">
                     <div class="row">
                       <div class="col-md-12 f8launcher-pipeline-stages">
-                        <span class="f8launcher-pipeline-stages--line">Stage Name</span>
-                        <span class="f8launcher-pipeline-stages--arrow"></span>
-                        <span class="f8launcher-pipeline-stages--line">Stage Name</span>
-                        <span class="f8launcher-pipeline-stages--arrow"></span>
-                        <span class="f8launcher-pipeline-stages--line">Stage Name</span>
-                        <span class="f8launcher-pipeline-stages--arrow"></span>
-                        <span class="f8launcher-pipeline-stages--line">Stage Name</span>
-                        <span class="f8launcher-pipeline-stages--arrow"></span>
-                        <span class="f8launcher-pipeline-stages--line">Stage Name</span>
+                        <ng-container *ngFor="let stage of pipeline.stages; let i = index">
+                          <span class="f8launcher-pipeline-stages--line">{{stage}}</span>
+                          <span class="f8launcher-pipeline-stages--arrow" *ngIf="i !== pipeline.stages.length - 1"></span>
+                        </ng-container>
                       </div>
                     </div>
-                  </div>
-                </div>
-                <div class="list-group-item">
-                  <div class="list-group-item-header">
-                    <div class="list-view-pf-expand">
-                      <span class="fa fa-angle-right"></span>
-                    </div>
-                    <div class="list-view-pf-checkbox">
-                      <input type="radio">
-                    </div>
-                    <div class="list-view-pf-main-info">
-                      <div class="list-view-pf-body">
-                        <div class="list-view-pf-description">
-                          <div class="list-group-item-heading">
-                            <b>Name of Pipeline</b>
-                          </div>
-                          <div class="list-group-item-text">
-                            <b>3</b> Stages
-                          </div>
-                          <div class="list-view-pf-additional-info">
-                            <div class="list-view-pf-additional-info-item">
-                              A slightly longer description of this pipeline's capabilities and usage.
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="list-group-item-container container-fluid hidden">
-                  </div>
-                </div>
-                <div class="list-group-item">
-                  <div class="list-group-item-header">
-                    <div class="list-view-pf-expand">
-                      <span class="fa fa-angle-right"></span>
-                    </div>
-                    <div class="list-view-pf-checkbox">
-                      <input type="radio">
-                    </div>
-                    <div class="list-view-pf-main-info">
-                      <div class="list-view-pf-body">
-                        <div class="list-view-pf-description">
-                          <div class="list-group-item-heading">
-                            <b>Name of Pipeline</b>
-                          </div>
-                          <div class="list-group-item-text">
-                            <b>6</b> Stages
-                          </div>
-                          <div class="list-view-pf-additional-info">
-                            <div class="list-view-pf-additional-info-item">
-                              A slightly longer description of this pipeline's capabilities and usage.
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="list-group-item-container container-fluid hidden">
-                  </div>
-                </div>
-                <div class="list-group-item">
-                  <div class="list-group-item-header">
-                    <div class="list-view-pf-expand">
-                      <span class="fa fa-angle-right"></span>
-                    </div>
-                    <div class="list-view-pf-checkbox">
-                      <input type="radio">
-                    </div>
-                    <div class="list-view-pf-main-info">
-                      <div class="list-view-pf-body">
-                        <div class="list-view-pf-description">
-                          <div class="list-group-item-heading">
-                            <b>Name of Pipeline</b>
-                          </div>
-                          <div class="list-group-item-text">
-                            <b>2</b> Stages
-                          </div>
-                          <div class="list-view-pf-additional-info">
-                            <div class="list-view-pf-additional-info-item">
-                              A slightly longer description of this pipeline's capabilities and usage.
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="list-group-item-container container-fluid hidden">
                   </div>
                 </div>
               </div>

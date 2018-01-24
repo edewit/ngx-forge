@@ -39,5 +39,7 @@ export class LauncherModule {
 }
 
 export { MissionRuntimeService } from './service/mission-runtime.service';
+export { PipelineService } from './service/pipeline.service';
 export { Mission } from './model/mission.model';
 export { Runtime } from './model/runtime.model';
+export { Pipeline } from './model/pipeline.model';
