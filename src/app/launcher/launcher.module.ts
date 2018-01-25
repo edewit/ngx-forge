@@ -43,6 +43,8 @@ export class LauncherModule {
 export { GitProviderService } from './service/gitprovider.service';
 export { MissionRuntimeService } from './service/mission-runtime.service';
 export { PipelineService } from './service/pipeline.service';
+export { ClusterService } from './service/cluster.service';
 export { Mission } from './model/mission.model';
 export { Runtime } from './model/runtime.model';
+export { Cluster } from './model/cluster.model';
 export { Pipeline } from './model/pipeline.model';

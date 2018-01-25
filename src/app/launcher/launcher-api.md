@@ -3,9 +3,9 @@
 ### Missions & Runtimes
 
 ##### Client code:
-[Mission/Runtime Service](launcher/service/mission-runtime.service.ts)  
-[Mission Model](launcher/model/mission.model.ts)  
-[Cluster Model](launcher/model/cluster.model.ts)  
+[Mission/Runtime Service](service/mission-runtime.service.ts)  
+[Mission Model](model/mission.model.ts)  
+[Runtime Model](model/runtime.model.ts)  
 
 ##### API:
 GET Runtimes
@@ -37,8 +37,8 @@ Only visible from Launch website, can select:
  - Zip file
 
 ##### Client code:
-- [Cluster Service](launcher/service/cluster.service.ts)  
-- [Cluster Model](launcher/model/cluster.model.ts)  
+- [Cluster Service](service/cluster.service.ts)  
+- [Cluster Model](model/cluster.model.ts)  
 
 ##### API:
 GET Clusters (Authenticated with OpenShift token)  
@@ -52,8 +52,8 @@ Returns <Clusters[]>:
 This is the list of pipelines that can be used for building and releasing the selected mission/runtime.
 
 ##### Client code:
-[Pipeline Service](launcher/service/pipeline.service.ts)  
-[Pipeline Model](launcher/model/pipeline.model.ts)
+[Pipeline Service](service/pipeline.service.ts)  
+[Pipeline Model](model/pipeline.model.ts)
 
 ##### API:
 GET Pipelines  
@@ -69,9 +69,9 @@ Returns <Pipelines[]:
 ### Project Summary Step
 
 ##### Client code:
-[Selection Model](launcher/model/selection.model.ts)  
-[Summary Model](launcher/model/summary.model.ts)  
-[Launcher Service](launcher/service/launcher.service.ts)  
+[Selection Model](model/selection.model.ts)  
+[Summary Model](model/summary.model.ts)  
+[Launcher Service](service/launcher.service.ts)  
 
 If targetEnvironment === 'zip', this will let them download the zip file.
 
