@@ -12,11 +12,19 @@
           <i class="fa fa-github"></i>
         </div>
         <div class="col-xs-8 f8launcher-provider-card-information">
+          <!-- Enable Access-Conrtol-Expose-Headers for CORS to test -->
           <h3>Authorized Account</h3>
           <div class="f8launcher-provider-card-information-authorize">
-            <i class="fa fa-ban fa-2x"></i> <span class="f8launcher-username">None</span>
+            <img height="30px" width="30px" [src]="ghAvatar" *ngIf="ghAvatar !== undefined">
+            <span *ngIf="ghLogin !== undefined">{{ghLogin}}</span>
+            <i class="fa fa-ban fa-2x" *ngIf="ghAvatar === undefined"></i>
+            <span class="f8launcher-username" *ngIf="ghLogin === undefined"> None</span>
             <button class="btn btn-primary f8launcher-authorize-account"
-                    (click)="authorize($event)">Authorize Account</button>
+                    (click)="authorizeAccount($event)"
+                    *ngIf="ghToken === undefined">Authorize Account</button>
+            <button class="btn btn-secondary f8launcher-authorize-account"
+                    (click)="changeAccount($event)"
+                    *ngIf="ghToken !== undefined">Change Account</button>
           </div>
           <h4>Organization &amp; Repository</h4>
           <form class="form-horizontal">
