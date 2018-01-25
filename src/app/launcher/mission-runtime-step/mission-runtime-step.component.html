@@ -24,16 +24,22 @@
               <div class="list-group list-view-pf" *ngFor="let runtime of runtimes; let i = index">
                 <div class="list-group-item list-view-pf-stacked list-view-pf-top-align">
                   <div class="list-view-pf-checkbox">
-                    <input type="radio" name="runtime">
+                    <input name="runtime" type="radio"
+                           [(ngModel)]="runtimeId"
+                           [value]="runtime.runtimeId"
+                           (ngModelChange)="updateRuntimeSelection(runtime)">
                   </div>
                   <div class="list-view-pf-actions">
                     <div class="dropdown" dropdown>
                       <button dropdownToggle type="button" class="btn btn-default dropdown-toggle" id="{{i + 'dropdown'}}">
-                        Dropdown
+                        {{runtime.version || runtime.versions[0]}}
                         <span class="caret"></span>
                       </button>
                       <ul *dropdownMenu class="dropdown-menu" role="menu" [attr.aria-labelledby]="i + 'dropdown'">
-                        <li role="menuitem" *ngFor="let version of runtime.versions"><a role="menuitem" class="dropdown-item" tabindex="-1" href="#">{{version}}</a></li>
+                        <li role="menuitem" *ngFor="let version of runtime.versions">
+                          <a role="menuitem" class="dropdown-item" tabindex="-1" href="#"
+                             (click)="updateVersionSelection(runtime, version)">{{version}}</a>
+                        </li>
                       </ul>
                     </div>
                   </div>
@@ -76,7 +82,10 @@
                     Suggested Mission
                   </div>
                   <div class="list-view-pf-checkbox">
-                    <input type="radio" name="mission">
+                    <input type="radio" name="mission"
+                           [(ngModel)]="missionId"
+                           [value]="mission.missionId"
+                           (ngModelChange)="updateMissionSelection(mission)">
                   </div>
                   <div class="list-view-pf-main-info">
                     <div class="list-view-pf-body">

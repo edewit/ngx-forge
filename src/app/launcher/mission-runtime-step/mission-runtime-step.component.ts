@@ -1,9 +1,12 @@
 import { Component, Host, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { WizardComponent } from '../wizard.component';
-import { MissionRuntimeService } from '../service/mission-runtime.service';
 import { Subscription } from 'rxjs/Subscription';
-import { Runtime } from '../model/runtime.model';
+
+import { MissionRuntimeService } from '../service/mission-runtime.service';
+import { WizardComponent } from '../wizard.component';
+
 import { Mission } from '../model/mission.model';
+import { Runtime } from '../model/runtime.model';
+import { Selection } from '../model/selection.model';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -13,8 +16,10 @@ import { Mission } from '../model/mission.model';
 })
 export class MissionRuntimeStepComponent implements OnInit, OnDestroy {
   public missions: Mission[];
-  public runtimes: Runtime[]
+  public runtimes: Runtime[];
 
+  private missionId: string;
+  private runtimeId: string;
   private subscriptions: Subscription[] = [];
 
   constructor(@Host() public wizardComponent: WizardComponent,
@@ -30,6 +35,8 @@ export class MissionRuntimeStepComponent implements OnInit, OnDestroy {
     });
     this.subscriptions.push(missionSubscription);
     this.subscriptions.push(runtimeSubscription);
+
+    this.restoreSummary();
   }
 
   ngOnDestroy() {
@@ -38,4 +45,40 @@ export class MissionRuntimeStepComponent implements OnInit, OnDestroy {
     });
   }
 
+  // Private
+
+  // Restore mission & runtime summary
+  private restoreSummary(): void {
+    let selection: Selection = this.wizardComponent.selectionParams;
+    if (selection === undefined) {
+      return;
+    }
+    this.missionId = selection.missionId;
+    this.runtimeId = selection.runtimeId;
+
+    this.missions.forEach((val) => {
+      if (this.missionId === val.missionId) {
+        this.updateMissionSelection(val);
+      }
+    });
+    this.runtimes.forEach((val) => {
+      if (this.runtimeId === val.runtimeId) {
+        this.updateRuntimeSelection(val);
+        this.updateVersionSelection(val, selection.runtimeVersion);
+      }
+    });
+  }
+
+  private updateMissionSelection(val: Mission): void {
+    this.wizardComponent.summary.mission = val;
+  }
+
+  private updateRuntimeSelection(val: Runtime): void {
+    this.wizardComponent.summary.runtime = val;
+  }
+
+  private updateVersionSelection(val: Runtime, version: string): void {
+    this.wizardComponent.summary.runtime = val;
+    this.wizardComponent.summary.runtime.version = version;
+  }
 }

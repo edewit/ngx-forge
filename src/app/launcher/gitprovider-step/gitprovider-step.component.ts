@@ -1,5 +1,7 @@
 import { Component, Host, OnInit, ViewEncapsulation } from '@angular/core';
+
 import { GitProviderService } from '../service/gitprovider.service';
+import { Selection } from '../model/selection.model';
 import { WizardComponent } from '../wizard.component';
 
 @Component({
@@ -9,7 +11,6 @@ import { WizardComponent } from '../wizard.component';
   styleUrls: ['./gitprovider-step.component.less']
 })
 export class GitProviderStepComponent implements OnInit {
-
   constructor(@Host() public wizardComponent: WizardComponent,
               private gitProviderService: GitProviderService) {
   }
@@ -17,7 +18,20 @@ export class GitProviderStepComponent implements OnInit {
   ngOnInit() {
   }
 
+  /**
+   * Authorize GitHub account
+   *
+   * @param {MouseEvent} $event
+   */
   authorize($event: MouseEvent): void {
-    this.gitProviderService.authorize(this.wizardComponent.userSelection);
+    let url = window.location.origin + this.getParams(this.wizardComponent.selection);
+    this.gitProviderService.authorize(url);
+  }
+
+  private getParams(selection: Selection) {
+    if (selection === undefined) {
+      return '';
+    }
+    return '?selection=' + JSON.stringify(selection);
   }
 }

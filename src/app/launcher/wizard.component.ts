@@ -1,6 +1,8 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Router } from '@angular/router';
 
-import { UserSelection } from './model/user-selection.model';
+import { Selection } from './model/selection.model';
+import { Summary } from './model/summary.model';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -12,27 +14,13 @@ export class WizardComponent implements OnInit {
 
   selectedSection: string;
 
-  private _userSelection: UserSelection;
+  private _summary: Summary;
+
+  constructor(private router: Router) {
+  }
 
   ngOnInit() {
-    this._userSelection = {
-      mission: {
-        'missionId': 'BasicApplication',
-        'suggested': true,
-        'title': 'Basic Application',
-        'description': 'Brief description of the Basic Application mission and what it does.',
-        'supportedRuntimes': []
-      },
-      runtime: {
-        'runtimeId': 'SpringBoot',
-        'title': 'Spring Boot',
-        'description': 'Brief description of the technology...',
-        'logo': '../../../assets/images/spring-boot-logo.png',
-        'supportedMissions': [],
-        'version': 'v1.0.0',
-        'versions': ['v1.0.0', 'v1.0.1', 'v2.0.1']
-      }
-    } as UserSelection;
+    this._summary = {} as Summary;
   }
 
   onInViewportChange($event: boolean, id: string) {
@@ -49,11 +37,65 @@ export class WizardComponent implements OnInit {
 
   // Accessors
 
-  get userSelection(): UserSelection {
-    return this._userSelection;
+  /**
+   * Returns current selection values needed to restore upon a redirect
+   *
+   * @returns {Selection} The current selection
+   */
+  get selection(): Selection {
+    let selection = {
+      missionId: this._summary.mission.missionId,
+      runtimeId: this._summary.runtime.runtimeId,
+      runtimeVersion: this._summary.runtime.version
+    } as Selection;
+    return selection;
   }
 
-  set userSelection(val: UserSelection) {
-    this._userSelection = val;
+  /**
+   * Returns current selection parameters, if any
+   *
+   * @returns {Selection} Current selection parameters or undefined
+   */
+  get selectionParams(): Selection {
+    let userSelection: Selection;
+    let selection = this.getRequestParam('selection');
+    if (selection !== null) {
+      userSelection = JSON.parse(selection);
+    }
+    return userSelection;
+  }
+
+  /**
+   * Returns summary, including full Mission and Runtime objects
+   *
+   * @returns {Summary} The current user summary
+   */
+  get summary(): Summary {
+    return this._summary;
+  }
+
+  /**
+   * Set user summary
+   *
+   * @param {Summary} val The current user summary
+   */
+  set summary(summary: Summary) {
+    this._summary = summary;
+  }
+
+  // Private
+
+  /**
+   * Helper to retrieve request parameters
+   *
+   * @param name The request parameter to retrieve
+   * @returns {any} The request parameter value or null
+   */
+  private getRequestParam(name: string): string {
+    let param = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(window.location.search);
+    if (param !== null) {
+      return decodeURIComponent(param[1]);
+    }
+    return null;
   }
 }

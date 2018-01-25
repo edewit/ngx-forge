@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { StepIndicatorComponent } from './step-indicator/step-indicator.component';
 import { WizardComponent } from './wizard.component';
 import { InViewportModule } from '@thisissoon/angular-inviewport';
@@ -16,6 +17,7 @@ import { BsDropdownModule } from 'ngx-bootstrap';
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     InViewportModule,
     BsDropdownModule.forRoot()
   ],
