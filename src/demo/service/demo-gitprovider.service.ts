@@ -3,14 +3,6 @@ import { Http } from '@angular/http';
 import { Observable } from 'rxjs';
 
 import { GitProviderService } from '../../app/launcher/launcher.module';
-import {
-  GitHubRepo,
-  GitHubRepoCommit,
-  GitHubRepoDetails,
-  GitHubRepoLastCommit,
-  GitHubRepoLicense,
-  GitHubUser
-} from '../../app/launcher/model/github.model';
 
 // Enable Access-Conrtol-Expose-Headers for CORS to test
 @Injectable()
@@ -38,30 +30,30 @@ export class DemoGitProviderService implements GitProviderService {
    * Get GitHub repo details for given full name
    *
    * @param fullName The GitHub full name (e.g., fabric8-services/fabric8-wit)
-   * @returns {Observable<GitHubRepoDetails>}
+   * @returns {Observable<any>}
    */
-  getRepoDetailsByFullName(fullName: string): Observable<GitHubRepoDetails> {
+  getRepoDetailsByFullName(fullName: string): Observable<any> {
     let url = `${this.gitHubUrl}/repos/${fullName}`;
     return this.getHeaders()
       .switchMap(newHeaders => this.http
         .get(url, { headers: newHeaders }))
       .map(response => {
-        return response.json() as GitHubRepoDetails;
+        return response.json();
       });
   }
 
   /**
    * Get authenticate GitHub user
    *
-   * @returns {Observable<GitHubUser>}
+   * @returns {Observable<any>}
    */
-  getUser(): Observable<GitHubUser> {
+  getUser(): Observable<any> {
     let url = `${this.gitHubUrl}/user`;
     return this.getHeaders()
       .switchMap(newHeaders => this.http
         .get(url, { headers: newHeaders }))
       .map(response => {
-        return response.json() as GitHubUser;
+        return response.json();
       });
   }
 

@@ -18,3 +18,14 @@ export { NgxForgeModule } from './ngx-forge.module';
 export { TokenProvider } from './src/app/service/token-provider';
 export { ForgeErrorsComponent } from './src/app/components/forge-errors/forge-errors.component';
 export { ForgeExceptionComponent } from './src/app/components/forge-exception/forge-exception.component';
+
+// Launcher
+export { LauncherModule } from './src/app/launcher/launcher.module';
+export { Cluster } from './src/app/launcher/model/cluster.model';
+export { Mission } from './src/app/launcher/model/mission.model';
+export { Pipeline } from './src/app/launcher/model/pipeline.model';
+export { Runtime } from './src/app/launcher/model/runtime.model';
+export { ClusterService } from './src/app/launcher/service/cluster.service';
+export { GitProviderService } from './src/app/launcher/service/gitprovider.service';
+export { PipelineService } from './src/app/launcher/service/pipeline.service';
+export { MissionRuntimeService } from './src/app/launcher/service/mission-runtime.service';
