@@ -1,9 +1,9 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Provider } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { StepIndicatorComponent } from './step-indicator/step-indicator.component';
 import { WizardComponent } from './wizard.component';
-import { InViewportModule } from '@thisissoon/angular-inviewport';
+import { InViewportModule, WindowRef } from '@thisissoon/angular-inviewport';
 import { MissionRuntimeStepComponent } from './mission-runtime-step/mission-runtime-step.component';
 import { TargetEnvironmentStepComponent } from './targetenvironment-step/target-environment-step.component';
 import { GitProviderStepComponent } from './gitprovider-step/gitprovider-step.component';
@@ -14,11 +14,16 @@ import { NewProjectStepComponent } from './new-project-step/new-project-step.com
 import { MissionRuntimeService } from './service/mission-runtime.service';
 import { BsDropdownModule } from 'ngx-bootstrap';
 
+// Provide window object so as to not break SSR if using universal
+export const providers: Provider[] = [
+  { provide: WindowRef, useValue: window }
+];
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    InViewportModule,
+    InViewportModule.forRoot(providers),
     BsDropdownModule.forRoot()
   ],
   exports: [
