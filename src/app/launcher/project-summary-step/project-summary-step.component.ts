@@ -7,15 +7,13 @@ import {
 } from '@angular/core';
 import { WizardComponent } from '../wizard.component';
 
-import { Selection } from '../model/selection.model';
-
 @Component({
   encapsulation: ViewEncapsulation.None,
   selector: 'f8launcher-projectsummary-step',
   templateUrl: './project-summary-step.component.html',
   styleUrls: ['./project-summary-step.component.less']
 })
-export class ProjectSummaryStepComponent {
+export class ProjectSummaryStepComponent implements OnInit {
   @Input() id: string;
 
   private _summary: any;
@@ -24,7 +22,6 @@ export class ProjectSummaryStepComponent {
   }
 
   ngOnInit() {
-    this.restoreSummary();
   }
 
   // Accessors
@@ -70,17 +67,5 @@ export class ProjectSummaryStepComponent {
   navToNextStep(): void {
     this.wizardComponent.stepIndicator.getStep(this.id).completed = this.stepCompleted;
     this.wizardComponent.navToNextStep();
-  }
-
-  // Private
-
-  // Restore mission & runtime summary
-  private restoreSummary(): void {
-    let selection: Selection = this.wizardComponent.selectionParams;
-    if (selection === undefined) {
-      return;
-    }
-    // Todo: what do we want to restore if anything?
-    // this.summary = selection.targetEnvironment;
   }
 }

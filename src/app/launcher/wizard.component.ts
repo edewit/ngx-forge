@@ -23,6 +23,8 @@ export class WizardComponent implements OnInit {
 
   selectedSection: string;
   steps: Step[];
+
+  private showAfterCompleted: string[];
   private _summary: Summary;
   private summaryCompleted: boolean = false;
 
@@ -31,6 +33,10 @@ export class WizardComponent implements OnInit {
 
   ngOnInit() {
     this._summary = {} as Summary;
+    this.showAfterCompleted = [
+      'MissionRuntime',
+      'TargetEnvironment'
+    ];
     this.steps = [{
       id: 'MissionRuntime',
       completed: false,
@@ -53,18 +59,21 @@ export class WizardComponent implements OnInit {
       id: 'ReleaseStrategy',
       completed: false,
       hidden: true,
+      showAfterCompleted: this.showAfterCompleted,
       stleClass: 'release-strategy',
       title: 'Select Release Strategy'
     }, {
       id: 'GitProvider',
       completed: false,
       hidden: true,
+      showAfterCompleted: this.showAfterCompleted,
       stleClass: 'git-provider',
       title: 'Authorize Git Provider'
     }, {
       id: 'ProjectSummary',
       completed: false,
       hidden: true,
+      showAfterCompleted: this.showAfterCompleted,
       stleClass: 'project-summary',
       title: 'Confirm Project Summary'
     }];
@@ -145,15 +154,18 @@ export class WizardComponent implements OnInit {
       return;
     }
 
-    // Show hidden steps
-    let missionStep = this.stepIndicator.getStep('MissionRuntime');
+    // Skip pipelines for zip strategy
     let targetEnvStep = this.stepIndicator.getStep('TargetEnvironment');
-
-    if (missionStep.completed === true && targetEnvStep.completed === true) {
-      this.stepIndicator.getStep('ReleaseStrategy').hidden = false;
-      this.stepIndicator.getStep('GitProvider').hidden = false;
-      this.stepIndicator.getStep('ProjectSummary').hidden = false;
+    let pipelineStep = this.stepIndicator.getStep('ReleaseStrategy');
+    if (this.summary.targetEnvironment !== 'zip') {
+      pipelineStep.showAfterCompleted = this.showAfterCompleted;
+    } else {
+      pipelineStep.showAfterCompleted = undefined;
+      pipelineStep.hidden = true;
     }
+
+    // Show after steps completed
+    this.showStepsAfterCompleted();
     setTimeout(() => {
       this.stepIndicator.navToNextStep();
     }, 10);
@@ -173,5 +185,23 @@ export class WizardComponent implements OnInit {
       return decodeURIComponent(param[1]);
     }
     return null;
+  }
+
+  // Show hidden steps after previous steps have been completed
+  private showStepsAfterCompleted(): void {
+    for (let i = 0; i < this.steps.length; i++) {
+      let step = this.steps[i];
+      if (step.showAfterCompleted !== undefined) {
+        let result = false;
+        // Iterate over potentally completed steps
+        for (let k = 0; k < step.showAfterCompleted.length; k++) {
+          let dependency = this.stepIndicator.getStep(step.showAfterCompleted[k]);
+          if (dependency.completed !== true) {
+            result = true;
+          }
+        }
+        step.hidden = result;
+      }
+    }
   }
 }

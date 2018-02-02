@@ -7,16 +7,17 @@
       </div>
       <div class="f8launcher-container_main">
         <section id="section0" class="f8launcher-container_main-start"></section>
-        <f8launcher-missionruntime-step [id]="'MissionRuntime'"></f8launcher-missionruntime-step>
-        <f8launcher-targetenvironment-step [id]="'TargetEnvironment'"></f8launcher-targetenvironment-step>
-        <f8launcher-releasestrategy-step [id]="'ReleaseStrategy'"
-                                         *ngIf="!stepIndicator.isStepHidden('ReleaseStrategy')">
+        <f8launcher-missionruntime-step [id]="steps[0].id"></f8launcher-missionruntime-step>
+        <!-- Place holder for Dependency Checker -->
+        <f8launcher-targetenvironment-step [id]="steps[2].id"></f8launcher-targetenvironment-step>
+        <f8launcher-releasestrategy-step [id]="steps[3].id"
+                                         *ngIf="!stepIndicator.isStepHidden(steps[3].id)">
         </f8launcher-releasestrategy-step>
-        <f8launcher-gitprovider-step [id]="'GitProvider'"
-                                     *ngIf="!stepIndicator.isStepHidden('GitProvider')">
+        <f8launcher-gitprovider-step [id]="steps[4].id"
+                                     *ngIf="!stepIndicator.isStepHidden(steps[4].id)">
         </f8launcher-gitprovider-step>
-        <f8launcher-projectsummary-step [id]="'ProjectSummary'"
-                                        *ngIf="!stepIndicator.isStepHidden('ProjectSummary')">
+        <f8launcher-projectsummary-step [id]="steps[5].id"
+                                        *ngIf="!stepIndicator.isStepHidden(steps[5].id)">
         </f8launcher-projectsummary-step>
       </div>
     </ng-template>
