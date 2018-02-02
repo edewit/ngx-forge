@@ -1,6 +1,6 @@
 {
   "name": "ngx-forge",
-  "version": "0.0.37-development",
+  "version": "0.0.38-development",
   "description": "Forge services for Angular v2 and up",
   "main": "bundles/ngx-forge.js",
   "module": "bundles/ngx-forge.js",
