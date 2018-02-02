@@ -11,6 +11,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { GitProviderService } from '../service/gitprovider.service';
 import { Selection } from '../model/selection.model';
 import { WizardComponent } from '../wizard.component';
+import { WizardStep } from '../wizard-step';
 
 import {
   GitHubRepo,
@@ -27,9 +28,7 @@ import {
   templateUrl: './gitprovider-step.component.html',
   styleUrls: ['./gitprovider-step.component.less']
 })
-export class GitProviderStepComponent implements OnDestroy, OnInit {
-  @Input() id: string;
-
+export class GitProviderStepComponent extends WizardStep implements OnDestroy, OnInit {
   private _ghAvatar: string;
   private _ghLogin: string;
   private _ghToken: string;
@@ -38,16 +37,17 @@ export class GitProviderStepComponent implements OnDestroy, OnInit {
 
   constructor(@Host() public wizardComponent: WizardComponent,
               private gitProviderService: GitProviderService) {
+    super();
   }
 
   ngOnInit() {
+    this.wizardComponent.addStep(this);
     this.subscriptions.push(
       this.gitProviderService.getToken().subscribe((val) => {
         if (val !== undefined) {
           this._ghToken = val;
         }
       }));
-
     this.subscriptions.push(
       this.gitProviderService.getUser().subscribe((val) => {
         if (val !== undefined) {
@@ -93,7 +93,7 @@ export class GitProviderStepComponent implements OnDestroy, OnInit {
    * Navigate to next step
    */
   navToNextStep(): void {
-    this.wizardComponent.stepIndicator.getStep(this.id).completed = this.stepCompleted;
+    this.wizardComponent.getStep(this.id).completed = this.stepCompleted;
     this.wizardComponent.navToNextStep();
   }
 

@@ -11,6 +11,7 @@ import { PipelineService } from '../service/pipeline.service';
 import { Pipeline } from '../model/pipeline.model';
 import { Selection } from '../model/selection.model';
 import { WizardComponent } from '../wizard.component';
+import { WizardStep } from '../wizard-step';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -18,7 +19,7 @@ import { WizardComponent } from '../wizard.component';
   templateUrl: './release-strategy-step.component.html',
   styleUrls: ['./release-strategy-step.component.less']
 })
-export class ReleaseStrategyStepComponent implements OnInit, OnDestroy {
+export class ReleaseStrategyStepComponent extends WizardStep implements OnInit, OnDestroy {
   @Input() id: string;
 
   public pipelines: Pipeline[];
@@ -27,13 +28,14 @@ export class ReleaseStrategyStepComponent implements OnInit, OnDestroy {
 
   constructor(@Host() public wizardComponent: WizardComponent,
               private pipelineService: PipelineService) {
+    super();
   }
 
   ngOnInit() {
-    let pipelineSubscription = this.pipelineService.getPipelines().subscribe((result) => {
+    this.wizardComponent.addStep(this);
+    this.subscriptions.push(this.pipelineService.getPipelines().subscribe((result) => {
       this.pipelines = result;
-    });
-    this.subscriptions.push(pipelineSubscription);
+    }));
     this.restoreSummary();
   }
 
@@ -75,7 +77,7 @@ export class ReleaseStrategyStepComponent implements OnInit, OnDestroy {
   // Steps
 
   navToNextStep(): void {
-    this.wizardComponent.stepIndicator.getStep(this.id).completed = this.stepCompleted;
+    this.wizardComponent.getStep(this.id).completed = this.stepCompleted;
     this.wizardComponent.navToNextStep();
   }
 

@@ -6,9 +6,6 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 
-import { cloneDeep } from 'lodash';
-
-import { Step } from './step';
 import { WizardComponent } from '../wizard.component';
 
 @Component({
@@ -18,36 +15,10 @@ import { WizardComponent } from '../wizard.component';
   styleUrls: ['./step-indicator.component.less']
 })
 export class StepIndicatorComponent implements OnInit {
-  /**
-   * The steps to display
-   */
-  @Input() steps: Step[];
-
-  private currentStepId: string;
-
   constructor(@Host() public wizardComponent: WizardComponent) {
   }
 
   ngOnInit() {
-    this.currentStepId = this.steps[0].id;
-  }
-
-  /**
-   * Get step for the given ID
-   *
-   * @param {string} id The step ID
-   * @returns {Step} The step for the given ID
-   */
-  getStep(id: string): Step {
-    let result: Step;
-    for (let i = 0; i < this.steps.length; i++) {
-      let step = this.steps[i];
-      if (id === step.id) {
-        result = step;
-        break;
-      }
-    }
-    return result;
   }
 
   /**
@@ -58,8 +29,8 @@ export class StepIndicatorComponent implements OnInit {
    */
   isStepHidden(id: string): boolean {
     let result = false;
-    for (let i = 0; i < this.steps.length; i++) {
-      let step = this.steps[i];
+    for (let i = 0; i < this.wizardComponent.steps.length; i++) {
+      let step = this.wizardComponent.steps[i];
       if (id === step.id) {
         result = (step.hidden === true);
         break;
@@ -72,8 +43,8 @@ export class StepIndicatorComponent implements OnInit {
    * Navigate to next step
    */
   navToNextStep(): void {
-    for (let i = 0; i < this.steps.length; i++) {
-      let step = this.steps[i];
+    for (let i = 0; i < this.wizardComponent.steps.length; i++) {
+      let step = this.wizardComponent.steps[i];
       if (step.completed !== true && step.hidden !== true) {
         this.navToStep(step.id);
         break;
@@ -87,7 +58,6 @@ export class StepIndicatorComponent implements OnInit {
    * @param {string} id The step ID
    */
   navToStep(id: string) {
-    this.currentStepId = id;
     document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 }

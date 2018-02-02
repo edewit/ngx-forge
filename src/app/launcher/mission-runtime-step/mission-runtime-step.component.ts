@@ -8,12 +8,12 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
-import { MissionRuntimeService } from '../service/mission-runtime.service';
-import { WizardComponent } from '../wizard.component';
-
 import { Mission } from '../model/mission.model';
 import { Runtime } from '../model/runtime.model';
 import { Selection } from '../model/selection.model';
+import { MissionRuntimeService } from '../service/mission-runtime.service';
+import { WizardComponent } from '../wizard.component';
+import { WizardStep } from '../wizard-step';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -21,9 +21,7 @@ import { Selection } from '../model/selection.model';
   templateUrl: './mission-runtime-step.component.html',
   styleUrls: ['./mission-runtime-step.component.less']
 })
-export class MissionRuntimeStepComponent implements OnInit, OnDestroy {
-  @Input() id: string;
-
+export class MissionRuntimeStepComponent extends WizardStep implements OnInit, OnDestroy {
   public missions: Mission[];
   public runtimes: Runtime[];
 
@@ -33,9 +31,11 @@ export class MissionRuntimeStepComponent implements OnInit, OnDestroy {
 
   constructor(@Host() public wizardComponent: WizardComponent,
               private missionRuntimeService: MissionRuntimeService) {
+    super();
   }
 
   ngOnInit() {
+    this.wizardComponent.addStep(this);
     let missionSubscription = this.missionRuntimeService.getMissions().subscribe((result) => {
       this.missions = result;
     });
@@ -74,7 +74,7 @@ export class MissionRuntimeStepComponent implements OnInit, OnDestroy {
    * Navigate to next step
    */
   navToNextStep(): void {
-    this.wizardComponent.stepIndicator.getStep(this.id).completed = this.stepCompleted;
+    this.wizardComponent.getStep(this.id).completed = this.stepCompleted;
     this.wizardComponent.navToNextStep();
   }
 

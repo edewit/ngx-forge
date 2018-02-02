@@ -4,9 +4,10 @@ import {
   Input,
   ViewEncapsulation
 } from '@angular/core';
-import { WizardComponent } from '../wizard.component';
 
 import { Selection } from '../model/selection.model';
+import { WizardComponent } from '../wizard.component';
+import { WizardStep } from '../wizard-step';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -14,15 +15,17 @@ import { Selection } from '../model/selection.model';
   templateUrl: './target-environment-step.component.html',
   styleUrls: ['./target-environment-step.component.less']
 })
-export class TargetEnvironmentStepComponent {
+export class TargetEnvironmentStepComponent extends WizardStep {
   @Input() id: string;
 
   private _targetEnvironment: string;
 
   constructor(@Host() public wizardComponent: WizardComponent) {
+    super();
   }
 
   ngOnInit() {
+    this.wizardComponent.addStep(this);
     this.restoreSummary();
   }
 
@@ -58,7 +61,7 @@ export class TargetEnvironmentStepComponent {
   // Steps
 
   navToNextStep(): void {
-    this.wizardComponent.stepIndicator.getStep(this.id).completed = this.stepCompleted;
+    this.wizardComponent.getStep(this.id).completed = this.stepCompleted;
     this.wizardComponent.navToNextStep();
   }
 

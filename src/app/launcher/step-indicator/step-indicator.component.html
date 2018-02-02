@@ -6,7 +6,7 @@
      [class.active]="wizardComponent.selectedSection === step.id"
      [ngClass]="{'hide': step.hidden === true}"
      (click)="navToStep(step.id)"
-     *ngFor="let step of steps">
+     *ngFor="let step of wizardComponent.steps">
     <div class="f8launcher-step-circle"></div>
     <span class="f8launcher-vertical-bar_steps--title">{{step.title}}</span>
   </a>
