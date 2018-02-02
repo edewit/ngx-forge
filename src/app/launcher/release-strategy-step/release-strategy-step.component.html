@@ -66,7 +66,10 @@
                       <span class="fa fa-angle-down"></span>
                     </div>
                     <div class="list-view-pf-checkbox">
-                      <input type="radio" name="release-strategy">
+                      <input name="pipelineId" type="radio"
+                             [(ngModel)]="pipelineId"
+                             [value]="pipeline.pipelineId"
+                             (ngModelChange)="updatePipelineSelection(pipeline)">
                     </div>
                     <div class="list-view-pf-main-info">
                       <div class="list-view-pf-body">
@@ -107,7 +110,9 @@
   <div>
     <div class="container-fluid">
       <div class="f8launcher-continue">
-        <button class="btn btn-primary" disabled>OK</button> or press <b>ENTER</b>
+        <button class="btn btn-primary"
+                [disabled]="stepCompleted !== true"
+                (click)="navToNextStep()">OK</button> or press <b>ENTER</b>
       </div>
     </div>
   </div>

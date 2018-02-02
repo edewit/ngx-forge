@@ -29,3 +29,4 @@ export { ClusterService } from './src/app/launcher/service/cluster.service';
 export { GitProviderService } from './src/app/launcher/service/gitprovider.service';
 export { PipelineService } from './src/app/launcher/service/pipeline.service';
 export { MissionRuntimeService } from './src/app/launcher/service/mission-runtime.service';
+export { Step } from './src/app/launcher//step-indicator/step';

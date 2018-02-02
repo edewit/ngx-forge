@@ -1,18 +1,28 @@
 <div class="f8launcher">
   <div class="f8launcher-container">
-    <div class="f8launcher-container_nav">
-      <f8launcher-step-indicator></f8launcher-step-indicator>
-    </div>
-    <div class="f8launcher-container_main">
-      <section id="section0" class="f8launcher-container_main-start">
-      </section>
-      <f8launcher-missionruntime-step></f8launcher-missionruntime-step>
-      <f8launcher-targetenvironment-step></f8launcher-targetenvironment-step>
-      <f8launcher-releasestrategy-step></f8launcher-releasestrategy-step>
-      <f8launcher-gitprovider-step></f8launcher-gitprovider-step>
-      <f8launcher-projectsummary-step></f8launcher-projectsummary-step>
+    <div *ngIf="showNextSteps; then showNextStepsTemplate else showStepsTemplate"></div>
+    <ng-template #showStepsTemplate>
+      <div class="f8launcher-container_nav">
+        <f8launcher-step-indicator [steps]="steps" #stepIndicator></f8launcher-step-indicator>
+      </div>
+      <div class="f8launcher-container_main">
+        <section id="section0" class="f8launcher-container_main-start"></section>
+        <f8launcher-missionruntime-step [id]="'MissionRuntime'"></f8launcher-missionruntime-step>
+        <f8launcher-targetenvironment-step [id]="'TargetEnvironment'"></f8launcher-targetenvironment-step>
+        <f8launcher-releasestrategy-step [id]="'ReleaseStrategy'"
+                                         *ngIf="!stepIndicator.isStepHidden('ReleaseStrategy')">
+        </f8launcher-releasestrategy-step>
+        <f8launcher-gitprovider-step [id]="'GitProvider'"
+                                     *ngIf="!stepIndicator.isStepHidden('GitProvider')">
+        </f8launcher-gitprovider-step>
+        <f8launcher-projectsummary-step [id]="'ProjectSummary'"
+                                        *ngIf="!stepIndicator.isStepHidden('ProjectSummary')">
+        </f8launcher-projectsummary-step>
+      </div>
+    </ng-template>
+    <ng-template #showNextStepsTemplate>
       <f8launcher-activatebooster-step></f8launcher-activatebooster-step>
       <f8launcher-newproject-step></f8launcher-newproject-step>
-    </div>
+    </ng-template>
   </div>
 </div>

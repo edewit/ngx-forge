@@ -1,4 +1,11 @@
-import { Component, Host, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  Host,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewEncapsulation
+} from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
 import { MissionRuntimeService } from '../service/mission-runtime.service';
@@ -15,6 +22,8 @@ import { Selection } from '../model/selection.model';
   styleUrls: ['./mission-runtime-step.component.less']
 })
 export class MissionRuntimeStepComponent implements OnInit, OnDestroy {
+  @Input() id: string;
+
   public missions: Mission[];
   public runtimes: Runtime[];
 
@@ -43,6 +52,30 @@ export class MissionRuntimeStepComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach((sub) => {
       sub.unsubscribe();
     });
+  }
+
+  // Accessors
+
+  /**
+   * Returns indicator that step is completed
+   *
+   * @returns {boolean} True if step is completed
+   */
+  get stepCompleted(): boolean {
+    return (this.wizardComponent.summary.mission !== undefined
+      && this.wizardComponent.summary.runtime !== undefined
+      && this.wizardComponent.summary.runtime !== undefined
+      && this.wizardComponent.summary.runtime.version !== undefined);
+  }
+
+  // Steps
+
+  /**
+   * Navigate to next step
+   */
+  navToNextStep(): void {
+    this.wizardComponent.stepIndicator.getStep(this.id).completed = this.stepCompleted;
+    this.wizardComponent.navToNextStep();
   }
 
   // Private
@@ -75,10 +108,10 @@ export class MissionRuntimeStepComponent implements OnInit, OnDestroy {
 
   private updateRuntimeSelection(val: Runtime): void {
     this.wizardComponent.summary.runtime = val;
+    this.wizardComponent.summary.runtime.version = (val.version !== undefined) ? val.version : val.versions[0];
   }
 
   private updateVersionSelection(val: Runtime, version: string): void {
-    this.wizardComponent.summary.runtime = val;
-    this.wizardComponent.summary.runtime.version = version;
+    val.version = version; // Don't update summary, just store selection
   }
 }

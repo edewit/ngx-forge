@@ -1,4 +1,11 @@
-import { Component, Host, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  Host,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewEncapsulation
+} from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
 import { GitProviderService } from '../service/gitprovider.service';
@@ -21,6 +28,8 @@ import {
   styleUrls: ['./gitprovider-step.component.less']
 })
 export class GitProviderStepComponent implements OnDestroy, OnInit {
+  @Input() id: string;
+
   private _ghAvatar: string;
   private _ghLogin: string;
   private _ghToken: string;
@@ -55,6 +64,39 @@ export class GitProviderStepComponent implements OnDestroy, OnInit {
     });
   }
 
+  // Accessors
+
+  get ghAvatar(): string {
+    return this._ghAvatar;
+  }
+
+  get ghLogin(): string {
+    return this._ghLogin;
+  }
+
+  get ghToken(): string {
+    return this._ghToken;
+  }
+
+  /**
+   * Returns indicator that step is completed
+   *
+   * @returns {boolean} True if step is completed
+   */
+  get stepCompleted(): boolean {
+    return true; // Todo: Set to true for testing
+  }
+
+  // Steps
+
+  /**
+   * Navigate to next step
+   */
+  navToNextStep(): void {
+    this.wizardComponent.stepIndicator.getStep(this.id).completed = this.stepCompleted;
+    this.wizardComponent.navToNextStep();
+  }
+
   /**
    * Authorize GitHub account
    *
@@ -73,20 +115,6 @@ export class GitProviderStepComponent implements OnDestroy, OnInit {
   changeAccount($event: MouseEvent): void {
     let url = window.location.origin + this.getParams(this.wizardComponent.selection);
     this.gitProviderService.authorize(url);
-  }
-
-  // Accessors
-
-  get ghAvatar(): string {
-    return this._ghAvatar;
-  }
-
-  get ghLogin(): string {
-    return this._ghLogin;
-  }
-
-  get ghToken(): string {
-    return this._ghToken;
   }
 
   // Private

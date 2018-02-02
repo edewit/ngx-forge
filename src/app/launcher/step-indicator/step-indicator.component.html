@@ -2,44 +2,12 @@
   <input class="f8launcher-vertical-bar_application-title-input" type="next" name="applicationTitle" placeholder="New Application">
 </div>
 <div class="f8launcher-vertical-bar">
-  <a href="javascript:void(0)" class="f8launcher-vertical-bar_steps--item mission-runtime" (click)="selectSection('MissionRuntime')" [class.active]="wizardComponent.selectedSection === 'MissionRuntime'">
+  <a class="f8launcher-vertical-bar_steps--item {{step.styleClass}}" href="javascript:void(0)"
+     [class.active]="wizardComponent.selectedSection === step.id"
+     [ngClass]="{'hide': step.hidden === true}"
+     (click)="navToStep(step.id)"
+     *ngFor="let step of steps">
     <div class="f8launcher-step-circle"></div>
-    <span class="f8launcher-vertical-bar_steps--title">Select Mission &amp; Runtime</span>
-  </a>
-  <a href="javascript:void(0)" class="f8launcher-vertical-bar_steps--item dependency-checker hide" (click)="selectSection('DependencyChecker')" [class.active]="wizardComponent.selectedSection === 'DependencyChecker'">
-    <div class="f8launcher-step-circle"></div>
-    <span class="f8launcher-vertical-bar_steps--title">Dependency Checker</span>
-  </a>
-  <a href="javascript:void(0)" class="f8launcher-vertical-bar_steps--item target-environment" (click)="selectSection('TargetEnvironment')" [class.active]="wizardComponent.selectedSection === 'TargetEnvironment'">
-    <div class="f8launcher-step-circle"></div>
-    <span class="f8launcher-vertical-bar_steps--title">Select Target Environment</span>
-  </a>
-  <a href="javascript:void(0)" class="f8launcher-vertical-bar_steps--item release-strategy" (click)="selectSection('ReleaseStrategy')" [class.active]="wizardComponent.selectedSection === 'ReleaseStrategy'">
-    <div class="f8launcher-step-circle"></div>
-    <span class="f8launcher-vertical-bar_steps--title">Select Release Strategy</span>
-  </a>
-  <a href="javascript:void(0)" class="f8launcher-vertical-bar_steps--item git-provider" (click)="selectSection('GitProvider')" [class.active]="wizardComponent.selectedSection === 'GitProvider'">
-    <div class="f8launcher-step-circle"></div>
-    <span class="f8launcher-vertical-bar_steps--title">Authorize Git Provider</span>
-  </a>
-  <a href="javascript:void(0)" class="f8launcher-vertical-bar_steps--item hide" (click)="selectSection('GitProvider')" [class.active]="wizardComponent.selectedSection === 'GitProvider'">
-    <div class="f8launcher-step-circle"></div>
-    <span class="f8launcher-vertical-bar_steps--title">Authorize Git Provider</span>
-  </a>
-  <a href="javascript:void(0)" class="f8launcher-vertical-bar_steps--item hide" (click)="selectSection('GitProvider')" [class.active]="wizardComponent.selectedSection === 'GitProvider'">
-    <div class="f8launcher-step-circle"></div>
-    <span class="f8launcher-vertical-bar_steps--title">Authorize Git Provider</span>
-  </a>
-  <a href="javascript:void(0)" class="f8launcher-vertical-bar_steps--item hide" (click)="selectSection('GitProvider')" [class.active]="wizardComponent.selectedSection === 'GitProvider'">
-    <div class="f8launcher-step-circle"></div>
-    <span class="f8launcher-vertical-bar_steps--title">Authorize Git Provider</span>
-  </a>
-  <a href="javascript:void(0)" class="f8launcher-vertical-bar_steps--item hide" (click)="selectSection('GitProvider')" [class.active]="wizardComponent.selectedSection === 'GitProvider'">
-    <div class="f8launcher-step-circle"></div>
-    <span class="f8launcher-vertical-bar_steps--title">Authorize Git Provider</span>
-  </a>
-  <a href="javascript:void(0)" class="f8launcher-vertical-bar_steps--item project-summary" (click)="selectSection('ProjectSummary')" [class.active]="wizardComponent.selectedSection === 'ProjectSummary'">
-    <div class="f8launcher-step-circle"></div>
-    <span class="f8launcher-vertical-bar_steps--title">Confirm Project Summary</span>
+    <span class="f8launcher-vertical-bar_steps--title">{{step.title}}</span>
   </a>
 </div>

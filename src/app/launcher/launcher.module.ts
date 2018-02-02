@@ -53,3 +53,4 @@ export { Mission } from './model/mission.model';
 export { Runtime } from './model/runtime.model';
 export { Cluster } from './model/cluster.model';
 export { Pipeline } from './model/pipeline.model';
+export { Step } from './step-indicator/step';

@@ -8,11 +8,9 @@ import {
   templateUrl: './welcome.component.html'
 })
 export class WelcomeComponent implements OnInit {
-
   constructor() {
   }
 
   ngOnInit(): void {
-
   }
 }
