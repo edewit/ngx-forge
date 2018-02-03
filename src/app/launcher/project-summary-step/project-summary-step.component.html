@@ -1,4 +1,5 @@
-<section id="ProjectSummary" class="f8launcher-section-project-summary">
+<section id="ProjectSummary" class="f8launcher-section-project-summary"
+         [ngClass]="{'hidden': hidden}">
   <div>
     <div class="container-fluid">
       <h1 snInViewport (onInViewportChange)="wizardComponent.onInViewportChange($event, 'ProjectSummary')" [debounce]="500">Confirm Application Summary</h1>

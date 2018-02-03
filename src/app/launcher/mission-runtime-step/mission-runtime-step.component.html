@@ -1,4 +1,5 @@
-<section id="MissionRuntime" class="f8launcher-section-mission-runtime">
+<section id="MissionRuntime" class="f8launcher-section-mission-runtime"
+         [ngClass]="{'hidden': hidden}">
   <div>
     <div class="container-fluid">
       <h1 snInViewport (onInViewportChange)="wizardComponent.onInViewportChange($event, 'MissionRuntime')" [debounce]="500">

@@ -1,4 +1,5 @@
-<section id="GitProvider" class="f8launcher-section-git-provider">
+<section id="GitProvider" class="f8launcher-section-git-provider"
+         [ngClass]="{'hidden': hidden}">
   <div>
     <div class="container-fluid">
       <h1 snInViewport (onInViewportChange)="wizardComponent.onInViewportChange($event, 'GitProvider')" [debounce]="500">Authorize Git Provider</h1>

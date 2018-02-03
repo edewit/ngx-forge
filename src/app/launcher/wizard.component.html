@@ -31,21 +31,18 @@
           [hidden]="!(missionRuntimeStep.completed === true && targetEnvStep.completed === true
             && summary?.targetEnvironment === 'os')"
           [id]="'ReleaseStrategy'"
-          [ngClass]="{'hidden': releaSestrategyStep.hidden}"
           [styleClass]="'release-strategy'"
           [title]="'Select Release Strategy'">
         </f8launcher-releasestrategy-step>
         <f8launcher-gitprovider-step #gitProviderStep
           [hidden]="!(missionRuntimeStep.completed === true && targetEnvStep.completed === true)"
           [id]="'GitProvider'"
-          [ngClass]="{'hidden': gitProviderStep.hidden}"
           [styleClass]="'git-provider'"
           [title]="'Authorize Git Provider'">
         </f8launcher-gitprovider-step>
         <f8launcher-projectsummary-step #projectSummaryStep
           [hidden]="!(missionRuntimeStep.completed === true && targetEnvStep.completed === true)"
           [id]="'ProjectSummary'"
-          [ngClass]="{'hidden': projectSummaryStep.hidden}"
           [styleClass]="'project-summary'"
           [title]="'Confirm Project Summary'">
         </f8launcher-projectsummary-step>

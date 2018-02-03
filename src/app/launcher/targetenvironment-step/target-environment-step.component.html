@@ -1,4 +1,5 @@
-<section id="TargetEnvironment" class="f8launcher-section-target-environment">
+<section id="TargetEnvironment" class="f8launcher-section-target-environment"
+         [ngClass]="{'hidden': hidden}">
   <div>
     <div class="container-fluid">
       <h1 snInViewport (onInViewportChange)="wizardComponent.onInViewportChange($event, 'TargetEnvironment')" [debounce]="500">Select Target Environment</h1>

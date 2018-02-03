@@ -48,5 +48,9 @@ export class StepIndicatorComponent implements OnInit {
    */
   navToStep(id: string) {
     document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setTimeout(() => {
+      // The onInViewportChange event doesn't always set the ID as expected
+      this.wizardComponent.onInViewportChange(true, id);
+    }, 10);
   }
 }

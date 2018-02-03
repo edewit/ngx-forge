@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   OnInit,
   ViewChild,
@@ -17,7 +18,7 @@ import { WizardStep } from './wizard-step';
   templateUrl: './wizard.component.html',
   styleUrls: ['./wizard.component.less']
 })
-export class WizardComponent implements OnInit {
+export class WizardComponent implements AfterViewInit, OnInit {
   @ViewChild('stepIndicator') stepIndicator: StepIndicatorComponent;
 
   private _selectedSection: string;
@@ -28,11 +29,15 @@ export class WizardComponent implements OnInit {
   constructor(private router: Router) {
   }
 
+  ngAfterViewInit() {
+    this.stepIndicator.navToNextStep();
+  }
+
   ngOnInit() {
     this._summary = {} as Summary;
   }
 
-  onInViewportChange($event: boolean, id: string) {
+  onInViewportChange($event: any, id: string) {
     if ($event) {
       this._selectedSection = id;
     }
