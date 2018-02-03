@@ -1,7 +1,8 @@
 <div class="f8launcher-vertical-bar_application-title">
   <input class="f8launcher-vertical-bar_application-title-input" type="next" name="applicationTitle" placeholder="New Application">
 </div>
-<div class="f8launcher-vertical-bar">
+<div class="f8launcher-vertical-bar"
+     [ngClass]="{'in-progress': inProgress === true}">
   <a class="f8launcher-vertical-bar_steps--item {{step.styleClass}}" href="javascript:void(0)"
      [class.active]="wizardComponent.selectedSection === step.id"
      [ngClass]="{'hide': step.hidden === true}"

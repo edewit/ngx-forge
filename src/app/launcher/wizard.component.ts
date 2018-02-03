@@ -8,7 +8,6 @@ import { Router } from '@angular/router';
 
 import { Selection } from './model/selection.model';
 import { Summary } from './model/summary.model';
-import { Step } from './step-indicator/step';
 import { StepIndicatorComponent } from './step-indicator/step-indicator.component';
 import { WizardStep } from './wizard-step';
 
@@ -131,8 +130,8 @@ export class WizardComponent implements OnInit {
    * @param {string} id The step ID
    * @returns {Step} The step for the given ID
    */
-  getStep(id: string): Step {
-    let result: Step;
+  getStep(id: string): WizardStep {
+    let result: WizardStep;
     for (let i = 0; i < this.steps.length; i++) {
       let step = this.steps[i];
       if (id === step.id) {
@@ -151,14 +150,6 @@ export class WizardComponent implements OnInit {
     if (summaryStep.completed === true) {
       this.summaryCompleted = true;
       return;
-    }
-
-    // Show after steps completed
-    this.showStepsAfterCompleted();
-
-    // Skip pipelines for zip strategy
-    if (this.summary.targetEnvironment === 'zip') {
-      this.getStep('ReleaseStrategy').hidden = true;
     }
     setTimeout(() => {
       this.stepIndicator.navToNextStep();
@@ -179,23 +170,5 @@ export class WizardComponent implements OnInit {
       return decodeURIComponent(param[1]);
     }
     return null;
-  }
-
-  // Show hidden steps after previous steps have been completed
-  private showStepsAfterCompleted(): void {
-    for (let i = 0; i < this.steps.length; i++) {
-      let step = this.steps[i];
-      if (step.showAfterCompleted !== undefined) {
-        let result = false;
-        // Iterate over potentally completed steps
-        for (let k = 0; k < step.showAfterCompleted.length; k++) {
-          let dependency = this.getStep(step.showAfterCompleted[k]);
-          if (dependency.completed !== true) {
-            result = true;
-          }
-        }
-        step.hidden = result;
-      }
-    }
   }
 }

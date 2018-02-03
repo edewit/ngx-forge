@@ -15,28 +15,17 @@ import { WizardComponent } from '../wizard.component';
   styleUrls: ['./step-indicator.component.less']
 })
 export class StepIndicatorComponent implements OnInit {
+  /**
+   * Show appropriate style while steps are in progress of being shown
+   *
+   * @type {boolean}
+   */
+  @Input() inProgress: boolean = false;
+
   constructor(@Host() public wizardComponent: WizardComponent) {
   }
 
   ngOnInit() {
-  }
-
-  /**
-   * Helper to determine if step should be shown
-   *
-   * @param {string} id The step ID
-   * @returns {boolean} True if step should be shown
-   */
-  isStepHidden(id: string): boolean {
-    let result = false;
-    for (let i = 0; i < this.wizardComponent.steps.length; i++) {
-      let step = this.wizardComponent.steps[i];
-      if (id === step.id) {
-        result = (step.hidden === true);
-        break;
-      }
-    }
-    return result;
   }
 
   /**

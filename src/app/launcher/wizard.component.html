@@ -3,11 +3,13 @@
     <div *ngIf="showNextSteps; then showNextStepsTemplate else showStepsTemplate"></div>
     <ng-template #showStepsTemplate>
       <div class="f8launcher-container_nav">
-        <f8launcher-step-indicator #stepIndicator></f8launcher-step-indicator>
+        <f8launcher-step-indicator #stepIndicator
+          [inProgress]="!(missionRuntimeStep.completed === true && targetEnvStep.completed === true)">
+        </f8launcher-step-indicator>
       </div>
       <div class="f8launcher-container_main">
         <section id="section0" class="f8launcher-container_main-start"></section>
-        <f8launcher-missionruntime-step
+        <f8launcher-missionruntime-step #missionRuntimeStep
             [id]="'MissionRuntime'"
             [styleClass]="'mission-runtime'"
             [title]="'Select Mission & Runtime'">
@@ -20,40 +22,38 @@
             [title]="'Dependency Checker'">
         </f8launcher-dependencychecker-step>
 -->
-        <f8launcher-targetenvironment-step
+        <f8launcher-targetenvironment-step #targetEnvStep
           [id]="'TargetEnvironment'"
           [styleClass]="'target-environment'"
           [title]="'Select Target Environment'">
         </f8launcher-targetenvironment-step>
-        <f8launcher-releasestrategy-step
-          [hidden]="true"
+        <f8launcher-releasestrategy-step #releaSestrategyStep
+          [hidden]="!(missionRuntimeStep.completed === true && targetEnvStep.completed === true
+            && summary?.targetEnvironment === 'os')"
           [id]="'ReleaseStrategy'"
-          [showAfterCompleted]="['MissionRuntime', 'TargetEnvironment']"
+          [ngClass]="{'hidden': releaSestrategyStep.hidden}"
           [styleClass]="'release-strategy'"
-          [title]="'Select Release Strategy'"
-          *ngIf="!stepIndicator.isStepHidden('ReleaseStrategy')">
+          [title]="'Select Release Strategy'">
         </f8launcher-releasestrategy-step>
-        <f8launcher-gitprovider-step
-          [hidden]="true"
+        <f8launcher-gitprovider-step #gitProviderStep
+          [hidden]="!(missionRuntimeStep.completed === true && targetEnvStep.completed === true)"
           [id]="'GitProvider'"
-          [showAfterCompleted]="['MissionRuntime', 'TargetEnvironment']"
+          [ngClass]="{'hidden': gitProviderStep.hidden}"
           [styleClass]="'git-provider'"
-          [title]="'Authorize Git Provider'"
-          *ngIf="!stepIndicator.isStepHidden('GitProvider')">
+          [title]="'Authorize Git Provider'">
         </f8launcher-gitprovider-step>
-        <f8launcher-projectsummary-step
-          [hidden]="true"
+        <f8launcher-projectsummary-step #projectSummaryStep
+          [hidden]="!(missionRuntimeStep.completed === true && targetEnvStep.completed === true)"
           [id]="'ProjectSummary'"
-          [showAfterCompleted]="['MissionRuntime', 'TargetEnvironment']"
+          [ngClass]="{'hidden': projectSummaryStep.hidden}"
           [styleClass]="'project-summary'"
-          [title]="'Confirm Project Summary'"
-          *ngIf="!stepIndicator.isStepHidden('ProjectSummary')">
+          [title]="'Confirm Project Summary'">
         </f8launcher-projectsummary-step>
       </div>
     </ng-template>
     <ng-template #showNextStepsTemplate>
-      <f8launcher-activatebooster-step></f8launcher-activatebooster-step>
-      <f8launcher-newproject-step></f8launcher-newproject-step>
+      <f8launcher-activatebooster-step *ngIf="summary?.targetEnvironment === 'zip'"></f8launcher-activatebooster-step>
+      <f8launcher-newproject-step *ngIf="summary?.targetEnvironment === 'os'"></f8launcher-newproject-step>
     </ng-template>
   </div>
 </div>

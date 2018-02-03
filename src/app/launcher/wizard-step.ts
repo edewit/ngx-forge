@@ -19,11 +19,6 @@ export abstract class WizardStep {
   @Input() hidden: boolean = false;
 
   /**
-   * A string array of steps that must be completed in order for this step to be shown -- overrides hidden
-   */
-  @Input() showAfterCompleted: string[];
-
-  /**
    * Style class for the step container
    */
   @Input() styleClass: string;
