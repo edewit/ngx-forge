@@ -3,11 +3,11 @@ import { WizardComponent } from '../wizard.component';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
-  selector: 'f8launcher-activatebooster-step',
-  templateUrl: './activate-booster-step.component.html',
-  styleUrls: ['./activate-booster-step.component.less']
+  selector: 'f8launcher-activatebooster',
+  templateUrl: './activate-booster.component.html',
+  styleUrls: ['./activate-booster.component.less']
 })
-export class ActivateBoosterStepComponent {
+export class ActivateBoosterComponent {
 
   constructor(@Host() public wizardComponent: WizardComponent) {
   }

@@ -52,8 +52,8 @@
       </div>
     </ng-template>
     <ng-template #showNextStepsTemplate>
-      <f8launcher-activatebooster-step *ngIf="summary?.targetEnvironment === 'zip'"></f8launcher-activatebooster-step>
-      <f8launcher-newproject-step *ngIf="summary?.targetEnvironment === 'os'"></f8launcher-newproject-step>
+      <f8launcher-activatebooster *ngIf="summary?.targetEnvironment === 'zip'"></f8launcher-activatebooster>
+      <f8launcher-newproject *ngIf="summary?.targetEnvironment === 'os'"></f8launcher-newproject>
     </ng-template>
   </div>
 </div>

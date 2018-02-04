@@ -1,13 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { CommonModule } from '@angular/common';
 import { By } from '@angular/platform-browser';
-import { NewProjectStepComponent } from './new-project-step.component';
 
+import { ActivateBoosterComponent } from './activate-booster.component';
 
-describe('NewProjectStepComponent', () => {
-  let component: NewProjectStepComponent;
-  let fixture: ComponentFixture<NewProjectStepComponent>;
+describe('ActivateBoosterComponent', () => {
+  let component: ActivateBoosterComponent;
+  let fixture: ComponentFixture<ActivateBoosterComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -15,13 +14,13 @@ describe('NewProjectStepComponent', () => {
         CommonModule
       ],
       declarations: [
-        NewProjectStepComponent
+        ActivateBoosterComponent
       ]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NewProjectStepComponent);
+    fixture = TestBed.createComponent(ActivateBoosterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

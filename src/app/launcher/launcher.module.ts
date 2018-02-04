@@ -9,8 +9,8 @@ import { TargetEnvironmentStepComponent } from './targetenvironment-step/target-
 import { GitProviderStepComponent } from './gitprovider-step/gitprovider-step.component';
 import { ReleaseStrategyStepComponent } from './release-strategy-step/release-strategy-step.component';
 import { ProjectSummaryStepComponent } from './project-summary-step/project-summary-step.component';
-import { ActivateBoosterStepComponent } from './activate-booster-step/activate-booster-step.component';
-import { NewProjectStepComponent } from './new-project-step/new-project-step.component';
+import { ActivateBoosterComponent } from './activate-booster/activate-booster.component';
+import { NewProjectComponent } from './new-project/new-project.component';
 import { MissionRuntimeService } from './service/mission-runtime.service';
 import { BsDropdownModule } from 'ngx-bootstrap';
 
@@ -37,8 +37,8 @@ export const providers: Provider[] = [
     ReleaseStrategyStepComponent,
     GitProviderStepComponent,
     ProjectSummaryStepComponent,
-    ActivateBoosterStepComponent,
-    NewProjectStepComponent
+    ActivateBoosterComponent,
+    NewProjectComponent
   ]
 })
 export class LauncherModule {
