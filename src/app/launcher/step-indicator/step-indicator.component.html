@@ -1,9 +1,8 @@
 <div class="f8launcher-vertical-bar_application-title">\
   <input class="f8launcher-vertical-bar_application-title-input"
          name="applicationTitle" placeholder="New Application" type="text"
-         [(ngModel)]="applicationTitle"
-         (keyup.enter)="$event.target.blur();"
-         (ngModelChange)="updateAppTitle()">
+         [(ngModel)]="wizardComponent.summary.applicationTitle"
+         (keyup.enter)="$event.target.blur();">
 </div>
 <div class="f8launcher-vertical-bar"
      [ngClass]="{'in-progress': inProgress === true}">

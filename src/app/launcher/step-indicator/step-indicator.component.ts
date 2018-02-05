@@ -23,23 +23,11 @@ export class StepIndicatorComponent implements OnInit {
    */
   @Input() inProgress: boolean = false;
 
-  private _applicationTitle: string;
-
   constructor(@Host() public wizardComponent: WizardComponent) {
   }
 
   ngOnInit() {
     this.restoreSummary();
-  }
-
-  // Accessors
-
-  get applicationTitle(): string {
-    return this._applicationTitle;
-  }
-
-  set applicationTitle(applicationTitle: string) {
-    this._applicationTitle = applicationTitle;
   }
 
   // Steps
@@ -90,15 +78,6 @@ export class StepIndicatorComponent implements OnInit {
     this.applicationTitle = selection.applicationTitle;
   }
 
-  /**
-   * Update application title for wizard component
-   */
-  updateAppTitle(): void {
-    if (this.wizardComponent.summary !== undefined) {
-      this.wizardComponent.summary.applicationTitle = this._applicationTitle;
-    }
-  }
-
   // Private
 
   // Restore mission & runtime summary
@@ -107,6 +86,6 @@ export class StepIndicatorComponent implements OnInit {
     if (selection === undefined) {
       return;
     }
-    this.applicationTitle = selection.applicationTitle;
+    this.wizardComponent.summary.applicationTitle = selection.applicationTitle;
   }
 }
