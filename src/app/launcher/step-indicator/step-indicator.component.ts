@@ -58,26 +58,6 @@ export class StepIndicatorComponent implements OnInit {
     }, 10);
   }
 
-  /**
-   * Update application title for wizard component
-   */
-  updateAppTitle(): void {
-    if (this.wizardComponent.summary !== undefined) {
-      this.wizardComponent.summary.applicationTitle = this._applicationTitle;
-    }
-  }
-
-  // Private
-
-  // Restore mission & runtime summary
-  private restoreSummary(): void {
-    let selection: Selection = this.wizardComponent.selectionParams;
-    if (selection === undefined) {
-      return;
-    }
-    this.applicationTitle = selection.applicationTitle;
-  }
-
   // Private
 
   // Restore mission & runtime summary
