@@ -40,6 +40,11 @@ export class WizardComponent implements OnInit {
 
   // Accessors
 
+  /**
+   * Returns the current step ID
+   *
+   * @returns {string} The current step ID
+   */
   get selectedSection(): string {
     return this._selectedSection;
   }

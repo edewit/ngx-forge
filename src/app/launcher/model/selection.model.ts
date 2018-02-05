@@ -1,15 +1,16 @@
 export class Selection {
-  missionId: string;
-  runtimeId: string;
-  runtimeVersion: string;
-  targetEnvironment: string;
+  applicationTitle?: string;
   clusterId?: string;
+  groupId: string;
+  mavenArtifact: string;
+  missionId: string;
+  organization: string;
   pipelineId: string;
   projectName: string;
-  mavenArtifact: string;
   projectVersion: string;
-  groupId: string;
-  spacePath?: string;
-  organization: string;
   repository: string;
+  runtimeId: string;
+  runtimeVersion: string;
+  spacePath?: string;
+  targetEnvironment: string;
 }
