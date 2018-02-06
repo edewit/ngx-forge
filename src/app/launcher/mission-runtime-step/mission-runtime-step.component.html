@@ -4,7 +4,9 @@
     <div class="container-fluid">
       <h1 snInViewport (onInViewportChange)="wizardComponent.onInViewportChange($event, 'MissionRuntime')" [debounce]="500">
         Select Mission &amp; Runtime
-        <button class="btn btn-default btn-lg pull-right" type="button">
+        <button class="btn btn-default btn-lg pull-right" type="button"
+                [disabled]="selectionAvailable !== true"
+                (click)="resetSelections()">
           Reset Selections
         </button>
       </h1>

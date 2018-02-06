@@ -57,13 +57,22 @@ export class MissionRuntimeStepComponent extends WizardStep implements OnInit, O
   // Accessors
 
   /**
+   * Returns indicator for at least one selection has been made
+   *
+   * @returns {boolean} True at least one selection has been made
+   */
+  get selectionAvailable(): boolean {
+    return (this.wizardComponent.summary.mission !== undefined
+      || this.wizardComponent.summary.runtime !== undefined);
+  }
+
+  /**
    * Returns indicator that step is completed
    *
    * @returns {boolean} True if step is completed
    */
   get stepCompleted(): boolean {
     return (this.wizardComponent.summary.mission !== undefined
-      && this.wizardComponent.summary.runtime !== undefined
       && this.wizardComponent.summary.runtime !== undefined
       && this.wizardComponent.summary.runtime.version !== undefined);
   }
@@ -78,6 +87,13 @@ export class MissionRuntimeStepComponent extends WizardStep implements OnInit, O
     this.wizardComponent.navToNextStep();
   }
 
+  resetSelections(): void {
+    this.missionId = undefined;
+    this.runtimeId = undefined;
+    this.wizardComponent.summary.mission = undefined;
+    this.wizardComponent.summary.runtime = undefined;
+  }
+
   // Private
 
   // Restore mission & runtime summary
@@ -87,7 +103,7 @@ export class MissionRuntimeStepComponent extends WizardStep implements OnInit, O
       return;
     }
     this.missionId = selection.missionId;
-    this.runtimeId = selection.runtimeId;
+    this.missionId = selection.runtimeId;
 
     this.missions.forEach((val) => {
       if (this.missionId === val.missionId) {
