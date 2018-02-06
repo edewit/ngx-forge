@@ -22,8 +22,8 @@ import { WizardStep } from '../wizard-step';
   styleUrls: ['./mission-runtime-step.component.less']
 })
 export class MissionRuntimeStepComponent extends WizardStep implements OnInit, OnDestroy {
-  public missions: Mission[];
-  public runtimes: Runtime[];
+  private _missions: Mission[];
+  private _runtimes: Runtime[];
 
   private missionId: string;
   private runtimeId: string;
@@ -37,10 +37,10 @@ export class MissionRuntimeStepComponent extends WizardStep implements OnInit, O
   ngOnInit() {
     this.wizardComponent.addStep(this);
     let missionSubscription = this.missionRuntimeService.getMissions().subscribe((result) => {
-      this.missions = result;
+      this._missions = result;
     });
     let runtimeSubscription = this.missionRuntimeService.getRuntimes().subscribe((result) => {
-      this.runtimes = result;
+      this._runtimes = result;
     });
     this.subscriptions.push(missionSubscription);
     this.subscriptions.push(runtimeSubscription);
@@ -55,6 +55,14 @@ export class MissionRuntimeStepComponent extends WizardStep implements OnInit, O
   }
 
   // Accessors
+
+  get missions(): Mission[] {
+    return this._missions;
+  }
+
+  get runtimes(): Runtime[] {
+    return this._runtimes;
+  }
 
   /**
    * Returns indicator that step is completed

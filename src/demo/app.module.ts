@@ -12,12 +12,17 @@ import { AppRoutingModule } from './app-routing.module';
 // Main areas
 import { WelcomeComponent } from './components/welcome.component';
 
-import { LauncherModule } from '../app/launcher/launcher.module';
 import { DemoGitProviderService } from './service/demo-gitprovider.service';
 import { DemoMissionRuntimeService } from './service/demo-mission-runtime.service';
 import { DemoPipelineService } from './service/demo-pipeline.service';
+import { DemoProjectProgressService } from './service/demo-project-progress.service';
 import { GitProviderService } from '../app/launcher/launcher.module';
-import { MissionRuntimeService, PipelineService } from '../app/launcher/launcher.module';
+import {
+  LauncherModule,
+  MissionRuntimeService,
+  PipelineService,
+  ProjectProgressService
+} from '../app/launcher/launcher.module';
 
 @NgModule({
   imports: [
@@ -34,7 +39,8 @@ import { MissionRuntimeService, PipelineService } from '../app/launcher/launcher
   providers: [
     { provide: GitProviderService, useClass: DemoGitProviderService},
     { provide: MissionRuntimeService, useClass: DemoMissionRuntimeService },
-    { provide: PipelineService, useClass: DemoPipelineService }
+    { provide: PipelineService, useClass: DemoPipelineService },
+    { provide: ProjectProgressService, useClass: DemoProjectProgressService }
   ],
   bootstrap: [AppComponent]
 })

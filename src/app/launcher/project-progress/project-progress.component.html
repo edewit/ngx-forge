@@ -1,0 +1,64 @@
+<section id="NewProjectBooster" class="f8launcher-section-project-progress">
+  <div>
+    <div class="container-fluid">
+      <h1 snInViewport (onInViewportChange)="wizardComponent.onInViewportChange($event, 'NewProjectBooster')" [debounce]="500">Next Steps: Setting Up New Project</h1>
+      <p>
+        Now you are ready to start interacting, experimenting, and building with your application. For further instructions on how to run and interact with your booster, please refer to the documentation that is attached.
+      </p>
+    </div>
+  </div>
+  <div>
+    <div class="container-fluid container-cards-pf">
+      <div class="row row-cards-pf">
+        <div class="col-xs-12">
+          <div class="card-pf">
+            <div class="card-pf-heading">
+              <h2 class="card-pf-title card-pf-title-project-progress">
+                <span *ngIf="allCompleted !== true">
+                  <i class="pficon pficon-in-progress fa-spin"></i> Working Through Setup
+                </span>
+                <span *ngIf="allCompleted === true">
+                  <i class="pficon pficon-ok"></i> Your Application is Ready
+                </span>
+              </h2>
+            </div>
+            <div class="card-pf-body">
+              <div class="list-group list-view-pf list-view-pf-equalized-column">
+                <div class="list-group-item" *ngFor="let item of progress">
+                  <div class="list-view-pf-main-info"
+                       [ngClass]="{'list-view-pf-main-info--in-progress': item.completed !== true}">
+                    <div class="list-view-pf-left">
+                      <span class="pficon"
+                            [ngClass]="{'pficon-ok': item.completed === true,
+                                        'pficon-in-progress fa-spin': item.completed !== true,
+                                        'icon-clear': item.completed !== true && item.inProgress !== true}">
+                      </span>
+                    </div>
+                    <div class="list-view-pf-body">
+                      <div class="list-view-pf-description">
+                        <div class="list-group-item-heading">
+                          {{item.description}}
+                        </div>
+                      </div>
+                      <div class="list-view-pf-additional-info"
+                           *ngIf="item.url !== undefined && item.hypertext !== undefined && item.completed === true">
+                        <a [href]="item.url">{{item.hypertext}}</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="container-fluid">
+      <div class="f8launcher-continue">
+        <a href="btn btn-link">Return to My Dashboard</a>
+      </div>
+    </div>
+  </div>
+</section>

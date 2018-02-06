@@ -2,11 +2,11 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
 import { By } from '@angular/platform-browser';
 
-import { NewProjectComponent } from './new-project.component';
+import { ProjectProgressComponent } from './project-progress.component';
 
-describe('NewProjectComponent', () => {
-  let component: NewProjectComponent;
-  let fixture: ComponentFixture<NewProjectComponent>;
+describe('ProjectProgressComponent', () => {
+  let component: ProjectProgressComponent;
+  let fixture: ComponentFixture<ProjectProgressComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -14,13 +14,13 @@ describe('NewProjectComponent', () => {
         CommonModule
       ],
       declarations: [
-        NewProjectComponent
+        ProjectProgressComponent
       ]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NewProjectComponent);
+    fixture = TestBed.createComponent(ProjectProgressComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
