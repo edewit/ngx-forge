@@ -1,7 +1,8 @@
 export class Pipeline {
-  pipelineId: string;
-  suggested?: boolean;
-  name: string;
   description: string;
+  expanded?: boolean;
+  name: string;
+  pipelineId: string;
   stages: string[];
+  suggested?: boolean;
 }

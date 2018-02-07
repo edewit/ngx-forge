@@ -14,24 +14,19 @@ export class DemoPipelineService implements PipelineService {
       {
         'pipelineId': 'Pipeline1',
         'suggested': true,
-        'name': 'Name of Pipeline',
-        'description': 'A slightly longer description of this pipeline\'s capabilities and usage.',
-        'stages': ['Stage Name', 'Stage Name', 'Stage Name', 'Stage Name', 'Stage Name']
-      }, {
-        'pipelineId': 'Pipeline2',
-        'name': 'Name of Pipeline',
+        'name': 'Release',
         'description': 'A slightly longer description of this pipeline\'s capabilities and usage.',
         'stages': ['Stage Name', 'Stage Name', 'Stage Name']
       }, {
-        'pipelineId': 'Pipeline3',
-        'name': 'Name of Pipeline',
-        'description': 'A slightly longer description of this pipeline\'s capabilities and usage.',
-        'stages': ['Stage Name', 'Stage Name', 'Stage Name', 'Stage Name', 'Stage Name']
-      }, {
-        'pipelineId': 'Pipeline4',
-        'name': 'Name of Pipeline',
+        'pipelineId': 'Pipeline2',
+        'name': 'Release and Stage',
         'description': 'A slightly longer description of this pipeline\'s capabilities and usage.',
         'stages': ['Stage Name', 'Stage Name', 'Stage Name', 'Stage Name']
+      }, {
+        'pipelineId': 'Pipeline3',
+        'name': 'Release, Stage, Approve and Promote',
+        'description': 'A slightly longer description of this pipeline\'s capabilities and usage.',
+        'stages': ['Stage Name', 'Stage Name', 'Stage Name', 'Stage Name', 'Stage Name']
       }] as Pipeline[]);
     return pipelines;
   }
