@@ -17,14 +17,15 @@
             </div>
             <div class="card-pf-body card-column">
               <div class="card-column-60">
-                <b>Eclipse Vert.x</b>
-                <b class="pull-right">v2.4</b>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore...<a href="#">more</a>
+                <b>{{wizardComponent.summary?.runtime?.title}}</b>
+                <b class="pull-right">{{wizardComponent.summary?.runtime?.version}}</b>
+                <p>{{wizardComponent.summary?.runtime?.description}}
+                  <a [href]="wizardComponent.summary?.runtime?.url" target="_blank"
+                     *ngIf="wizardComponent.summary?.runtime?.url !== undefined">more</a>
                 </p>
               </div>
-              <div class="card-column-40">
-                <img src="../../../assets/images/vertx.svg" />
+              <div class="card-column-40" *ngIf="wizardComponent.summary?.runtime?.logo !== undefined">
+                <img [src]="wizardComponent.summary?.runtime?.logo">
               </div>
             </div>
           </div>
@@ -38,9 +39,10 @@
             </div>
             <div class="card-pf-body card-column">
               <div class="card-column-single">
-                <b>Basic Application</b>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore...<a href="#">more</a>
+                <b>{{wizardComponent.summary?.mission?.title}}</b>
+                <p>{{wizardComponent.summary?.mission?.description}}
+                  <a [href]="wizardComponent.summary?.mission?.url" target="_blank"
+                     *ngIf="wizardComponent.summary?.mission?.url !== undefined">more</a>
                 </p>
               </div>
             </div>
@@ -49,55 +51,64 @@
       </div>
     </div>
   </div>
-  <div class="container-fluid container-cards-pf">
+  <div class="container-fluid container-cards-pf" *ngIf="wizardComponent.summary?.targetEnvironment === 'os'">
     <div class="row row-cards-pf">
       <div class="col-xs-12">
         <div class="card-pf">
-          <div class="card-pf-heading">
-            <h2 class="card-pf-title">
-              Pipeline
-            </h2>
-          </div>
-          <div class="card-pf-body">
-            <div class="list-group list-view-pf list-view-pf-view">
-              <div class="list-group-item">
-                <div class="list-group-item-header">
-                  <div class="list-view-pf-main-info">
-                    <div class="list-view-pf-body">
-                      <div class="list-view-pf-description">
-                        <div class="list-group-item-heading">
-                          <b>Name of Pipeline</b>
-                        </div>
-                        <div class="list-group-item-text">
-                          <b>5</b> Stages
-                        </div>
-                        <div class="list-view-pf-additional-info">
-                          <div class="list-view-pf-additional-info-item">
-                            A slightly longer description of this pipeline's capabilities and usage...<a href="#">more</a>
+          <div *ngIf="wizardComponent.summary?.pipeline === undefined;
+                      then showNoPipelineTemplate else showPipelineTemplate"></div>
+          <ng-template #showNoPipelineTemplate>
+            <div class="card-pf-body f8launcher-project-summary-data-unavailable">
+              <span class="fa fa-ban"></span>
+              <h2>No Pipeline</h2>
+              <p>To proceed with setting up this application, there must be a selected pipeline</p>
+              <button class="btn btn-default btn-lg f8launcher-authorize-account"
+                      (click)="navToStep('ReleaseStrategy')">Select Pipeline</button>
+            </div>
+          </ng-template>
+          <ng-template #showPipelineTemplate>
+            <div class="card-pf-heading">
+              <h2 class="card-pf-title">
+                Pipeline
+              </h2>
+            </div>
+            <div class="card-pf-body">
+              <div class="list-group list-view-pf list-view-pf-view">
+                <div class="list-group-item">
+                  <div class="list-group-item-header">
+                    <div class="list-view-pf-main-info">
+                      <div class="list-view-pf-body">
+                        <div class="list-view-pf-description">
+                          <div class="list-group-item-heading">
+                            <b>{{wizardComponent.summary?.pipeline?.name}}</b>
+                          </div>
+                          <div class="list-group-item-text">
+                            <b>{{wizardComponent.summary?.pipeline?.stages.length}}</b> Stages
+                          </div>
+                          <div class="list-view-pf-additional-info">
+                            <div class="list-view-pf-additional-info-item">
+                              {{wizardComponent.summary?.pipeline?.description}}
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div class="list-group-item-container container-fluid">
-                  <div class="row">
-                    <div class="col-md-12 f8launcher-pipeline-stages">
-                      <span class="f8launcher-pipeline-stages--line">Stage Name</span>
-                      <span class="f8launcher-pipeline-stages--arrow"></span>
-                      <span class="f8launcher-pipeline-stages--line">Stage Name</span>
-                      <span class="f8launcher-pipeline-stages--arrow"></span>
-                      <span class="f8launcher-pipeline-stages--line">Stage Name</span>
-                      <span class="f8launcher-pipeline-stages--arrow"></span>
-                      <span class="f8launcher-pipeline-stages--line">Stage Name</span>
-                      <span class="f8launcher-pipeline-stages--arrow"></span>
-                      <span class="f8launcher-pipeline-stages--line">Stage Name</span>
+                  <div class="list-group-item-container container-fluid">
+                    <div class="row">
+                      <div class="col-md-12 f8launcher-pipeline-stages">
+                        <ng-container *ngFor="let stage of wizardComponent.summary?.pipeline?.stages; let i = index">
+                          <span class="f8launcher-pipeline-stages--line">{{stage}}</span>
+                          <span class="f8launcher-pipeline-stages--arrow"
+                                *ngIf="i !== wizardComponent.summary?.pipeline?.stages.length - 1"></span>
+                        </ng-container>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          </ng-template>
         </div>
       </div>
     </div>
@@ -115,36 +126,45 @@
             <div class="card-column-single">
               <form class="form-horizontal">
                 <div class="form-group f8launcher-project-summary-data-form-group">
-                  <label for="projectName" class="col-xs-4 control-label">Project Name</label>
+                  <label class="col-xs-4 control-label">Project Name</label>
                   <div class="col-xs-8 f8launcher-project-summary-data-field f8launcher-application-title">
                     <input class="f8launcher-project-summary-data-field_input f8launcher-application-title-input"
                            name="applicationTitle" placeholder="New Application" type="text"
-                           [(ngModel)]="this.wizardComponent.summary.applicationTitle"
+                           [(ngModel)]="this.wizardComponent.summary.projectName"
                            (keyup.enter)="$event.target.blur();">
                   </div>
                 </div>
                 <div class="form-group f8launcher-project-summary-data-form-group">
-                  <label for="projectName" class="col-xs-4 control-label">Maven Artifact</label>
+                  <label class="col-xs-4 control-label">Maven Artifact</label>
                   <div class="col-xs-8 f8launcher-project-summary-data-field">
-                    <span>d4.345</span>
+                    <span>{{this.wizardComponent.summary?.mavenArtifact}}</span>
                   </div>
                 </div>
                 <div class="form-group f8launcher-project-summary-data-form-group">
-                  <label for="projectName" class="col-xs-4 control-label">Version</label>
+                  <label class="col-xs-4 control-label">Version</label>
                   <div class="col-xs-8 f8launcher-project-summary-data-field">
-                    <span>124.644</span>
+                    <input class="f8launcher-project-summary-data-field_input f8launcher-application-title-input"
+                           name="version" placeholder="Version Number" type="text"
+                           [(ngModel)]="this.wizardComponent.summary.projectVersion"
+                           (keyup.enter)="$event.target.blur();">
                   </div>
                 </div>
                 <div class="form-group f8launcher-project-summary-data-form-group">
-                  <label for="projectName" class="col-xs-4 control-label">Group ID</label>
+                  <label class="col-xs-4 control-label">Group ID</label>
                   <div class="col-xs-8 f8launcher-project-summary-data-field">
-                    <span>124-644</span>
+                    <input class="f8launcher-project-summary-data-field_input f8launcher-application-title-input"
+                           name="groupId" placeholder="Group ID" type="text"
+                           [(ngModel)]="this.wizardComponent.summary.groupId"
+                           (keyup.enter)="$event.target.blur();">
                   </div>
                 </div>
                 <div class="form-group f8launcher-project-summary-data-form-group">
-                  <label for="projectName" class="col-xs-4 control-label">Space Path</label>
+                  <label class="col-xs-4 control-label">Space Path</label>
                   <div class="col-xs-8 f8launcher-project-summary-data-field">
-                    <span>/myspace</span>
+                    <input class="f8launcher-project-summary-data-field_input f8launcher-application-title-input"
+                           name="spacePath" placeholder="Space Path" type="text"
+                           [(ngModel)]="this.wizardComponent.summary.spacePath"
+                           (keyup.enter)="$event.target.blur();">
                   </div>
                 </div>
               </form>
@@ -154,41 +174,58 @@
       </div>
       <div class="col-xs-12 col-md-6">
         <div class="card-pf card-pf--small">
-          <div class="card-pf-heading">
-            <h2 class="card-pf-title">
-              GitHub
-            </h2>
-          </div>
-          <div class="card-pf-body card-column">
-            <div class="card-column-70">
-              <form class="form-horizontal">
-                <div class="form-group f8launcher-project-summary-data-form-group">
-                  <label for="projectName" class="col-xs-5 control-label">Authorized Account</label>
-                  <div class="col-xs-6 f8launcher-project-summary-data-field">
-                    <div class="f8launcher-project-summary-data-field-account">
-                      <i class="fa fa-ban fa-2x"></i>
-                      <span class="f8launcher-project-summary-data-field-account-username">bdellasc</span>
+          <div *ngIf="wizardComponent.summary?.githubLogin === undefined;
+                      then showNoGitHubTemplate else showGitHubTemplate"></div>
+          <ng-template #showNoGitHubTemplate>
+            <div class="card-pf-body f8launcher-project-summary-data-unavailable">
+              <span class="fa fa-ban"></span>
+              <h2>No Authorized Git Provider</h2>
+              <p>To proceed with setting up this application, there must be a selected Git provider</p>
+              <button class="btn btn-default btn-lg f8launcher-authorize-account"
+                      (click)="navToStep('GitProvider')">Authorize Git Provider</button>
+            </div>
+          </ng-template>
+          <ng-template #showGitHubTemplate>
+            <div class="card-pf-heading">
+              <h2 class="card-pf-title">
+                GitHub
+              </h2>
+            </div>
+            <div class="card-pf-body card-column">
+              <div class="card-column-70">
+                <form class="form-horizontal">
+                  <div class="form-group f8launcher-project-summary-data-form-group">
+                    <label class="col-xs-5 control-label">Authorized Account</label>
+                    <div class="col-xs-6 f8launcher-project-summary-data-field">
+                      <div class="f8launcher-project-summary-data-field-account">
+                        <img height="30px" width="30px" [src]="wizardComponent.summary.githubAvatar"
+                             *ngIf="wizardComponent.summary?.githubAvatar !== undefined">
+                        <i class="fa fa-ban fa-2x" *ngIf="this.wizardComponent.summary?.githubAvatar === undefined"></i>
+                        <span class="f8launcher-project-summary-data-field-account-username">
+                          {{wizardComponent.summary?.githubLogin}}
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="form-group f8launcher-project-summary-data-form-group">
-                  <label for="projectName" class="col-xs-5 control-label">Organization</label>
-                  <div class="col-xs-6 f8launcher-project-summary-data-field">
-                    <span>Name_of_Org_repo</span>
+                  <div class="form-group f8launcher-project-summary-data-form-group">
+                    <label class="col-xs-5 control-label">Organization</label>
+                    <div class="col-xs-6 f8launcher-project-summary-data-field">
+                      <span>{{wizardComponent.summary?.githubOrg}}</span>
+                    </div>
                   </div>
-                </div>
-                <div class="form-group f8launcher-project-summary-data-form-group">
-                  <label for="projectName" class="col-xs-5 control-label">Repository</label>
-                  <div class="col-xs-6 f8launcher-project-summary-data-field">
-                    <span>Name_of_Org_repo_1</span>
+                  <div class="form-group f8launcher-project-summary-data-form-group">
+                    <label class="col-xs-5 control-label">Repository</label>
+                    <div class="col-xs-6 f8launcher-project-summary-data-field">
+                      <span>{{wizardComponent.summary?.githubRepo}}</span>
+                    </div>
                   </div>
-                </div>
-              </form>
+                </form>
+              </div>
+              <div class="card-column-30">
+                <i class="fa fa-github git-provider-icon"></i>
+              </div>
             </div>
-            <div class="card-column-30">
-              <i class="fa fa-github git-provider-icon"></i>
-            </div>
-          </div>
+          </ng-template>
         </div>
       </div>
     </div>
@@ -197,7 +234,7 @@
     <div class="f8launcher-continue">
       <button class="btn btn-primary"
               [disabled]="stepCompleted !== true"
-              (click)="navToNextStep()">Set Up</button> or press <b>ENTER</b>
+              (click)="setup()">Set Up</button> or press <b>ENTER</b>
     </div>
   </div>
 </section>

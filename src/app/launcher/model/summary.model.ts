@@ -4,8 +4,11 @@ import { Pipeline } from './pipeline.model';
 import { Cluster } from './cluster.model';
 
 export class Summary {
-  applicationTitle?: string;
   cluster?: Cluster;
+  githubAvatar?: string;
+  githubLogin?: string;
+  githubOrg?: string;
+  githubRepo?: string;
   groupId: string;
   mavenArtifact: string;
   mission: Mission;

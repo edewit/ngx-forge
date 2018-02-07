@@ -61,6 +61,7 @@ export { Runtime } from './model/runtime.model';
 export { Cluster } from './model/cluster.model';
 export { Pipeline } from './model/pipeline.model';
 export { Progress } from './model/progress.model';
+export { Summary } from './model/summary.model';
 
 // Services
 export { ClusterService } from './service/cluster.service';
@@ -68,3 +69,4 @@ export { GitProviderService } from './service/gitprovider.service';
 export { MissionRuntimeService } from './service/mission-runtime.service';
 export { PipelineService } from './service/pipeline.service';
 export { ProjectProgressService } from './service/project-progress.service';
+export { ProjectSummaryService } from './service/project-summary.service';

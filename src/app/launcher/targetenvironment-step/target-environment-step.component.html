@@ -15,7 +15,7 @@
           <div class="card-pf card-pf-view card-pf-view-select card-pf-view-single-select card-pf--medium">
             <div class="card-title">
               <input name="target-environment" type="radio"
-                     [(ngModel)]="targetEnvironment"
+                     [(ngModel)]="wizardComponent.summary.targetEnvironment"
                      [value]="'os'"
                      (ngModelChange)="updateTargetEnvSelection()">
               <h2 class="card-pf-title--title">Code Locally, Build and Deploy Online</h2>
@@ -49,7 +49,7 @@
           <div class="card-pf card-pf-view card-pf-view-select card-pf-view-single-select card-pf--medium">
             <div class="card-title">
               <input name="target-environment" type="radio"
-                     [(ngModel)]="targetEnvironment"
+                     [(ngModel)]="wizardComponent.summary.targetEnvironment"
                      [value]="'zip'"
                      (ngModelChange)="updateTargetEnvSelection()">
               <h2 class="card-pf-title--title">Build &amp; Run Locally</h2>

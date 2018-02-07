@@ -209,7 +209,7 @@ module.exports = {
     new AotPlugin({
       entryModule: helpers.root('src/demo/app.module.ts#AppModule'),
       tsConfigPath: helpers.root('tsconfig-aot.json')
-    })
+    }),
 
     /**
      * Plugin: copy-webpack-plugin
@@ -217,8 +217,9 @@ module.exports = {
      *
      * See: https://github.com/kevlened/copy-webpack-plugin
      */
-    // new CopyWebpackPlugin([{
-    //   from: helpers.root('README.md')
-    // }]),
+    new CopyWebpackPlugin([{
+      from: helpers.root('./src/assets/images'),
+      to: helpers.root('dist-demo/assets/images')
+    }]),
   ]
 };

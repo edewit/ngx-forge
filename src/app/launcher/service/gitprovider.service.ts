@@ -12,12 +12,11 @@ export abstract class GitProviderService {
   abstract authorize(redirectUrl: string): void;
 
   /**
-   * Get GitHub repo details for given full name
+   * Get GitHub organizations
    *
-   * @param fullName The GitHub full name (e.g., fabric8-services/fabric8-wit)
-   * @returns {Observable<any>}
+   * @returns {Observable<any[]>}
    */
-  abstract getRepoDetailsByFullName(fullName: string): Observable<any>;
+  abstract getOrgs(): Observable<any[]>;
 
   /**
    * Get authenticate GitHub user
@@ -25,11 +24,4 @@ export abstract class GitProviderService {
    * @returns {Observable<any>}
    */
   abstract getUser(): Observable<any>;
-
-  /**
-   * Get authentication token
-   *
-   * @returns {Observable<any>}
-   */
-  abstract getToken(): Observable<any>;
 }

@@ -1,16 +1,13 @@
 export class Selection {
-  applicationTitle?: string;
-  clusterId?: string;
+  githubOrg?: string;
+  githubRepo?: string;
   groupId: string;
-  mavenArtifact: string;
-  missionId: string;
-  organization: string;
-  pipelineId: string;
-  projectName: string;
-  projectVersion: string;
-  repository: string;
-  runtimeId: string;
-  runtimeVersion: string;
+  missionId?: string;
+  pipelineId?: string;
+  projectName?: string;
+  projectVersion?: string;
+  runtimeId?: string;
+  runtimeVersion?: string;
   spacePath?: string;
-  targetEnvironment: string;
+  targetEnvironment?: string;
 }

@@ -43,6 +43,7 @@ export class ReleaseStrategyStepComponent extends WizardStep implements OnInit, 
   private _pipelineId: string;
   private sortConfig: SortConfig;
   private currentSortField: SortField;
+
   private subscriptions: Subscription[] = [];
 
   constructor(@Host() public wizardComponent: WizardComponent,
@@ -83,8 +84,8 @@ export class ReleaseStrategyStepComponent extends WizardStep implements OnInit, 
           this._pipelines[i].expanded = true;
         }
       }
+      this.restoreSummary();
     }));
-    this.restoreSummary();
   }
 
   ngOnDestroy() {
@@ -94,15 +95,6 @@ export class ReleaseStrategyStepComponent extends WizardStep implements OnInit, 
   }
 
   // Accessors
-
-  /**
-   * Returns indicator that step is completed
-   *
-   * @returns {boolean} True if step is completed
-   */
-  get stepCompleted(): boolean {
-    return (this.wizardComponent.summary.pipeline !== undefined);
-  }
 
   /**
    * Returns a list of pipelines to display
@@ -129,6 +121,15 @@ export class ReleaseStrategyStepComponent extends WizardStep implements OnInit, 
    */
   set pipelineId(val: string) {
     this._pipelineId = val;
+  }
+
+  /**
+   * Returns indicator that step is completed
+   *
+   * @returns {boolean} True if step is completed
+   */
+  get stepCompleted(): boolean {
+    return (this.wizardComponent.summary.pipeline !== undefined);
   }
 
   // Filter
@@ -193,15 +194,19 @@ export class ReleaseStrategyStepComponent extends WizardStep implements OnInit, 
   // Steps
 
   navToNextStep(): void {
-    this.wizardComponent.getStep(this.id).completed = this.stepCompleted;
     this.wizardComponent.navToNextStep();
   }
 
   updatePipelineSelection(pipeline: Pipeline): void {
     this.wizardComponent.summary.pipeline = pipeline;
+    this.initCompleted();
   }
 
   // Private
+
+  private initCompleted(): void {
+    this.wizardComponent.getStep(this.id).completed = this.stepCompleted;
+  }
 
   // Restore mission & runtime summary
   private restoreSummary(): void {
@@ -210,6 +215,12 @@ export class ReleaseStrategyStepComponent extends WizardStep implements OnInit, 
       return;
     }
     this.pipelineId = selection.pipelineId;
+    for (let i = 0; i < this.pipelines.length; i++) {
+      if (this.pipelineId === this.pipelines[i].pipelineId) {
+        this.wizardComponent.summary.pipeline = this.pipelines[i];
+      }
+    }
+    this.initCompleted();
   }
 
   private toggleExpanded(pipeline: Pipeline) {

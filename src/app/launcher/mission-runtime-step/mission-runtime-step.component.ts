@@ -56,10 +56,20 @@ export class MissionRuntimeStepComponent extends WizardStep implements OnInit, O
 
   // Accessors
 
+  /**
+   * Returns a list of missions to display
+   *
+   * @returns {Mission[]} The missions to display
+   */
   get missions(): Mission[] {
     return this._missions;
   }
 
+  /**
+   * Returns a list of runtimes to display
+   *
+   * @returns {Runtime[]} The runtimes to display
+   */
   get runtimes(): Runtime[] {
     return this._runtimes;
   }
@@ -91,7 +101,6 @@ export class MissionRuntimeStepComponent extends WizardStep implements OnInit, O
    * Navigate to next step
    */
   navToNextStep(): void {
-    this.wizardComponent.getStep(this.id).completed = this.stepCompleted;
     this.wizardComponent.navToNextStep();
   }
 
@@ -100,9 +109,14 @@ export class MissionRuntimeStepComponent extends WizardStep implements OnInit, O
     this.runtimeId = undefined;
     this.wizardComponent.summary.mission = undefined;
     this.wizardComponent.summary.runtime = undefined;
+    this.initCompleted();
   }
 
   // Private
+
+  private initCompleted(): void {
+    this.wizardComponent.getStep(this.id).completed = this.stepCompleted;
+  }
 
   // Restore mission & runtime summary
   private restoreSummary(): void {
@@ -111,7 +125,7 @@ export class MissionRuntimeStepComponent extends WizardStep implements OnInit, O
       return;
     }
     this.missionId = selection.missionId;
-    this.missionId = selection.runtimeId;
+    this.runtimeId = selection.runtimeId;
 
     this.missions.forEach((val) => {
       if (this.missionId === val.missionId) {
@@ -124,15 +138,18 @@ export class MissionRuntimeStepComponent extends WizardStep implements OnInit, O
         this.updateVersionSelection(val, selection.runtimeVersion);
       }
     });
+    this.initCompleted();
   }
 
   private updateMissionSelection(val: Mission): void {
     this.wizardComponent.summary.mission = val;
+    this.initCompleted();
   }
 
   private updateRuntimeSelection(val: Runtime): void {
     this.wizardComponent.summary.runtime = val;
     this.wizardComponent.summary.runtime.version = (val.version !== undefined) ? val.version : val.versions[0];
+    this.initCompleted();
   }
 
   private updateVersionSelection(val: Runtime, version: string): void {

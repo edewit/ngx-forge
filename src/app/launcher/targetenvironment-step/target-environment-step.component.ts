@@ -18,8 +18,6 @@ import { WizardStep } from '../wizard-step';
 export class TargetEnvironmentStepComponent extends WizardStep {
   @Input() id: string;
 
-  private _targetEnvironment: string;
-
   constructor(@Host() public wizardComponent: WizardComponent) {
     super();
   }
@@ -40,36 +38,21 @@ export class TargetEnvironmentStepComponent extends WizardStep {
     return (this.wizardComponent.summary.targetEnvironment !== undefined);
   }
 
-  /**
-   * Returns target environment
-   *
-   * @returns {string} The target environment
-   */
-  get targetEnvironment(): string {
-    return this._targetEnvironment;
-  }
-
-  /**
-   * Set the target environment
-   *
-   * @param {string} val The target environment
-   */
-  set targetEnvironment(val: string) {
-    this._targetEnvironment = val;
-  }
-
   // Steps
 
   navToNextStep(): void {
-    this.wizardComponent.getStep(this.id).completed = this.stepCompleted;
     this.wizardComponent.navToNextStep();
   }
 
   updateTargetEnvSelection(): void {
-    this.wizardComponent.summary.targetEnvironment = this.targetEnvironment;
+    this.initCompleted();
   }
 
   // Private
+
+  private initCompleted(): void {
+    this.wizardComponent.getStep(this.id).completed = this.stepCompleted;
+  }
 
   // Restore mission & runtime summary
   private restoreSummary(): void {
@@ -77,6 +60,7 @@ export class TargetEnvironmentStepComponent extends WizardStep {
     if (selection === undefined) {
       return;
     }
-    this.targetEnvironment = selection.targetEnvironment;
+    this.wizardComponent.summary.targetEnvironment = selection.targetEnvironment;
+    this.initCompleted();
   }
 }

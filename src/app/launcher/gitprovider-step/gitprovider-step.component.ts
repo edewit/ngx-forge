@@ -29,11 +29,9 @@ import {
   styleUrls: ['./gitprovider-step.component.less']
 })
 export class GitProviderStepComponent extends WizardStep implements OnDestroy, OnInit {
-  private _ghAvatar: string;
-  private _ghLogin: string;
-  private _ghToken: string;
-  private subscriptions: Subscription[] = [];
+  private _ghOrgs: any[];
   private ghUser: GitHubUser;
+  private subscriptions: Subscription[] = [];
 
   constructor(@Host() public wizardComponent: WizardComponent,
               private gitProviderService: GitProviderService) {
@@ -42,20 +40,21 @@ export class GitProviderStepComponent extends WizardStep implements OnDestroy, O
 
   ngOnInit() {
     this.wizardComponent.addStep(this);
-    this.subscriptions.push(
-      this.gitProviderService.getToken().subscribe((val) => {
-        if (val !== undefined) {
-          this._ghToken = val;
-        }
-      }));
-    this.subscriptions.push(
-      this.gitProviderService.getUser().subscribe((val) => {
-        if (val !== undefined) {
-          this.ghUser = val;
-          this._ghAvatar = this.ghUser.avatar_url;
-          this._ghLogin = this.ghUser.login;
-        }
-      }));
+    this.subscriptions.push(this.gitProviderService.getOrgs().subscribe((val) => {
+      if (val !== undefined) {
+        this._ghOrgs = val;
+        this.wizardComponent.summary.githubOrg = this._ghOrgs[0].name; // default
+        this.restoreSummary();
+      }
+    }));
+    this.subscriptions.push(this.gitProviderService.getUser().subscribe((val) => {
+      if (val !== undefined) {
+        this.ghUser = val;
+        this.wizardComponent.summary.githubLogin = this.ghUser.login;
+        this.wizardComponent.summary.githubAvatar = this.ghUser.avatar_url;
+        this.initCompleted();
+      }
+    }));
   }
 
   ngOnDestroy() {
@@ -66,16 +65,13 @@ export class GitProviderStepComponent extends WizardStep implements OnDestroy, O
 
   // Accessors
 
-  get ghAvatar(): string {
-    return this._ghAvatar;
-  }
-
-  get ghLogin(): string {
-    return this._ghLogin;
-  }
-
-  get ghToken(): string {
-    return this._ghToken;
+  /**
+   * Returns GitHub organizations
+   *
+   * @returns {any[]}
+   */
+  get ghOrgs(): any[] {
+    return this._ghOrgs;
   }
 
   /**
@@ -84,7 +80,10 @@ export class GitProviderStepComponent extends WizardStep implements OnDestroy, O
    * @returns {boolean} True if step is completed
    */
   get stepCompleted(): boolean {
-    return true; // Todo: Set to true for testing
+    return (this.wizardComponent.summary.githubLogin !== undefined
+      && this.wizardComponent.summary.githubOrg !== undefined
+      && this.wizardComponent.summary.githubRepo !== undefined
+      && this.wizardComponent.summary.githubRepo.length > 0);
   }
 
   // Steps
@@ -93,7 +92,6 @@ export class GitProviderStepComponent extends WizardStep implements OnDestroy, O
    * Navigate to next step
    */
   navToNextStep(): void {
-    this.wizardComponent.getStep(this.id).completed = this.stepCompleted;
     this.wizardComponent.navToNextStep();
   }
 
@@ -117,6 +115,10 @@ export class GitProviderStepComponent extends WizardStep implements OnDestroy, O
     this.gitProviderService.authorize(url);
   }
 
+  updateGithubSelection(): void {
+    this.initCompleted();
+  }
+
   // Private
 
   private getParams(selection: Selection) {
@@ -138,5 +140,20 @@ export class GitProviderStepComponent extends WizardStep implements OnDestroy, O
       return decodeURIComponent(param[1]);
     }
     return null;
+  }
+
+  private initCompleted(): void {
+    this.wizardComponent.getStep(this.id).completed = this.stepCompleted;
+  }
+
+  // Restore mission & runtime summary
+  private restoreSummary(): void {
+    let selection: Selection = this.wizardComponent.selectionParams;
+    if (selection === undefined) {
+      return;
+    }
+    this.wizardComponent.summary.githubOrg = selection.githubOrg;
+    this.wizardComponent.summary.githubRepo = selection.githubRepo;
+    this.initCompleted();
   }
 }

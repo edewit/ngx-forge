@@ -66,6 +66,6 @@ export class StepIndicatorComponent implements OnInit {
     if (selection === undefined) {
       return;
     }
-    this.wizardComponent.summary.applicationTitle = selection.applicationTitle;
+    this.wizardComponent.summary.projectName = selection.projectName;
   }
 }
