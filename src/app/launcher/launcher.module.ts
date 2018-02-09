@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { BsDropdownConfig, BsDropdownModule } from 'ngx-bootstrap';
-import { ToolbarModule } from 'patternfly-ng';
+import { NotificationModule, ToolbarModule } from 'patternfly-ng';
 
 // Note: This has to be imported first
 import { StepIndicatorComponent } from './step-indicator/step-indicator.component';
@@ -31,6 +31,7 @@ export const providers: Provider[] = [
     CommonModule,
     FormsModule,
     InViewportModule.forRoot(providers),
+    NotificationModule,
     ToolbarModule
   ],
   exports: [
@@ -56,17 +57,22 @@ export class LauncherModule {
 }
 
 // Models
-export { Mission } from './model/mission.model';
-export { Runtime } from './model/runtime.model';
 export { Cluster } from './model/cluster.model';
+export { DependencyCheck } from './model/dependency-check.model';
+export { GitHubDetails } from './model/github-details.model';
+export { Mission } from './model/mission.model';
 export { Pipeline } from './model/pipeline.model';
 export { Progress } from './model/progress.model';
+export { Runtime } from './model/runtime.model';
 export { Summary } from './model/summary.model';
+export { TargetEnvironment } from './model/target-environment.model';
 
 // Services
 export { ClusterService } from './service/cluster.service';
-export { GitProviderService } from './service/gitprovider.service';
+export { DependencyCheckService } from './service/dependency-check.service';
+export { GitProviderService } from './service/git-provider.service';
 export { MissionRuntimeService } from './service/mission-runtime.service';
 export { PipelineService } from './service/pipeline.service';
 export { ProjectProgressService } from './service/project-progress.service';
 export { ProjectSummaryService } from './service/project-summary.service';
+export { TargetEnvironmentService } from './service/target-environment.service';

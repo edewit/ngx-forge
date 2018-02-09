@@ -2,7 +2,8 @@
          [ngClass]="{'hidden': hidden}">
   <div>
     <div class="container-fluid">
-      <h1 snInViewport (onInViewportChange)="wizardComponent.onInViewportChange($event, 'MissionRuntime')" [debounce]="500">
+      <h1 snInViewport (onInViewportChange)="wizardComponent.onInViewportChange($event, 'MissionRuntime')"
+          [debounce]="500">
         Select Mission &amp; Runtime
         <button class="btn btn-default btn-lg pull-right" type="button"
                 [disabled]="selectionAvailable !== true"
@@ -43,8 +44,8 @@
                         <span class="caret"></span>
                       </button>
                       <ul *dropdownMenu class="dropdown-menu" role="menu" [attr.aria-labelledby]="i + 'dropdown'">
-                        <li role="menuitem" *ngFor="let version of runtime.versions">
-                          <a role="menuitem" class="dropdown-item" tabindex="-1" href="#"
+                        <li *ngFor="let version of runtime.versions">
+                          <a href="javascript:void(0)" class="dropdown-item" role="menuitem" tabindex="-1"
                              (click)="updateVersionSelection(runtime, version)">{{version}}</a>
                         </li>
                       </ul>
@@ -53,7 +54,8 @@
                   <div class="list-view-pf-main-info">
                     <div class="list-view-pf-left">
                       <span class="list-view-pf-logo">
-                        <img [src]="_DomSanitizer.bypassSecurityTrustUrl(runtime.icon)" />
+                        <img [src]="_DomSanitizer.bypassSecurityTrustUrl(runtime.icon)"
+                             *ngIf="runtime.icon !== null">
                       </span>
                     </div>
                     <div class="list-view-pf-body">
@@ -62,7 +64,8 @@
                           {{runtime.name}}
                         </div>
                         <div class="list-group-item-text">
-                          {{runtime.description}}<a href="#">more</a>
+                          {{runtime.description}}
+                          <a [href]="runtime.url" target="_blank" *ngIf="runtime.url !== undefined"> more</a>
                         </div>
                       </div>
                     </div>
@@ -82,13 +85,15 @@
             <div class="card-pf-body">
               <div class="list-group list-view-pf" *ngFor="let mission of missions">
                 <div class="list-group-item list-view-pf-stacked list-view-pf-top-align"
-                [ngClass]="{'disabled': selectedRuntime?.id && mission?.runtimes?.indexOf(selectedRuntime?.id) === -1}">
-                  <div class="f8launcher-tag-featured" *ngIf="mission.suggested">
+                     [ngClass]="{'disabled': wizardComponent.summary?.runtime?.id
+                                  && mission?.runtimes?.indexOf(wizardComponent.summary.runtime?.id) === -1}">
+                  <div class="f8launcher-tag-featured" *ngIf="mission.suggested === true">
                     Suggested Mission <i class="pficon pficon-info"></i>
                   </div>
                   <div class="list-view-pf-checkbox">
                     <input type="radio" name="mission"
-                           [disabled]="selectedRuntime?.id && mission?.runtimes?.indexOf(selectedRuntime?.id) === -1"
+                           [disabled]="wizardComponent.summary?.runtime?.id
+                                       && mission?.runtimes?.indexOf(wizardComponent.summary.runtime?.id) === -1"
                            [(ngModel)]="missionId"
                            [value]="mission.id"
                            (ngModelChange)="updateMissionSelection(mission)">
@@ -100,7 +105,8 @@
                           {{mission.name}}
                         </div>
                         <div class="list-group-item-text">
-                          {{mission.description}}<a href="#">more</a>
+                          {{mission.description}}
+                          <a [href]="mission.url" target="_blank" *ngIf="mission.url !== undefined"> more</a>
                         </div>
                       </div>
                     </div>

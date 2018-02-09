@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { PipelineService } from '../../app/launcher/service/pipeline.service';
 import { Pipeline } from '../../app/launcher/model/pipeline.model';
+import { PipelineService } from '../../app/launcher/service/pipeline.service';
 
 @Injectable()
 export class DemoPipelineService implements PipelineService {

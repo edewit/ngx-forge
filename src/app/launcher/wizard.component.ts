@@ -30,16 +30,23 @@ export class WizardComponent implements AfterViewInit, OnInit {
   }
 
   ngAfterViewInit() {
-    this.stepIndicator.navToNextStep();
+    setTimeout(() => {
+      this.stepIndicator.navToNextStep();
+    }, 200);
   }
 
   ngOnInit() {
-    this._summary = {} as Summary;
+    this._summary = {
+      dependencyCheck: {},
+      gitHubDetails: {}
+    } as Summary;
   }
 
   onInViewportChange($event: any, id: string) {
     if ($event) {
-      this._selectedSection = id;
+      setTimeout(() => {
+        this._selectedSection = id;
+      }, 10); // Avoids ExpressionChangedAfterItHasBeenCheckedError
     }
   }
 
@@ -55,22 +62,22 @@ export class WizardComponent implements AfterViewInit, OnInit {
   }
 
   /**
-   * Returns current selection values needed to restore upon a redirect
+   * Returns current selection needed to restore upon a redirect
    *
    * @returns {Selection} The current selection
    */
-  get selection(): Selection {
+  get currentSelection(): Selection {
     let selection = {
-      githubOrg: this._summary.githubOrg,
-      githubRepo: this._summary.githubRepo,
-      groupId: this._summary.groupId,
-      missionId: this._summary.mission.id,
-      pipelineId: this._summary.pipeline.pipelineId,
-      projectName: this._summary.projectName,
-      projectVersion: this._summary.projectVersion,
-      runtimeId: this._summary.runtime.id,
-      runtimeVersion: this._summary.runtime.version,
-      spacePath: this._summary.spacePath,
+      groupId: (this._summary.dependencyCheck !== undefined) ? this._summary.dependencyCheck.groupId : undefined,
+      missionId: (this._summary.mission !== undefined) ? this._summary.mission.id : undefined,
+      pipelineId: (this._summary.pipeline !== undefined) ? this._summary.pipeline.pipelineId : undefined,
+      projectName: (this._summary.dependencyCheck !== undefined)
+        ? this._summary.dependencyCheck.projectName : undefined,
+      projectVersion: (this._summary.dependencyCheck !== undefined)
+        ? this._summary.dependencyCheck.projectVersion : undefined,
+      runtimeId: (this._summary.runtime !== undefined) ? this._summary.runtime.id : undefined,
+      runtimeVersion: (this._summary.runtime !== undefined) ? this._summary.runtime.version : undefined,
+      spacePath: (this._summary.dependencyCheck !== undefined) ? this._summary.dependencyCheck.spacePath : undefined,
       targetEnvironment: this._summary.targetEnvironment
     } as Selection;
     return selection;

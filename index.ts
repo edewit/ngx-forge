@@ -26,6 +26,6 @@ export { Mission } from './src/app/launcher/model/mission.model';
 export { Pipeline } from './src/app/launcher/model/pipeline.model';
 export { Runtime } from './src/app/launcher/model/runtime.model';
 export { ClusterService } from './src/app/launcher/service/cluster.service';
-export { GitProviderService } from './src/app/launcher/service/gitprovider.service';
+export { GitProviderService } from './src/app/launcher/service/git-provider.service';
 export { PipelineService } from './src/app/launcher/service/pipeline.service';
 export { MissionRuntimeService } from './src/app/launcher/service/mission-runtime.service';

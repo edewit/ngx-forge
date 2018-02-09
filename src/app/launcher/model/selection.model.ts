@@ -1,6 +1,4 @@
 export class Selection {
-  githubOrg?: string;
-  githubRepo?: string;
   groupId: string;
   missionId?: string;
   pipelineId?: string;

@@ -1,26 +1,17 @@
 import {
   Component,
   Host,
-  Input,
   OnDestroy,
   OnInit,
   ViewEncapsulation
 } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
-import { GitProviderService } from '../service/gitprovider.service';
+import { GitHubDetails } from '../model/github-details.model';
+import { GitProviderService } from '../service/git-provider.service';
 import { Selection } from '../model/selection.model';
 import { WizardComponent } from '../wizard.component';
 import { WizardStep } from '../wizard-step';
-
-import {
-  GitHubRepo,
-  GitHubRepoCommit,
-  GitHubRepoDetails,
-  GitHubRepoLastCommit,
-  GitHubRepoLicense,
-  GitHubUser
-} from '../model/github.model';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -29,8 +20,6 @@ import {
   styleUrls: ['./gitprovider-step.component.less']
 })
 export class GitProviderStepComponent extends WizardStep implements OnDestroy, OnInit {
-  private _ghOrgs: any[];
-  private ghUser: GitHubUser;
   private subscriptions: Subscription[] = [];
 
   constructor(@Host() public wizardComponent: WizardComponent,
@@ -40,18 +29,10 @@ export class GitProviderStepComponent extends WizardStep implements OnDestroy, O
 
   ngOnInit() {
     this.wizardComponent.addStep(this);
-    this.subscriptions.push(this.gitProviderService.getOrgs().subscribe((val) => {
+
+    this.subscriptions.push(this.gitProviderService.getGitHubDetails().subscribe((val) => {
       if (val !== undefined) {
-        this._ghOrgs = val;
-        this.wizardComponent.summary.githubOrg = this._ghOrgs[0].name; // default
-        this.restoreSummary();
-      }
-    }));
-    this.subscriptions.push(this.gitProviderService.getUser().subscribe((val) => {
-      if (val !== undefined) {
-        this.ghUser = val;
-        this.wizardComponent.summary.githubLogin = this.ghUser.login;
-        this.wizardComponent.summary.githubAvatar = this.ghUser.avatar_url;
+        this.wizardComponent.summary.gitHubDetails = val;
         this.initCompleted();
       }
     }));
@@ -66,12 +47,14 @@ export class GitProviderStepComponent extends WizardStep implements OnDestroy, O
   // Accessors
 
   /**
-   * Returns GitHub organizations
+   * Returns duplicate name message for when repo exists
    *
-   * @returns {any[]}
+   * @returns {string}
    */
-  get ghOrgs(): any[] {
-    return this._ghOrgs;
+  get duplicateNameMessage(): string {
+    let repo = this.wizardComponent.summary.gitHubDetails.repository;
+    return '\'' + repo + '\' is already in use as ' + this.wizardComponent.summary.gitHubDetails.organization
+      + '/' + repo + '.';
   }
 
   /**
@@ -80,10 +63,12 @@ export class GitProviderStepComponent extends WizardStep implements OnDestroy, O
    * @returns {boolean} True if step is completed
    */
   get stepCompleted(): boolean {
-    return (this.wizardComponent.summary.githubLogin !== undefined
-      && this.wizardComponent.summary.githubOrg !== undefined
-      && this.wizardComponent.summary.githubRepo !== undefined
-      && this.wizardComponent.summary.githubRepo.length > 0);
+    return (this.wizardComponent.summary.gitHubDetails.authenticated === true
+      && this.wizardComponent.summary.gitHubDetails.login !== undefined
+      && this.wizardComponent.summary.gitHubDetails.organization !== undefined
+      && this.wizardComponent.summary.gitHubDetails.repository !== undefined
+      && this.wizardComponent.summary.gitHubDetails.repository.length > 0
+      && this.wizardComponent.summary.gitHubDetails.repositoryAvailable === true);
   }
 
   // Steps
@@ -100,23 +85,31 @@ export class GitProviderStepComponent extends WizardStep implements OnDestroy, O
    *
    * @param {MouseEvent} $event
    */
-  authorizeAccount($event: MouseEvent): void {
-    let url = window.location.origin + this.getParams(this.wizardComponent.selection);
-    this.gitProviderService.authorize(url);
+  connectAccount($event: MouseEvent): void {
+    let url = window.location.origin + this.getParams(this.wizardComponent.currentSelection);
+    this.gitProviderService.connectGitHubAccount(url);
   }
 
   /**
-   * Change GitHub account
-   *
-   * @param {MouseEvent} $event
+   * Update selection
    */
-  changeAccount($event: MouseEvent): void {
-    let url = window.location.origin + this.getParams(this.wizardComponent.selection);
-    this.gitProviderService.authorize(url);
+  updateGitHubSelection(): void {
+    this.initCompleted();
   }
 
-  updateGithubSelection(): void {
-    this.initCompleted();
+  /**
+   * Ensure repo name is available for the selected organization
+   */
+  validateRepo(): void {
+    let fullName = this.wizardComponent.summary.gitHubDetails.organization + '/'
+      + this.wizardComponent.summary.gitHubDetails.repository;
+
+    this.subscriptions.push(this.gitProviderService.isGitHubRepo(fullName).subscribe((val) => {
+      if (val !== undefined) {
+        this.wizardComponent.summary.gitHubDetails.repositoryAvailable = !val;
+        this.initCompleted();
+      }
+    }));
   }
 
   // Private
@@ -144,16 +137,5 @@ export class GitProviderStepComponent extends WizardStep implements OnDestroy, O
 
   private initCompleted(): void {
     this.wizardComponent.getStep(this.id).completed = this.stepCompleted;
-  }
-
-  // Restore mission & runtime summary
-  private restoreSummary(): void {
-    let selection: Selection = this.wizardComponent.selectionParams;
-    if (selection === undefined) {
-      return;
-    }
-    this.wizardComponent.summary.githubOrg = selection.githubOrg;
-    this.wizardComponent.summary.githubRepo = selection.githubRepo;
-    this.initCompleted();
   }
 }

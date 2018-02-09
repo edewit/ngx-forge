@@ -1,7 +1,7 @@
 <section id="ActivateBooster" class="f8launcher-section-activate-booster">
   <div>
     <div class="container-fluid">
-      <h1 snInViewport (onInViewportChange)="wizardComponent.onInViewportChange($event, 'ActivateBooster')" [debounce]="500">Next Steps: Activate Booster</h1>
+      <h1>Next Steps: Activate Booster</h1>
       <p>
         There are multiple pipelines available to deploy your application. Each has 4 different stages with a varying set of capabilities. Stages of the piplines include: build release, integration testing, staging and running an application.
       </p>
@@ -22,8 +22,8 @@
             </div>
             <div class="card-pf-body">
               <pre>
-                $ unzip {{wizardComponent.summary.projectName}}.zip
-                $ cd {{wizardComponent.summary.projectName}}
+                $ unzip {{wizardComponent.summary.dependencyCheck.projectName}}.zip
+                $ cd {{wizardComponent.summary.dependencyCheck.projectName}}
               </pre>
             </div>
           </div>

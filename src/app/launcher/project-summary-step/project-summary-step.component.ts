@@ -9,6 +9,7 @@ import {
 import { Subscription } from 'rxjs/Subscription';
 import { DomSanitizer } from '@angular/platform-browser';
 
+import { DependencyCheckService } from '../service/dependency-check.service';
 import { ProjectSummaryService } from '../service/project-summary.service';
 import { Selection } from '../model/selection.model';
 import { WizardComponent } from '../wizard.component';
@@ -26,29 +27,19 @@ export class ProjectSummaryStepComponent extends WizardStep implements OnDestroy
   private subscriptions: Subscription[] = [];
 
   constructor(@Host() public wizardComponent: WizardComponent,
+              private dependencyCheckService: DependencyCheckService,
               private projectSummaryService: ProjectSummaryService,
               public _DomSanitizer: DomSanitizer) {
     super();
   }
 
   ngOnInit() {
-    this.subscriptions.push(this.projectSummaryService.getMavenArtifact().subscribe((val) => {
-      this.wizardComponent.summary.mavenArtifact = val;
-    }));
-    this.subscriptions.push(this.projectSummaryService.getGroupId().subscribe((val) => {
-      this.wizardComponent.summary.groupId = val;
-    }));
-    this.subscriptions.push(this.projectSummaryService.getProjectName().subscribe((val) => {
-      this.wizardComponent.summary.projectName = val;
-    }));
-    this.subscriptions.push(this.projectSummaryService.getProjectVersion().subscribe((val) => {
-      this.wizardComponent.summary.projectVersion = val;
-    }));
-    this.subscriptions.push(this.projectSummaryService.getSpacePath().subscribe((val) => {
-      this.wizardComponent.summary.spacePath = val;
-    }));
     this.wizardComponent.addStep(this);
     this.restoreSummary();
+
+    this.subscriptions.push(this.dependencyCheckService.getDependencyCheck().subscribe((val) => {
+      this.wizardComponent.summary.dependencyCheck = val;
+    }));
   }
 
   ngOnDestroy() {
@@ -130,10 +121,10 @@ export class ProjectSummaryStepComponent extends WizardStep implements OnDestroy
     if (selection === undefined) {
       return;
     }
-    this.wizardComponent.summary.groupId = selection.groupId;
-    this.wizardComponent.summary.projectName = selection.projectName;
-    this.wizardComponent.summary.projectVersion = selection.projectVersion;
-    this.wizardComponent.summary.spacePath = selection.spacePath;
+    this.wizardComponent.summary.dependencyCheck.groupId = selection.groupId;
+    this.wizardComponent.summary.dependencyCheck.projectName = selection.projectName;
+    this.wizardComponent.summary.dependencyCheck.projectVersion = selection.projectVersion;
+    this.wizardComponent.summary.dependencyCheck.spacePath = selection.spacePath;
     this.initCompleted();
   }
 }

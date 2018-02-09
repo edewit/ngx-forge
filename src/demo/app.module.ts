@@ -12,18 +12,23 @@ import { AppRoutingModule } from './app-routing.module';
 // Main areas
 import { WelcomeComponent } from './components/welcome.component';
 
-import { DemoGitProviderService } from './service/demo-gitprovider.service';
+import { DemoDependencyCheckService } from './service/demo-dependency-check.service';
+import { DemoGitProviderService } from './service/demo-git-provider.service';
 import { DemoMissionRuntimeService } from './service/demo-mission-runtime.service';
 import { DemoPipelineService } from './service/demo-pipeline.service';
 import { DemoProjectProgressService } from './service/demo-project-progress.service';
 import { DemoProjectSummaryService } from './service/demo-project-summary.service';
-import { GitProviderService } from '../app/launcher/launcher.module';
+import { DemoTargetEnvironmentService } from './service/demo-target-environment.service';
+
 import {
+  DependencyCheckService,
+  GitProviderService,
   LauncherModule,
   MissionRuntimeService,
   PipelineService,
   ProjectProgressService,
-  ProjectSummaryService
+  ProjectSummaryService,
+  TargetEnvironmentService
 } from '../app/launcher/launcher.module';
 
 @NgModule({
@@ -39,11 +44,13 @@ import {
     WelcomeComponent
   ],
   providers: [
+    { provide: DependencyCheckService, useClass: DemoDependencyCheckService},
     { provide: GitProviderService, useClass: DemoGitProviderService},
     { provide: MissionRuntimeService, useClass: DemoMissionRuntimeService },
     { provide: PipelineService, useClass: DemoPipelineService },
     { provide: ProjectProgressService, useClass: DemoProjectProgressService },
-    { provide: ProjectSummaryService, useClass: DemoProjectSummaryService }
+    { provide: ProjectSummaryService, useClass: DemoProjectSummaryService },
+    { provide: TargetEnvironmentService, useClass: DemoTargetEnvironmentService}
   ],
   bootstrap: [AppComponent]
 })

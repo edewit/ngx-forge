@@ -2,7 +2,8 @@
          [ngClass]="{'hidden': hidden}">
   <div>
     <div class="container-fluid">
-      <h1 snInViewport (onInViewportChange)="wizardComponent.onInViewportChange($event, 'ProjectSummary')" [debounce]="500">Confirm Application Summary</h1>
+      <h1 snInViewport (onInViewportChange)="wizardComponent.onInViewportChange($event, 'ProjectSummary')"
+          [debounce]="500">Confirm Application Summary</h1>
     </div>
   </div>
   <div>
@@ -24,9 +25,10 @@
                      *ngIf="wizardComponent.summary?.runtime?.url !== undefined">more</a>
                 </p>
               </div>
-              <div class="card-column-40" *ngIf="wizardComponent.summary?.runtime?.icon !== undefined">
+              <div class="card-column-40">
                 <img class="card-column_runtime-icon"
-                     [src]="_DomSanitizer.bypassSecurityTrustUrl(wizardComponent.summary?.runtime?.icon)">
+                     [src]="_DomSanitizer.bypassSecurityTrustUrl(wizardComponent.summary?.runtime?.icon)"
+                     *ngIf="wizardComponent.summary?.runtime?.icon !== null">
               </div>
             </div>
           </div>
@@ -131,14 +133,14 @@
                   <div class="col-xs-8 f8launcher-project-summary-data-field f8launcher-application-text-field">
                     <input class="f8launcher-project-summary-data-field_input f8launcher-application-text-field_input"
                            name="applicationTitle" placeholder="New Application" type="text"
-                           [(ngModel)]="this.wizardComponent.summary.projectName"
+                           [(ngModel)]="this.wizardComponent.summary.dependencyCheck.projectName"
                            (keyup.enter)="$event.target.blur();">
                   </div>
                 </div>
                 <div class="form-group f8launcher-project-summary-data-form-group">
                   <label class="col-xs-4 control-label">Maven Artifact</label>
                   <div class="col-xs-8 f8launcher-project-summary-data-field">
-                    <span>{{this.wizardComponent.summary?.mavenArtifact}}</span>
+                    <span>{{this.wizardComponent.summary?.dependencyCheck?.mavenArtifact}}</span>
                   </div>
                 </div>
                 <div class="form-group f8launcher-project-summary-data-form-group">
@@ -146,7 +148,7 @@
                   <div class="col-xs-8 f8launcher-project-summary-data-field f8launcher-application-text-field">
                     <input class="f8launcher-project-summary-data-field_input f8launcher-application-text-field_input"
                            name="version" placeholder="Version Number" type="text"
-                           [(ngModel)]="this.wizardComponent.summary.projectVersion"
+                           [(ngModel)]="this.wizardComponent.summary.dependencyCheck.projectVersion"
                            (keyup.enter)="$event.target.blur();">
                   </div>
                 </div>
@@ -155,7 +157,7 @@
                   <div class="col-xs-8 f8launcher-project-summary-data-field f8launcher-application-text-field">
                     <input class="f8launcher-project-summary-data-field_input f8launcher-application-text-field_input"
                            name="groupId" placeholder="Group ID" type="text"
-                           [(ngModel)]="this.wizardComponent.summary.groupId"
+                           [(ngModel)]="this.wizardComponent.summary.dependencyCheck.groupId"
                            (keyup.enter)="$event.target.blur();">
                   </div>
                 </div>
@@ -164,7 +166,7 @@
                   <div class="col-xs-8 f8launcher-project-summary-data-field f8launcher-application-text-field">
                     <input class="f8launcher-project-summary-data-field_input f8launcher-application-text-field_input"
                            name="spacePath" placeholder="Space Path" type="text"
-                           [(ngModel)]="this.wizardComponent.summary.spacePath"
+                           [(ngModel)]="this.wizardComponent.summary.dependencyCheck.spacePath"
                            (keyup.enter)="$event.target.blur();">
                   </div>
                 </div>
@@ -175,7 +177,10 @@
       </div>
       <div class="col-xs-12 col-md-6">
         <div class="card-pf card-pf--small">
-          <div *ngIf="wizardComponent.summary?.githubLogin === undefined;
+          <div *ngIf="wizardComponent.summary?.gitHubDetails?.authenticated !== true
+                      || wizardComponent.summary?.gitHubDetails?.organization === undefined
+                      || wizardComponent.summary?.gitHubDetails?.repository === undefined
+                      || wizardComponent.summary?.gitHubDetails?.repositoryAvailable !== true;
                       then showNoGitHubTemplate else showGitHubTemplate"></div>
           <ng-template #showNoGitHubTemplate>
             <div class="card-pf-body f8launcher-project-summary-data-unavailable">
@@ -199,11 +204,13 @@
                     <label class="col-xs-5 control-label">Authorized Account</label>
                     <div class="col-xs-6 f8launcher-project-summary-data-field">
                       <div class="f8launcher-project-summary-data-field-account">
-                        <img class="card-column_user-profile-icon" [src]="wizardComponent.summary.githubAvatar"
-                             *ngIf="wizardComponent.summary?.githubAvatar !== undefined">
-                        <i class="fa fa-ban fa-2x" *ngIf="this.wizardComponent.summary?.githubAvatar === undefined"></i>
+                        <img class="card-column_user-profile-icon"
+                             [src]="wizardComponent.summary?.gitHubDetails?.avatar"
+                             *ngIf="wizardComponent.summary?.gitHubDetails.avatar !== undefined">
+                        <i class="fa fa-ban fa-2x"
+                           *ngIf="this.wizardComponent.summary?.gitHubDetails?.avatar === undefined"></i>
                         <span class="f8launcher-project-summary-data-field-account-username">
-                          {{wizardComponent.summary?.githubLogin}}
+                          {{wizardComponent.summary?.gitHubDetails?.login}}
                         </span>
                       </div>
                     </div>
@@ -211,13 +218,13 @@
                   <div class="form-group f8launcher-project-summary-data-form-group">
                     <label class="col-xs-5 control-label">Organization</label>
                     <div class="col-xs-6 f8launcher-project-summary-data-field">
-                      <span>{{wizardComponent.summary?.githubOrg}}</span>
+                      <span>{{wizardComponent.summary?.gitHubDetails?.organization}}</span>
                     </div>
                   </div>
                   <div class="form-group f8launcher-project-summary-data-form-group">
                     <label class="col-xs-5 control-label">Repository</label>
                     <div class="col-xs-6 f8launcher-project-summary-data-field">
-                      <span>{{wizardComponent.summary?.githubRepo}}</span>
+                      <span>{{wizardComponent.summary?.gitHubDetails?.repository}}</span>
                     </div>
                   </div>
                 </form>

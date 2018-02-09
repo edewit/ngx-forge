@@ -2,10 +2,14 @@ import {
   Component,
   Host,
   Input,
+  OnDestroy,
   ViewEncapsulation
 } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
 
 import { Selection } from '../model/selection.model';
+import { TargetEnvironment } from '../model/target-environment.model';
+import { TargetEnvironmentService } from '../service/target-environment.service';
 import { WizardComponent } from '../wizard.component';
 import { WizardStep } from '../wizard-step';
 
@@ -15,16 +19,34 @@ import { WizardStep } from '../wizard-step';
   templateUrl: './target-environment-step.component.html',
   styleUrls: ['./target-environment-step.component.less']
 })
-export class TargetEnvironmentStepComponent extends WizardStep {
+export class TargetEnvironmentStepComponent extends WizardStep implements OnDestroy {
   @Input() id: string;
 
-  constructor(@Host() public wizardComponent: WizardComponent) {
+  private subscriptions: Subscription[] = [];
+  private _targetEnvironments: TargetEnvironment[];
+
+  constructor(@Host() public wizardComponent: WizardComponent,
+              private targetEnvironmentService: TargetEnvironmentService) {
     super();
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((sub) => {
+      sub.unsubscribe();
+    });
   }
 
   ngOnInit() {
     this.wizardComponent.addStep(this);
-    this.restoreSummary();
+    setTimeout(() => {
+      this.restoreSummary();
+    }, 10); // Avoids ExpressionChangedAfterItHasBeenCheckedError
+
+    this.subscriptions.push(this.targetEnvironmentService.getTargetEnvironments().subscribe((val) => {
+      if (val !== undefined) {
+        this._targetEnvironments = val;
+      }
+    }));
   }
 
   // Accessors
@@ -36,6 +58,15 @@ export class TargetEnvironmentStepComponent extends WizardStep {
    */
   get stepCompleted(): boolean {
     return (this.wizardComponent.summary.targetEnvironment !== undefined);
+  }
+
+  /**
+   * Returns target environments to display
+   *
+   * @returns {TargetEnvironment[]} The target environments to display
+   */
+  get targetEnvironments(): TargetEnvironment[] {
+    return this._targetEnvironments;
   }
 
   // Steps

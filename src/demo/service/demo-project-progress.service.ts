@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { Subscription } from 'rxjs/Subscription';
 
-import { ProjectProgressService } from '../../app/launcher/launcher.module';
 import { Progress } from '../../app/launcher/launcher.module';
+import { ProjectProgressService } from '../../app/launcher/launcher.module';
 
 @Injectable()
 export class DemoProjectProgressService implements ProjectProgressService {

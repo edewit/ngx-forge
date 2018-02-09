@@ -51,7 +51,10 @@ export class StepIndicatorComponent implements OnInit {
    * @param {string} id The step ID
    */
   navToStep(id: string) {
-    document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+    let element = document.getElementById(id);
+    if (element !== null) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
     setTimeout(() => {
       // The onInViewportChange event doesn't always set the ID as expected
       this.wizardComponent.onInViewportChange(true, id);
@@ -66,6 +69,6 @@ export class StepIndicatorComponent implements OnInit {
     if (selection === undefined) {
       return;
     }
-    this.wizardComponent.summary.projectName = selection.projectName;
+    this.wizardComponent.summary.dependencyCheck.projectName = selection.projectName;
   }
 }

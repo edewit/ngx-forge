@@ -27,20 +27,20 @@
           [styleClass]="'target-environment'"
           [title]="'Select Target Environment'">
         </f8launcher-targetenvironment-step>
-        <f8launcher-releasestrategy-step #releaseStrategyStep
+        <f8launcher-releasestrategy-step
           [hidden]="!(missionRuntimeStep.completed === true && targetEnvStep.completed === true
             && summary?.targetEnvironment === 'os')"
           [id]="'ReleaseStrategy'"
           [styleClass]="'release-strategy'"
           [title]="'Select Release Strategy'">
         </f8launcher-releasestrategy-step>
-        <f8launcher-gitprovider-step #gitProviderStep
+        <f8launcher-gitprovider-step
           [hidden]="!(missionRuntimeStep.completed === true && targetEnvStep.completed === true)"
           [id]="'GitProvider'"
           [styleClass]="'git-provider'"
           [title]="'Authorize Git Provider'">
         </f8launcher-gitprovider-step>
-        <f8launcher-projectsummary-step #projectSummaryStep
+        <f8launcher-projectsummary-step
           [hidden]="!(missionRuntimeStep.completed === true && targetEnvStep.completed === true)"
           [id]="'ProjectSummary'"
           [styleClass]="'project-summary'"
