@@ -6,8 +6,8 @@ import {
   OnInit,
   ViewEncapsulation
 } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Subscription } from 'rxjs/Subscription';
 
 import { Mission } from '../model/mission.model';
 import { Runtime } from '../model/runtime.model';

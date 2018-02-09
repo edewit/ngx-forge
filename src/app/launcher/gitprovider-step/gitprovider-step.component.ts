@@ -86,7 +86,7 @@ export class GitProviderStepComponent extends WizardStep implements OnDestroy, O
    * @param {MouseEvent} $event
    */
   connectAccount($event: MouseEvent): void {
-    let url = window.location.origin + this.getParams(this.wizardComponent.currentSelection);
+    let url = window.location.origin + window.location.pathname + this.getParams(this.wizardComponent.currentSelection);
     this.gitProviderService.connectGitHubAccount(url);
   }
 

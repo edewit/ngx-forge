@@ -9,6 +9,7 @@ export class DemoPipelineService implements PipelineService {
 
   constructor() {
   }
+
   getPipelines(): Observable<Pipeline[]> {
     let pipelines = Observable.of([
       {

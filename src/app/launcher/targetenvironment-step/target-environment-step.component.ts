@@ -5,6 +5,7 @@ import {
   OnDestroy,
   ViewEncapsulation
 } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Subscription } from 'rxjs/Subscription';
 
 import { Selection } from '../model/selection.model';
@@ -26,7 +27,8 @@ export class TargetEnvironmentStepComponent extends WizardStep implements OnDest
   private _targetEnvironments: TargetEnvironment[];
 
   constructor(@Host() public wizardComponent: WizardComponent,
-              private targetEnvironmentService: TargetEnvironmentService) {
+              private targetEnvironmentService: TargetEnvironmentService,
+              public _DomSanitizer: DomSanitizer) {
     super();
   }
 

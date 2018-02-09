@@ -35,7 +35,9 @@
                 {{targetEnv.description}}
               </p>
               <div class="card-pf-footer--logo">
-                <img [class]="targetEnv.styleClass" [src]="targetEnv.icon">
+                <img [class]="targetEnv.styleClass"
+                     [src]="_DomSanitizer.bypassSecurityTrustUrl(targetEnv.icon)"
+                     *ngIf="targetEnv.icon !== null">
               </div>
             </div>
           </div>
