@@ -5,7 +5,10 @@ export class Selection {
   projectName?: string;
   projectVersion?: string;
   runtimeId?: string;
-  runtimeVersion?: string;
+  runtimeVersion?: {
+    id: string;
+    name: string;
+  };
   spacePath?: string;
   targetEnvironment?: string;
 }

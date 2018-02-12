@@ -19,7 +19,7 @@
             <div class="card-pf-body card-column">
               <div class="card-column-60">
                 <b>{{wizardComponent.summary?.runtime?.name}}</b>
-                <b class="pull-right">{{wizardComponent.summary?.runtime?.version}}</b>
+                <b class="pull-right">{{wizardComponent.summary?.runtime?.version?.name}}</b>
                 <p>{{wizardComponent.summary?.runtime?.description}}
                   <a [href]="wizardComponent.summary?.runtime?.url" target="_blank"
                      *ngIf="wizardComponent.summary?.runtime?.url !== undefined">more</a>

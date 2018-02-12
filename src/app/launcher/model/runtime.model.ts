@@ -2,10 +2,18 @@ export class Runtime {
   description: string;
   icon: string;
   id: string;
-  missions: any[];
+  missions: [{
+    id: string;
+    versions: [{
+      id: string;
+      name: string;
+    }]
+  }];
   name: string;
-  version?: string; // Menu selection
-  versions: string[];
+  version?: {
+    id: string;
+    name: string;
+  }; // Menu selection
   url?: string;
   projectVersion: string;
 }

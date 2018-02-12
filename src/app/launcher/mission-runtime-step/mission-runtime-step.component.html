@@ -29,24 +29,29 @@
             <div class="card-pf-body">
               <div class="list-group list-view-pf" *ngFor="let runtime of runtimes; let i = index">
                 <div class="list-group-item list-view-pf-stacked list-view-pf-top-align"
-                     [ngClass]="{'disabled': selectedMission?.id && selectedMission?.runtimes?.indexOf(runtime?.id) === -1}">
+                     [ngClass]="{'disabled': isRuntimeDisabled(runtime) === true}">
                   <div class="list-view-pf-checkbox">
                     <input name="runtime" type="radio"
-                           [disabled]="selectedMission?.id && selectedMission?.runtimes?.indexOf(runtime?.id) === -1"
+                           [disabled]="isRuntimeDisabled(runtime) === true"
                            [(ngModel)]="runtimeId"
                            [value]="runtime.id"
                            (ngModelChange)="updateRuntimeSelection(runtime)">
                   </div>
                   <div class="list-view-pf-actions">
                     <div class="dropdown" dropdown>
-                      <button dropdownToggle type="button" class="btn btn-default dropdown-toggle" id="{{i + 'dropdown'}}">
-                        {{runtime.version || runtime.versions[0]}}
+                      <button dropdownToggle type="button" class="btn btn-default dropdown-toggle"
+                              [disabled]="isRuntimeDisabled(runtime) === true">
+                        {{runtime.version?.name}}
                         <span class="caret"></span>
                       </button>
                       <ul *dropdownMenu class="dropdown-menu" role="menu" [attr.aria-labelledby]="i + 'dropdown'">
-                        <li *ngFor="let version of runtime.versions">
+                        <li [ngClass]="{'disabled': isRuntimeDisabled(runtime) === true}"
+                            *ngFor="let version of getRuntimeVersions(runtime)">
                           <a href="javascript:void(0)" class="dropdown-item" role="menuitem" tabindex="-1"
-                             (click)="updateVersionSelection(runtime, version)">{{version}}</a>
+                             (click)="updateVersionSelection(runtime, version)"
+                             *ngIf="isRuntimeDisabled(runtime) !== true">{{version.name}}</a>
+                          <a href="javascript:void(0)" class="dropdown-item" role="menuitem"
+                             *ngIf="isRuntimeDisabled(runtime) === true">{{version.name}}</a>
                         </li>
                       </ul>
                     </div>
@@ -85,15 +90,13 @@
             <div class="card-pf-body">
               <div class="list-group list-view-pf" *ngFor="let mission of missions">
                 <div class="list-group-item list-view-pf-stacked list-view-pf-top-align"
-                     [ngClass]="{'disabled': wizardComponent.summary?.runtime?.id
-                                  && mission?.runtimes?.indexOf(wizardComponent.summary.runtime?.id) === -1}">
+                     [ngClass]="{'disabled': isMissionDisabled(mission) === true}">
                   <div class="f8launcher-tag-featured" *ngIf="mission.suggested === true">
                     Suggested Mission <i class="pficon pficon-info"></i>
                   </div>
                   <div class="list-view-pf-checkbox">
                     <input type="radio" name="mission"
-                           [disabled]="wizardComponent.summary?.runtime?.id
-                                       && mission?.runtimes?.indexOf(wizardComponent.summary.runtime?.id) === -1"
+                           [disabled]="isMissionDisabled(mission) === true"
                            [(ngModel)]="missionId"
                            [value]="mission.id"
                            (ngModelChange)="updateMissionSelection(mission)">
