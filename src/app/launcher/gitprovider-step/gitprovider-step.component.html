@@ -2,13 +2,6 @@
          [ngClass]="{'hidden': hidden}">
   <div>
     <div class="container-fluid">
-      <pfng-inline-notification
-          [header]="'Duplicate Name'"
-          [message]="duplicateNameMessage"
-          [dismissable]="false"
-          [type]="'danger'"
-          [hidden]="wizardComponent.summary?.gitHubDetails?.repositoryAvailable !== false">
-      </pfng-inline-notification>
       <h1 snInViewport (onInViewportChange)="wizardComponent.onInViewportChange($event, 'GitProvider')"
           [debounce]="500">Authorize Git Provider</h1>
       <p>
@@ -66,6 +59,10 @@
                        [(ngModel)]="wizardComponent.summary.gitHubDetails.repository"
                        (ngModelChange)="updateGitHubSelection()"
                        (keyup)="validateRepo()">
+                <span class="help-block"
+                      *ngIf="wizardComponent.summary?.gitHubDetails?.repositoryAvailable === false">
+                  Duplicate Name: {{duplicateNameMessage}}
+                </span>
               </div>
             </div>
           </form>
