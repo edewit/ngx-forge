@@ -111,10 +111,11 @@ export class MissionRuntimeStepComponent extends WizardStep implements OnInit, O
    */
   getRuntimeVersions(runtime: Runtime): any[] {
     let result: any[] = [];
-    if (this.wizardComponent.summary.mission === undefined) {
+    let mission = this.wizardComponent.summary.mission; // selected mission
+    if (mission === undefined) {
       // Get all runtime versions available
-      runtime.missions.forEach((mission) => {
-        mission.versions.forEach((version) => {
+      runtime.missions.forEach((_mission) => {
+        _mission.versions.forEach((version) => {
           if (result.length > 0) {
             let found = false;
             for (let i = 0; i < result.length; i++) {
@@ -132,7 +133,6 @@ export class MissionRuntimeStepComponent extends WizardStep implements OnInit, O
         });
       });
     } else {
-      let mission = this.wizardComponent.summary.mission; // selected mission
       for (let i = 0; i < runtime.missions.length; i++) {
         if (mission.id === runtime.missions[i].id) {
           runtime.missions[i].versions.forEach((version) => {
@@ -288,7 +288,7 @@ export class MissionRuntimeStepComponent extends WizardStep implements OnInit, O
           break;
         }
       }
-      if (!found) {
+      if (!found && versions.length > 0) {
         // reset menu selection
         runtime.version = versions[0];
 
