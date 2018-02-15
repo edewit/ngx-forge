@@ -13,6 +13,7 @@ export class DemoMissionRuntimeService implements MissionRuntimeService {
   getMissions(): Observable<Mission[]> {
     let missions = Observable.of([{
       'id': 'crud',
+      'description': 'Brief description of the mission...',
       'name': 'CRUD',
       'suggested': false,
       'runtimes': [
@@ -24,6 +25,7 @@ export class DemoMissionRuntimeService implements MissionRuntimeService {
     },
       {
         'id': 'circuit-breaker',
+        'description': 'Brief description of the mission...',
         'name': 'Circuit Breaker',
         'suggested': false,
         'runtimes': [
@@ -36,6 +38,7 @@ export class DemoMissionRuntimeService implements MissionRuntimeService {
       },
       {
         'id': 'configmap',
+        'description': 'Brief description of the mission...',
         'name': 'Externalized Configuration',
         'suggested': false,
         'runtimes': [
@@ -47,6 +50,7 @@ export class DemoMissionRuntimeService implements MissionRuntimeService {
       },
       {
         'id': 'health-check',
+        'description': 'Brief description of the mission...',
         'name': 'Health Check',
         'suggested': false,
         'runtimes': [
@@ -58,6 +62,7 @@ export class DemoMissionRuntimeService implements MissionRuntimeService {
       },
       {
         'id': 'rest-http',
+        'description': 'Brief description of the mission...',
         'name': 'REST API Level 0',
         'suggested': false,
         'runtimes': [
@@ -69,6 +74,7 @@ export class DemoMissionRuntimeService implements MissionRuntimeService {
       },
       {
         'id': 'rest-http-secured',
+        'description': 'Brief description of the mission...',
         'name': 'Secured',
         'suggested': false,
         'runtimes': [
@@ -197,55 +203,19 @@ export class DemoMissionRuntimeService implements MissionRuntimeService {
           },
           {
             'id': 'configmap',
-            'versions': [
-              {
-                'id': 'redhat',
-                'name': '3.4.2.redhat-006 (RHOAR)'
-              },
-              {
-                'id': 'community',
-                'name': '3.5.0.Final (Community)'
-              }
-            ]
+            'versions': []
           },
           {
             'id': 'health-check',
-            'versions': [
-              {
-                'id': 'redhat',
-                'name': '3.4.2.redhat-006 (RHOAR)'
-              },
-              {
-                'id': 'community',
-                'name': '3.5.0.Final (Community)'
-              }
-            ]
+            'versions': []
           },
           {
             'id': 'rest-http',
-            'versions': [
-              {
-                'id': 'redhat',
-                'name': '3.4.2.redhat-006 (RHOAR)'
-              },
-              {
-                'id': 'community',
-                'name': '3.5.0.Final (Community)'
-              }
-            ]
+            'versions': []
           },
           {
             'id': 'rest-http-secured',
-            'versions': [
-              {
-                'id': 'redhat',
-                'name': '3.4.2.redhat-006 (RHOAR)'
-              },
-              {
-                'id': 'community',
-                'name': '3.5.0.Final (Community)'
-              }
-            ]
+            'versions': []
           }
         ],
         'url': 'https://github.com/fabric8-launcher/ngx-launcher'
@@ -261,16 +231,7 @@ export class DemoMissionRuntimeService implements MissionRuntimeService {
         'missions': [
           {
             'id': 'crud',
-            'versions': [
-              {
-                'id': 'community',
-                'name': '1.5.8.RELEASE (Community)'
-              },
-              {
-                'id': 'redhat',
-                'name': '1.5.8.RELEASE (RHOAR)'
-              }
-            ]
+            'versions': []
           },
           {
             'id': 'circuit-breaker',

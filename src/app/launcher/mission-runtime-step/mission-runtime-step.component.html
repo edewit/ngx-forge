@@ -4,7 +4,7 @@
     <div class="container-fluid">
       <h1 snInViewport (onInViewportChange)="wizardComponent.onInViewportChange($event, 'MissionRuntime')"
           [debounce]="500">
-        Select Runtime &amp; Mission
+        Select Mission & Runtime
         <button class="btn btn-default btn-lg pull-right" type="button"
                 [disabled]="selectionAvailable !== true"
                 (click)="resetSelections()">
@@ -12,13 +12,52 @@
         </button>
       </h1>
       <p>
-        Start by selecting a runtime or a mission.  Valid pairings are narrowed based on your initial selection.
+        Start by selecting a mission or a runtime.  Valid pairings are narrowed based on your initial selection.
       </p>
     </div>
   </div>
   <div>
     <div class="container-fluid container-cards-pf">
       <div class="row row-cards-pf">
+        <div class="col-xs-12 col-md-6">
+          <div class="card-pf card-pf--large">
+            <div class="card-pf-heading">
+              <h2 class="card-pf-title">
+                Select Mission
+              </h2>
+            </div>
+            <div class="card-pf-body">
+              <div class="list-group list-view-pf" *ngFor="let mission of missions">
+                <div class="list-group-item list-view-pf-stacked list-view-pf-top-align"
+                     [ngClass]="{'disabled': isMissionDisabled(mission) === true}">
+                  <div class="f8launcher-tag-featured" *ngIf="mission.suggested === true">
+                    Suggested Mission <i class="pficon pficon-info"></i>
+                  </div>
+                  <div class="list-view-pf-checkbox">
+                    <input type="radio" name="mission"
+                           [disabled]="isMissionDisabled(mission) === true"
+                           [(ngModel)]="missionId"
+                           [value]="mission.id"
+                           (ngModelChange)="updateMissionSelection(mission)">
+                  </div>
+                  <div class="list-view-pf-main-info">
+                    <div class="list-view-pf-body">
+                      <div class="list-view-pf-description">
+                        <div class="list-group-item-heading">
+                          {{mission.name}}
+                        </div>
+                        <div class="list-group-item-text">
+                          {{mission.description}}
+                          <a [href]="mission.url" target="_blank" *ngIf="mission.url !== undefined"> more</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="col-xs-12 col-md-6">
           <div class="card-pf card-pf--large">
             <div class="card-pf-heading">
@@ -71,45 +110,6 @@
                         <div class="list-group-item-text">
                           {{runtime.description}}
                           <a [href]="runtime.url" target="_blank" *ngIf="runtime.url !== undefined"> more</a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-xs-12 col-md-6">
-          <div class="card-pf card-pf--large">
-            <div class="card-pf-heading">
-              <h2 class="card-pf-title">
-                Select Mission
-              </h2>
-            </div>
-            <div class="card-pf-body">
-              <div class="list-group list-view-pf" *ngFor="let mission of missions">
-                <div class="list-group-item list-view-pf-stacked list-view-pf-top-align"
-                     [ngClass]="{'disabled': isMissionDisabled(mission) === true}">
-                  <div class="f8launcher-tag-featured" *ngIf="mission.suggested === true">
-                    Suggested Mission <i class="pficon pficon-info"></i>
-                  </div>
-                  <div class="list-view-pf-checkbox">
-                    <input type="radio" name="mission"
-                           [disabled]="isMissionDisabled(mission) === true"
-                           [(ngModel)]="missionId"
-                           [value]="mission.id"
-                           (ngModelChange)="updateMissionSelection(mission)">
-                  </div>
-                  <div class="list-view-pf-main-info">
-                    <div class="list-view-pf-body">
-                      <div class="list-view-pf-description">
-                        <div class="list-group-item-heading">
-                          {{mission.name}}
-                        </div>
-                        <div class="list-group-item-text">
-                          {{mission.description}}
-                          <a [href]="mission.url" target="_blank" *ngIf="mission.url !== undefined"> more</a>
                         </div>
                       </div>
                     </div>

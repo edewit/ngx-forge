@@ -12,7 +12,7 @@
         <f8launcher-missionruntime-step #missionRuntimeStep
             [id]="'MissionRuntime'"
             [styleClass]="'mission-runtime'"
-            [title]="'Select Runtime & Mission'">
+            [title]="'Select Mission & Runtime'">
         </f8launcher-missionruntime-step>
 <!-- Place holder for Dependency Checker
         <f8launcher-dependencychecker-step
@@ -44,7 +44,7 @@
           [hidden]="!(missionRuntimeStep.completed === true && targetEnvStep.completed === true)"
           [id]="'ProjectSummary'"
           [styleClass]="'project-summary'"
-        [title]="'Confirm Application Summary & Setup'">
+          [title]="'Confirm Application Summary & Setup'">
         </f8launcher-projectsummary-step>
       </div>
     </ng-template>
