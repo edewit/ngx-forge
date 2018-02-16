@@ -4,7 +4,8 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  ViewEncapsulation } from '@angular/core';
+  ViewEncapsulation
+} from '@angular/core';
 
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
@@ -13,12 +14,18 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { LauncherComponent } from './launcher.component';
-import { StepIndicatorComponent } from './step-indicator/step-indicator.component';
-import { ActivateBoosterComponent } from './activate-booster/activate-booster.component';
-import { ProjectProgressComponent } from './project-progress/project-progress.component';
-import { Selection } from './model/selection.model';
-import { Summary } from './model/summary.model';
 import { LauncherStep } from './launcher-step';
+import { Selection } from './model/selection.model';
+import { StepIndicatorComponent } from './step-indicator/step-indicator.component';
+import { Summary } from './model/summary.model';
+
+import { ActivateBoosterCreateappNextstepComponent }
+  from './create-app/activate-booster-createapp-nextstep/activate-booster-createapp-nextstep.component';
+import { ProjectProgressCreateappNextstepComponent }
+  from './create-app/project-progress-createapp-nextstep/project-progress-createapp-nextstep.component';
+import { ProjectProgressImportappNextstepComponent }
+  from './import-app/project-progress-importapp-nextstep/project-progress-importapp-nextstep.component';
+
 import { from } from 'rxjs/observable/from';
 
 @Component({
@@ -30,10 +37,10 @@ export class Fakef8launcherStepIndicator {
 }
 
 @Component({
-  selector: 'f8launcher-missionruntime-step',
+  selector: 'f8launcher-missionruntime-createapp-step',
   template: ''
 })
-export class Fakef8launcherMissionruntimeStep {
+export class Fakef8launcherMissionruntimeCreateappStep {
   @Input() id: string;
   @Input() completed: boolean = false;
   @Input() hidden: boolean = false;
@@ -42,10 +49,10 @@ export class Fakef8launcherMissionruntimeStep {
 }
 
 @Component({
-  selector: 'f8launcher-targetenvironment-step',
+  selector: 'f8launcher-targetenvironment-createapp-step',
   template: ''
 })
-export class Fakef8launcherTargetEnvironmentStep {
+export class Fakef8launcherTargetEnvironmentCreateappStep {
   @Input() id: string;
   @Input() completed: boolean = false;
   @Input() hidden: boolean = false;
@@ -54,23 +61,10 @@ export class Fakef8launcherTargetEnvironmentStep {
 }
 
 @Component({
-  selector: 'f8launcher-releasestrategy-step',
+  selector: 'f8launcher-releasestrategy-createapp-step',
   template: ''
 })
-export class Fakef8launcherReleaseStrategyStep {
-  @Input() id: string;
-  @Input() completed: boolean = false;
-  @Input() hidden: boolean = false;
-  @Input() styleClass: string;
-  @Input() title: string;
-}
-
-
-@Component({
-  selector: 'f8launcher-gitprovider-step',
-  template: ''
-})
-export class Fakef8launcherGitproviderStep {
+export class Fakef8launcherReleaseStrategyCreateappStep {
   @Input() id: string;
   @Input() completed: boolean = false;
   @Input() hidden: boolean = false;
@@ -79,10 +73,58 @@ export class Fakef8launcherGitproviderStep {
 }
 
 @Component({
-  selector: 'f8launcher-projectsummary-step',
+  selector: 'f8launcher-gitprovider-createapp-step',
   template: ''
 })
-export class Fakef8launcherProjectSummaryrStep {
+export class Fakef8launcherGitproviderCreateappStep {
+  @Input() id: string;
+  @Input() completed: boolean = false;
+  @Input() hidden: boolean = false;
+  @Input() styleClass: string;
+  @Input() title: string;
+}
+
+@Component({
+  selector: 'f8launcher-projectsummary-createapp-step',
+  template: ''
+})
+export class Fakef8launcherProjectSummaryCreateappStep {
+  @Input() id: string;
+  @Input() completed: boolean = false;
+  @Input() hidden: boolean = false;
+  @Input() styleClass: string;
+  @Input() title: string;
+}
+
+@Component({
+  selector: 'f8launcher-releasestrategy-importapp-step',
+  template: ''
+})
+export class Fakef8launcherReleaseStrategyImportappStep {
+  @Input() id: string;
+  @Input() completed: boolean = false;
+  @Input() hidden: boolean = false;
+  @Input() styleClass: string;
+  @Input() title: string;
+}
+
+@Component({
+  selector: 'f8launcher-gitprovider-importapp-step',
+  template: ''
+})
+export class Fakef8launcherGitproviderImportappStep {
+  @Input() id: string;
+  @Input() completed: boolean = false;
+  @Input() hidden: boolean = false;
+  @Input() styleClass: string;
+  @Input() title: string;
+}
+
+@Component({
+  selector: 'f8launcher-projectsummary-importapp-step',
+  template: ''
+})
+export class Fakef8launcherProjectSummaryImportappStep {
   @Input() id: string;
   @Input() completed: boolean = false;
   @Input() hidden: boolean = false;
@@ -102,15 +144,19 @@ describe('LauncherComponent', () => {
         RouterTestingModule
       ],
       declarations: [
-        LauncherComponent,
+        ActivateBoosterCreateappNextstepComponent,
+        Fakef8launcherGitproviderCreateappStep,
+        Fakef8launcherGitproviderImportappStep,
+        Fakef8launcherMissionruntimeCreateappStep,
+        Fakef8launcherProjectSummaryCreateappStep,
+        Fakef8launcherProjectSummaryImportappStep,
+        Fakef8launcherReleaseStrategyCreateappStep,
+        Fakef8launcherReleaseStrategyImportappStep,
+        Fakef8launcherTargetEnvironmentCreateappStep,
         Fakef8launcherStepIndicator,
-        Fakef8launcherMissionruntimeStep,
-        Fakef8launcherTargetEnvironmentStep,
-        Fakef8launcherReleaseStrategyStep,
-        Fakef8launcherGitproviderStep,
-        Fakef8launcherProjectSummaryrStep,
-        ActivateBoosterComponent,
-        ProjectProgressComponent
+        LauncherComponent,
+        ProjectProgressCreateappNextstepComponent,
+        ProjectProgressImportappNextstepComponent
       ]
     }).compileComponents();
   }));

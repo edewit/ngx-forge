@@ -1,0 +1,83 @@
+<section id="GitProvider" class="f8launcher-section-git-provider f8launcher-container_main--inside"
+         [ngClass]="{'hidden': hidden}">
+  <div>
+    <div class="container-fluid">
+      <h1 snInViewport (onInViewportChange)="launcherComponent.onInViewportChange($event, 'GitProvider')"
+          [debounce]="500">Authorize Git Provider</h1>
+      <p>
+        Authorize your Git Provider account to connect the Launcher to your service.
+      </p>
+    </div>
+  </div>
+  <div>
+    <div class="container-fluid">
+      <div class="col-xs-12 f8launcher-provider-card">
+        <div class="col-xs-4 f8launcher-provider-card-icon">
+          <h2>GitHub</h2>
+          <i class="fa fa-github"></i>
+        </div>
+        <div class="col-xs-8 f8launcher-provider-card-information">
+          <!-- Enable Access-Conrtol-Expose-Headers for CORS to test -->
+          <h3>Authorized Account</h3>
+          <div class="f8launcher-provider-card-information-authorize">
+            <img height="30px" width="30px" [src]="launcherComponent.summary?.gitHubDetails?.avatar"
+                 *ngIf="launcherComponent.summary?.gitHubDetails?.avatar !== undefined">
+            <span *ngIf="launcherComponent.summary?.gitHubDetails?.login !== undefined">
+              {{launcherComponent.summary?.gitHubDetails?.login}}
+            </span>
+            <i class="fa fa-ban fa-2x" *ngIf="launcherComponent.summary?.gitHubDetails?.avatar === undefined"></i>
+            <span class="f8launcher-username"
+                  *ngIf="launcherComponent.summary?.gitHubDetails?.login === undefined"> None
+            </span>
+            <button class="btn btn-primary btn-lg f8launcher-authorize-account"
+                    [disabled]="launcherComponent.summary?.gitHubDetails?.authenticated === true"
+                    (click)="connectAccount($event)">Log In &amp; Authorize Account</button>
+          </div>
+          <form class="form-horizontal">
+            <div class="form-group">
+              <label for="ghOrg" class="col-sm-2 control-label">Organization</label>
+              <div class="col-sm-10">
+                <select id="ghOrg" class="form-control" name="ghOrg" placeholder="Select organization" #versionSelect
+                        [disabled]="launcherComponent.summary?.gitHubDetails?.organizations === undefined"
+                        [(ngModel)]="launcherComponent.summary.gitHubDetails.organization"
+                        (ngModelChange)="updateGitHubSelection()">
+                  <option [ngValue]="undefined" selected>Select</option>
+                  <option [ngValue]="org"
+                          *ngFor="let org of launcherComponent.summary.gitHubDetails.organizations">
+                    {{org}}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="ghRepo" class="col-sm-2 control-label">Repository</label>
+              <div class="col-sm-10"
+                   [ngClass]="{'has-error': launcherComponent.summary?.gitHubDetails?.repositoryAvailable === false}">
+                <input id="ghRepo" class="form-control" name="ghRepo" type="text"
+                       placeholder="Enter a unique name for your repository"
+                       [disabled]="launcherComponent.summary?.gitHubDetails?.organization === undefined"
+                       [(ngModel)]="launcherComponent.summary.gitHubDetails.repository"
+                       (ngModelChange)="updateGitHubSelection()"
+                       (keyup)="validateRepo()">
+                <span class="help-block"
+                      *ngIf="launcherComponent.summary?.gitHubDetails?.repositoryAvailable === false">
+                  Duplicate Name: {{duplicateNameMessage}}
+                </span>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="container-fluid">
+      <div class="f8launcher-continue">
+        <button class="btn btn-primary"
+                [disabled]="stepCompleted !== true"
+                (click)="navToNextStep()">Continue</button>
+        <button class="btn btn-link">Cancel</button>
+      </div>
+    </div>
+  </div>
+</section>

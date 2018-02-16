@@ -1,56 +1,95 @@
 <div class="f8launcher">
   <div class="f8launcher-container">
-    <div *ngIf="showNextSteps; then showNextStepsTemplate else showStepsTemplate"></div>
-    <ng-template #showStepsTemplate>
-      <div class="f8launcher-container_nav">
-        <f8launcher-step-indicator #stepIndicator
-          [inProgress]="!(missionRuntimeStep.completed === true && targetEnvStep.completed === true)">
-        </f8launcher-step-indicator>
-      </div>
-      <div class="f8launcher-container_main">
-        <section id="section0" class="f8launcher-container_main--spacer"></section>
-        <f8launcher-missionruntime-step #missionRuntimeStep
+    <div *ngIf="importApp; then showImportAppTemplate else showCreateAppTemplate"></div>
+    <!-- Create application -->
+    <ng-template #showCreateAppTemplate>
+      <div *ngIf="showNextSteps; then showCreateAppNextStepsTemplate else showCreateAppStepsTemplate"></div>
+      <!-- Create application steps -->
+      <ng-template #showCreateAppStepsTemplate>
+        <div class="f8launcher-container_nav">
+          <f8launcher-step-indicator #stepIndicator
+            [inProgress]="!(missionRuntimeStep.completed === true && targetEnvStep.completed === true)">
+          </f8launcher-step-indicator>
+        </div>
+        <div class="f8launcher-container_main">
+          <section id="section0" class="f8launcher-container_main--spacer"></section>
+          <f8launcher-missionruntime-createapp-step #missionRuntimeStep
             [id]="'MissionRuntime'"
             [styleClass]="'mission-runtime'"
             [title]="'Select Mission & Runtime'">
-        </f8launcher-missionruntime-step>
-<!-- Place holder for Dependency Checker
-        <f8launcher-dependencychecker-step
+          </f8launcher-missionruntime-createapp-step>
+          <!-- Place holder for Dependency Checker
+          <f8launcher-dependencychecker-createapp-step
             [hidden]="true"
             [id]="'DependencyChecker'"
             [styleClass]="'dependency-checker'"
             [title]="'Dependency Checker'">
-        </f8launcher-dependencychecker-step>
--->
-        <f8launcher-targetenvironment-step #targetEnvStep
-          [id]="'TargetEnvironment'"
-          [styleClass]="'target-environment'"
-          [title]="'Select Target Environment'">
-        </f8launcher-targetenvironment-step>
-        <f8launcher-releasestrategy-step
-          [hidden]="!(missionRuntimeStep.completed === true && targetEnvStep.completed === true
-            && summary?.targetEnvironment === 'os')"
-          [id]="'ReleaseStrategy'"
-          [styleClass]="'release-strategy'"
-          [title]="'Select Pipeline'">
-        </f8launcher-releasestrategy-step>
-        <f8launcher-gitprovider-step
-          [hidden]="!(missionRuntimeStep.completed === true && targetEnvStep.completed === true)"
-          [id]="'GitProvider'"
-          [styleClass]="'git-provider'"
-          [title]="'Authorize Git Provider'">
-        </f8launcher-gitprovider-step>
-        <f8launcher-projectsummary-step
-          [hidden]="!(missionRuntimeStep.completed === true && targetEnvStep.completed === true)"
-          [id]="'ProjectSummary'"
-          [styleClass]="'project-summary'"
-          [title]="'Confirm Application Summary & Setup'">
-        </f8launcher-projectsummary-step>
-      </div>
+          </f8launcher-dependencychecker-createapp-step>
+          -->
+          <f8launcher-targetenvironment-createapp-step #targetEnvStep
+            [id]="'TargetEnvironment'"
+            [styleClass]="'target-environment'"
+            [title]="'Select Target Environment'">
+          </f8launcher-targetenvironment-createapp-step>
+          <f8launcher-releasestrategy-createapp-step
+            [hidden]="!(missionRuntimeStep.completed === true && targetEnvStep.completed === true
+                      && summary?.targetEnvironment === 'os')"
+            [id]="'ReleaseStrategy'"
+            [styleClass]="'release-strategy'"
+            [title]="'Select Pipeline'">
+          </f8launcher-releasestrategy-createapp-step>
+          <f8launcher-gitprovider-createapp-step
+            [hidden]="!(missionRuntimeStep.completed === true && targetEnvStep.completed === true)"
+            [id]="'GitProvider'"
+            [styleClass]="'git-provider'"
+            [title]="'Authorize Git Provider'">
+          </f8launcher-gitprovider-createapp-step>
+          <f8launcher-projectsummary-createapp-step
+            [hidden]="!(missionRuntimeStep.completed === true && targetEnvStep.completed === true)"
+            [id]="'ProjectSummary'"
+            [styleClass]="'project-summary'"
+            [title]="'Confirm Application Summary & Setup'">
+          </f8launcher-projectsummary-createapp-step>
+        </div>
+      </ng-template>
+      <!-- Create application next steps -->
+      <ng-template #showCreateAppNextStepsTemplate>
+        <f8launcher-activatebooster-createapp-nextstep *ngIf="summary?.targetEnvironment === 'zip'">
+        </f8launcher-activatebooster-createapp-nextstep>
+        <f8launcher-projectprogress-createapp-nextstep *ngIf="summary?.targetEnvironment === 'os'">
+        </f8launcher-projectprogress-createapp-nextstep>
+      </ng-template>
     </ng-template>
-    <ng-template #showNextStepsTemplate>
-      <f8launcher-activatebooster *ngIf="summary?.targetEnvironment === 'zip'"></f8launcher-activatebooster>
-      <f8launcher-projectprogress *ngIf="summary?.targetEnvironment === 'os'"></f8launcher-projectprogress>
+    <!-- Import application -->
+    <ng-template #showImportAppTemplate>
+      <div *ngIf="showNextSteps; then showImportAppNextStepsTemplate else showImportAppStepsTemplate"></div>
+      <ng-template #showImportAppStepsTemplate>
+        <div class="f8launcher-container_nav">
+          <f8launcher-step-indicator #stepIndicator></f8launcher-step-indicator>
+        </div>
+        <div class="f8launcher-container_main">
+          <section class="f8launcher-container_main--spacer"></section>
+          <f8launcher-gitprovider-importapp-step
+            [id]="'GitProvider'"
+            [styleClass]="'git-provider'"
+            [title]="'Import existing Application'">
+          </f8launcher-gitprovider-importapp-step>
+          <f8launcher-releasestrategy-importapp-step
+            [id]="'ReleaseStrategy'"
+            [styleClass]="'release-strategy'"
+            [title]="'Select Pipeline'">
+          </f8launcher-releasestrategy-importapp-step>
+          <f8launcher-projectsummary-importapp-step
+            [id]="'ProjectSummary'"
+            [styleClass]="'project-summary'"
+            [title]="'Confirm Application Summary & Setup'">
+          </f8launcher-projectsummary-importapp-step>
+        </div>
+      </ng-template>
+      <!-- Import application next steps -->
+      <ng-template #showImportAppNextStepsTemplate>
+        <f8launcher-projectprogress-importapp-nextstep></f8launcher-projectprogress-importapp-nextstep>
+      </ng-template>
     </ng-template>
   </div>
 </div>

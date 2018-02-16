@@ -1,0 +1,67 @@
+<section id="NewProjectBooster" class="f8launcher-section-project-progress">
+  <div>
+    <div class="container-fluid">
+      <h1>Next Steps: Import Application</h1>
+      <p>
+        Now you are ready to start interacting, experimenting, and building with your application.  For further instructions on how to run and interact with your booster, refer to the documentation that is attached.
+      </p>
+    </div>
+  </div>
+  <div>
+    <div class="container-fluid container-cards-pf">
+      <div class="row row-cards-pf">
+        <div class="col-xs-12">
+          <div class="card-pf">
+            <div class="card-pf-heading">
+              <h2 class="card-pf-title card-pf-title-project-progress">
+                <span *ngIf="allCompleted !== true">
+                  <i class="pficon pficon-in-progress fa-spin"></i> Working Through Setup
+                </span>
+                <span *ngIf="allCompleted === true">
+                  <i class="pficon pficon-ok"></i> Your Application is Ready
+                </span>
+              </h2>
+            </div>
+            <div class="card-pf-body">
+              <div class="list-pf">
+                <div class="list-pf-item" *ngFor="let item of progress">
+                  <div class="list-pf-container">
+                    <div class="list-pf-content list-pf-content-flex">
+                      <div class="pfng-list-content">
+                        <div class="list-pf-left"
+                                [ngClass]="{'item-in-progress': item.completed !== true}">
+                          <span class="pficon"
+                                [ngClass]="{'pficon-ok': item.completed === true,
+                                            'pficon-in-progress fa-spin': item.completed !== true,
+                                            'icon-clear': item.completed !== true && item.inProgress !== true}">
+                          </span>
+                        </div>
+                        <div class="list-pf-content-wrapper">
+                          <div class="list-pf-main-content"
+                                  [ngClass]="{'item-in-progress': item.completed !== true}">
+                            {{item.description}}
+                          </div>
+                        </div>
+                        <div class="list-pf-actions"
+                                *ngIf="item.url !== undefined && item.hypertext !== undefined && item.completed === true">
+                          <a [href]="item.url">{{item.hypertext}}</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="container-fluid">
+      <div class="f8launcher-continue">
+        <a href="btn btn-link">Return to My Dashboard</a>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,213 @@
+<section id="ProjectSummary" class="f8launcher-section-project-summary f8launcher-container_main--end"
+         [ngClass]="{'hidden': hidden}">
+  <div>
+    <div class="container-fluid">
+      <h1 snInViewport (onInViewportChange)="launcherComponent.onInViewportChange($event, 'ProjectSummary')"
+          [debounce]="500">Confirm Application Summary & Setup</h1>
+    </div>
+  </div>
+  <div class="container-fluid container-cards-pf">
+    <div class="row row-cards-pf">
+      <div class="col-xs-12">
+        <div class="card-pf card-pf--small">
+          <div *ngIf="launcherComponent.summary?.pipeline === undefined;
+                      then showNoPipelineTemplate else showPipelineTemplate"></div>
+          <ng-template #showNoPipelineTemplate>
+            <div class="card-pf-heading">
+              <h2 class="card-pf-title">
+                Pipeline
+              </h2>
+            </div>
+            <div class="card-pf-body f8launcher-project-summary-data-unavailable">
+              <h2>
+                <b>Incomplete</b>
+              </h2>
+              <p>To proceed with setting up this application, this section must be completed.</p>
+              <button class="btn btn-default btn-lg f8launcher-authorize-account"
+                      (click)="navToStep('ReleaseStrategy')">Complete Section</button>
+            </div>
+          </ng-template>
+          <ng-template #showPipelineTemplate>
+            <div class="card-pf-heading">
+              <h2 class="card-pf-title">
+                Pipeline
+              </h2>
+            </div>
+            <div class="card-pf-body">
+              <div class="list-group list-view-pf list-view-pf-view">
+                <div class="list-group-item">
+                  <div class="list-group-item-header">
+                    <div class="list-view-pf-main-info">
+                      <div class="list-view-pf-body">
+                        <div class="list-view-pf-description">
+                          <div class="list-group-item-heading">
+                            <b>{{launcherComponent.summary?.pipeline?.name}}</b>
+                          </div>
+                          <div class="list-group-item-text">
+                            <b>{{launcherComponent.summary?.pipeline?.stages.length}}</b> Stages
+                          </div>
+                          <div class="list-view-pf-additional-info">
+                            <div class="list-view-pf-additional-info-item">
+                              {{launcherComponent.summary?.pipeline?.description}}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="list-group-item-container container-fluid">
+                    <div class="row">
+                      <div class="col-md-12 f8launcher-pipeline-stages">
+                        <ng-container *ngFor="let stage of launcherComponent.summary?.pipeline?.stages; let i = index">
+                          <span class="f8launcher-pipeline-stages--line">{{stage}}</span>
+                          <span class="f8launcher-pipeline-stages--arrow"
+                                *ngIf="i !== launcherComponent.summary?.pipeline?.stages.length - 1"></span>
+                        </ng-container>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid container-cards-pf">
+    <div class="row row-cards-pf">
+      <div class="col-xs-12 col-md-6">
+        <div class="card-pf card-pf--small">
+          <div class="card-pf-heading">
+            <h2 class="card-pf-title">
+              Application Information
+            </h2>
+          </div>
+          <div class="card-pf-body card-column">
+            <div class="card-column-single">
+              <form class="form-horizontal">
+                <div class="form-group f8launcher-project-summary-data-form-group">
+                  <label class="col-xs-4 control-label">Project Name</label>
+                  <div class="col-xs-8 f8launcher-project-summary-data-field f8launcher-application-text-field">
+                    <input class="f8launcher-project-summary-data-field_input f8launcher-application-text-field_input"
+                           name="applicationTitle" placeholder="New Application" type="text"
+                           [(ngModel)]="this.launcherComponent.summary.dependencyCheck.projectName"
+                           (keyup.enter)="$event.target.blur();">
+                  </div>
+                </div>
+                <div class="form-group f8launcher-project-summary-data-form-group">
+                  <label class="col-xs-4 control-label">Maven Artifact</label>
+                  <div class="col-xs-8 f8launcher-project-summary-data-field">
+                    <span>{{this.launcherComponent.summary?.dependencyCheck?.mavenArtifact}}</span>
+                  </div>
+                </div>
+                <div class="form-group f8launcher-project-summary-data-form-group">
+                  <label class="col-xs-4 control-label">Version</label>
+                  <div class="col-xs-8 f8launcher-project-summary-data-field f8launcher-application-text-field">
+                    <input class="f8launcher-project-summary-data-field_input f8launcher-application-text-field_input"
+                           name="version" placeholder="Version Number" type="text"
+                           [(ngModel)]="this.launcherComponent.summary.dependencyCheck.projectVersion"
+                           (keyup.enter)="$event.target.blur();">
+                  </div>
+                </div>
+                <div class="form-group f8launcher-project-summary-data-form-group">
+                  <label class="col-xs-4 control-label">Group ID</label>
+                  <div class="col-xs-8 f8launcher-project-summary-data-field f8launcher-application-text-field">
+                    <input class="f8launcher-project-summary-data-field_input f8launcher-application-text-field_input"
+                           name="groupId" placeholder="Group ID" type="text"
+                           [(ngModel)]="this.launcherComponent.summary.dependencyCheck.groupId"
+                           (keyup.enter)="$event.target.blur();">
+                  </div>
+                </div>
+                <div class="form-group f8launcher-project-summary-data-form-group">
+                  <label class="col-xs-4 control-label">Space Path</label>
+                  <div class="col-xs-8 f8launcher-project-summary-data-field f8launcher-application-text-field">
+                    <input class="f8launcher-project-summary-data-field_input f8launcher-application-text-field_input"
+                           name="spacePath" placeholder="Space Path" type="text"
+                           [(ngModel)]="this.launcherComponent.summary.dependencyCheck.spacePath"
+                           (keyup.enter)="$event.target.blur();">
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 col-md-6">
+        <div class="card-pf card-pf--small">
+          <div *ngIf="launcherComponent.summary?.gitHubDetails?.authenticated !== true
+                      || launcherComponent.summary?.gitHubDetails?.organization === undefined
+                      || launcherComponent.summary?.gitHubDetails?.repository === undefined
+                      || launcherComponent.summary?.gitHubDetails?.repositoryAvailable !== true;
+                      then showNoGitHubTemplate else showGitHubTemplate"></div>
+          <ng-template #showNoGitHubTemplate>
+            <div class="card-pf-heading">
+              <h2 class="card-pf-title">
+                GitHub
+              </h2>
+            </div>
+            <div class="card-pf-body f8launcher-project-summary-data-unavailable">
+              <h2>
+                <b>Incomplete</b>
+              </h2>
+              <p>To proceed with setting up this application, this section must be completed.</p>
+              <button class="btn btn-default btn-lg f8launcher-authorize-account"
+                      (click)="navToStep('GitProvider')">Complete Section</button>
+            </div>
+          </ng-template>
+          <ng-template #showGitHubTemplate>
+            <div class="card-pf-heading">
+              <h2 class="card-pf-title">
+                GitHub
+              </h2>
+            </div>
+            <div class="card-pf-body card-column">
+              <div class="card-column-70">
+                <form class="form-horizontal">
+                  <div class="form-group f8launcher-project-summary-data-form-group">
+                    <label class="col-xs-5 control-label">Authorized Account</label>
+                    <div class="col-xs-6 f8launcher-project-summary-data-field">
+                      <div class="f8launcher-project-summary-data-field-account">
+                        <img class="card-column_user-profile-icon"
+                             [src]="launcherComponent.summary?.gitHubDetails?.avatar"
+                             *ngIf="launcherComponent.summary?.gitHubDetails.avatar !== undefined">
+                        <i class="fa fa-ban fa-2x"
+                           *ngIf="this.launcherComponent.summary?.gitHubDetails?.avatar === undefined"></i>
+                        <span class="f8launcher-project-summary-data-field-account-username">
+                          {{launcherComponent.summary?.gitHubDetails?.login}}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group f8launcher-project-summary-data-form-group">
+                    <label class="col-xs-5 control-label">Organization</label>
+                    <div class="col-xs-6 f8launcher-project-summary-data-field">
+                      <span>{{launcherComponent.summary?.gitHubDetails?.organization}}</span>
+                    </div>
+                  </div>
+                  <div class="form-group f8launcher-project-summary-data-form-group">
+                    <label class="col-xs-5 control-label">Repository</label>
+                    <div class="col-xs-6 f8launcher-project-summary-data-field">
+                      <span>{{launcherComponent.summary?.gitHubDetails?.repository}}</span>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="card-column-30">
+                <i class="fa fa-github git-provider-icon"></i>
+              </div>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <div class="f8launcher-continue">
+      <button class="btn btn-primary"
+              [disabled]="stepCompleted !== true"
+              (click)="setup()">Set Up Application</button>
+      <button class="btn btn-link">Cancel</button>
+    </div>
+  </div>
+</section>

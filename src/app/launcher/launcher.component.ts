@@ -1,6 +1,7 @@
 import {
   AfterViewInit,
   Component,
+  Input,
   OnInit,
   ViewChild,
   ViewEncapsulation
@@ -19,6 +20,8 @@ import { LauncherStep } from './launcher-step';
   styleUrls: ['./launcher.component.less']
 })
 export class LauncherComponent implements AfterViewInit, OnInit {
+  @Input() importApp: boolean = false;
+
   @ViewChild('stepIndicator') stepIndicator: StepIndicatorComponent;
 
   private _selectedSection: string;

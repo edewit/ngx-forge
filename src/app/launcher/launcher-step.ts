@@ -1,7 +1,5 @@
 import { Input } from '@angular/core';
 
-import { LauncherComponent } from './launcher.component';
-
 export abstract class LauncherStep {
   /**
    * The step ID

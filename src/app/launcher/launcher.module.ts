@@ -8,16 +8,34 @@ import { ToolbarModule } from 'patternfly-ng';
 // Note: This has to be imported first
 import { StepIndicatorComponent } from './step-indicator/step-indicator.component';
 
-import { ActivateBoosterComponent } from './activate-booster/activate-booster.component';
-import { GitProviderStepComponent } from './gitprovider-step/gitprovider-step.component';
+import { ActivateBoosterCreateappNextstepComponent }
+  from './create-app/activate-booster-createapp-nextstep/activate-booster-createapp-nextstep.component';
+import { GitproviderCreateappStepComponent }
+  from './create-app/gitprovider-createapp-step/gitprovider-createapp-step.component';
+import { MissionRuntimeCreateappStepComponent }
+  from './create-app/mission-runtime-createapp-step/mission-runtime-createapp-step.component';
+import { ProjectProgressCreateappNextstepComponent }
+  from './create-app/project-progress-createapp-nextstep/project-progress-createapp-nextstep.component';
+import { ProjectSummaryCreateappStepComponent }
+  from './create-app/project-summary-createapp-step/project-summary-createapp-step.component';
+import { ReleaseStrategyCreateappStepComponent }
+  from './create-app/release-strategy-createapp-step/release-strategy-createapp-step.component';
+import { TargetEnvironmentCreateappStepComponent }
+  from './create-app/targetenvironment-createapp-step/target-environment-createapp-step.component';
+
+import { GitproviderImportappStepComponent }
+  from './import-app/gitprovider-importapp-step/gitprovider-importapp-step.component';
+import { ProjectProgressImportappNextstepComponent }
+  from './import-app/project-progress-importapp-nextstep/project-progress-importapp-nextstep.component';
+import { ProjectSummaryImportappStepComponent }
+  from './import-app/project-summary-importapp-step/project-summary-importapp-step.component';
+import { ReleaseStrategyImportappStepComponent }
+  from './import-app/release-strategy-importapp-step/release-strategy-importapp-step.component';
+
 import { InViewportModule, WindowRef } from '@thisissoon/angular-inviewport';
 import { MissionRuntimeService } from './service/mission-runtime.service';
-import { MissionRuntimeStepComponent } from './mission-runtime-step/mission-runtime-step.component';
-import { ProjectProgressComponent } from './project-progress/project-progress.component';
 import { ProjectProgressService } from './service/project-progress.service';
-import { ProjectSummaryStepComponent } from './project-summary-step/project-summary-step.component';
-import { ReleaseStrategyStepComponent } from './release-strategy-step/release-strategy-step.component';
-import { TargetEnvironmentStepComponent } from './targetenvironment-step/target-environment-step.component';
+
 import { LauncherComponent } from './launcher.component';
 
 // Provide window object so as to not break SSR if using universal
@@ -37,14 +55,18 @@ export const providers: Provider[] = [
     LauncherComponent
   ],
   declarations: [
-    ActivateBoosterComponent,
-    GitProviderStepComponent,
-    MissionRuntimeStepComponent,
-    ProjectProgressComponent,
-    ProjectSummaryStepComponent,
-    ReleaseStrategyStepComponent,
+    ActivateBoosterCreateappNextstepComponent,
+    GitproviderCreateappStepComponent,
+    GitproviderImportappStepComponent,
+    MissionRuntimeCreateappStepComponent,
+    ProjectProgressCreateappNextstepComponent,
+    ProjectProgressImportappNextstepComponent,
+    ProjectSummaryCreateappStepComponent,
+    ProjectSummaryImportappStepComponent,
+    ReleaseStrategyCreateappStepComponent,
+    ReleaseStrategyImportappStepComponent,
+    TargetEnvironmentCreateappStepComponent,
     StepIndicatorComponent,
-    TargetEnvironmentStepComponent,
     LauncherComponent
   ],
   providers: [
