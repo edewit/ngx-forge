@@ -1,0 +1,59 @@
+<div class="getting-started">
+  <div>
+    <div class="container-fluid">
+      <h1>
+        Getting Started
+      </h1>
+      <p>
+        When getting started with setting up a project, there are two different set up paths you can take.
+        You can either choose to import an existing project or create a new project.
+      </p>
+    </div>
+  </div>
+  <div>
+    <div class="container-fluid container-cards-pf">
+      <div class="row row-cards-pf">
+        <div class="col-xs-12 col-md-6">
+          <div class="card-pf card-pf-view card-pf-view-select card-pf-view-single-select card-pf--medium"
+               [routerLink]="['/_importapp']">
+            <div class="card-title">
+              <h2 class="card-pf-title--title">Import Existing Application</h2>
+            </div>
+            <div class="card-pf-body--body">
+              <p class="card-description">
+                I have an existing project that I would like to import to use as the base for my application.
+              </p>
+              <div class="card-icon">
+                <i class="pficon pficon-import"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-12 col-md-6">
+          <div class="card-pf card-pf-view card-pf-view-select card-pf-view-single-select card-pf--medium"
+               [routerLink]="['/_createapp']">
+            <div class="card-title">
+              <h2 class="card-pf-title--title">Create a New Application</h2>
+            </div>
+            <div>
+              <p class="card-description">
+                I want to create a new project from scratch. I would like to use the preset technologies and missions
+                within Openshift.io to help me create a new project.
+              </p>
+              <div class="card-icon">
+                <i class="fa fa-plus-square"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="container-fluid">
+      <div class="getting-started-return">
+        <button class="btn btn-link">Return to my dashboard</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -10,7 +10,9 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
 // Main areas
-import { WelcomeComponent } from './components/welcome.component';
+import { CreateAppComponent } from './create-app/create-app.component';
+import { GettingStartedComponent } from './getting-started/getting-started.component';
+import { ImportAppComponent } from './import-app/import-app.component';
 
 import { DemoDependencyCheckService } from './service/demo-dependency-check.service';
 import { DemoGitProviderService } from './service/demo-git-provider.service';
@@ -51,7 +53,9 @@ import {
   ],
   declarations: [
     AppComponent,
-    WelcomeComponent
+    CreateAppComponent,
+    GettingStartedComponent,
+    ImportAppComponent
   ],
   providers: [
     HelperService,
