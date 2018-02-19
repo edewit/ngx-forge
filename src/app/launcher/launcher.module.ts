@@ -7,6 +7,7 @@ import { ToolbarModule } from 'patternfly-ng';
 
 // Note: This has to be imported first
 import { StepIndicatorComponent } from './step-indicator/step-indicator.component';
+import { CancelOverlayComponent } from './cancel-overlay/cancel-overlay.component';
 
 import { ActivateBoosterCreateappNextstepComponent }
   from './create-app/activate-booster-createapp-nextstep/activate-booster-createapp-nextstep.component';
@@ -56,6 +57,7 @@ export const providers: Provider[] = [
   ],
   declarations: [
     ActivateBoosterCreateappNextstepComponent,
+    CancelOverlayComponent,
     GitproviderCreateappStepComponent,
     GitproviderImportappStepComponent,
     MissionRuntimeCreateappStepComponent,

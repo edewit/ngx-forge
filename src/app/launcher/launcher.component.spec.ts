@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { CancelOverlayComponent } from './cancel-overlay/cancel-overlay.component';
 import { LauncherComponent } from './launcher.component';
 import { LauncherStep } from './launcher-step';
 import { Selection } from './model/selection.model';
@@ -145,6 +146,7 @@ describe('LauncherComponent', () => {
       ],
       declarations: [
         ActivateBoosterCreateappNextstepComponent,
+        CancelOverlayComponent,
         Fakef8launcherGitproviderCreateappStep,
         Fakef8launcherGitproviderImportappStep,
         Fakef8launcherMissionruntimeCreateappStep,

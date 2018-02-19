@@ -1,4 +1,4 @@
-<div class="imports-dialog">
+<div class="imports-dialog" *ngIf="launcherComponent.showCancelOverlay === true">
   <div class="code-imports">
     <form class="col-sm-8 col-sm-offset-2 code-imports--step active" role="form">
       <section class="container-fluid">
@@ -11,7 +11,7 @@
           </div>
           <div class="row row-cards-pf">
             <div class="col-sm-6">
-              <div class="container-fluid container-cards-pf" (click)="routeToImportApp()">
+              <div class="container-fluid container-cards-pf" (click)="cancelConfirmed()">
                 <div class="card-pf card-pf-view card-pf-view-select card-pf-view-single-select code-imports--step_content">
                   <div class="card-pf-body">
                     <h2 class="card-pf-title">
@@ -33,7 +33,7 @@
               </div>
             </div>
             <div class="col-sm-6">
-              <div class="container-fluid container-cards-pf" (click)="routeToCreateApp()">
+              <div class="container-fluid container-cards-pf" (click)="cancelConfirmed()">
                 <div class="card-pf card-pf-view card-pf-view-select card-pf-view-single-select code-imports--step_content">
                   <div class="card-pf-body">
                     <h2 class="card-pf-title">
@@ -60,7 +60,7 @@
       <footer class="container-fluid">
         <div class="row">
           <div class="col-sm-12 code-imports--step_tool-bar button-right">
-            <button id="cancelImportsButton" class="btn btn-link" aria-label="Cancel"  (click)="cancel()">Cancel</button>
+            <button id="cancelImportsButton" class="btn btn-link" aria-label="Cancel" (click)="cancelAborted()">Cancel</button>
           </div>
         </div>
       </footer>

@@ -129,7 +129,7 @@
         <button class="btn btn-primary"
                 [disabled]="stepCompleted !== true"
                 (click)="navToNextStep()">Continue</button>
-        <button class="btn btn-link">Cancel</button>
+        <button class="btn btn-link" (click)="launcherComponent.cancel()">Cancel</button>
       </div>
     </div>
   </div>

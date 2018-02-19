@@ -3,6 +3,7 @@ import {
   Host,
   ViewEncapsulation
 } from '@angular/core';
+
 import { LauncherComponent } from '../../launcher.component';
 
 @Component({

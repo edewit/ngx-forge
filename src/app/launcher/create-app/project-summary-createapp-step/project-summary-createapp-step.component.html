@@ -255,7 +255,7 @@
       <button class="btn btn-primary"
               [disabled]="stepCompleted !== true"
               (click)="setup()">Set Up Application</button>
-      <button class="btn btn-link">Cancel</button>
+      <button class="btn btn-link" (click)="launcherComponent.cancel()">Cancel</button>
     </div>
   </div>
 </section>

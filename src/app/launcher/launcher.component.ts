@@ -1,8 +1,10 @@
 import {
   AfterViewInit,
   Component,
+  EventEmitter,
   Input,
   OnInit,
+  Output,
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
@@ -22,9 +24,15 @@ import { LauncherStep } from './launcher-step';
 export class LauncherComponent implements AfterViewInit, OnInit {
   @Input() importApp: boolean = false;
 
+  /**
+   * The event emitted when an cancel has been selected
+   */
+  @Output('onCancel') onCancel = new EventEmitter();
+
   @ViewChild('stepIndicator') stepIndicator: StepIndicatorComponent;
 
   private _selectedSection: string;
+  private _showCancelOverlay: boolean = false;
   private _steps: LauncherStep[] = [];
   private _summary: Summary;
   private summaryCompleted: boolean = false;
@@ -102,6 +110,15 @@ export class LauncherComponent implements AfterViewInit, OnInit {
   }
 
   /**
+   * Returns flag indicating cancel overlay should be shown
+   *
+   * @returns {boolean} True if cancel overlay should be shown
+   */
+  get showCancelOverlay(): boolean {
+    return this._showCancelOverlay;
+  }
+
+  /**
    * Returns flag indicating next steps should be shown
    *
    * @returns {boolean} True if the next steps should be shown
@@ -151,6 +168,28 @@ export class LauncherComponent implements AfterViewInit, OnInit {
       }
     }
     this.steps.push(step);
+  }
+
+  /**
+   * Cancel has been selected
+   */
+  cancel() {
+    this._showCancelOverlay = true;
+  }
+
+  /**
+   * Cancel has been aborted
+   */
+  cancelAborted() {
+    this._showCancelOverlay = false;
+  }
+
+  /**
+   * Cancel has been confirmed
+   */
+  cancelConfirmed() {
+    this._showCancelOverlay = false;
+    this.onCancel.emit();
   }
 
   /**
