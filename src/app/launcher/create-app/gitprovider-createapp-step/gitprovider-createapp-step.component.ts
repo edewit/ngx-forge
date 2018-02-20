@@ -98,8 +98,7 @@ export class GitproviderCreateappStepComponent extends LauncherStep implements A
    * @param {MouseEvent} $event
    */
   connectAccount($event: MouseEvent): void {
-    let url = window.location.origin + window.location.pathname +
-      this.getParams(this.launcherComponent.currentSelection);
+    let url = window.location.href + this.getParams(this.launcherComponent.currentSelection);
     this.gitProviderService.connectGitHubAccount(url);
   }
 
@@ -141,7 +140,9 @@ export class GitproviderCreateappStepComponent extends LauncherStep implements A
    * @returns {any} The request parameter value or null
    */
   private getRequestParam(name: string): string {
-    let param = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(window.location.search);
+    let search = (window.location.search !== undefined && window.location.search.length > 0)
+      ? window.location.search : window.location.href;
+    let param = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(search);
     if (param !== null) {
       return decodeURIComponent(param[1]);
     }

@@ -67,7 +67,9 @@ export class DemoGitProviderService implements GitProviderService {
   }
 
   private getRequestParam(name: string): string {
-    let param = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(window.location.search);
+    let search = (window.location.search !== undefined && window.location.search.length > 0)
+      ? window.location.search : window.location.href;
+    let param = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(search);
     if (param !== null) {
       return decodeURIComponent(param[1]);
     }
@@ -76,6 +78,7 @@ export class DemoGitProviderService implements GitProviderService {
 
   private redirectToAuth(url: string) {
     window.location.href = url;
+    window.location.reload(true);
   }
 }
 
