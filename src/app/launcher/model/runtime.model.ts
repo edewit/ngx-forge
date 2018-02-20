@@ -15,11 +15,6 @@ export class Runtime {
     name: string;
   }; // Menu selection
   url?: string;
-  projectVersion: string;
-  platform: string;
-}
-
-export class Missions {
-  id: string;
-  versions: any[];
+  projectVersion?: string;
+  pipelinePlatform?: string;
 }

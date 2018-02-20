@@ -80,7 +80,7 @@ export class LauncherComponent implements AfterViewInit, OnInit {
         ? this._summary.dependencyCheck.projectVersion : undefined,
       runtimeId: (this._summary.runtime !== undefined) ? this._summary.runtime.id : undefined,
       runtimeVersion: (this._summary.runtime !== undefined) ? this._summary.runtime.version : undefined,
-      platform: (this._summary.runtime !== undefined) ? this._summary.runtime.platform : 'maven',
+      platform: (this._summary.runtime !== undefined) ? this._summary.runtime.pipelinePlatform : 'maven',
       spacePath: (this._summary.dependencyCheck !== undefined) ? this._summary.dependencyCheck.spacePath : undefined,
       targetEnvironment: this._summary.targetEnvironment
     } as Selection;

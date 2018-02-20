@@ -1,5 +1,5 @@
 export class Selection {
-  groupId: string;
+  groupId?: string;
   missionId?: string;
   pipelineId?: string;
   projectName?: string;
@@ -9,7 +9,7 @@ export class Selection {
     id: string;
     name: string;
   };
-  platform: string;
+  platform?: string;
   spacePath?: string;
   targetEnvironment?: string;
 }

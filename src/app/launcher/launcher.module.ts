@@ -97,3 +97,7 @@ export { PipelineService } from './service/pipeline.service';
 export { ProjectProgressService } from './service/project-progress.service';
 export { ProjectSummaryService } from './service/project-summary.service';
 export { TargetEnvironmentService } from './service/target-environment.service';
+
+
+// Utility Service
+export { HelperService } from './service/helper.service';

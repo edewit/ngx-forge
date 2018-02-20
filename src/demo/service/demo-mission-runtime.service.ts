@@ -1,6 +1,7 @@
-import { Injectable, Inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
 import { Headers, Http, RequestOptions, Response } from '@angular/http';
+import { Observable } from 'rxjs';
+
 import { MissionRuntimeService } from '../../app/launcher/launcher.module';
 import { Mission } from '../../app/launcher/launcher.module';
 import { Runtime } from '../../app/launcher/launcher.module';
@@ -11,8 +12,8 @@ import { TokenProvider } from '../../app/service/token-provider';
 @Injectable()
 export class DemoMissionRuntimeService implements MissionRuntimeService {
 
-  //TODO: remove the hardcodes
-  private END_POINT: string = ''
+  // TODO: remove the hardcodes
+  private END_POINT: string = '';
   private API_BASE: string = 'booster-catalog/';
   private ORIGIN: string = '';
 
@@ -34,7 +35,7 @@ export class DemoMissionRuntimeService implements MissionRuntimeService {
       headers.append('Authorization', 'Bearer ' + token);
       return new RequestOptions({
           headers: headers
-      })
+      });
     }));
   }
 
