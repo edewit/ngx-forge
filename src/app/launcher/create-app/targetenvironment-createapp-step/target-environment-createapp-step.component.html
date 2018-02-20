@@ -14,10 +14,11 @@
   <div>
     <div class="container-fluid container-cards-pf">
       <div class="row row-cards-pf">
-        <div class="col-xs-12 col-md-6" *ngFor="let targetEnv of targetEnvironments">
-          <div class="card-pf card-pf-view card-pf-view-select card-pf-view-single-select card-pf--medium">
+        <div (click)="targetRadio?.click()" class="col-xs-12 col-md-6" *ngFor="let targetEnv of targetEnvironments">
+          <div [ngClass]="{'selected-card': targetEnv.id === launcherComponent?.summary?.targetEnvironment}" class="card-pf card-pf-view card-pf-view-select card-pf-view-single-select card-pf--medium">
             <div class="card-title">
               <input name="target-environment" type="radio"
+                     #targetRadio
                      [(ngModel)]="launcherComponent.summary.targetEnvironment"
                      [value]="targetEnv.id"
                      (ngModelChange)="updateTargetEnvSelection()">
@@ -53,7 +54,7 @@
         <button class="btn btn-primary"
                 [disabled]="stepCompleted !== true"
                 (click)="navToNextStep()">Continue</button>
-        <button class="btn btn-link" (click)="launcherComponent.cancel()">Cancel</button>
+        <button class="btn btn-default" (click)="launcherComponent.cancel()">Cancel</button>
       </div>
     </div>
   </div>
