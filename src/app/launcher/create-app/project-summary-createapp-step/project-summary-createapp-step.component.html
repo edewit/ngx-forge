@@ -11,44 +11,82 @@
       <div class="row row-cards-pf">
         <div class="col-xs-12 col-md-6">
           <div class="card-pf card-pf--xsmall">
-            <div class="card-pf-heading">
-              <h2 class="card-pf-title">
-                Runtime
-              </h2>
-            </div>
-            <div class="card-pf-body card-column">
-              <div class="card-column-60">
-                <b>{{launcherComponent.summary?.runtime?.name}}</b>
-                <b class="pull-right">{{launcherComponent.summary?.runtime?.version?.name}}</b>
-                <p>{{launcherComponent.summary?.runtime?.description}}
-                  <a [href]="launcherComponent.summary?.runtime?.url" target="_blank"
-                     *ngIf="launcherComponent.summary?.runtime?.url !== undefined">more</a>
-                </p>
+            <div *ngIf="launcherComponent.summary?.runtime === undefined;
+                        then showNoRuntimeTemplate else showRuntimeTemplate"></div>
+            <ng-template #showNoRuntimeTemplate>
+              <div class="card-pf-heading">
+                <h2 class="card-pf-title">
+                  Runtime
+                </h2>
               </div>
-              <div class="card-column-40">
-                <img class="card-column_runtime-icon"
-                     [src]="_DomSanitizer.bypassSecurityTrustUrl(launcherComponent.summary?.runtime?.icon)"
-                     *ngIf="launcherComponent.summary?.runtime?.icon !== null">
+              <div class="card-pf-body f8launcher-project-summary-data-unavailable">
+                <h2>
+                  <b>Incomplete</b>
+                </h2>
+                <p>To proceed with setting up this application, this section must be completed.</p>
+                <button class="btn btn-default btn-lg f8launcher-authorize-account"
+                        (click)="navToStep('MissionRuntime')">Complete Section</button>
               </div>
-            </div>
+            </ng-template>
+            <ng-template #showRuntimeTemplate>
+              <div class="card-pf-heading">
+                <h2 class="card-pf-title">
+                  Runtime
+                </h2>
+              </div>
+              <div class="card-pf-body card-column">
+                <div class="card-column-60">
+                  <b>{{launcherComponent.summary?.runtime?.name}}</b>
+                  <b class="pull-right">{{launcherComponent.summary?.runtime?.version?.name}}</b>
+                  <p>{{launcherComponent.summary?.runtime?.description}}
+                    <a [href]="launcherComponent.summary?.runtime?.url" target="_blank"
+                       *ngIf="launcherComponent.summary?.runtime?.url !== undefined">more</a>
+                  </p>
+                </div>
+                <div class="card-column-40">
+                  <img class="card-column_runtime-icon"
+                       [src]="_DomSanitizer.bypassSecurityTrustUrl(launcherComponent.summary?.runtime?.icon)"
+                       *ngIf="launcherComponent.summary?.runtime?.icon !== null">
+                </div>
+              </div>
+            </ng-template>
           </div>
         </div>
         <div class="col-xs-12 col-md-6">
           <div class="card-pf card-pf--xsmall">
-            <div class="card-pf-heading">
-              <h2 class="card-pf-title">
-                Mission
-              </h2>
-            </div>
-            <div class="card-pf-body card-column">
-              <div class="card-column-single">
-                <b>{{launcherComponent.summary?.mission?.name}}</b>
-                <p>{{launcherComponent.summary?.mission?.description}}
-                  <a [href]="launcherComponent.summary?.mission?.url" target="_blank"
-                     *ngIf="launcherComponent.summary?.mission?.url !== undefined">more</a>
-                </p>
+            <div *ngIf="launcherComponent.summary?.mission === undefined;
+                        then showNoMissionTemplate else showMissionTemplate"></div>
+            <ng-template #showNoMissionTemplate>
+              <div class="card-pf-heading">
+                <h2 class="card-pf-title">
+                  Mission
+                </h2>
               </div>
-            </div>
+              <div class="card-pf-body f8launcher-project-summary-data-unavailable">
+                <h2>
+                  <b>Incomplete</b>
+                </h2>
+                <p>To proceed with setting up this application, this section must be completed.</p>
+                <button class="btn btn-default btn-lg f8launcher-authorize-account"
+                        (click)="navToStep('MissionRuntime')">Complete Section</button>
+              </div>
+            </ng-template>
+            <ng-template #showMissionTemplate>
+              <div class="card-pf-heading">
+                <h2 class="card-pf-title">
+                  Mission
+                </h2>
+              </div>
+              <div class="card-pf-body card-column">
+                <div class="card-column-single">
+                  <b>{{launcherComponent.summary?.mission?.name}}</b>
+                  <p>{{launcherComponent.summary?.mission?.description}}
+                    <a [href]="launcherComponent.summary?.mission?.url" target="_blank"
+                       *ngIf="launcherComponent.summary?.mission?.url !== undefined">more</a>
+                  </p>
+                </div>
+              </div>
+            </ng-template>
           </div>
         </div>
       </div>

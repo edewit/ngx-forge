@@ -37,7 +37,7 @@ export class DemoPipelineService implements PipelineService {
       });
     }));
   }
-
+/*
   getPipelines(): Observable<Pipeline[]> {
     let runtimeEndPoint: string = this.END_POINT + this.API_BASE;
     return this.options.flatMap((option) => {
@@ -45,6 +45,31 @@ export class DemoPipelineService implements PipelineService {
         .map(response => response.json() as Pipeline[])
         .catch(this.handleError);
     });
+  }
+*/
+  getPipelines(): Observable<Pipeline[]> {
+    let pipelines = Observable.of([
+      {
+        'id': 'Pipeline1',
+        'suggested': true,
+        'name': 'Release',
+        'description': 'A slightly longer description of this pipeline\'s capabilities and usage.',
+        'stages': ['Stage Name', 'Stage Name', 'Stage Name'],
+        'platform': 'maven'
+      }, {
+        'id': 'Pipeline2',
+        'name': 'Release and Stage',
+        'description': 'A slightly longer description of this pipeline\'s capabilities and usage.',
+        'stages': ['Stage Name', 'Stage Name', 'Stage Name', 'Stage Name'],
+        'platform': 'maven'
+      }, {
+        'id': 'Pipeline3',
+        'name': 'Release, Stage, Approve and Promote',
+        'description': 'A slightly longer description of this pipeline\'s capabilities and usage.',
+        'stages': ['Stage Name', 'Stage Name', 'Stage Name', 'Stage Name', 'Stage Name'],
+        'platform': 'maven'
+      }] as Pipeline[]);
+    return pipelines;
   }
 
   private handleError(error: Response | any) {
