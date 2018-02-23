@@ -1,5 +1,8 @@
 @import (reference) '../../assets/stylesheets/shared/main.less';
 
+p, .btn {
+  font-size: 14px;
+}
 .imports-dialog {
   position: fixed;
   top: 0;
@@ -7,6 +10,33 @@
   bottom: 0;
   left: 0;
   background-color: rgba(0, 0, 0, .8);
+  .form-group {
+    margin-top: 35px;
+  }
+  .form-control {
+    background-color: transparent;
+    border: 0;
+    border-bottom: 1px solid @color-pf-white;
+    border-radius: 0;
+    font-size: 1.2em;
+    color: @color-pf-white;
+    &:focus {
+      border-bottom-color: @color-pf-blue;
+      box-shadow: none;
+    }
+  }
+  input::placeholder {
+    font-style: italic;
+    color: @color-pf-white;
+  }
+  input:hover,
+  input:focus,
+  textarea:hover,
+  textarea:active,
+  select:hover,
+  select:active {
+    border-bottom-color: @color-pf-blue;
+  }
   .code-imports {
     color: @color-pf-white;
     .alert-danger {
