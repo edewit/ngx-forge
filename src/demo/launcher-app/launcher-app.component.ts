@@ -5,10 +5,10 @@ import {
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'import-app',
-  templateUrl: './import-app.component.html'
+  selector: 'launcher-app',
+  templateUrl: './launcher-app.component.html'
 })
-export class ImportAppComponent implements OnInit {
+export class LauncherAppComponent implements OnInit {
   constructor(private router: Router) {
   }
 
@@ -16,6 +16,6 @@ export class ImportAppComponent implements OnInit {
   }
 
   cancel(): void {
-    this.router.navigate(['/', 'osio']);
+    this.router.navigate(['/', 'launcher']);
   }
 }

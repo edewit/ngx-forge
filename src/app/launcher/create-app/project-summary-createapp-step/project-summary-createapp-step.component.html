@@ -184,7 +184,7 @@
                 <div class="form-group f8launcher-project-summary-data-form-group">
                   <label class="col-xs-4 control-label">Maven Artifact</label>
                   <div class="col-xs-8 f8launcher-project-summary-data-field">
-                    <span>{{this.launcherComponent.summary?.dependencyCheck?.mavenArtifact}}</span>
+                    <span>{{launcherComponent.summary?.dependencyCheck?.mavenArtifact}}</span>
                   </div>
                 </div>
                 <div class="form-group f8launcher-project-summary-data-form-group">
@@ -214,6 +214,22 @@
                            (keyup.enter)="$event.target.blur();">
                   </div>
                 </div>
+                <div class="form-group f8launcher-project-summary-data-form-group">
+                  <label class="col-xs-4 control-label">Target Environment</label>
+                  <div *ngIf="launcherComponent.summary?.targetEnvironment === undefined;
+                        then showNoTargetTemplate else showTargetTemplate"></div>
+                  <ng-template #showNoTargetTemplate>
+                    <div class="col-xs-8 f8launcher-project-summary-data-field">
+                      <button class="btn btn-default"
+                              (click)="navToStep('TargetEnvironment')">Complete Section</button>
+                    </div>
+                  </ng-template>
+                  <ng-template #showTargetTemplate>
+                    <div class="col-xs-8 f8launcher-project-summary-data-field">
+                      <span>{{launcherComponent.summary?.targetEnvironment === 'os' ? 'OpenShift' : '.Zip File'}}</span>
+                    </div>
+                  </ng-template>
+                </div>
               </form>
             </div>
           </div>
@@ -227,19 +243,36 @@
                       || launcherComponent.summary?.gitHubDetails?.repositoryAvailable !== true;
                       then showNoGitHubTemplate else showGitHubTemplate"></div>
           <ng-template #showNoGitHubTemplate>
-            <div class="card-pf-heading">
-              <h2 class="card-pf-title">
-                GitHub
-              </h2>
-            </div>
-            <div class="card-pf-body f8launcher-project-summary-data-unavailable">
-              <h2>
-                <b>Incomplete</b>
-              </h2>
-              <p>To proceed with setting up this application, this section must be completed.</p>
-              <button class="btn btn-default btn-lg f8launcher-authorize-account"
-                      (click)="navToStep('GitProvider')">Complete Section</button>
-            </div>
+            <div *ngIf="launcherComponent.summary?.targetEnvironment === undefined;
+                      then showNoGitHubTargetTemplate else showGitHubTargetTemplate"></div>
+            <ng-template #showNoGitHubTargetTemplate>
+              <div class="card-pf-heading">
+                <h2 class="card-pf-title">
+                  GitHub
+                </h2>
+              </div>
+              <div class="card-pf-body f8launcher-project-summary-data-unavailable">
+                <h2>
+                  <b>Incomplete</b>
+                </h2>
+                <p>To proceed with setting up this application, the Mission & Runtime and Target Environment sections must be completed.</p>
+              </div>
+            </ng-template>
+            <ng-template #showGitHubTargetTemplate>
+              <div class="card-pf-heading">
+                <h2 class="card-pf-title">
+                  GitHub
+                </h2>
+              </div>
+              <div class="card-pf-body f8launcher-project-summary-data-unavailable">
+                <h2>
+                  <b>Incomplete</b>
+                </h2>
+                <p>To proceed with setting up this application, this section must be completed.</p>
+                <button class="btn btn-default btn-lg f8launcher-authorize-account"
+                        (click)="navToStep('GitProvider')">Complete Section</button>
+              </div>
+            </ng-template>
           </ng-template>
           <ng-template #showGitHubTemplate>
             <div class="card-pf-heading">

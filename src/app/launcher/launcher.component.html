@@ -47,7 +47,6 @@
             [title]="'Authorize Git Provider'">
           </f8launcher-gitprovider-createapp-step>
           <f8launcher-projectsummary-createapp-step
-            [hidden]="targetEnvironment !== 'os' && !(missionRuntimeStep.completed === true && targetEnvStep.completed === true)"
             [id]="'ProjectSummary'"
             [styleClass]="'project-summary'"
             [title]="'Confirm Application Summary & Setup'">

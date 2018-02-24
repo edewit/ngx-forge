@@ -8,7 +8,7 @@ import {
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Selection } from './model/selection.model';
 import { Summary } from './model/summary.model';
@@ -47,7 +47,8 @@ export class LauncherComponent implements AfterViewInit, OnInit {
   private _summary: Summary;
   private summaryCompleted: boolean = false;
 
-  constructor(private router: Router) {
+  constructor(private route: ActivatedRoute,
+              private router: Router) {
   }
 
   ngAfterViewInit() {
@@ -59,8 +60,11 @@ export class LauncherComponent implements AfterViewInit, OnInit {
   }
 
   ngOnInit() {
+    let appName = this.route.snapshot.params['appname'];
     this._summary = {
-      dependencyCheck: {},
+      dependencyCheck: {
+        projectName: (appName !== undefined && appName.length > 0) ? appName : undefined
+      },
       gitHubDetails: {}
     } as Summary;
 

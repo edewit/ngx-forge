@@ -1,7 +1,9 @@
 <div class="padding-15">
   <div>
     <div>
-      <f8launcher (onCancel)="cancel()" ></f8launcher>
+      <f8launcher
+          [targetEnvironment]="'os'"
+          (onCancel)="cancel()" ></f8launcher>
     </div>
   </div>
 </div>

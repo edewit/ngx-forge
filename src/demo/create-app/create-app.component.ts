@@ -16,6 +16,6 @@ export class CreateAppComponent implements OnInit {
   }
 
   cancel(): void {
-    this.router.navigate(['/']);
+    this.router.navigate(['/', 'osio']);
   }
 }

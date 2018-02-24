@@ -11,8 +11,11 @@ import { AppRoutingModule } from './app-routing.module';
 
 // Main areas
 import { CreateAppComponent } from './create-app/create-app.component';
-import { GettingStartedComponent } from './getting-started/getting-started.component';
+import { GettingStartedLauncherComponent } from './getting-started-launcher/getting-started-launcher.component';
+import { GettingStartedOsioComponent } from './getting-started-osio/getting-started-osio.component';
+import { LauncherAppComponent } from './launcher-app/launcher-app.component';
 import { ImportAppComponent } from './import-app/import-app.component';
+import { WelcomeComponent } from './welcome/welcome.component';
 
 import { DemoDependencyCheckService } from './service/demo-dependency-check.service';
 import { DemoGitProviderService } from './service/demo-git-provider.service';
@@ -54,8 +57,11 @@ import {
   declarations: [
     AppComponent,
     CreateAppComponent,
-    GettingStartedComponent,
-    ImportAppComponent
+    GettingStartedLauncherComponent,
+    GettingStartedOsioComponent,
+    ImportAppComponent,
+    LauncherAppComponent,
+    WelcomeComponent
   ],
   providers: [
     HelperService,

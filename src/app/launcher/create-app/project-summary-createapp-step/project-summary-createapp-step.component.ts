@@ -9,6 +9,8 @@ import {
 import { Subscription } from 'rxjs/Subscription';
 import { DomSanitizer } from '@angular/platform-browser';
 
+import { defaults } from 'lodash';
+
 import { DependencyCheckService } from '../../service/dependency-check.service';
 import { ProjectSummaryService } from '../../service/project-summary.service';
 import { Selection } from '../../model/selection.model';
@@ -38,7 +40,8 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
     this.restoreSummary();
 
     this.subscriptions.push(this.dependencyCheckService.getDependencyCheck().subscribe((val) => {
-      this.launcherComponent.summary.dependencyCheck = val;
+      // Don't override user's application name
+      defaults(this.launcherComponent.summary.dependencyCheck, val);
     }));
   }
 

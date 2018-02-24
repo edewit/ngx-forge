@@ -5,17 +5,21 @@ import {
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'import-app',
-  templateUrl: './import-app.component.html'
+  selector: 'welcome',
+  templateUrl: './welcome.component.html'
 })
-export class ImportAppComponent implements OnInit {
+export class WelcomeComponent implements OnInit {
   constructor(private router: Router) {
   }
 
   ngOnInit(): void {
   }
 
-  cancel(): void {
+  routeToLauncher(): void {
+    this.router.navigate(['/', 'launcher']);
+  }
+
+  routeToOsio(): void {
     this.router.navigate(['/', 'osio']);
   }
 }
