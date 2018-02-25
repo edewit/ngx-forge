@@ -12,7 +12,10 @@
         </button>
       </h1>
       <p>
-        Start by selecting a mission or a runtime.  Valid pairings are narrowed based on your initial selection.
+        Start by selecting a runtime or a mission. Valid pairings are narrowed based on your initial selection.
+        Missions are preconfigured, functioning applications that demonstrate a fundamental aspect of modern application
+        development running in an environment similar to production. These can be used as a proof of technology
+        demonstration, a teaching tool, or even a sandbox for understanding how to develop applications.
       </p>
     </div>
   </div>
@@ -47,8 +50,16 @@
                           {{mission.name}}
                         </div>
                         <div class="list-group-item-text">
-                          {{mission.description}}
-                          <a [href]="mission.url" target="_blank" *ngIf="mission.url !== undefined"> more</a>
+                          <div *ngIf="mission.showMore !== true">
+                            {{mission.description | truncate: 45}}
+                          </div>
+                          <div *ngIf="mission.showMore === true">
+                            {{mission.description}}
+                          </div>
+                          <a href="javascript:void(0)"
+                             (click)="mission.showMore = (mission.showMore !== undefined) ? !mission.showMore : true">
+                            {{(mission.showMore !== true) ? 'more' : 'less'}}
+                          </a>
                         </div>
                       </div>
                     </div>
@@ -76,6 +87,7 @@
                            [value]="runtime.id"
                            (ngModelChange)="updateRuntimeSelection(runtime)">
                   </div>
+                  <!--
                   <div class="list-view-pf-actions">
                     <div class="dropdown" dropdown>
                       <button type="button" class="btn btn-default dropdown-toggle" dropdownToggle
@@ -96,6 +108,7 @@
                       </ul>
                     </div>
                   </div>
+                  -->
                   <div class="list-view-pf-main-info">
                     <div class="list-view-pf-left">
                       <span class="list-view-pf-logo">
@@ -103,14 +116,40 @@
                              *ngIf="runtime.icon !== null">
                       </span>
                     </div>
-                    <div class="list-view-pf-body">
+                    <div class="list-view-pf-body f8launcher-section-runtime">
                       <div class="list-view-pf-description">
                         <div class="list-group-item-heading">
                           {{runtime.name}}
+                          <div class="dropdown" dropdown>
+                            <button type="button" class="btn btn-default dropdown-toggle" dropdownToggle
+                                    [disabled]="isRuntimeDisabled(runtime) === true">
+                              {{runtime.version?.name}}
+                              <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu" *dropdownMenu
+                                [attr.aria-labelledby]="i + 'dropdown'">
+                              <li [ngClass]="{'disabled': isRuntimeDisabled(runtime) === true}"
+                                  *ngFor="let version of getRuntimeVersions(runtime)">
+                                <a href="javascript:void(0)" class="dropdown-item" role="menuitem" tabindex="-1"
+                                   (click)="updateVersionSelection(runtime, version)"
+                                   *ngIf="isRuntimeDisabled(runtime) !== true">{{version.name}}</a>
+                                <a href="javascript:void(0)" class="dropdown-item" role="menuitem"
+                                   *ngIf="isRuntimeDisabled(runtime) === true">{{version.name}}</a>
+                              </li>
+                            </ul>
+                          </div>
                         </div>
                         <div class="list-group-item-text">
-                          {{runtime.description}}
-                          <a [href]="runtime.url" target="_blank" *ngIf="runtime.url !== undefined"> more</a>
+                          <div *ngIf="runtime.showMore !== true">
+                            {{runtime.description | truncate: 45}}
+                          </div>
+                          <div *ngIf="runtime.showMore === true">
+                            {{runtime.description}}
+                          </div>
+                          <a href="javascript:void(0)"
+                             (click)="runtime.showMore = (runtime.showMore !== undefined) ? !runtime.showMore : true">
+                            {{(runtime.showMore !== true) ? 'more' : 'less'}}
+                          </a>
                         </div>
                       </div>
                     </div>

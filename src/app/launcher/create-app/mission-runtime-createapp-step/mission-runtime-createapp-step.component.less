@@ -19,4 +19,20 @@
       }
     }
   }
+  // Override to display dropdown in item heading
+  .list-view-pf-body {
+    &.f8launcher-section-runtime {
+      .list-group-item-heading {
+        margin-right: 0;
+        overflow: unset;
+        .dropdown {
+          float: right;
+        }
+      }
+      .list-group-item-text {
+        margin-right: 0;
+        margin-top: 15px;
+      }
+    }
+  }
 }

@@ -16,8 +16,9 @@ export class DemoTargetEnvironmentService implements TargetEnvironmentService {
       description: 'Here is a brief description of what OpenShift Online is. ' +
                    'There is a distinction between what OpenShift Online does compared to OpenShift.io.',
       benefits: [
-        'In your GitHub namespace, you can create a repository containing your new project\’s code.',
-        'Configure OpenShift Online to build and deploy your code on each push to your repository/’s master branch.'
+        'A repository is created in GitHub containing your new application’s code.',
+        'Edit the code locally using the tool of your choice.',
+        'Use OpenShift Online to build and deploy your code automatically on each push to your repository’s master branch.'
       ],
       footer: 'OpenShift',
       header: 'Code Locally, Build & Deploy Online',
@@ -30,8 +31,8 @@ export class DemoTargetEnvironmentService implements TargetEnvironmentService {
       description: 'When you build and run locally, you will receive a .zip file ' +
                    'containing the setup you have established for your application.',
       benefits: [
-        'Scaffold a project based on your chosen runtime.',
-        'Lets you download the project as a ZIP file.'
+        'Scaffolding for your new application is generated based on the selected runtime.',
+        'Download the project as a ZIP file and manually deploy your application to another OpenShift instance.'
       ],
       footer: '.ZIP File',
       header: 'Build & Run Locally',

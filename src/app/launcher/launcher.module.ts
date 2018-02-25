@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { BsDropdownConfig, BsDropdownModule } from 'ngx-bootstrap';
-import { ToolbarModule } from 'patternfly-ng';
+import { PipeModule, ToolbarModule } from 'patternfly-ng';
 
 // Note: This has to be imported first
 import { StepIndicatorComponent } from './step-indicator/step-indicator.component';
@@ -50,6 +50,7 @@ export const providers: Provider[] = [
     CommonModule,
     FormsModule,
     InViewportModule.forRoot(providers),
+    PipeModule,
     ToolbarModule
   ],
   exports: [

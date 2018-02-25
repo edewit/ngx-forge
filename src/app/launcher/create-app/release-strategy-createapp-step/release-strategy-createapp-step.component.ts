@@ -36,17 +36,7 @@ export class ReleaseStrategyCreateappStepComponent extends LauncherStep implemen
     this.launcherComponent.addStep(this);
 
     this.subscriptions.push(this.pipelineService.getPipelines().subscribe((result) => {
-      // needs to filter out associated pipelines from list of pipelines
-      let selPipelines: any[] = [];
-      let selection: Selection = this.launcherComponent.currentSelection;
-      selPipelines = result.filter(item => {
-        return item.platform === selection.platform;
-      });
-
-      this._pipelines = selPipelines;
-      for (let i = 0; i < this._pipelines.length; i++) {
-        this._pipelines[i].expanded = true;
-      }
+      this._pipelines = result;
       this.restoreSummary();
     }));
   }

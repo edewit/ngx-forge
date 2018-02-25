@@ -37,38 +37,87 @@ export class DemoPipelineService implements PipelineService {
       });
     }));
   }
-/*
+
   getPipelines(): Observable<Pipeline[]> {
     let runtimeEndPoint: string = this.END_POINT + this.API_BASE;
     return this.options.flatMap((option) => {
       return this.http.get(runtimeEndPoint, option)
         .map(response => response.json() as Pipeline[])
+        .map(pipelines => {
+          // needs to filter out associated pipelines from list of pipelines
+          return pipelines.filter(item => {
+            return item.platform === 'maven';
+          });
+        })
         .catch(this.handleError);
     });
   }
-*/
-  getPipelines(): Observable<Pipeline[]> {
-    let pipelines = Observable.of([
-      {
-        'id': 'Pipeline1',
-        'suggested': true,
-        'name': 'Release',
-        'description': 'A slightly longer description of this pipeline\'s capabilities and usage.',
-        'stages': ['Stage Name', 'Stage Name', 'Stage Name'],
-        'platform': 'maven'
+
+  // Save for demo
+  XgetPipelines(): Observable<Pipeline[]> {
+    let pipelines = Observable.of([{
+      'id': 'maven-releasestageapproveandpromote',
+      'platform': 'maven',
+      'name': 'Release, Stage, Approve and Promote',
+      // Description currently unused
+      'description': 'Maven based pipeline which:\\n\\n ' +
+        '* creates a new version then builds and deploys the project into the maven repository\n ' +
+        '* runs an integration test in the **Test** environment\\n ' +
+        '* stages the new version into the **Stage** environment\\n ' +
+        '* waits for **Approval** to promote\\n ' +
+        '* promotes to the **Run** environment',
+      'stages': [{
+        'name': 'Build Release',
+        'description': 'Creates a new version then builds and deploys the project into the maven repository'
       }, {
-        'id': 'Pipeline2',
-        'name': 'Release and Stage',
-        'description': 'A slightly longer description of this pipeline\'s capabilities and usage.',
-        'stages': ['Stage Name', 'Stage Name', 'Stage Name', 'Stage Name'],
-        'platform': 'maven'
+        'name': 'Integration Test',
+        'description': 'Runs an integration test in the **Test** environment'
       }, {
-        'id': 'Pipeline3',
-        'name': 'Release, Stage, Approve and Promote',
-        'description': 'A slightly longer description of this pipeline\'s capabilities and usage.',
-        'stages': ['Stage Name', 'Stage Name', 'Stage Name', 'Stage Name', 'Stage Name'],
-        'platform': 'maven'
-      }] as Pipeline[]);
+        'name': 'Rollout to Stage',
+        'description': 'Stages the new version into the **Stage** environment'
+      }, {
+        'name': 'Approve',
+        'description': 'Waits for **Approval** to promote'
+      }, {
+        'name': 'Rollout to Run',
+        'description': 'Promotes to the **Run** environment'
+      }],
+      'suggested': true
+    }, {
+      'id': 'maven-release',
+      'platform': 'maven',
+      'name': 'Release',
+      'description': 'Maven based pipeline which:\\n\\n' +
+        '* creates a new version then builds and deploys the project into the maven repository\\n' +
+        '* runs an integration test in the **Test** environment',
+      'stages': [{
+        'name': 'Build Release',
+        'description': 'Creates a new version then builds and deploys the project into the maven repository'
+      }, {
+        'name': 'Integration Test',
+        'description': 'Runs an integration test in the **Test** environment'
+      }],
+      'suggested': true
+    }, {
+      'id': 'maven-releaseandstage',
+      'platform': 'maven',
+      'name': 'Release and Stage',
+      'description': 'Maven based pipeline which:\\n\\n' +
+        '* creates a new version then builds and deploys the project into the maven repository\\n' +
+        '* runs an integration test in the **Test** environment\\n' +
+        '* stages the new version into the **Stage** environment',
+      'stages': [{
+        'name': 'Build Release',
+        'description': 'Creates a new version then builds and deploys the project into the maven repository'
+      }, {
+        'name': 'Integration Test',
+        'description': 'Runs an integration test in the **Test** environment'
+      }, {
+        'name': 'Rollout to Stage',
+        'description': 'Stages the new version into the **Stage** environment'
+      }],
+      'suggested': true
+    }] as Pipeline[]);
     return pipelines;
   }
 

@@ -3,7 +3,8 @@ export class Pipeline {
   expanded?: boolean;
   name: string;
   id: string;
-  stages: string[];
-  suggested?: boolean;
   platform: string;
+  stages: any[];
+  suggested?: boolean;
+  techpreview?: boolean;
 }

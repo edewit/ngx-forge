@@ -5,8 +5,16 @@
       <h1 snInViewport (onInViewportChange)="launcherComponent.onInViewportChange($event, 'GitProvider')"
           [debounce]="500">Authorize Git Provider</h1>
       <p>
-        Authorize your Git Provider account to connect the Launcher to your service.
+        OpenShift uses GitHub access to perform the following actions on your behalf:
       </p>
+      <ul>
+        <li>
+          Create new repositories in your GitHub namespace
+        </li>
+        <li>
+          Build and deploy your code on each push to a repository’s master branch
+        </li>
+      </ul>
     </div>
   </div>
   <div>

@@ -77,20 +77,9 @@ export class ReleaseStrategyImportappStepComponent extends LauncherStep implemen
     } as ToolbarConfig;
 
     this.launcherComponent.addStep(this);
-    this.subscriptions.push(this.pipelineService.getPipelines().subscribe((result) => {
-      // needs to filter out associated pipelines from list of pipelines
-      let selPipelines: any[] = [];
-      let selectionWiz: Selection = this.launcherComponent.currentSelection;
-      selPipelines = result.filter(item => {
-        return item.platform === selectionWiz.platform;
-      })
 
-      this._pipelines = this.allPipelines = selPipelines;
-      for (let i = 0; i < this._pipelines.length; i++) {
-        if (this._pipelines[i].suggested === true) {
-          this._pipelines[i].expanded = true;
-        }
-      }
+    this.subscriptions.push(this.pipelineService.getPipelines().subscribe((result) => {
+      this._pipelines = result;
       this.restoreSummary();
     }));
   }
