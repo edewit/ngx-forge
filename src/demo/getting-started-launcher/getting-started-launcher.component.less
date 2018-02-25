@@ -1,6 +1,11 @@
 @import (reference) '../../assets/stylesheets/shared/main.less';
 
-p, .btn {
+@import '../../../src/assets/stylesheets/shared/_buttons.less';
+
+p,
+form,
+input,
+.btn {
   font-size: 14px;
 }
 .imports-dialog {
@@ -10,6 +15,7 @@ p, .btn {
   bottom: 0;
   left: 0;
   background-color: rgba(0, 0, 0, .8);
+  overflow-y: auto;
   .form-group {
     margin-top: 35px;
   }
@@ -30,11 +36,7 @@ p, .btn {
     color: @color-pf-white;
   }
   input:hover,
-  input:focus,
-  textarea:hover,
-  textarea:active,
-  select:hover,
-  select:active {
+  input:focus {
     border-bottom-color: @color-pf-blue;
   }
   .code-imports {
@@ -49,6 +51,27 @@ p, .btn {
       padding: 35px;
       &_title {
         font-size: 2em; // matches h4
+      }
+      label {
+        margin-bottom: 15px;
+      }
+      &_pencil {
+        &:hover {
+          &:after {
+            content: '\f040';
+            font-family: FontAwesome;
+            position: absolute;
+            top: 109px;
+            right: 20px;
+            color: @color-pf-white;
+            font-size: 1.5em;
+            border-bottom: 4px solid;
+            border-bottom-color: @color-pf-blue;
+          }
+        }
+      }
+      &_input {
+        margin-bottom: 10px;
       }
       &_content {
         height: 350px;
@@ -66,18 +89,18 @@ p, .btn {
           font-size: 8em;
         }
       }
-      &_tool-bar {
-        margin-top: 15px;
+      &_toolbar {
+        margin-top: 40px;
         text-align: center;
         color: @color-pf-black-700;
+        button:last-of-type {
+          margin-left: 15px;
+        }
         .btn.disabled, .btn[disabled] {
           /* stylelint-disable */
           background-color: transparent !important;
           background: transparent !important;
           /* stylelint-enable */
-        }
-        .btn.btn-link {
-          margin-left: 10px;
         }
       }
     }
