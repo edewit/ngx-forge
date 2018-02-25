@@ -37,7 +37,7 @@ export class DemoPipelineService implements PipelineService {
       });
     }));
   }
-
+/*
   getPipelines(): Observable<Pipeline[]> {
     let runtimeEndPoint: string = this.END_POINT + this.API_BASE;
     return this.options.flatMap((option) => {
@@ -52,9 +52,9 @@ export class DemoPipelineService implements PipelineService {
         .catch(this.handleError);
     });
   }
-
+*/
   // Save for demo
-  XgetPipelines(): Observable<Pipeline[]> {
+  getPipelines(): Observable<Pipeline[]> {
     let pipelines = Observable.of([{
       'id': 'maven-releasestageapproveandpromote',
       'platform': 'maven',
