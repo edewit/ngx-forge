@@ -46,13 +46,6 @@
                           <div class="list-group-item-text">
                             <b>{{launcherComponent.summary?.pipeline?.stages.length}}</b> Stages
                           </div>
-                          <!--
-                          <div class="list-view-pf-additional-info">
-                            <div class="list-view-pf-additional-info-item">
-                              {{launcherComponent.summary?.pipeline?.description}}
-                            </div>
-                          </div>
-                          -->
                         </div>
                       </div>
                     </div>
@@ -161,7 +154,6 @@
       <button class="btn btn-primary"
               [disabled]="stepCompleted !== true"
               (click)="setup()">Import</button>
-      <button class="btn btn-default" (click)="launcherComponent.cancel()">Cancel</button>
     </div>
   </div>
 </section>

@@ -1,5 +1,8 @@
 <f8launcher-cancel-overlay *ngIf="showCancelOverlay === true"></f8launcher-cancel-overlay>
 <div class="f8launcher">
+  <div class="sticky close">
+    <span class="pficon pficon-close" title="Leave Setup" (click)="cancel()"></span>
+  </div>
   <div class="f8launcher-container">
     <div *ngIf="importApp; then showImportAppTemplate else showCreateAppTemplate"></div>
     <!-- Create application -->

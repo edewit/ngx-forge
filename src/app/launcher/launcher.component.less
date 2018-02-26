@@ -34,6 +34,7 @@ body {
     }
     &_main {
       margin-left: 250px;
+      margin-right: 45px;
       @media screen and (max-width: 1024px) {
         margin-left: 0;
       }
@@ -74,13 +75,23 @@ body {
       }
     }
   }
+  .sticky.close {
+    left: calc(~'100vw - 45px');
+    position: fixed;
+    top: 71px;
+    z-index: 1030;
+    .pficon {
+      border: 3px solid @color-pf-black-900;
+      border-radius: 50%;
+      padding: 2px 4px;
+    }
+  }
   &-continue {
     text-align: center;
     padding-top: 15px;
     padding-bottom: 15px;
   }
   &-application-text-field {
-    margin-top: 3.6em;
     &:hover {
       &:after {
         font-family: PatternFlyIcons-webfont;

@@ -37,27 +37,7 @@
               <div class="card-pf-body card-column">
                 <div class="card-column-single">
                   <b>{{launcherComponent.summary?.mission?.name}}</b>
-                  <p>
-                    {{launcherComponent.summary?.mission?.description}}
-                    <!--
-                    <a [href]="launcherComponent.summary?.mission?.url" target="_blank"
-                       *ngIf="launcherComponent.summary?.mission?.url !== undefined">more</a>
-                       -->
-                  </p>
-                  <!--
-                  <p *ngIf="launcherComponent.summary?.mission?.showMore !== true">
-                    {{launcherComponent.summary?.mission?.description | truncate: 45}}
-                  </p>
-                  <p *ngIf="launcherComponent.summary?.mission?.showMore === true">
-                    {{launcherComponent.summary?.mission?.description}}
-                  </p>
-                  <p *ngIf="launcherComponent.summary?.mission?.description?.length > 45">
-                    <a href="javascript:void(0)"
-                       (click)="launcherComponent.summary.mission.showMore = (launcherComponent.summary?.mission?.showMore !== undefined) ? !launcherComponent.summary?.mission?.showMore : true">
-                      {{(launcherComponent.summary?.mission?.showMore !== true) ? 'more' : 'less'}}
-                    </a>
-                  </p>
-                  -->
+                  <p>{{launcherComponent.summary?.mission?.description}}</p>
                 </div>
               </div>
             </ng-template>
@@ -92,12 +72,7 @@
                 <div class="card-column-60">
                   <b>{{launcherComponent.summary?.runtime?.name}}</b>
                   <b class="pull-right">{{launcherComponent.summary?.runtime?.version?.name}}</b>
-                  <p>{{launcherComponent.summary?.runtime?.description}}
-                    <!--
-                    <a [href]="launcherComponent.summary?.runtime?.url" target="_blank"
-                       *ngIf="launcherComponent.summary?.runtime?.url !== undefined">more</a>
-                    -->
-                  </p>
+                  <p>{{launcherComponent.summary?.runtime?.description}}</p>
                 </div>
                 <div class="card-column-40">
                   <img class="card-column_runtime-icon"
@@ -151,13 +126,6 @@
                           <div class="list-group-item-text">
                             <b>{{launcherComponent.summary?.pipeline?.stages.length}}</b> Stages
                           </div>
-                          <!--
-                          <div class="list-view-pf-additional-info">
-                            <div class="list-view-pf-additional-info-item">
-                              {{launcherComponent.summary?.pipeline?.description}}
-                            </div>
-                          </div>
-                          -->
                         </div>
                       </div>
                     </div>
@@ -277,43 +245,6 @@
               <button class="btn btn-default btn-lg f8launcher-authorize-account"
                       (click)="navToStep('GitProvider')">Complete Section</button>
             </div>
-            <!--
-            <div *ngIf="launcherComponent.targetEnvironment !== 'os'
-                        && (launcherComponent.summary?.mission === undefined
-                         || launcherComponent.summary?.runtime === undefined
-                         || launcherComponent.summary?.targetEnvironment === undefined);
-                        then showNoGitHubIncompleteTemplate else showGitHubIncompleteTemplate"></div>
-            <ng-template #showNoGitHubIncompleteTemplate>
-              <div class="card-pf-heading">
-                <h2 class="card-pf-title">
-                  GitHub
-                </h2>
-              </div>
-              <div class="card-pf-body f8launcher-project-summary-data-unavailable">
-                <h2>
-                  <b>Incomplete</b>
-                </h2>
-                <p>To proceed with setting up the application, the Target Environment section must be completed.</p>
-                <button class="btn btn-default btn-lg f8launcher-authorize-account"
-                        (click)="navToStep('TargetEnvironment')">Complete Section</button>
-              </div>
-            </ng-template>
-            <ng-template #showGitHubIncompleteTemplate>
-              <div class="card-pf-heading">
-                <h2 class="card-pf-title">
-                  GitHub
-                </h2>
-              </div>
-              <div class="card-pf-body f8launcher-project-summary-data-unavailable">
-                <h2>
-                  <b>Incomplete</b>
-                </h2>
-                <p>To proceed with setting up this application, this section must be completed.</p>
-                <button class="btn btn-default btn-lg f8launcher-authorize-account"
-                        (click)="navToStep('GitProvider')">Complete Section</button>
-              </div>
-            </ng-template>
-            -->
           </ng-template>
           <ng-template #showGitHubTemplate>
             <div class="card-pf-heading">
@@ -367,7 +298,6 @@
       <button class="btn btn-primary"
               [disabled]="stepCompleted !== true"
               (click)="setup()">Set Up Application</button>
-      <button class="btn btn-default" (click)="launcherComponent.cancel()">Cancel</button>
     </div>
   </div>
 </section>
