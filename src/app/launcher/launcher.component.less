@@ -42,13 +42,22 @@ body {
       }
       &--start {
         margin-top: 0;
+        h1 {
+          margin-top: 2.5em; /* adjusted for fixed header */
+        }
       }
       &--inside {
         margin-top: 15em;
+        h1 {
+          margin-top: 2.5em; /* adjusted for fixed header */
+        }
       }
       &--end {
         margin-top: 35em;
         margin-bottom: 5em;
+        h1 {
+          margin-top: 2.5em; /* adjusted for fixed header */
+        }
       }
     }
   }
@@ -71,6 +80,7 @@ body {
     padding-bottom: 15px;
   }
   &-application-text-field {
+    margin-top: 3.6em;
     &:hover {
       &:after {
         font-family: PatternFlyIcons-webfont;
@@ -112,7 +122,7 @@ body {
       &-release-strategy,
       &-git-provider {
         display: grid;
-        grid-template-rows: 1fr auto 550px;
+        grid-template-rows: 1fr auto 550px; /* section heading cannot be in view */
       }
       &-target-environment {
         .card-pf-title {

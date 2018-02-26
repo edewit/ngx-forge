@@ -21,9 +21,6 @@
             </div>
             <div class="card-pf-body">
               <div class="list-group list-view-pf list-view-pf-view">
-                <!--
-                (click)="pipelineId = pipeline.id; updatePipelineSelection(pipeline)"
-                -->
                 <div class="list-group-item"
                      *ngFor="let pipeline of (pipelines | sortArray: 'suggested': true)">
                   <div class="list-group-item-header">
@@ -53,7 +50,8 @@
                            [value]="pipeline.id"
                            (ngModelChange)="updatePipelineSelection(pipeline)">
                   </div>
-                  <div class="list-view-pf-main-info">
+                  <div class="list-view-pf-main-info"
+                       (click)="pipelineId = pipeline.id; updatePipelineSelection(pipeline)">
                     <div class="list-view-pf-body">
                       <div class="list-view-pf-description">
                         <ng-container *ngFor="let stage of pipeline.stages; let i = index">
@@ -68,7 +66,9 @@
                       </div>
                     </div>
                   </div>
-                  <div class="list-group-item-container container-fluid" *ngIf="pipeline.expanded === true">
+                  <div class="list-group-item-container container-fluid"
+                       (click)="pipelineId = pipeline.id; updatePipelineSelection(pipeline)"
+                       *ngIf="pipeline.expanded === true">
                     <div class="row">
                       <div class="form-horizontal">
                         <div class="form-group col-sm-12" *ngFor="let stage of pipeline.stages">
