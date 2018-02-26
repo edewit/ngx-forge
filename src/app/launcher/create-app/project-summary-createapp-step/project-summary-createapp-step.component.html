@@ -264,9 +264,12 @@
                       || launcherComponent.summary?.gitHubDetails?.repositoryAvailable !== true;
                       then showNoGitHubTemplate else showGitHubTemplate"></div>
           <ng-template #showNoGitHubTemplate>
-            <div *ngIf="launcherComponent.summary?.targetEnvironment === undefined;
-                      then showNoGitHubTargetTemplate else showGitHubTargetTemplate"></div>
-            <ng-template #showNoGitHubTargetTemplate>
+            <div *ngIf="launcherComponent.targetEnvironment !== 'os'
+                        && (launcherComponent.summary?.mission === undefined
+                         || launcherComponent.summary?.runtime === undefined
+                         || launcherComponent.summary?.targetEnvironment === undefined);
+                        then showNoGitHubIncompleteTemplate else showGitHubIncompleteTemplate"></div>
+            <ng-template #showNoGitHubIncompleteTemplate>
               <div class="card-pf-heading">
                 <h2 class="card-pf-title">
                   GitHub
@@ -276,10 +279,12 @@
                 <h2>
                   <b>Incomplete</b>
                 </h2>
-                <p>To proceed with setting up this application, the Mission & Runtime and Target Environment sections must be completed.</p>
+                <p>
+                  To proceed with setting up this application, the Mission & Runtime and Target Environment sections must be completed.
+                </p>
               </div>
             </ng-template>
-            <ng-template #showGitHubTargetTemplate>
+            <ng-template #showGitHubIncompleteTemplate>
               <div class="card-pf-heading">
                 <h2 class="card-pf-title">
                   GitHub
