@@ -256,7 +256,7 @@
           </div>
         </div>
       </div>
-      <div class="col-xs-12 col-md-6">
+      <div class="col-xs-12 col-md-6" *ngIf="launcherComponent.summary?.targetEnvironment === 'os'">
         <div class="card-pf card-pf--small">
           <div *ngIf="launcherComponent.summary?.gitHubDetails?.authenticated !== true
                       || launcherComponent.summary?.gitHubDetails?.organization === undefined
@@ -264,6 +264,20 @@
                       || launcherComponent.summary?.gitHubDetails?.repositoryAvailable !== true;
                       then showNoGitHubTemplate else showGitHubTemplate"></div>
           <ng-template #showNoGitHubTemplate>
+            <div class="card-pf-heading">
+              <h2 class="card-pf-title">
+                GitHub
+              </h2>
+            </div>
+            <div class="card-pf-body f8launcher-project-summary-data-unavailable">
+              <h2>
+                <b>Incomplete</b>
+              </h2>
+              <p>To proceed with setting up this application, this section must be completed.</p>
+              <button class="btn btn-default btn-lg f8launcher-authorize-account"
+                      (click)="navToStep('GitProvider')">Complete Section</button>
+            </div>
+            <!--
             <div *ngIf="launcherComponent.targetEnvironment !== 'os'
                         && (launcherComponent.summary?.mission === undefined
                          || launcherComponent.summary?.runtime === undefined
@@ -279,9 +293,9 @@
                 <h2>
                   <b>Incomplete</b>
                 </h2>
-                <p>
-                  To proceed with setting up this application, the Mission & Runtime and Target Environment sections must be completed.
-                </p>
+                <p>To proceed with setting up the application, the Target Environment section must be completed.</p>
+                <button class="btn btn-default btn-lg f8launcher-authorize-account"
+                        (click)="navToStep('TargetEnvironment')">Complete Section</button>
               </div>
             </ng-template>
             <ng-template #showGitHubIncompleteTemplate>
@@ -299,6 +313,7 @@
                         (click)="navToStep('GitProvider')">Complete Section</button>
               </div>
             </ng-template>
+            -->
           </ng-template>
           <ng-template #showGitHubTemplate>
             <div class="card-pf-heading">

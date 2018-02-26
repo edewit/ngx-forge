@@ -8,6 +8,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Observable } from 'rxjs';
 import { InViewportModule, WindowRef } from '@thisissoon/angular-inviewport';
 
+import { PipeModule } from 'patternfly-ng';
+
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
 import { MissionRuntimeCreateappStepComponent } from './mission-runtime-createapp-step.component';
@@ -91,8 +93,9 @@ describe('MissionRuntimeStepComponent', () => {
       imports: [
         CommonModule,
         FormsModule,
-        RouterTestingModule,
-        InViewportModule
+        InViewportModule,
+        PipeModule,
+        RouterTestingModule
       ],
       declarations: [
         MissionRuntimeCreateappStepComponent

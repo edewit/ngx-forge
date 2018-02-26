@@ -17,6 +17,11 @@ export abstract class LauncherStep {
   @Input() hidden: boolean = false;
 
   /**
+   * Flag indicating step is optional
+   */
+  @Input() optional: boolean = false;
+
+  /**
    * Style class for the step container
    */
   @Input() styleClass: string;

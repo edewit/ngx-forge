@@ -15,6 +15,7 @@ import { InViewportModule, WindowRef } from '@thisissoon/angular-inviewport';
 
 import {
   FilterEvent,
+  PipeModule,
   SortEvent
 } from 'patternfly-ng';
 
@@ -104,8 +105,9 @@ describe('ReleaseStrategyStepComponent', () => {
       imports: [
         CommonModule,
         FormsModule,
-        RouterTestingModule,
-        InViewportModule
+        PipeModule,
+        InViewportModule,
+        RouterTestingModule
       ],
       declarations: [
         ReleaseStrategyCreateappStepComponent,
