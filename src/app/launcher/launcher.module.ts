@@ -2,7 +2,12 @@ import { NgModule, Provider } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { BsDropdownConfig, BsDropdownModule } from 'ngx-bootstrap';
+import {
+  BsDropdownConfig,
+  BsDropdownModule,
+  TooltipConfig,
+  TooltipModule
+} from 'ngx-bootstrap';
 import { PipeModule, ToolbarModule } from 'patternfly-ng';
 
 // Note: This has to be imported first
@@ -51,7 +56,8 @@ export const providers: Provider[] = [
     FormsModule,
     InViewportModule.forRoot(providers),
     PipeModule,
-    ToolbarModule
+    ToolbarModule,
+    TooltipModule.forRoot()
   ],
   exports: [
     LauncherComponent
@@ -73,7 +79,8 @@ export const providers: Provider[] = [
     LauncherComponent
   ],
   providers: [
-    BsDropdownConfig
+    BsDropdownConfig,
+    TooltipConfig
   ]
 })
 export class LauncherModule {

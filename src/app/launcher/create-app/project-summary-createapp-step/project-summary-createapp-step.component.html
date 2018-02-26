@@ -11,6 +11,60 @@
       <div class="row row-cards-pf">
         <div class="col-xs-12 col-md-6">
           <div class="card-pf card-pf--xsmall">
+            <div *ngIf="launcherComponent.summary?.mission === undefined;
+                        then showNoMissionTemplate else showMissionTemplate"></div>
+            <ng-template #showNoMissionTemplate>
+              <div class="card-pf-heading">
+                <h2 class="card-pf-title">
+                  Mission
+                </h2>
+              </div>
+              <div class="card-pf-body f8launcher-project-summary-data-unavailable">
+                <h2>
+                  <b>Incomplete</b>
+                </h2>
+                <p>To proceed with setting up this application, this section must be completed.</p>
+                <button class="btn btn-default btn-lg f8launcher-authorize-account"
+                        (click)="navToStep('MissionRuntime')">Complete Section</button>
+              </div>
+            </ng-template>
+            <ng-template #showMissionTemplate>
+              <div class="card-pf-heading">
+                <h2 class="card-pf-title">
+                  Mission
+                </h2>
+              </div>
+              <div class="card-pf-body card-column">
+                <div class="card-column-single">
+                  <b>{{launcherComponent.summary?.mission?.name}}</b>
+                  <p>
+                    {{launcherComponent.summary?.mission?.description}}
+                    <!--
+                    <a [href]="launcherComponent.summary?.mission?.url" target="_blank"
+                       *ngIf="launcherComponent.summary?.mission?.url !== undefined">more</a>
+                       -->
+                  </p>
+                  <!--
+                  <p *ngIf="launcherComponent.summary?.mission?.showMore !== true">
+                    {{launcherComponent.summary?.mission?.description | truncate: 45}}
+                  </p>
+                  <p *ngIf="launcherComponent.summary?.mission?.showMore === true">
+                    {{launcherComponent.summary?.mission?.description}}
+                  </p>
+                  <p *ngIf="launcherComponent.summary?.mission?.description?.length > 45">
+                    <a href="javascript:void(0)"
+                       (click)="launcherComponent.summary.mission.showMore = (launcherComponent.summary?.mission?.showMore !== undefined) ? !launcherComponent.summary?.mission?.showMore : true">
+                      {{(launcherComponent.summary?.mission?.showMore !== true) ? 'more' : 'less'}}
+                    </a>
+                  </p>
+                  -->
+                </div>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+        <div class="col-xs-12 col-md-6">
+          <div class="card-pf card-pf--xsmall">
             <div *ngIf="launcherComponent.summary?.runtime === undefined;
                         then showNoRuntimeTemplate else showRuntimeTemplate"></div>
             <ng-template #showNoRuntimeTemplate>
@@ -39,51 +93,16 @@
                   <b>{{launcherComponent.summary?.runtime?.name}}</b>
                   <b class="pull-right">{{launcherComponent.summary?.runtime?.version?.name}}</b>
                   <p>{{launcherComponent.summary?.runtime?.description}}
+                    <!--
                     <a [href]="launcherComponent.summary?.runtime?.url" target="_blank"
                        *ngIf="launcherComponent.summary?.runtime?.url !== undefined">more</a>
+                    -->
                   </p>
                 </div>
                 <div class="card-column-40">
                   <img class="card-column_runtime-icon"
                        [src]="_DomSanitizer.bypassSecurityTrustUrl(launcherComponent.summary?.runtime?.icon)"
                        *ngIf="launcherComponent.summary?.runtime?.icon !== null">
-                </div>
-              </div>
-            </ng-template>
-          </div>
-        </div>
-        <div class="col-xs-12 col-md-6">
-          <div class="card-pf card-pf--xsmall">
-            <div *ngIf="launcherComponent.summary?.mission === undefined;
-                        then showNoMissionTemplate else showMissionTemplate"></div>
-            <ng-template #showNoMissionTemplate>
-              <div class="card-pf-heading">
-                <h2 class="card-pf-title">
-                  Mission
-                </h2>
-              </div>
-              <div class="card-pf-body f8launcher-project-summary-data-unavailable">
-                <h2>
-                  <b>Incomplete</b>
-                </h2>
-                <p>To proceed with setting up this application, this section must be completed.</p>
-                <button class="btn btn-default btn-lg f8launcher-authorize-account"
-                        (click)="navToStep('MissionRuntime')">Complete Section</button>
-              </div>
-            </ng-template>
-            <ng-template #showMissionTemplate>
-              <div class="card-pf-heading">
-                <h2 class="card-pf-title">
-                  Mission
-                </h2>
-              </div>
-              <div class="card-pf-body card-column">
-                <div class="card-column-single">
-                  <b>{{launcherComponent.summary?.mission?.name}}</b>
-                  <p>{{launcherComponent.summary?.mission?.description}}
-                    <a [href]="launcherComponent.summary?.mission?.url" target="_blank"
-                       *ngIf="launcherComponent.summary?.mission?.url !== undefined">more</a>
-                  </p>
                 </div>
               </div>
             </ng-template>
@@ -132,11 +151,13 @@
                           <div class="list-group-item-text">
                             <b>{{launcherComponent.summary?.pipeline?.stages.length}}</b> Stages
                           </div>
+                          <!--
                           <div class="list-view-pf-additional-info">
                             <div class="list-view-pf-additional-info-item">
                               {{launcherComponent.summary?.pipeline?.description}}
                             </div>
                           </div>
+                          -->
                         </div>
                       </div>
                     </div>

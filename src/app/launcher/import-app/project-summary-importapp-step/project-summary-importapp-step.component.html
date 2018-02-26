@@ -46,11 +46,13 @@
                           <div class="list-group-item-text">
                             <b>{{launcherComponent.summary?.pipeline?.stages.length}}</b> Stages
                           </div>
+                          <!--
                           <div class="list-view-pf-additional-info">
                             <div class="list-view-pf-additional-info-item">
                               {{launcherComponent.summary?.pipeline?.description}}
                             </div>
                           </div>
+                          -->
                         </div>
                       </div>
                     </div>
@@ -59,7 +61,7 @@
                     <div class="row">
                       <div class="col-md-12 f8launcher-pipeline-stages">
                         <ng-container *ngFor="let stage of launcherComponent.summary?.pipeline?.stages; let i = index">
-                          <span class="f8launcher-pipeline-stages--line">{{stage}}</span>
+                          <span class="f8launcher-pipeline-stages--line">{{stage.name}}</span>
                           <span class="f8launcher-pipeline-stages--arrow"
                                 *ngIf="i !== launcherComponent.summary?.pipeline?.stages.length - 1"></span>
                         </ng-container>

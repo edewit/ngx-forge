@@ -10,11 +10,12 @@ export class Runtime {
     }]
   }];
   name: string;
+  projectVersion?: string;
+  pipelinePlatform?: string;
+  suggested?: boolean;
   version?: {
     id: string;
     name: string;
   }; // Menu selection
   url?: string;
-  projectVersion?: string;
-  pipelinePlatform?: string;
 }

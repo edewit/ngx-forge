@@ -18,7 +18,6 @@
           <div [ngClass]="{'selected-card': targetEnv.id === launcherComponent?.summary?.targetEnvironment}" class="card-pf card-pf-view card-pf-view-select card-pf-view-single-select card-pf--medium">
             <div class="card-title">
               <input name="target-environment" type="radio"
-                     #targetRadio
                      [(ngModel)]="launcherComponent.summary.targetEnvironment"
                      [value]="targetEnv.id"
                      (ngModelChange)="updateTargetEnvSelection()">

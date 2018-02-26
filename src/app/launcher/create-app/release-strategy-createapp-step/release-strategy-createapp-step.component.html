@@ -21,15 +21,18 @@
             </div>
             <div class="card-pf-body">
               <div class="list-group list-view-pf list-view-pf-view">
-                <div class="list-group-item" *ngFor="let pipeline of pipelines">
+                <!--
+                (click)="pipelineId = pipeline.id; updatePipelineSelection(pipeline)"
+                -->
+                <div class="list-group-item"
+                     *ngFor="let pipeline of (pipelines | sortArray: 'suggested': true)">
                   <div class="list-group-item-header">
                     <div class="f8launcher-tags"
                         *ngIf="pipeline.suggested === true || pipeline.techpreview === true">
                       <span class="f8launcher-tags-label"
                             tooltip="Suggestion based on selected mission and runtime" placement="top"
                             *ngIf="pipeline.suggested === true">
-                        Suggested
-                        <i class="pficon pficon-info"></i>
+                        Suggested Pipeline <i class="pficon pficon-info"></i>
                       </span>
                       <span class="f8launcher-tags-label" tooltip="Technology Preview" placement="top"
                             *ngIf="pipeline.techpreview === true">

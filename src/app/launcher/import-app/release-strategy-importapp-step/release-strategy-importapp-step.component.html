@@ -25,25 +25,36 @@
             </div>
             <div class="card-pf-body">
               <div class="list-group list-view-pf list-view-pf-view">
-                <div class="list-group-item" *ngFor="let pipeline of pipelines; let i = index">
+                <!--
+                (click)="pipelineId = pipeline.id; updatePipelineSelection(pipeline)"
+                -->
+                <div class="list-group-item"
+                     *ngFor="let pipeline of (pipelines | sortArray: 'suggested': true)">
                   <div class="list-group-item-header">
-                    <div class="f8launcher-tags" *ngIf="pipeline.suggested === true || i === 0">
-                      <span class="f8launcher-tags-label" tooltip="Suggestion based on selected mission and runtime" placement="top">
-                        Suggested
-                        <i class="pficon pficon-info"></i>
+                    <div class="f8launcher-tags"
+                         *ngIf="pipeline.suggested === true || pipeline.techpreview === true">
+                      <span class="f8launcher-tags-label"
+                            tooltip="Suggestion based on selected mission and runtime" placement="top"
+                            *ngIf="pipeline.suggested === true">
+                        Suggested Pipeline <i class="pficon pficon-info"></i>
                       </span>
-                      <span class="f8launcher-tags-label" tooltip="Technology Preview" placement="top">
-                        Tech Preview
-                        <i class="pficon pficon-info"></i>
+                      <span class="f8launcher-tags-label" tooltip="Technology Preview" placement="top"
+                            *ngIf="pipeline.techpreview === true">
+                        Tech Preview <i class="pficon pficon-info"></i>
                       </span>
                     </div>
                     <div class="list-view-pf-expand">
-                      <span class="fa" [ngClass]="{'fa-angle-down': pipeline.expanded === true,
-                                            'fa-angle-right': pipeline.expanded !== true}" (click)="toggleExpanded(pipeline)">
+                      <span class="fa"
+                            [ngClass]="{'fa-angle-down': pipeline.expanded === true,
+                                        'fa-angle-right': pipeline.expanded !== true}"
+                            (click)="toggleExpanded(pipeline)">
                       </span>
                     </div>
                     <div class="list-view-pf-checkbox">
-                      <input name="pipelineId" type="radio" [(ngModel)]="pipelineId" [value]="pipeline.id" (ngModelChange)="updatePipelineSelection(pipeline)">
+                      <input name="pipelineId" type="radio"
+                             [(ngModel)]="pipelineId"
+                             [value]="pipeline.id"
+                             (ngModelChange)="updatePipelineSelection(pipeline)">
                     </div>
                     <div class="list-view-pf-main-info">
                       <div class="list-view-pf-body">
@@ -51,10 +62,11 @@
                           <ng-container *ngFor="let stage of pipeline.stages; let i = index">
                             <span class="f8launcher-pipeline-stages--line">
                               <span class="f8launcher-pipeline-stages--name">
-                                {{stage}}
+                                {{stage.name || stage}}
                               </span>
                             </span>
-                            <span class="f8launcher-pipeline-stages--arrow" *ngIf="i !== pipeline.stages.length - 1"></span>
+                            <span class="f8launcher-pipeline-stages--arrow"
+                                  *ngIf="i !== pipeline.stages.length - 1"></span>
                           </ng-container>
                         </div>
                       </div>
@@ -63,45 +75,19 @@
                   <div class="list-group-item-container container-fluid" *ngIf="pipeline.expanded === true">
                     <div class="row">
                       <div class="form-horizontal">
-                        <div class="form-group col-sm-12">
-                          <!-- {{pipeline.description}} -->
+                        <div class="form-group col-sm-12" *ngFor="let stage of pipeline.stages">
                           <label class="col-sm-2 control-label">
-                            Build Release
+                            {{stage.name}}
                           </label>
-                          Lorem Ipsum stuff here there everywhere
-                        </div>
-                        <div class="form-group col-sm-12">
-                          <label class="col-sm-2 control-label">
-                            Rollout to Stage
-                          </label>
-                          Lorem Ipsum stuff here there everywhere
-                        </div>
-                        <div class="form-group col-sm-12">
-                          <label class="col-sm-2 control-label">
-                            Approve
-                          </label>
-                          Lorem Ipsum stuff here there everywhere
-                        </div>
-                        <div class="form-group col-sm-12">
-                          <label class="col-sm-2 control-label">
-                            Rollout to QE
-                          </label>
-                          Lorem Ipsum stuff here there everywhere
-                        </div>
-                        <div class="form-group col-sm-12">
-                          <label class="col-sm-2 control-label">
-                            Rollout to Production
-                          </label>
-                          Lorem Ipsum stuff here there everywhere
+                          {{stage.description}}
                         </div>
                       </div>
-    
                       <!-- <div class="col-md-12 f8launcher-pipeline-stages">
-                            <ng-container *ngFor="let stage of pipeline.stages; let i = index">
-                              <span class="f8launcher-pipeline-stages--line">{{stage}}</span>
-                              <span class="f8launcher-pipeline-stages--arrow" *ngIf="i !== pipeline.stages.length - 1"></span>
-                            </ng-container>
-                          </div> -->
+                        <ng-container *ngFor="let stage of pipeline.stages; let i = index">
+                          <span class="f8launcher-pipeline-stages--line">{{stage}}</span>
+                          <span class="f8launcher-pipeline-stages--arrow" *ngIf="i !== pipeline.stages.length - 1"></span>
+                        </ng-container>
+                      </div> -->
                     </div>
                   </div>
                 </div>
