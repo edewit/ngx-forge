@@ -39,32 +39,32 @@
                         Tech Preview <i class="pficon pficon-info"></i>
                       </span>
                     </div>
-                    <div class="list-view-pf-expand">
-                      <span class="fa"
-                            [ngClass]="{'fa-angle-down': pipeline.expanded === true,
-                                        'fa-angle-right': pipeline.expanded !== true}"
-                            (click)="toggleExpanded(pipeline)">
-                      </span>
-                    </div>
-                    <div class="list-view-pf-checkbox">
-                      <input name="pipelineId" type="radio"
-                             [(ngModel)]="pipelineId"
-                             [value]="pipeline.id"
-                             (ngModelChange)="updatePipelineSelection(pipeline)">
-                    </div>
-                    <div class="list-view-pf-main-info">
-                      <div class="list-view-pf-body">
-                        <div class="list-view-pf-description">
-                          <ng-container *ngFor="let stage of pipeline.stages; let i = index">
+                  </div>
+                  <div class="list-view-pf-expand">
+                        <span class="fa"
+                              [ngClass]="{'fa-angle-down': pipeline.expanded === true,
+                                          'fa-angle-right': pipeline.expanded !== true}"
+                              (click)="toggleExpanded(pipeline)">
+                        </span>
+                  </div>
+                  <div class="list-view-pf-checkbox">
+                    <input name="pipelineId" type="radio"
+                           [(ngModel)]="pipelineId"
+                           [value]="pipeline.id"
+                           (ngModelChange)="updatePipelineSelection(pipeline)">
+                  </div>
+                  <div class="list-view-pf-main-info">
+                    <div class="list-view-pf-body">
+                      <div class="list-view-pf-description">
+                        <ng-container *ngFor="let stage of pipeline.stages; let i = index">
                             <span class="f8launcher-pipeline-stages--line">
                               <span class="f8launcher-pipeline-stages--name">
                                 {{stage.name || stage}}
                               </span>
                             </span>
-                            <span class="f8launcher-pipeline-stages--arrow"
-                                  *ngIf="i !== pipeline.stages.length - 1"></span>
-                          </ng-container>
-                        </div>
+                          <span class="f8launcher-pipeline-stages--arrow"
+                                *ngIf="i !== pipeline.stages.length - 1"></span>
+                        </ng-container>
                       </div>
                     </div>
                   </div>

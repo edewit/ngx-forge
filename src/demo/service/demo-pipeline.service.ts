@@ -69,7 +69,8 @@ export class DemoPipelineService implements PipelineService {
         'name': 'Integration Test',
         'description': 'Runs an integration test in the **Test** environment'
       }],
-      'suggested': false
+      'suggested': false,
+      'techpreview': false
     }, {
       'id': 'maven-releaseandstage',
       'platform': 'maven',
@@ -88,7 +89,8 @@ export class DemoPipelineService implements PipelineService {
         'name': 'Rollout to Stage',
         'description': 'Stages the new version into the **Stage** environment'
       }],
-      'suggested': false
+      'suggested': false,
+      'techpreview': false
     }, {
       'id': 'maven-releasestageapproveandpromote',
       'platform': 'maven',
@@ -116,7 +118,8 @@ export class DemoPipelineService implements PipelineService {
         'name': 'Rollout to Run',
         'description': 'Promotes to the **Run** environment'
       }],
-      'suggested': true
+      'suggested': true,
+      'techpreview': true
     }] as Pipeline[]);
     return pipelines;
   }
