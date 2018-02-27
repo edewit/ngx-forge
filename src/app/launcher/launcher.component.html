@@ -8,11 +8,6 @@
       <!-- Create application steps -->
       <ng-template #showCreateAppStepsTemplate>
         <div class="f8launcher-container_nav">
-          <!--
-          <f8launcher-step-indicator #stepIndicator
-            [inProgress]="!(missionRuntimeStep.completed === true && targetEnvStep.completed === true)">
-          </f8launcher-step-indicator>
-          -->
           <f8launcher-step-indicator #stepIndicator></f8launcher-step-indicator>
         </div>
         <div class="f8launcher-container_main">
@@ -55,7 +50,7 @@
         </div>
         <div class="f8launcher-container_close">
           <div class="sticky close">
-            <span class="fa fa-times-circle-o fa-2x" aria-hidden="true" title="Leave Setup" (click)="cancel()"></span>
+            <span class="pficon pficon-close" aria-hidden="true" title="Leave Setup" (click)="cancel()"></span>
           </div>
         </div>
       </ng-template>
@@ -92,6 +87,11 @@
             [styleClass]="'project-summary'"
             [title]="'Project Summary & Confirmation'">
           </f8launcher-projectsummary-importapp-step>
+        </div>
+        <div class="f8launcher-container_close">
+          <div class="sticky close">
+            <span class="pficon pficon-close" aria-hidden="true" title="Leave Setup" (click)="cancel()"></span>
+          </div>
         </div>
       </ng-template>
       <!-- Import application next steps -->
