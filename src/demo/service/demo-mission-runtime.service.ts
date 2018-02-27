@@ -61,13 +61,26 @@ export class DemoMissionRuntimeService implements MissionRuntimeService {
   // Save for demo
   getMissions(): Observable<Mission[]> {
     let missions = Observable.of([{
+      'id': 'crud',
+      'name': 'CRUD',
+      'description': 'The Relational Database Backend booster expands on the REST API Level 0 booster to provide a ' +
+      'basic example of performing create, read, update and delete (CRUD) operations on a PostgreSQL database ' +
+      'using a simple HTTP API. CRUD operations are the four basic functions of persistent storage, widely used ' +
+      'when developing an HTTP API dealing with a database.',
+      'suggested': false,
+      'runtimes': [
+        'vert.x',
+        'nodejs',
+        'wildfly-swarm'
+      ],
+      'url': 'https://github.com/fabric8-launcher/ngx-launcher'
+    }, {
       'id': 'circuit-breaker',
       'name': 'Circuit Breaker',
       'description': 'The Circuit Breaker Mission demonstrates a generic pattern for reporting the failure of ' +
       'a service and then limiting access to the failed service until it becomes available to handle requests. ' +
       'This helps prevent cascading failure in other services that depend on the failed services for ' +
       'functionality.',
-      'prerequisite': false,
       'suggested': false,
       'runtimes': [
         'vert.x',
@@ -83,7 +96,6 @@ export class DemoMissionRuntimeService implements MissionRuntimeService {
       'externalize configuration. ConfigMap is an object used by OpenShift to inject configuration data as ' +
       'simple key and value pairs into one or more Linux containers while keeping the containers independent ' +
       'of OpenShift.',
-      'prerequisite': false,
       'suggested': false,
       'runtimes': [
         'vert.x',
@@ -98,8 +110,7 @@ export class DemoMissionRuntimeService implements MissionRuntimeService {
       'start handling incoming requests. Implementing the health check pattern allows you to monitor the health ' +
       'of an application, which includes if an application is available and whether it is able to service ' +
       'requests.',
-      'prerequisite': false,
-      'suggested': false,
+      'suggested': true,
       'runtimes': [
         'vert.x',
         'spring-boot',
@@ -113,7 +124,6 @@ export class DemoMissionRuntimeService implements MissionRuntimeService {
       'endpoint over HTTP using a REST framework. This corresponds to Level 0 in the Richardson Maturity Model. ' +
       'Creating an HTTP endpoint using REST and its underlying principles to define your API lets you quickly ' +
       'prototype and design the API flexibly.',
-      'prerequisite': false,
       'suggested': false,
       'runtimes': [
         'vert.x',
@@ -129,35 +139,98 @@ export class DemoMissionRuntimeService implements MissionRuntimeService {
       'OAuth 2.0 specification and uses it to issue access tokens to provide clients with various access rights ' +
       'to secured resources. Securing an application with SSO enables you to add security to your applications ' +
       'while centralizing the security configuration.',
-      'prerequisite': true,
       'suggested': false,
       'runtimes': [
         'vert.x',
         'spring-boot',
         'wildfly-swarm'
       ],
-      'url': 'https://github.com/fabric8-launcher/ngx-launcher'
-    }, {
-      'id': 'crud',
-      'name': 'CRUD',
-      'description': 'The Relational Database Backend booster expands on the REST API Level 0 booster to provide a ' +
-      'basic example of performing create, read, update and delete (CRUD) operations on a PostgreSQL database ' +
-      'using a simple HTTP API. CRUD operations are the four basic functions of persistent storage, widely used ' +
-      'when developing an HTTP API dealing with a database.',
-      'prerequisite': false,
-      'suggested': true,
-      'runtimes': [
-        'vert.x',
-        'nodejs',
-        'wildfly-swarm'
-      ],
-      'url': 'https://github.com/fabric8-launcher/ngx-launcher'
+      'url': 'https://github.com/fabric8-launcher/ngx-launcher',
+      'prerequisite': 'While this mission comes with Red Hat SSO pre-configured for demonstration purposes, it does ' +
+      'not explain its principles, usage, or configuration. Before using this mission, ensure that you are familiar ' +
+      'with the basic concepts related to Red Hat SSO',
     }] as Mission[]);
     return missions;
   }
 
   getRuntimes(): Observable<Runtime[]> {
     let runtimes = Observable.of([{
+      'id': 'vert.x',
+      'name': 'Eclipse Vert.x',
+      'description': 'Eclipse Vert.x is a tool-kit for building reactive applications on the JVM',
+      /* tslint:disable */
+      'icon': "data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 280'%3E%3Cpath fill='%23022B37' d='M107 170.8L67.7 72H46.9L100 204h13.9L167 72h-20.4zm64 33.2h80v-20h-61v-37h60v-19h-60V91h61V72h-80zm180.1-90.7c0-21-14.4-42.3-43.1-42.3h-48v133h19V91h29.1c16.1 0 24 11.1 24 22.4 0 11.5-7.9 22.6-24 22.6H286v9.6l48 58.4h24.7L317 154c22.6-4 34.1-22 34.1-40.7m56.4 90.7v-1c0-6 1.7-11.7 4.5-16.6V91h39V71h-99v20h41v113h14.5z'/%3E%3Cpath fill='%23623C94' d='M458 203c0-9.9-8.1-18-18-18s-18 8.1-18 18 8.1 18 18 18 18-8.1 18-18M577.4 72h-23.2l-27.5 37.8L499.1 72h-40.4c12.1 16 33.6 46.8 47.8 66.3l-37 50.9c2 4.2 3.1 8.9 3.1 13.8v1H499l95.2-132h-16.8zm-19.7 81.5l-20.1 27.9 16.5 22.6h40.2c-9.6-13.7-24-33.3-36.6-50.5z'/%3E%3C/svg%3E",
+      /* tslint:enable */
+      'projectVersion': 'v1.0.0',
+      'missions': [
+        {
+          'id': 'crud',
+          'versions': [
+            {
+              'id': 'community',
+              'name': '3.5.0.Final (Community)'
+            }
+          ]
+        },
+        {
+          'id': 'circuit-breaker',
+          'versions': [
+            {
+              'id': 'redhat',
+              'name': '3.4.2.redhat-006 (RHOAR)'
+            },
+            {
+              'id': 'community',
+              'name': '3.5.0.Final (Community)'
+            }
+          ]
+        },
+        {
+          'id': 'configmap',
+          'versions': [
+            {
+              'id': 'redhat',
+              'name': '3.4.2.redhat-006 (RHOAR)'
+            },
+            {
+              'id': 'community',
+              'name': '3.5.0.Final (Community)'
+            }
+          ]
+        },
+        {
+          'id': 'health-check',
+          'versions': [
+            {
+              'id': 'redhat',
+              'name': '3.4.2.redhat-006 (RHOAR)'
+            },
+            {
+              'id': 'community',
+              'name': '3.5.0.Final (Community)'
+            }
+          ]
+        },
+        {
+          'id': 'rest-http',
+          'versions': [
+            {
+              'id': 'redhat',
+              'name': '3.4.2.redhat-006 (RHOAR)'
+            },
+            {
+              'id': 'community',
+              'name': '3.5.0.Final (Community)'
+            }
+          ]
+        },
+        {
+          'id': 'rest-http-secured',
+          'versions': []
+        }
+      ],
+      'url': 'https://github.com/fabric8-launcher/ngx-launcher'
+    }, {
       'id': 'nodejs',
       'name': 'Node.js',
       'description': 'Node.js® is a JavaScript runtime built on Chrome\'s V8 JavaScript engine. Node.js uses an ' +
@@ -210,8 +283,6 @@ export class DemoMissionRuntimeService implements MissionRuntimeService {
           'versions': []
         }
       ],
-      'prerequisite': false,
-      'suggested': false,
       'url': 'https://nodejs.org/en/'
     }, {
       'id': 'spring-boot',
@@ -293,8 +364,6 @@ export class DemoMissionRuntimeService implements MissionRuntimeService {
           ]
         }
       ],
-      'prerequisite': false,
-      'suggested': false,
       'url': 'https://projects.spring.io/spring-boot/'
     }, {
       'id': 'wildfly-swarm',
@@ -385,87 +454,7 @@ export class DemoMissionRuntimeService implements MissionRuntimeService {
           ]
         }
       ],
-      'prerequisite': false,
-      'suggested': false,
       'url': 'http://wildfly-swarm.io/'
-    }, {
-      'id': 'vert.x',
-      'name': 'Eclipse Vert.x',
-      'description': 'Eclipse Vert.x is a tool-kit for building reactive applications on the JVM',
-      /* tslint:disable */
-      'icon': "data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 280'%3E%3Cpath fill='%23022B37' d='M107 170.8L67.7 72H46.9L100 204h13.9L167 72h-20.4zm64 33.2h80v-20h-61v-37h60v-19h-60V91h61V72h-80zm180.1-90.7c0-21-14.4-42.3-43.1-42.3h-48v133h19V91h29.1c16.1 0 24 11.1 24 22.4 0 11.5-7.9 22.6-24 22.6H286v9.6l48 58.4h24.7L317 154c22.6-4 34.1-22 34.1-40.7m56.4 90.7v-1c0-6 1.7-11.7 4.5-16.6V91h39V71h-99v20h41v113h14.5z'/%3E%3Cpath fill='%23623C94' d='M458 203c0-9.9-8.1-18-18-18s-18 8.1-18 18 8.1 18 18 18 18-8.1 18-18M577.4 72h-23.2l-27.5 37.8L499.1 72h-40.4c12.1 16 33.6 46.8 47.8 66.3l-37 50.9c2 4.2 3.1 8.9 3.1 13.8v1H499l95.2-132h-16.8zm-19.7 81.5l-20.1 27.9 16.5 22.6h40.2c-9.6-13.7-24-33.3-36.6-50.5z'/%3E%3C/svg%3E",
-      /* tslint:enable */
-      'projectVersion': 'v1.0.0',
-      'missions': [
-        {
-          'id': 'crud',
-          'versions': [
-            {
-              'id': 'community',
-              'name': '3.5.0.Final (Community)'
-            }
-          ]
-        },
-        {
-          'id': 'circuit-breaker',
-          'versions': [
-            {
-              'id': 'redhat',
-              'name': '3.4.2.redhat-006 (RHOAR)'
-            },
-            {
-              'id': 'community',
-              'name': '3.5.0.Final (Community)'
-            }
-          ]
-        },
-        {
-          'id': 'configmap',
-          'versions': [
-            {
-              'id': 'redhat',
-              'name': '3.4.2.redhat-006 (RHOAR)'
-            },
-            {
-              'id': 'community',
-              'name': '3.5.0.Final (Community)'
-            }
-          ]
-        },
-        {
-          'id': 'health-check',
-          'versions': [
-            {
-              'id': 'redhat',
-              'name': '3.4.2.redhat-006 (RHOAR)'
-            },
-            {
-              'id': 'community',
-              'name': '3.5.0.Final (Community)'
-            }
-          ]
-        },
-        {
-          'id': 'rest-http',
-          'versions': [
-            {
-              'id': 'redhat',
-              'name': '3.4.2.redhat-006 (RHOAR)'
-            },
-            {
-              'id': 'community',
-              'name': '3.5.0.Final (Community)'
-            }
-          ]
-        },
-        {
-          'id': 'rest-http-secured',
-          'versions': []
-        }
-      ],
-      'prerequisite': false,
-      'suggested': true,
-      'url': 'https://github.com/fabric8-launcher/ngx-launcher'
     }] as Runtime[]);
     return runtimes;
   }

@@ -2,11 +2,11 @@
 
 .f8launcher-tags {
   border-top: 1px solid @color-pf-blue;
-  &.incompatible {
-    border-top: 1px solid @color-pf-black-600;
+  &.contribute {
+    border-top: 1px solid @color-pf-green;
   }
   &.prerequisite {
-    border-top: 1px solid @color-pf-orange-400;
+    border-top: 1px solid @color-pf-orange;
   }
   &:last-child {
     margin-right: 0;
@@ -16,16 +16,17 @@
     padding: 0 10px;
     background-color: @color-pf-blue;
     color: @color-pf-white;
+    cursor: pointer;
     font-size: .9em;
     float: right;
     i {
       color: @color-pf-white;
     }
-    &.incompatible {
-      background-color: @color-pf-black-600;
+    &.contribute {
+      background-color: @color-pf-green;
     }
     &.prerequisite {
-      background-color: @color-pf-orange-400;
+      background-color: @color-pf-orange;
     }
   }
 }

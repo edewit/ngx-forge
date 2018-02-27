@@ -32,25 +32,33 @@
               </h2>
             </div>
             <div class="card-pf-body">
-              <div class="list-group list-view-pf" *ngFor="let mission of (missions | sortArray: 'suggested': true)">
+              <div class="list-group list-view-pf"
+                   [ngClass]="{'contribute': isMissionDisabled(mission) === true,
+                               'suggested': mission.suggested === true,
+                               'prerequisite': mission.prerequisite !== undefined}"
+                   *ngFor="let mission of (missions | sortArray: 'suggested': true)">
                 <div class="list-group-item list-view-pf-stacked list-view-pf-top-align"
                      [ngClass]="{'disabled': isMissionDisabled(mission) === true, 'selected-list-item': missionId === mission.id}">
                   <div class="list-group-item-header"
-                       *ngIf="mission.prerequisite === true || mission.suggested === true || isMissionDisabled(mission) === true">
+                       *ngIf="mission.prerequisite !== undefined || mission.suggested === true || isMissionDisabled(mission) === true">
                     <div class="f8launcher-tags"
-                         [ngClass]="{'incompatible': isMissionDisabled(mission) === true,
-                                     'prerequisite': isMissionDisabled(mission) !== true && mission.prerequisite === true}">
-                      <span class="f8launcher-tags-label incompatible" tooltip="Incompatible Mission" placement="top"
+                         [ngClass]="{'contribute': isMissionDisabled(mission) === true,
+                                     'prerequisite': isMissionDisabled(mission) !== true && mission.prerequisite !== undefined}">
+                      <ng-template #popTemplate>
+                        You may contirbute a Mission <a href='http://www.redhat.com' target="_blank">here</a>
+                      </ng-template>
+                      <span class="f8launcher-tags-label contribute" triggers="click"
+                            [popover]="popTemplate"
                             *ngIf="isMissionDisabled(mission) === true">
-                        Incompatible <i class="pficon pficon-info"></i>
+                        Contribute <i class="pficon pficon-info"></i>
                       </span>
-                      <span class="f8launcher-tags-label" tooltip="Suggested Mission" placement="top"
+                      <span class="f8launcher-tags-label" popover="Suggested Mission" triggers="click"
                             *ngIf="mission.suggested === true">
                         Suggested <i class="pficon pficon-info"></i>
                       </span>
-                      <span class="f8launcher-tags-label prerequisite" tooltip="Pre-requisite Runtime" placement="top"
-                            *ngIf="mission.prerequisite === true">
-                        Pre-requisite <i class="pficon pficon-info"></i>
+                      <span class="f8launcher-tags-label prerequisite" popover="{{mission.prerequisite}}" triggers="click"
+                            *ngIf="mission.prerequisite !== undefined">
+                        Prerequisite <i class="pficon pficon-info"></i>
                       </span>
                     </div>
                   </div>
@@ -74,10 +82,12 @@
                           <div *ngIf="mission.showMore === true">
                             {{mission.description}}
                           </div>
-                          <a href="javascript:void(0)"
-                             (click)="mission.showMore = (mission.showMore !== undefined) ? !mission.showMore : true">
-                            {{(mission.showMore !== true) ? 'more' : 'less'}}
-                          </a>
+                          <div class="description-more">
+                            <a href="javascript:void(0)"
+                               (click)="mission.showMore = (mission.showMore !== undefined) ? !mission.showMore : true">
+                              {{(mission.showMore !== true) ? 'More' : 'Less'}}
+                            </a>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -95,25 +105,21 @@
               </h2>
             </div>
             <div class="card-pf-body">
-              <div class="list-group list-view-pf" *ngFor="let runtime of (runtimes | sortArray: 'suggested': true); let i = index">
+              <div class="list-group list-view-pf"
+                   [ngClass]="{'contribute': isRuntimeDisabled(runtime) === true}"
+                   *ngFor="let runtime of runtimes; let i = index">
                 <div class="list-group-item list-view-pf-stacked list-view-pf-top-align"
                      [ngClass]="{'disabled': isRuntimeDisabled(runtime) === true, 'selected-list-item': runtimeId === runtime.id}">
-                  <div class="list-group-item-header"
-                       *ngIf="runtime.prerequisite === true || runtime.suggested === true || isRuntimeDisabled(runtime) === true">
+                  <div class="list-group-item-header" *ngIf="isRuntimeDisabled(runtime) === true">
                     <div class="f8launcher-tags"
-                         [ngClass]="{'incompatible': isRuntimeDisabled(runtime) === true,
-                                     'prerequisite': isRuntimeDisabled(runtime) !== true && runtime.prerequisite === true}">
-                      <span class="f8launcher-tags-label incompatible" tooltip="Incompatible Runtime" placement="top"
+                         [ngClass]="{'contribute': isRuntimeDisabled(runtime) === true}">
+                      <ng-template #runtimeContributeTemplate>
+                        You may contirbute a Runtime <a href='http://www.redhat.com' target="_blank">here</a>
+                      </ng-template>
+                      <span class="f8launcher-tags-label contribute" triggers="click"
+                            [popover]="runtimeContributeTemplate"
                             *ngIf="isRuntimeDisabled(runtime) === true">
-                        Incompatible <i class="pficon pficon-info"></i>
-                      </span>
-                      <span class="f8launcher-tags-label" tooltip="Suggested Runtime" placement="top"
-                            *ngIf="runtime.suggested === true">
-                        Suggested <i class="pficon pficon-info"></i>
-                      </span>
-                      <span class="f8launcher-tags-label prerequisite" tooltip="Pre-requisite Runtime" placement="top"
-                            *ngIf="runtime.prerequisite === true">
-                        Pre-requisite <i class="pficon pficon-info"></i>
+                        Contribute <i class="pficon pficon-info"></i>
                       </span>
                     </div>
                   </div>
@@ -161,10 +167,12 @@
                           <div *ngIf="runtime.showMore === true">
                             {{runtime.description}}
                           </div>
-                          <a href="javascript:void(0)"
-                             (click)="runtime.showMore = (runtime.showMore !== undefined) ? !runtime.showMore : true">
-                            {{(runtime.showMore !== true) ? 'more' : 'less'}}
-                          </a>
+                          <div class="description-more">
+                            <a class="description-more" href="javascript:void(0)"
+                               (click)="runtime.showMore = (runtime.showMore !== undefined) ? !runtime.showMore : true">
+                              {{(runtime.showMore !== true) ? 'more' : 'less'}}
+                            </a>
+                          </div>
                         </div>
                       </div>
                     </div>

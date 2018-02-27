@@ -2,7 +2,7 @@ export class Mission {
   description: string;
   id: string;
   name: string;
-  prerequisite?: boolean;
+  prerequisite?: string;
   runtimes: string[];
   suggested?: boolean;
   url?: string;

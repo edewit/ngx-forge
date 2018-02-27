@@ -31,11 +31,11 @@
                     <div class="f8launcher-tags"
                          *ngIf="pipeline.suggested === true || pipeline.techpreview === true">
                       <span class="f8launcher-tags-label"
-                            tooltip="Suggestion based on selected mission and runtime" placement="top"
+                            popover="Suggestion based on selected mission and runtime" triggers="click"
                             *ngIf="pipeline.suggested === true">
                         Suggested <i class="pficon pficon-info"></i>
                       </span>
-                      <span class="f8launcher-tags-label" tooltip="Technology Preview" placement="top"
+                      <span class="f8launcher-tags-label" popover="Technology Preview" triggers="click"
                             *ngIf="pipeline.techpreview === true">
                         Tech Preview <i class="pficon pficon-info"></i>
                       </span>

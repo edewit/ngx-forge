@@ -22,8 +22,22 @@
   .container-cards-pf {
     margin-top: 10px;
   }
-  .list-group-item {
-    padding-right: 0;
+  .list-group {
+    &.contribute {
+      border-top: 1px solid @color-pf-green;
+    }
+    &.prerequisite {
+      border-top: 1px solid @color-pf-orange;
+    }
+    &.suggested {
+      border-top: 1px solid @color-pf-blue;
+    }
+  }
+  .list-group-item-header {
+    margin-left: 16px;
+    margin-right: -16px;
+    margin-top: -2px;
+    padding: 0;
   }
   // Override to display dropdown in item heading
   .list-view-pf-body {
@@ -40,5 +54,8 @@
         margin-top: 15px;
       }
     }
+  }
+  .description-more {
+    margin-top: 5px;
   }
 }

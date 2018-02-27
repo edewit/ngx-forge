@@ -119,7 +119,7 @@ export class DemoPipelineService implements PipelineService {
         'description': 'Promotes to the **Run** environment'
       }],
       'suggested': true,
-      'techpreview': true
+      'techpreview': false
     }] as Pipeline[]);
     return pipelines;
   }
