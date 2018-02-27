@@ -2,6 +2,12 @@
 
 .f8launcher {
   &-section-project-progress {
+    .f8launcher-grid();
+    grid-column-gap: 15px;
+    grid-auto-rows: auto;
+    grid-template-areas: 'main';
+    grid-template-columns: 1fr;
+    width: 100vw;
     .card-pf-title-project-progress {
       /* stylelint-disable-next-line declaration-no-important */
       display: block !important;
