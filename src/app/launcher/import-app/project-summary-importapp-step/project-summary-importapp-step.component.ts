@@ -9,6 +9,7 @@ import {
 import { Subscription } from 'rxjs/Subscription';
 import { DomSanitizer } from '@angular/platform-browser';
 
+import { Pipeline } from '../../model/pipeline.model';
 import { GitProviderService } from '../../service/git-provider.service';
 import { DependencyCheckService } from '../../service/dependency-check.service';
 import { ProjectSummaryService } from '../../service/project-summary.service';
@@ -128,5 +129,9 @@ export class ProjectSummaryImportappStepComponent extends LauncherStep implement
     this.launcherComponent.summary.dependencyCheck.projectVersion = selection.projectVersion;
     this.launcherComponent.summary.dependencyCheck.spacePath = selection.spacePath;
     this.initCompleted();
+  }
+
+  private toggleExpanded(pipeline: Pipeline) {
+    pipeline.expanded = (pipeline.expanded !== undefined) ? !pipeline.expanded : true;
   }
 }

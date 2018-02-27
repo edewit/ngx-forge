@@ -23,10 +23,16 @@
       }
     }
     .list-group-item {
-      padding-right: 0;
+      &.suggested {
+        border-top: 1px solid @color-pf-blue;
+      }
     }
     .list-group-item-header {
       cursor: default;
+      margin-left: 16px;
+      margin-right: -16px;
+      margin-top: -1px;
+      padding: 0;
     }
     .list-group-item-container,
     .list-view-pf-main-info {

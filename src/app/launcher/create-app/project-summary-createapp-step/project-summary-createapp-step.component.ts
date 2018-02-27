@@ -11,6 +11,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 
 import { defaults } from 'lodash';
 
+import { Pipeline } from '../../model/pipeline.model';
 import { DependencyCheckService } from '../../service/dependency-check.service';
 import { ProjectSummaryService } from '../../service/project-summary.service';
 import { Selection } from '../../model/selection.model';
@@ -129,5 +130,9 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
     this.launcherComponent.summary.dependencyCheck.projectVersion = selection.projectVersion;
     this.launcherComponent.summary.dependencyCheck.spacePath = selection.spacePath;
     this.initCompleted();
+  }
+
+  private toggleExpanded(pipeline: Pipeline) {
+    pipeline.expanded = (pipeline.expanded !== undefined) ? !pipeline.expanded : true;
   }
 }
