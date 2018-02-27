@@ -31,9 +31,6 @@
           transform: translateX(250px);
         }
       }
-      .f8launcher-application-text-field {
-        margin-top: 2.4em; /* adjusted for fixed header */
-      }
       .f8launcher-vertical-bar {
         display: -moz-box;
         display: -ms-flexbox;
@@ -41,7 +38,6 @@
         display: -moz-flex;
         display: -webkit-flex;
         display: flex;
-        display: grid; /* stylelint-disable-line */
         -moz-box-orient: vertical;
         -webkit-box-orient: vertical;
         -ms-flex-direction: column;
@@ -51,38 +47,9 @@
         background-color: @color-pf-black-400;
         width: 2px;
         margin-top: 45px;
-        //
-        // Small devices (tablets, 758px in height and up)
-        //
-        @media(min-height: 750px) {
-          height: 71vh;
-        }
-        //
-        // Medium devices (desktops, 920px in height and up)
-        //
-        @media(min-height: 920px) {
-          height: 76vh;
-        }
-        //
-        // Medium devices (desktops, 980px in height and up)
-        //
-        @media(min-height: 980px) {
-          height: 77vh;
-        }
-        //
-        // Large devices (desktops, 1080px in height and up)
-        //
-        @media(min-height: 1080px) {
-          height: 83vh;
-        }
-        //
-        // Devices that are too tall (1440px in height and up...reasonably)
-        //
-        @media(min-height: 1440px) {
-          height: 85vh;
-        }
         border-radius: 10px;
         margin-left: 25px;
+        height: ~'calc(100% - 155px)';
         @media screen and (max-width: 768px) {
           margin-top: 25px;
         }
@@ -92,8 +59,8 @@
         //
         &.in-progress {
           background-image: linear-gradient(
-                                                      @color-pf-black-400 60%,
-                                                      @color-pf-black-900);
+              @color-pf-black-400 60%,
+              @color-pf-black-900);
         }
         a {
           margin-top: -20px;
@@ -103,14 +70,10 @@
           border-left: 3px solid;
           border-left-color: transparent;
           font-weight: 700;
-          height: 60px;
           transition: background .3s, border .3s ease-in-out;
           -moz-transition: background .3s, border .3s ease-in-out;
           -webkit-transition: background .3s, border .3s ease-in-out;
           &.project-summary {
-            position: fixed;
-            bottom: 5px;
-            height: 80px;
             .f8launcher-step-circle {
               margin-top: 18px;
             }
@@ -120,10 +83,21 @@
               color: @color-pf-white;
             }
           }
+          &:last-child {
+            margin-bottom: -20px;
+          }
+        }
+        &_application-name {
+          margin-top: 35px;
         }
         &_steps {
           color: @color-pf-black-400;
           padding-left: 20px;
+          &--title {
+            position: absolute;
+            left: 45px;
+            margin-top: 7px;
+          }
           &--item {
             padding-left: 17px;
             width: 250px;
@@ -181,11 +155,6 @@
             &:focus {
               text-decoration: none;
             }
-          }
-          &--title {
-            position: absolute;
-            margin-top: 8px;
-            margin-left: 10px;
           }
         }
       }
