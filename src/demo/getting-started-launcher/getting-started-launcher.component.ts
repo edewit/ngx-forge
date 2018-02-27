@@ -3,6 +3,9 @@ import {
   OnInit
 } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
+
+import { DependencyCheckService } from '../../app/launcher/service/dependency-check.service';
 
 @Component({
   selector: 'getting-started-launcher',
@@ -10,12 +13,24 @@ import { Router } from '@angular/router';
   templateUrl: './getting-started-launcher.component.html'
 })
 export class GettingStartedLauncherComponent implements OnInit {
-  appName: string = '';
+  projectName: string = '';
 
-  constructor(private router: Router) {
+  private subscriptions: Subscription[] = [];
+
+  constructor(private dependencyCheckService: DependencyCheckService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
+    this.subscriptions.push(this.dependencyCheckService.getDependencyCheck().subscribe((val) => {
+      this.projectName = val.projectName;
+    }));
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((sub) => {
+      sub.unsubscribe();
+    });
   }
 
   cancel(): void {
@@ -23,6 +38,6 @@ export class GettingStartedLauncherComponent implements OnInit {
   }
 
   routeToLauncherApp(): void {
-    this.router.navigate(['/', 'launcherapp', this.appName]);
+    this.router.navigate(['/', 'launcherapp', this.projectName]);
   }
 }

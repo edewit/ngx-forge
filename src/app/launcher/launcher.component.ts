@@ -60,10 +60,10 @@ export class LauncherComponent implements AfterViewInit, OnInit {
   }
 
   ngOnInit() {
-    let appName = this.route.snapshot.params['appname'];
+    let projectName = this.route.snapshot.params['projectName'];
     this._summary = {
       dependencyCheck: {
-        projectName: (appName !== undefined && appName.length > 0) ? appName : undefined
+        projectName: (projectName !== undefined && projectName.length > 0) ? projectName : undefined
       },
       gitHubDetails: {}
     } as Summary;

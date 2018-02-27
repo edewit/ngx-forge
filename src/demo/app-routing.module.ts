@@ -25,15 +25,15 @@ const routes: Routes = [{
     component: LauncherAppComponent,
     pathMatch: 'full'
   }, {
-    path: 'createapp/:appname',
+    path: 'createapp/:projectName',
     component: CreateAppComponent,
     pathMatch: 'full'
   }, {
-    path: 'importapp/:appname',
+    path: 'importapp/:projectName',
     component: ImportAppComponent,
     pathMatch: 'full'
   }, {
-    path: 'launcherapp/:appname',
+    path: 'launcherapp/:projectName',
     component: LauncherAppComponent,
     pathMatch: 'full'
   }, {
