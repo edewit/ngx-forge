@@ -13,6 +13,8 @@
 }
 .f8launcher-grid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: [nav] 250px [main] 1fr [close] 45px;
   grid-auto-rows: minmax(750px, 1fr);
+  grid-template-areas:
+    'nav main close';
 }

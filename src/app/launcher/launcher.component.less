@@ -16,6 +16,11 @@ body {
   overflow-x: hidden;
   background-color: @color-pf-black-200;
 }
+p,
+.btn,
+.form-control {
+  font-size: @font-size-base !important; /* stylelint-disable-line declaration-no-important */
+}
 //
 // Content
 //
@@ -29,12 +34,14 @@ body {
     .f8launcher-grid();
     grid-column-gap: 15px;
     @media screen and (max-width: 1024px) {
-      grid-template-areas: 'content';
-      grid-template-columns: 1fr;
+      grid-template-areas: 'main close';
+      grid-template-columns: 1fr 45px;
+    }
+    &_nav {
+      grid-area: nav;
     }
     &_main {
-      margin-left: 250px;
-      margin-right: 45px;
+      grid-area: main;
       @media screen and (max-width: 1024px) {
         margin-left: 0;
       }
@@ -61,15 +68,21 @@ body {
         }
       }
     }
+    &_close {
+      grid-area: close;
+      display: grid;
+      justify-items: center;
+    }
   }
   .active {
     background-color: @color-pf-black-700;
     border-left: 3px solid;
-    text-decoration: none;
     border-left-color: @color-pf-blue !important;  /* stylelint-disable-line declaration-no-important */
+    text-decoration: none;
     .f8launcher-step-circle {
       background-color: @color-pf-blue-300;
-      border: solid 2px @color-pf-blue-300;
+      border: solid 2px;
+      border-color: @color-pf-blue-300;
       &.completed {
         background-color: @color-pf-blue-300;
       }
@@ -178,7 +191,8 @@ body {
   }
   .box {
     display: inline-block;
-    border: 1px solid @color-pf-black-300;
+    border: 1px solid;
+    border-color: @color-pf-black-300;
     width: 150px;
     height: 200px;
     line-height: 200px;

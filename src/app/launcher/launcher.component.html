@@ -1,8 +1,5 @@
 <f8launcher-cancel-overlay *ngIf="showCancelOverlay === true"></f8launcher-cancel-overlay>
 <div class="f8launcher">
-  <div class="sticky close">
-    <span class="pficon pficon-close" title="Leave Setup" (click)="cancel()"></span>
-  </div>
   <div class="f8launcher-container">
     <div *ngIf="importApp; then showImportAppTemplate else showCreateAppTemplate"></div>
     <!-- Create application -->
@@ -56,6 +53,11 @@
             [styleClass]="'project-summary'"
             [title]="'Confirm Application Summary & Setup'">
           </f8launcher-projectsummary-createapp-step>
+        </div>
+        <div class="f8launcher-container_close">
+          <div class="sticky close">
+            <span class="fa fa-times-circle-o fa-2x" aria-hidden="true" title="Leave Setup" (click)="cancel()"></span>
+          </div>
         </div>
       </ng-template>
       <!-- Create application next steps -->
