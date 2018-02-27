@@ -67,6 +67,7 @@ export class DemoMissionRuntimeService implements MissionRuntimeService {
       'a service and then limiting access to the failed service until it becomes available to handle requests. ' +
       'This helps prevent cascading failure in other services that depend on the failed services for ' +
       'functionality.',
+      'prerequisite': false,
       'suggested': false,
       'runtimes': [
         'vert.x',
@@ -82,6 +83,7 @@ export class DemoMissionRuntimeService implements MissionRuntimeService {
       'externalize configuration. ConfigMap is an object used by OpenShift to inject configuration data as ' +
       'simple key and value pairs into one or more Linux containers while keeping the containers independent ' +
       'of OpenShift.',
+      'prerequisite': false,
       'suggested': false,
       'runtimes': [
         'vert.x',
@@ -96,6 +98,7 @@ export class DemoMissionRuntimeService implements MissionRuntimeService {
       'start handling incoming requests. Implementing the health check pattern allows you to monitor the health ' +
       'of an application, which includes if an application is available and whether it is able to service ' +
       'requests.',
+      'prerequisite': false,
       'suggested': false,
       'runtimes': [
         'vert.x',
@@ -110,6 +113,7 @@ export class DemoMissionRuntimeService implements MissionRuntimeService {
       'endpoint over HTTP using a REST framework. This corresponds to Level 0 in the Richardson Maturity Model. ' +
       'Creating an HTTP endpoint using REST and its underlying principles to define your API lets you quickly ' +
       'prototype and design the API flexibly.',
+      'prerequisite': false,
       'suggested': false,
       'runtimes': [
         'vert.x',
@@ -125,6 +129,7 @@ export class DemoMissionRuntimeService implements MissionRuntimeService {
       'OAuth 2.0 specification and uses it to issue access tokens to provide clients with various access rights ' +
       'to secured resources. Securing an application with SSO enables you to add security to your applications ' +
       'while centralizing the security configuration.',
+      'prerequisite': true,
       'suggested': false,
       'runtimes': [
         'vert.x',
@@ -139,6 +144,7 @@ export class DemoMissionRuntimeService implements MissionRuntimeService {
       'basic example of performing create, read, update and delete (CRUD) operations on a PostgreSQL database ' +
       'using a simple HTTP API. CRUD operations are the four basic functions of persistent storage, widely used ' +
       'when developing an HTTP API dealing with a database.',
+      'prerequisite': false,
       'suggested': true,
       'runtimes': [
         'vert.x',
@@ -204,6 +210,7 @@ export class DemoMissionRuntimeService implements MissionRuntimeService {
           'versions': []
         }
       ],
+      'prerequisite': false,
       'suggested': false,
       'url': 'https://nodejs.org/en/'
     }, {
@@ -286,6 +293,7 @@ export class DemoMissionRuntimeService implements MissionRuntimeService {
           ]
         }
       ],
+      'prerequisite': false,
       'suggested': false,
       'url': 'https://projects.spring.io/spring-boot/'
     }, {
@@ -377,6 +385,7 @@ export class DemoMissionRuntimeService implements MissionRuntimeService {
           ]
         }
       ],
+      'prerequisite': false,
       'suggested': false,
       'url': 'http://wildfly-swarm.io/'
     }, {
@@ -454,6 +463,7 @@ export class DemoMissionRuntimeService implements MissionRuntimeService {
           'versions': []
         }
       ],
+      'prerequisite': false,
       'suggested': true,
       'url': 'https://github.com/fabric8-launcher/ngx-launcher'
     }] as Runtime[]);

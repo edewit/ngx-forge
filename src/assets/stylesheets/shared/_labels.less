@@ -2,6 +2,12 @@
 
 .f8launcher-tags {
   border-top: 1px solid @color-pf-blue;
+  &.incompatible {
+    border-top: 1px solid @color-pf-black-600;
+  }
+  &.prerequisite {
+    border-top: 1px solid @color-pf-orange-400;
+  }
   &:last-child {
     margin-right: 0;
   }
@@ -14,6 +20,12 @@
     float: right;
     i {
       color: @color-pf-white;
+    }
+    &.incompatible {
+      background-color: @color-pf-black-600;
+    }
+    &.prerequisite {
+      background-color: @color-pf-orange-400;
     }
   }
 }

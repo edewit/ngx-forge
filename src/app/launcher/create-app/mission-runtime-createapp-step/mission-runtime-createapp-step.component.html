@@ -35,11 +35,24 @@
               <div class="list-group list-view-pf" *ngFor="let mission of (missions | sortArray: 'suggested': true)">
                 <div class="list-group-item list-view-pf-stacked list-view-pf-top-align"
                      [ngClass]="{'disabled': isMissionDisabled(mission) === true, 'selected-list-item': missionId === mission.id}">
-                  <div class="list-group-item-header">
-                    <span class="f8launcher-tags-label" tooltip="Suggested Mission" placement="top"
-                          *ngIf="mission.suggested === true">
-                      Suggested <i class="pficon pficon-info"></i>
-                    </span>
+                  <div class="list-group-item-header"
+                       *ngIf="mission.prerequisite === true || mission.suggested === true || isMissionDisabled(mission) === true">
+                    <div class="f8launcher-tags"
+                         [ngClass]="{'incompatible': isMissionDisabled(mission) === true,
+                                     'prerequisite': isMissionDisabled(mission) !== true && mission.prerequisite === true}">
+                      <span class="f8launcher-tags-label incompatible" tooltip="Incompatible Mission" placement="top"
+                            *ngIf="isMissionDisabled(mission) === true">
+                        Incompatible <i class="pficon pficon-info"></i>
+                      </span>
+                      <span class="f8launcher-tags-label" tooltip="Suggested Mission" placement="top"
+                            *ngIf="mission.suggested === true">
+                        Suggested <i class="pficon pficon-info"></i>
+                      </span>
+                      <span class="f8launcher-tags-label prerequisite" tooltip="Pre-requisite Runtime" placement="top"
+                            *ngIf="mission.prerequisite === true">
+                        Pre-requisite <i class="pficon pficon-info"></i>
+                      </span>
+                    </div>
                   </div>
                   <div class="list-view-pf-checkbox">
                     <input type="radio" name="mission"
@@ -85,11 +98,24 @@
               <div class="list-group list-view-pf" *ngFor="let runtime of (runtimes | sortArray: 'suggested': true); let i = index">
                 <div class="list-group-item list-view-pf-stacked list-view-pf-top-align"
                      [ngClass]="{'disabled': isRuntimeDisabled(runtime) === true, 'selected-list-item': runtimeId === runtime.id}">
-                  <div class="list-group-item-header">
-                    <span class="f8launcher-tags-label" tooltip="Suggested Runtime" placement="top"
-                          *ngIf="runtime.suggested === true">
-                      Suggested <i class="pficon pficon-info"></i>
-                    </span>
+                  <div class="list-group-item-header"
+                       *ngIf="runtime.prerequisite === true || runtime.suggested === true || isRuntimeDisabled(runtime) === true">
+                    <div class="f8launcher-tags"
+                         [ngClass]="{'incompatible': isRuntimeDisabled(runtime) === true,
+                                     'prerequisite': isRuntimeDisabled(runtime) !== true && runtime.prerequisite === true}">
+                      <span class="f8launcher-tags-label incompatible" tooltip="Incompatible Runtime" placement="top"
+                            *ngIf="isRuntimeDisabled(runtime) === true">
+                        Incompatible <i class="pficon pficon-info"></i>
+                      </span>
+                      <span class="f8launcher-tags-label" tooltip="Suggested Runtime" placement="top"
+                            *ngIf="runtime.suggested === true">
+                        Suggested <i class="pficon pficon-info"></i>
+                      </span>
+                      <span class="f8launcher-tags-label prerequisite" tooltip="Pre-requisite Runtime" placement="top"
+                            *ngIf="runtime.prerequisite === true">
+                        Pre-requisite <i class="pficon pficon-info"></i>
+                      </span>
+                    </div>
                   </div>
                   <div class="list-view-pf-checkbox">
                     <input name="runtime" type="radio"

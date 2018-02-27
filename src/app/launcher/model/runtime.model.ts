@@ -12,6 +12,7 @@ export class Runtime {
   name: string;
   projectVersion?: string;
   pipelinePlatform?: string;
+  prerequisite?: boolean
   suggested?: boolean;
   version?: {
     id: string;
