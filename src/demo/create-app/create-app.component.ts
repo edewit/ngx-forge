@@ -18,4 +18,8 @@ export class CreateAppComponent implements OnInit {
   cancel(): void {
     this.router.navigate(['/', 'osio']);
   }
+
+  complete(): void {
+    this.router.navigate(['/']);
+  }
 }

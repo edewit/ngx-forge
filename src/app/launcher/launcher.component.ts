@@ -39,6 +39,11 @@ export class LauncherComponent implements AfterViewInit, OnInit {
    */
   @Output('onCancel') onCancel = new EventEmitter();
 
+  /**
+   * The event emitted after setup has completed
+   */
+  @Output('onComplete') onComplete = new EventEmitter();
+
   @ViewChild('stepIndicator') stepIndicator: StepIndicatorComponent;
 
   private _selectedSection: string;
@@ -210,6 +215,13 @@ export class LauncherComponent implements AfterViewInit, OnInit {
   cancelConfirmed() {
     this._showCancelOverlay = false;
     this.onCancel.emit();
+  }
+
+  /**
+   * Setup has completed
+   */
+  completed() {
+    this.onComplete.emit();
   }
 
   /**

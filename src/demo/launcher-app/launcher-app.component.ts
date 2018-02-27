@@ -18,4 +18,8 @@ export class LauncherAppComponent implements OnInit {
   cancel(): void {
     this.router.navigate(['/', 'launcher']);
   }
+
+  complete(): void {
+    this.router.navigate(['/']);
+  }
 }
