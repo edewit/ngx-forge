@@ -191,7 +191,7 @@
                   <div class="col-xs-8 f8launcher-project-summary-data-field f8launcher-application-text-field">
                     <input class="f8launcher-project-summary-data-field_input f8launcher-application-text-field_input"
                            name="applicationTitle" placeholder="New Application" type="text"
-                           [(ngModel)]="this.launcherComponent.summary.dependencyCheck.projectName"
+                           [(ngModel)]="launcherComponent.summary.dependencyCheck.projectName"
                            (keyup.enter)="$event.target.blur();">
                   </div>
                 </div>
@@ -206,7 +206,7 @@
                   <div class="col-xs-8 f8launcher-project-summary-data-field f8launcher-application-text-field">
                     <input class="f8launcher-project-summary-data-field_input f8launcher-application-text-field_input"
                            name="version" placeholder="Version Number" type="text"
-                           [(ngModel)]="this.launcherComponent.summary.dependencyCheck.projectVersion"
+                           [(ngModel)]="launcherComponent.summary.dependencyCheck.projectVersion"
                            (keyup.enter)="$event.target.blur();">
                   </div>
                 </div>
@@ -215,7 +215,7 @@
                   <div class="col-xs-8 f8launcher-project-summary-data-field f8launcher-application-text-field">
                     <input class="f8launcher-project-summary-data-field_input f8launcher-application-text-field_input"
                            name="groupId" placeholder="Group ID" type="text"
-                           [(ngModel)]="this.launcherComponent.summary.dependencyCheck.groupId"
+                           [(ngModel)]="launcherComponent.summary.dependencyCheck.groupId"
                            (keyup.enter)="$event.target.blur();">
                   </div>
                 </div>
@@ -224,7 +224,7 @@
                   <div class="col-xs-8 f8launcher-project-summary-data-field f8launcher-application-text-field">
                     <input class="f8launcher-project-summary-data-field_input f8launcher-application-text-field_input"
                            name="spacePath" placeholder="Space Path" type="text"
-                           [(ngModel)]="this.launcherComponent.summary.dependencyCheck.spacePath"
+                           [(ngModel)]="launcherComponent.summary.dependencyCheck.spacePath"
                            (keyup.enter)="$event.target.blur();">
                   </div>
                 </div>
@@ -289,7 +289,7 @@
                              [src]="launcherComponent.summary?.gitHubDetails?.avatar"
                              *ngIf="launcherComponent.summary?.gitHubDetails.avatar !== undefined">
                         <i class="fa fa-ban fa-2x"
-                           *ngIf="this.launcherComponent.summary?.gitHubDetails?.avatar === undefined"></i>
+                           *ngIf="launcherComponent.summary?.gitHubDetails?.avatar === undefined"></i>
                         <span class="f8launcher-project-summary-data-field-account-username">
                           {{launcherComponent.summary?.gitHubDetails?.login}}
                         </span>
