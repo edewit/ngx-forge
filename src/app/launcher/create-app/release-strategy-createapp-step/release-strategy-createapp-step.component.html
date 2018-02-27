@@ -92,9 +92,13 @@
   <div>
     <div class="container-fluid">
       <div class="f8launcher-continue">
-        <button class="btn btn-primary"
-                [disabled]="stepCompleted !== true"
-                (click)="navToNextStep()">Continue</button>
+        <button class="btn btn-link" [ngClass]="{'animate-continue': stepCompleted === true}" [disabled]="stepCompleted !== true"
+          (click)="navToNextStep()">
+          <span class="fa-stack fa-2x">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-angle-double-down fa-stack-1x fa-inverse"></i>
+          </span>
+        </button>
       </div>
     </div>
   </div>
