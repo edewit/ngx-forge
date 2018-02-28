@@ -246,7 +246,7 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
   // Private
 
   private initCompleted(): void {
-    this.launcherComponent.getStep(this.id).completed = this.stepCompleted;
+    this.completed = this.stepCompleted;
   }
 
   // Restore mission & runtime summary

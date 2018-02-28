@@ -241,6 +241,6 @@ export class GitproviderImportappStepComponent extends LauncherStep implements A
   }
 
   private initCompleted(): void {
-    this.launcherComponent.getStep(this.id).completed = this.stepCompleted;
+    this.completed = this.stepCompleted;
   }
 }

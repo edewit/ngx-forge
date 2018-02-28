@@ -8,6 +8,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Observable } from 'rxjs';
 import { InViewportModule, WindowRef } from '@thisissoon/angular-inviewport';
 
+import { PopoverModule } from 'ngx-bootstrap';
 import { PipeModule } from 'patternfly-ng';
 
 import { LauncherComponent } from '../../launcher.component';
@@ -95,6 +96,7 @@ describe('MissionRuntimeStepComponent', () => {
         FormsModule,
         InViewportModule,
         PipeModule,
+        PopoverModule.forRoot(),
         RouterTestingModule
       ],
       declarations: [

@@ -99,7 +99,7 @@ export class ReleaseStrategyCreateappStepComponent extends LauncherStep implemen
   // Private
 
   private initCompleted(): void {
-    this.launcherComponent.getStep(this.id).completed = this.stepCompleted;
+    this.completed = this.stepCompleted;
   }
 
   // Restore mission & runtime summary

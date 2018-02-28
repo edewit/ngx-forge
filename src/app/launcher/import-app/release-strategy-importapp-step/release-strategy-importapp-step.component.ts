@@ -33,6 +33,7 @@ import { LauncherStep } from '../../launcher-step';
 })
 export class ReleaseStrategyImportappStepComponent extends LauncherStep implements OnInit, OnDestroy {
   @Input() id: string;
+  @Input() optional: boolean = false;
 
   toolbarConfig: ToolbarConfig;
 
@@ -125,7 +126,7 @@ export class ReleaseStrategyImportappStepComponent extends LauncherStep implemen
    * @returns {boolean} True if step is completed
    */
   get stepCompleted(): boolean {
-    return (this.launcherComponent.summary.pipeline !== undefined);
+    return (this.launcherComponent.summary.pipeline !== undefined || this.optional);
   }
 
   // Filter
@@ -201,7 +202,7 @@ export class ReleaseStrategyImportappStepComponent extends LauncherStep implemen
   // Private
 
   private initCompleted(): void {
-    this.launcherComponent.getStep(this.id).completed = this.stepCompleted;
+    this.completed = this.stepCompleted;
   }
 
   // Restore mission & runtime summary

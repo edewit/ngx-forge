@@ -75,7 +75,7 @@ export class ProjectSummaryImportappStepComponent extends LauncherStep implement
    * Navigate to next step
    */
   navToNextStep(): void {
-    this.launcherComponent.getStep(this.id).completed = this.stepCompleted;
+    this.completed = this.stepCompleted;
     this.launcherComponent.navToNextStep();
   }
 
@@ -115,7 +115,7 @@ export class ProjectSummaryImportappStepComponent extends LauncherStep implement
   // Private
 
   private initCompleted(): void {
-    this.launcherComponent.getStep(this.id).completed = this.stepCompleted;
+    this.completed = this.stepCompleted;
   }
 
   // Restore mission & runtime summary

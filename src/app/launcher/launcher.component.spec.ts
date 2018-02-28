@@ -107,6 +107,7 @@ export class Fakef8launcherReleaseStrategyImportappStep {
   @Input() hidden: boolean = false;
   @Input() styleClass: string;
   @Input() title: string;
+  @Input() optional: boolean = false;
 }
 
 @Component({
