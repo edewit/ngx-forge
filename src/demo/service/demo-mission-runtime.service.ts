@@ -148,7 +148,7 @@ export class DemoMissionRuntimeService implements MissionRuntimeService {
       'url': 'https://github.com/fabric8-launcher/ngx-launcher',
       'prerequisite': 'While this mission comes with Red Hat SSO pre-configured for demonstration purposes, it does ' +
       'not explain its principles, usage, or configuration. Before using this mission, ensure that you are familiar ' +
-      'with the basic concepts related to Red Hat SSO',
+      'with the basic concepts related to Red Hat SSO'
     }] as Mission[]);
     return missions;
   }
