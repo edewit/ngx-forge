@@ -1,5 +1,5 @@
 export class Mission {
-  description: string;
+  description?: string;
   id: string;
   name: string;
   prerequisite?: string;

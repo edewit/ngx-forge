@@ -59,9 +59,6 @@ export class DemoPipelineService implements PipelineService {
       'id': 'maven-release',
       'platform': 'maven',
       'name': 'Release',
-      'description': 'Maven based pipeline which:\\n\\n' +
-        '* creates a new version then builds and deploys the project into the maven repository\\n' +
-        '* runs an integration test in the **Test** environment',
       'stages': [{
         'name': 'Build Release',
         'description': 'Creates a new version then builds and deploys the project into the maven repository'
@@ -75,10 +72,6 @@ export class DemoPipelineService implements PipelineService {
       'id': 'maven-releaseandstage',
       'platform': 'maven',
       'name': 'Release and Stage',
-      'description': 'Maven based pipeline which:\\n\\n' +
-      '* creates a new version then builds and deploys the project into the maven repository\\n' +
-      '* runs an integration test in the **Test** environment\\n' +
-      '* stages the new version into the **Stage** environment',
       'stages': [{
         'name': 'Build Release',
         'description': 'Creates a new version then builds and deploys the project into the maven repository'
@@ -95,13 +88,6 @@ export class DemoPipelineService implements PipelineService {
       'id': 'maven-releasestageapproveandpromote',
       'platform': 'maven',
       'name': 'Release, Stage, Approve and Promote',
-      // Description currently unused
-      'description': 'Maven based pipeline which:\\n\\n ' +
-      '* creates a new version then builds and deploys the project into the maven repository\n ' +
-      '* runs an integration test in the **Test** environment\\n ' +
-      '* stages the new version into the **Stage** environment\\n ' +
-      '* waits for **Approval** to promote\\n ' +
-      '* promotes to the **Run** environment',
       'stages': [{
         'name': 'Build Release',
         'description': 'Creates a new version then builds and deploys the project into the maven repository'

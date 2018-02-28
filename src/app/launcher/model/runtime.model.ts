@@ -1,5 +1,5 @@
 export class Runtime {
-  description: string;
+  description?: string;
   icon: string;
   id: string;
   missions: [{

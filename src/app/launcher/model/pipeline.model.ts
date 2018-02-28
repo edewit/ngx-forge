@@ -1,10 +1,12 @@
 export class Pipeline {
-  description: string;
   expanded?: boolean;
   name: string;
   id: string;
   platform: string;
-  stages: any[];
+  stages: [{
+    description: string;
+    name: string;
+  }];
   suggested?: boolean;
   techpreview?: boolean;
 }
