@@ -32,11 +32,13 @@
                     <div class="f8launcher-tags"
                          *ngIf="pipeline.suggested === true || pipeline.techpreview === true">
                       <span class="f8launcher-tags-label" container="body" triggers="click"
+                            outsideClick="true"
                             popover="This pipeline provides an end-to-end process that moves your application from source code to production, with stages to build and test new versions, rollout to staging, review changes, await approval, and promote to production." triggers="click"
                             *ngIf="pipeline.suggested === true">
                         Suggested <i class="pficon pficon-info"></i>
                       </span>
                       <span class="f8launcher-tags-label" container="body" triggers="click"
+                            outsideClick="true"
                             popover="Technology Preview"
                             *ngIf="pipeline.techpreview === true">
                         Tech Preview <i class="pficon pficon-info"></i>

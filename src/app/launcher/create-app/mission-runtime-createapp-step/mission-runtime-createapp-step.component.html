@@ -50,17 +50,19 @@
                         and help us expand these offerings.
                       </ng-template>
                       <span class="f8launcher-tags-label contribute" container="body" triggers="click"
+                            outsideClick="true"
                             [popover]="missionContributeTemplate"
-                            container="body"
                             *ngIf="isMissionDisabled(mission) === true">
                         Contribute <i class="pficon pficon-info"></i>
                       </span>
                       <span class="f8launcher-tags-label" container="body" triggers="click"
+                            outsideClick="true"
                             popover="This mission will get you started with a bare bones working application."
                             *ngIf="mission.suggested === true">
                         Suggested <i class="pficon pficon-info"></i>
                       </span>
                       <span class="f8launcher-tags-label prerequisite" container="body" triggers="click"
+                            outsideClick="true"
                             popover="{{mission.prerequisite}}"
                             *ngIf="mission.prerequisite !== undefined">
                         Prerequisite <i class="pficon pficon-info"></i>
@@ -74,7 +76,8 @@
                            [value]="mission.id"
                            (ngModelChange)="updateMissionSelection(mission)">
                   </div>
-                  <div class="list-view-pf-main-info">
+                  <div class="list-view-pf-main-info"
+                       (click)="updateMissionSelection(mission)">
                     <div class="list-view-pf-body">
                       <div class="list-view-pf-description">
                         <div class="list-group-item-heading">
@@ -89,7 +92,8 @@
                           </div>
                           <div class="description-more">
                             <a href="javascript:void(0)"
-                               (click)="mission.showMore = (mission.showMore !== undefined) ? !mission.showMore : true">
+                               (click)="mission.showMore = (mission.showMore !== undefined)
+                                        ? !mission.showMore : true; $event.stopPropagation()">
                               {{(mission.showMore !== true) ? 'More' : 'Less'}}
                             </a>
                           </div>
@@ -127,16 +131,19 @@
                         and help us expand these offerings.
                       </ng-template>
                       <span class="f8launcher-tags-label contribute" container="body" triggers="click"
+                            outsideClick="true"
                             [popover]="runtimeContributeTemplate"
                             *ngIf="isRuntimeDisabled(runtime) === true">
                         Contribute <i class="pficon pficon-info"></i>
                       </span>
                       <span class="f8launcher-tags-label" container="body" triggers="click"
+                            outsideClick="true"
                             popover="This runtime will get you started with a bare bones working application."
                             *ngIf="runtime.suggested === true">
                         Suggested <i class="pficon pficon-info"></i>
                       </span>
                       <span class="f8launcher-tags-label prerequisite" container="body" triggers="click"
+                            outsideClick="true"
                             popover="{{runtime.prerequisite}}"
                             *ngIf="runtime.prerequisite !== undefined">
                         Prerequisite <i class="pficon pficon-info"></i>
@@ -150,14 +157,16 @@
                            [value]="runtime.id"
                            (ngModelChange)="updateRuntimeSelection(runtime)">
                   </div>
-                  <div class="list-view-pf-main-info">
+                  <div class="list-view-pf-main-info"
+                       (click)="updateRuntimeSelection(runtime)">
                     <div class="list-view-pf-left">
                       <span class="list-view-pf-logo">
                         <img [src]="_DomSanitizer.bypassSecurityTrustUrl(runtime.icon)"
                              *ngIf="runtime.icon !== null">
                       </span>
                     </div>
-                    <div class="list-view-pf-body f8launcher-section-runtime">
+                    <div class="list-view-pf-body f8launcher-section-runtime"
+                         (click)="updateRuntimeSelection(runtime)">
                       <div class="list-view-pf-description">
                         <div class="list-group-item-heading">
                           {{runtime.name}}
@@ -189,7 +198,8 @@
                           </div>
                           <div class="description-more">
                             <a class="description-more" href="javascript:void(0)"
-                               (click)="runtime.showMore = (runtime.showMore !== undefined) ? !runtime.showMore : true">
+                               (click)="runtime.showMore = (runtime.showMore !== undefined)
+                                        ? !runtime.showMore : true; $event.stopPropagation()">
                               {{(runtime.showMore !== true) ? 'More' : 'Less'}}
                             </a>
                           </div>

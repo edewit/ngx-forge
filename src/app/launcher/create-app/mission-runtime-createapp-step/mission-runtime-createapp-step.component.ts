@@ -273,7 +273,11 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
   }
 
   private updateMissionSelection(val: Mission): void {
+    if (this.isMissionDisabled(val) === true) {
+      return;
+    }
     this.launcherComponent.summary.mission = val;
+    this.missionId = val.id; // to support clicking anywhere in list item
 
     // Clear selected version if not supported by mission
     this.runtimes.forEach((runtime) => {
@@ -299,7 +303,11 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
   }
 
   private updateRuntimeSelection(val: Runtime): void {
+    if (this.isRuntimeDisabled(val) === true) {
+      return;
+    }
     this.launcherComponent.summary.runtime = val;
+    this.runtimeId = val.id; // to support clicking anywhere in list item
 
     // Set summary version
     if (val.version !== undefined) {
