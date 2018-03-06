@@ -120,7 +120,10 @@ gulp.task('post-transpile', ['transpile'], function () {
 
 // Transpile and minify less, storing results in libraryDist.
 gulp.task('transpile-less', ['lint-less'], function () {
-  return transpileLESS(appSrc + '/**/*.less');
+  return transpileLESS([
+    appSrc + '/**/*.less',
+    '!src/demo/**/*.less'
+  ]);
 });
 
 // transpiles the ts sources to js using the tsconfig.
@@ -131,14 +134,17 @@ gulp.task('transpile', ['transpile-less'], function () {
 // copies the template html files to libraryDist.
 gulp.task('copy-html', function () {
   return copyToDist([
-    'src/**/*.html'
+    'src/**/*.html',
+    '!src/demo/**/*.html',
+    '!src/demo.html'
   ]);
 });
 
 // require transpile to finish before copying the css
 gulp.task('copy-css', ['transpile'], function () {
   return copyToDist([
-    'src/**/*.css'
+    'src/**/*.css',
+    '!src/demo/**/*.css'
   ]);
 });
 

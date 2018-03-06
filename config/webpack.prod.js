@@ -43,6 +43,10 @@ module.exports = function (env) {
       library: 'ngx-forge',
       libraryTarget: 'umd',
       umdNamedDefine: true
-    }
+    },
+
+    plugins: [
+      new UglifyJsPlugin()
+    ]
   });
 };

@@ -44,7 +44,16 @@ let mockPipelineService = {
         'suggested': true,
         'name': 'Release',
         'description': 'A slightly longer description of this pipeline\'s capabilities and usage.',
-        'stages': ['Stage Name', 'Stage Name', 'Stage Name'],
+        'stages': [{
+          name: 'Stage Name',
+          description: 'description...'
+        }, {
+          name: 'Stage Name',
+          description: 'description...'
+        }, {
+          name: 'Stage Name',
+          description: 'description...'
+        }],
         'platform': 'maven'
       }]);
       return pipelines;

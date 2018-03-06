@@ -31,6 +31,10 @@
   "files": [
     "index.ts"
   ],
+  "exclude": [
+    "demo.ts",
+    "src/demo"
+  ],
   "awesomeTypescriptLoaderOptions": {
     "forkChecker": true,
     "useWebpackText": true
