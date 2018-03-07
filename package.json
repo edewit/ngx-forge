@@ -1,9 +1,9 @@
 {
   "name": "ngx-forge",
-  "version": "0.0.56-development",
+  "version": "0.0.57-development",
   "description": "Forge services for Angular v2 and up",
-  "main": "bundles/ngx-forge.js",
-  "module": "bundles/ngx-forge.js",
+  "main": "index.js",
+  "module": "index.js",
   "typings": "index.d.ts",
   "scripts": {
     "build": "npm run remove-dist && npm run build:library",

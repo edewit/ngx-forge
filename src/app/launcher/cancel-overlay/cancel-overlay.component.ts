@@ -9,8 +9,8 @@ import { LauncherComponent } from '../launcher.component';
 
 @Component({
   selector: 'f8launcher-cancel-overlay',
-  styleUrls: ['./cancel-overlay.component.less'],
-  templateUrl: './cancel-overlay.component.html'
+  templateUrl: './cancel-overlay.component.html',
+  styleUrls: ['./cancel-overlay.component.less']
 })
 export class CancelOverlayComponent implements OnInit {
 

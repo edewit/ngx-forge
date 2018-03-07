@@ -12,8 +12,8 @@ const PROJECTSELECT_VALUE_ACCESSOR: any = {
 @Component({
   selector: 'ob-project-select',
   providers: [PROJECTSELECT_VALUE_ACCESSOR],
-  templateUrl: 'project-select.component.html',
-  styleUrls: ['project-select.component.less']
+  templateUrl: './project-select.component.html',
+  styleUrls: ['./project-select.component.less']
 })
 export class ProjectSelect extends DefaultValueAccessor {
   @Input() input: Field;

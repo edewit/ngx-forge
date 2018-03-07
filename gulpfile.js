@@ -29,7 +29,7 @@ var watchDist = 'dist-watch';
 function copyToDist(srcArr) {
   return gulp.src(srcArr)
     .pipe(gulp.dest(function (file) {
-      return libraryDist + file.base.slice(__dirname.length + 'src/'.length); // save directly to dist
+      return libraryDist + file.base.slice(__dirname.length); // save directly to dist
     }));
 }
 
@@ -61,7 +61,7 @@ function transpileLESS(src, debug) {
     }))
     .pipe(sourcemaps.write())
     .pipe(gulp.dest(function (file) {
-      return libraryDist + file.base.slice(__dirname.length + 'src/'.length);
+      return libraryDist + file.base.slice(__dirname.length);
     }));
     combined.on('error', console.error.bind(console));
     return combined;
@@ -108,7 +108,7 @@ gulp.task('stylelint', function lintLessTask() {
 // FIXME: why do we need that?
 // replaces templateURL/styleURL with require statements in js.
 gulp.task('post-transpile', ['transpile'], function () {
-  return gulp.src(['dist/app/**/*.js'])
+  return gulp.src(['dist/src/**/*.js'])
     .pipe(replace(/templateUrl:\s/g, "template: require("))
     .pipe(replace(/\.html',/g, ".html'),"))
     .pipe(replace(/styleUrls: \[/g, "styles: [require("))
@@ -140,6 +140,13 @@ gulp.task('copy-html', function () {
   ]);
 });
 
+// copies images to libraryDist.
+gulp.task('copy-images', function () {
+  return copyToDist([
+    'src/assets/images/**/*.*'
+  ]);
+});
+
 // require transpile to finish before copying the css
 gulp.task('copy-css', ['transpile'], function () {
   return copyToDist([
@@ -163,6 +170,7 @@ gulp.task('build:library',
 [
   'post-transpile',
   'copy-html',
+  'copy-images',
   'bundle',
   'copy-static-assets'
 ]);
