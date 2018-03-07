@@ -1,13 +1,10 @@
 
-export { AsciidocComponent } from './src/app/components/asciidoc/asciidoc.component';
 export { SpinnerComponent } from './src/app/components/spinner/spinner.component';
 export { PipelineViewComponent } from './src/app/components/pipeline-view/pipeline-view.component';
 export { MultipleSelectionListComponent } from './src/app/components/multiple-selection-list/multiple-selection-list.component';
 export { SelectedItemsPipe } from './src/app/components/multiple-selection-list/selected-items.pipe';
 export { VisibleItemsPipe } from './src/app/components/multiple-selection-list/visible-items.pipe';
 export { SingleSelectionDropDownComponent } from './src/app/components/single-selection-dropdown/single-selection-dropdown.component';
-export { AsciidocIndex } from './src/app/components/asciidoc/asciidoc.index';
-export { AsciidocService } from './src/app/components/asciidoc/asciidoc.service';
 export { InputComponent } from './src/app/components/input/input.component';
 export { ProjectSelect, ProjectSelectConfig } from './src/app/components/project-select/project-select.component';
 export * from './src/app/model/base.model';
