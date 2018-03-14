@@ -2,8 +2,11 @@
   <input class="f8launcher-application-text-field_input"
          name="applicationTitle" placeholder="New Application" type="text"
          [(ngModel)]="launcherComponent.summary.dependencyCheck.projectName"
-         (keyup.enter)="$event.target.blur();">
+         (keyup.enter)="$event.target.blur();" 
+         pattern="[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*"
+         #check="ngModel" minlength="4">
 </div>
+<div [hidden]="!check.hasError('pattern') && !check.hasError('minlength')" class="error-msg">Invalid Application Name</div>
 <div class="f8launcher-vertical-bar"
      [ngClass]="{'in-progress': inProgress === true}">
   <a class="f8launcher-vertical-bar_steps--item {{step.styleClass}}" href="javascript:void(0)"

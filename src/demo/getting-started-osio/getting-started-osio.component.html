@@ -17,7 +17,11 @@
                   </label>
                   <span class="code-imports--step_pencil">
                     <input id="projectName" name="projectName" type="text" class="form-control code-imports--step_input col-sm-5" placeholder="Enter Application Name"
-                      aria-label="Application Name Input" required [(ngModel)]="projectName">
+                      aria-label="Application Name Input" required [(ngModel)]="projectName" 
+                      pattern="[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*"
+                      #check="ngModel"
+                      minlength="4">
+                      <div [hidden]="!check.hasError('pattern') && !check.hasError('minlength')" class="error-msg">Invalid Application Name</div>
                   </span>
                   <p class="help-block">
                     Application name must be unique, at least 4 characters long, cannot be more than 65 characters and must contain only letters,
