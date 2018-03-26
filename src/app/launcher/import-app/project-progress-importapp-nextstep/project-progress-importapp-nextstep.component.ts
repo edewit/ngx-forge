@@ -22,8 +22,6 @@ import { LauncherComponent } from '../../launcher.component';
 })
 export class ProjectProgressImportappNextstepComponent implements OnInit, OnChanges, OnDestroy {
   @Input() statusLink: string;
-  isError = false;
-  errorMessage = '';
   private _progress: Progress[];
   private socket: WebSocket;
 
@@ -49,9 +47,7 @@ export class ProjectProgressImportappNextstepComponent implements OnInit, OnChan
             for (let key in item) {
               if (item.hasOwnProperty(key)) {
                 let status = new Progress(false, item[key], '', true, key);
-                if (status['key'] !== 'GITHUB_CREATE' && status['key'] !== 'GITHUB_PUSHED') {
-                  this._progress.push(status);
-                }
+                this._progress.push(status);
               }
             }
           }
@@ -61,8 +57,6 @@ export class ProjectProgressImportappNextstepComponent implements OnInit, OnChan
           let data = message.data || {};
           if (data && data.error) {
             console.log(message.data.error);
-            this.isError = true;
-            this.errorMessage = data.error;
           } else {
             for (let status of this._progress) {
               if (status.key === message.statusMessage) {
@@ -110,10 +104,5 @@ export class ProjectProgressImportappNextstepComponent implements OnInit, OnChan
     if (this.projectProgressService && this.projectProgressService.progressMessages) {
       this.projectProgressService.progressMessages.unsubscribe();
     }
-  }
-
-  private reset() {
-    this.isError = false;
-    this.errorMessage = '';
   }
 }

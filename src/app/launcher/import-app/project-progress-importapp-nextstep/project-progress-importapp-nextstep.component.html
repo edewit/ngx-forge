@@ -9,22 +9,6 @@
   </div>
   <div>
     <div class="container-fluid container-cards-pf">
-      <div class="alert-box" *ngIf="ifError === true">
-          <div class="alert alert-danger">
-              <span class="pficon pficon-error-circle-o"></span>
-              <strong>Set Up Incomplete</strong> There were some problems.
-            </div>
-            <div class="alert alert-detail">
-              <div class="row">
-                <div class="col-xs-2">
-                  What happened ?
-                </div>
-                <div class="col-xs-10">
-                  {{ errorMessage }}
-                </div>
-              </div>
-            </div>
-      </div>
       <div class="row row-cards-pf">
         <div class="col-xs-12">
           <div class="card-pf">
@@ -35,9 +19,6 @@
                 </span>
                 <span *ngIf="allCompleted === true">
                   <i class="pficon pficon-ok"></i> Your Application is Ready
-                </span>
-                <span *ngIf="ifError === true">
-                  <i class="pficon pficon-error-circle-o"></i> Set Up Incomplete
                 </span>
               </h2>
             </div>
