@@ -9,7 +9,7 @@
   </div>
   <div>
     <div class="container-fluid container-cards-pf">
-      <div class="alert-box" *ngIf="ifError === true">
+      <div class="alert-box" *ngIf="isError === true">
           <div class="alert alert-danger">
               <span class="pficon pficon-error-circle-o"></span>
               <strong>Set Up Incomplete</strong> There were some problems.
@@ -36,7 +36,7 @@
                 <span *ngIf="allCompleted === true">
                   <i class="pficon pficon-ok"></i> Your Application is Ready
                 </span>
-                <span *ngIf="ifError === true">
+                <span *ngIf="isError === true">
                   <i class="pficon pficon-error-circle-o"></i> Set Up Incomplete
                 </span>
               </h2>
