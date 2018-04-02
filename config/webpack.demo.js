@@ -3,6 +3,16 @@ const webpack = require('webpack');
 const path = require('path');
 
 /**
+ * Webpack Constants
+ */
+
+const OSIO_AUTH_TOKEN = process.env.OSIO_AUTH_TOKEN;
+
+const METADATA = {
+  OSIO_AUTH_TOKEN: OSIO_AUTH_TOKEN
+};
+
+/**
  * Webpack Plugins
  */
 const AotPlugin = require('@ngtools/webpack').AotPlugin; // Angular 4
@@ -10,6 +20,7 @@ const AotPlugin = require('@ngtools/webpack').AotPlugin; // Angular 4
 const CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const DefinePlugin = require('webpack/lib/DefinePlugin');
+const EnvironmentPlugin = require('webpack/lib/EnvironmentPlugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const IgnorePlugin = require('webpack/lib/IgnorePlugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -139,6 +150,7 @@ module.exports = {
   },
 
   plugins: [
+    new webpack.EnvironmentPlugin(METADATA),
     extractCSS,
     /*
      * Plugin: CommonsChunkPlugin
