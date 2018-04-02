@@ -18,9 +18,7 @@
     "rootDir": ".",
     "outDir": "dist",
     "paths": {
-      "@angular/core": ["node_modules/@angular/core"],
-      "@angular/http": ["node_modules/@angular/http"],
-      "@angular/router": ["node_modules/@angular/router"],
+      "@angular/*": ["node_modules/@angular/*"],
       "rxjs/*": ["node_modules/rxjs/*"]
     },
     "lib": [

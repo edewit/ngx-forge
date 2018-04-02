@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ModalModule } from 'ngx-modal';
 
+import { DependencyEditorModule } from 'fabric8-analytics-dep-editor';
 import { BsDropdownConfig, BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
@@ -16,6 +17,7 @@ import { CancelOverlayComponent } from './cancel-overlay/cancel-overlay.componen
 
 import { ActivateBoosterCreateappNextstepComponent }
   from './create-app/activate-booster-createapp-nextstep/activate-booster-createapp-nextstep.component';
+import { DependencyEditorCreateappStepComponent } from './create-app/dependency-editor-step/dependency-editor-step.component';
 import { GitproviderCreateappStepComponent }
   from './create-app/gitprovider-createapp-step/gitprovider-createapp-step.component';
 import { MissionRuntimeCreateappStepComponent }
@@ -55,6 +57,7 @@ export const providers: Provider[] = [
   imports: [
     BsDropdownModule.forRoot(),
     CommonModule,
+    DependencyEditorModule,
     FormsModule,
     ModalModule,
     InViewportModule.forRoot(providers),
@@ -69,6 +72,7 @@ export const providers: Provider[] = [
   declarations: [
     ActivateBoosterCreateappNextstepComponent,
     CancelOverlayComponent,
+    DependencyEditorCreateappStepComponent,
     GitproviderCreateappStepComponent,
     GitproviderImportappStepComponent,
     MissionRuntimeCreateappStepComponent,
