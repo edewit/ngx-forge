@@ -59,7 +59,7 @@ module.exports = {
   },
 
   resolve: {
-    extensions: ['.webpack.js', '.wep.js', '.js', '.ts']
+    extensions: ['.webpack.js', '.wep.js', '.js', '.ts', '.less', '.css']
   },
 
   stats: {
@@ -225,10 +225,10 @@ module.exports = {
      *
      * See: https://www.npmjs.com/package/@ngtools/webpack
      */
-    // new AotPlugin({
-    //   entryModule: helpers.root('src/demo/app.module.ts#AppModule'),
-    //   tsConfigPath: helpers.root('tsconfig-aot.json')
-    // }),
+    new AotPlugin({
+      entryModule: helpers.root('src/demo/app.module.ts#AppModule'),
+      tsConfigPath: helpers.root('tsconfig-aot.json')
+    }),
 
     /**
      * Plugin: copy-webpack-plugin
