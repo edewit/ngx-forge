@@ -162,7 +162,7 @@ export class GitproviderCreateappStepComponent extends LauncherStep implements A
     if (selection === undefined) {
       return '';
     }
-    return '?selection=' + JSON.stringify(selection);
+    return '?selection=' + encodeURI(JSON.stringify(selection));
   }
 
   /**
