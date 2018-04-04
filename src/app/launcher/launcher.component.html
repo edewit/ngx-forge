@@ -31,7 +31,7 @@
             [title]="'Select Target Environment'">
           </f8launcher-targetenvironment-createapp-step>
           <f8launcher-releasestrategy-createapp-step
-            [hidden]="targetEnvironment !== 'os' && !(summary?.targetEnvironment === 'os' && targetEnvStep.completed === true)"
+            [hidden]="flow === 'launch' || targetEnvironment !== 'os' && !(summary?.targetEnvironment === 'os' && targetEnvStep.completed === true)"
             [id]="'ReleaseStrategy'"
             [styleClass]="'release-strategy'"
             [title]="'Select Pipeline'">

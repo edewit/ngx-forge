@@ -30,6 +30,11 @@ export class LauncherComponent implements AfterViewInit, OnInit {
   @Input() importApp: boolean = false;
 
   /**
+   * Setting the flow to 'launch' will skip the pipeline step and show a cluster dropdown. Defaults to 'osio'.
+   */
+  @Input() flow: string = 'osio';
+
+  /**
    * Setting the target environment to 'os' will show all steps, except the completed target environment
    */
   @Input() targetEnvironment: string;
