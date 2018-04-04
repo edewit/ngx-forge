@@ -1,5 +1,6 @@
 import { Cluster } from './cluster.model';
 import { DependencyCheck } from './dependency-check.model';
+import { DependencySnapshotItem } from './dependency-snapshot-item.model';
 import { GitHubDetails } from './github-details.model';
 import { Mission } from './mission.model';
 import { Runtime } from './runtime.model';
