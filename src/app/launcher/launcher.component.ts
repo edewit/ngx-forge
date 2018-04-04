@@ -116,7 +116,8 @@ export class LauncherComponent implements AfterViewInit, OnInit {
       runtimeId: (this._summary.runtime !== undefined) ? this._summary.runtime.id : undefined,
       runtimeVersion: (this._summary.runtime !== undefined) ? this._summary.runtime.version : undefined,
       spacePath: (this._summary.dependencyCheck !== undefined) ? this._summary.dependencyCheck.spacePath : undefined,
-      targetEnvironment: this._summary.targetEnvironment
+      targetEnvironment: this._summary.targetEnvironment,
+      cluster: this._summary.cluster
     } as Selection;
     return selection;
   }

@@ -1,3 +1,5 @@
+import { Cluster } from "./cluster.model";
+
 export class Selection {
   groupId?: string;
   missionId?: string;
@@ -11,4 +13,5 @@ export class Selection {
   };
   spacePath?: string;
   targetEnvironment?: string;
+  cluster?: Cluster;
 }

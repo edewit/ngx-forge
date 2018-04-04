@@ -93,6 +93,7 @@ export class TargetEnvironmentCreateappStepComponent extends LauncherStep implem
     if (selection !== undefined) {
       this.launcherComponent.summary.targetEnvironment = selection.targetEnvironment;
     }
+    this.launcherComponent.summary.cluster = selection.cluster;
     this.initCompleted(); // Ensure this is called for launcherComponent.targetEnvironment input
   }
 }

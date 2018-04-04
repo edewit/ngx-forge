@@ -31,6 +31,9 @@
                   {{benefit}}
                 </li>
               </ul>
+              <select name="cluster" [(ngModel)]="launcherComponent.summary.cluster" *ngIf="targetEnv.clusters">
+                <option *ngFor="let cluster of targetEnv.clusters">{{cluster.id}}</option>
+              </select>
             </div>
             <div class="card-pf-footer">
               <span class="card-pf-footer--title">{{targetEnv.footer}}</span>
