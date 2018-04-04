@@ -17,6 +17,7 @@ import { Selection } from '../../model/selection.model';
 // import { TargetEnvironmentService } from '../../service/target-environment.service';
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
+import { Summary } from '../../model/summary.model';
 
 @Component({
     encapsulation: ViewEncapsulation.None,
@@ -126,6 +127,19 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
 
     updateTargetEnvSelection(): void {
         this.initCompleted();
+    }
+
+    public pickDependencies(event: any) {
+        if (event)
+        this.launcherComponent.summary.dependencySnapshot = event;
+    }
+
+    public pickMetadata(event: any) {
+        if (event) {
+        this.launcherComponent.summary.dependencyCheck.mavenArtifact = event.artifactId;
+        this.launcherComponent.summary.dependencyCheck.groupId = event.groupId;
+        this.launcherComponent.summary.dependencyCheck.projectVersion = event.version;
+        }
     }
 
     // Private

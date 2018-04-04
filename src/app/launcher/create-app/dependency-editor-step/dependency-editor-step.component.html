@@ -11,7 +11,7 @@
   <div>
     <div class="container-fluid container-cards-pf">
       <div class="row row-cards-pf">
-         <app-dependency-editor [boosterInfo]="boosterInfo && boosterInfo" [githubUrl]="github && github"></app-dependency-editor>
+         <app-dependency-editor [boosterInfo]="boosterInfo && boosterInfo" [githubUrl]="github && github" (depSnapshot)="pickDependencies($event)" (emitMetadata)="pickMetadata($event)"></app-dependency-editor>
       </div>
     </div>
   </div>
