@@ -196,6 +196,7 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
         let selection: Selection = this.launcherComponent.selectionParams;
         if (selection !== undefined) {
             this.launcherComponent.summary.targetEnvironment = selection.targetEnvironment;
+            this.launcherComponent.summary.dependencyCheck = selection.dependencyCheck;
         }
         this.initCompleted(); // Ensure this is called for launcherComponent.targetEnvironment input
     }
