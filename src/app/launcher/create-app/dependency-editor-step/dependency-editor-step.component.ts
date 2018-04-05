@@ -109,7 +109,7 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
      * @returns {boolean} True if step is completed
      */
     get stepCompleted(): boolean {
-        return (this.launcherComponent.summary.dependencyCheck === undefined);
+        return (this.launcherComponent.summary.dependencyCheck !== undefined);
     }
 
     /**
