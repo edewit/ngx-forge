@@ -101,11 +101,11 @@
                 New Dependencies Selected
               </h2>
             </div>
-            <div id="dependency" class="card-pf-body f8launcher-project-summary-data-unavailable">
+            <div class="card-pf-body f8launcher-project-summary-data-unavailable dependency">
               <!-- <h2>
                 <b>{{snapshot}}</b>
               </h2> -->
-              <span id="dependencies-added" *ngFor="let snapshot of launcherComponent?.summary?.dependencyCheck?.dependencySnapshot">{{snapshot.package}}</span>
+              <span class="dependencies-added" *ngFor="let snapshot of launcherComponent?.summary?.dependencyCheck?.dependencySnapshot">{{snapshot.package}}</span>
               <!-- <button class="btn btn-default btn-lg f8launcher-authorize-account"
                       (click)="navToStep('ReleaseStrategy')">Complete Section</button> -->
             </div>
@@ -113,63 +113,20 @@
           <ng-template #showPipelineTemplate>
             <div class="card-pf-heading">
               <h2 class="card-pf-title">
-                Pipeline
+                New Dependencies Selected
               </h2>
             </div>
             <div class="card-pf-body">
               <div class="list-group-item"
                    [ngClass]="{'suggested': launcherComponent.summary?.pipeline?.suggested === true || launcherComponent.summary?.pipeline?.techpreview === true}">
-                <div class="list-group-item-header">
-                  <div class="f8launcher-tags"
-                       *ngIf="launcherComponent.summary?.pipeline?.suggested === true || launcherComponent.summary?.pipeline?.techpreview === true">
-                    <span class="f8launcher-tags-label suggested" container="body" triggers="click"
-                          outsideClick="true"
-                          popover="This pipeline provides an end-to-end process that moves your application from source code to production, with stages to build and test new versions, rollout to staging, review changes, await approval, and promote to production."
-                          *ngIf="launcherComponent.summary?.pipeline?.suggested === true">
-                      Suggested <i class="pficon pficon-info"></i>
-                    </span>
-                    <span class="f8launcher-tags-label techpreview" container="body" triggers="click"
-                          outsideClick="true"
-                          popover="Technology Preview"
-                          *ngIf="launcherComponent.summary?.pipeline?.techpreview === true">
-                        Tech Preview <i class="pficon pficon-info"></i>
-                      </span>
-                  </div>
-                </div>
-                <div class="list-view-pf-expand">
-                        <span class="fa"
-                              [ngClass]="{'fa-angle-down': launcherComponent.summary?.pipeline?.expanded === true,
-                                          'fa-angle-right': launcherComponent.summary?.pipeline?.expanded !== true}"
-                              (click)="toggleExpanded(launcherComponent.summary.pipeline)">
-                        </span>
-                </div>
-                <div class="list-view-pf-main-info"
-                     (click)="pipelineId = launcherComponent.summary?.pipeline?.id; updatePipelineSelection(pipeline)">
+                <div class="list-view-pf-main-info">
                   <div class="list-view-pf-body">
-                    <div class="list-view-pf-description">
-                      <ng-container *ngFor="let stage of launcherComponent.summary?.pipeline?.stages; let i = index">
-                            <span class="f8launcher-pipeline-stages--line">
-                              <span class="f8launcher-pipeline-stages--name">
-                                {{stage.name || stage}}
-                              </span>
-                            </span>
-                        <span class="f8launcher-pipeline-stages--arrow"
-                              *ngIf="i !== launcherComponent.summary?.pipeline?.stages.length - 1"></span>
+                    <div class="list-view-pf-description f8launcher-project-summary-data-unavailable dependency">
+                      <ng-container *ngFor="let snapshot of launcherComponent?.summary?.dependencyCheck?.dependencySnapshot">
+                        <span class="dependencies-added" *ngFor="let snapshot of launcherComponent?.summary?.dependencyCheck?.dependencySnapshot">
+                          {{snapshot.package}}
+                        </span>                        
                       </ng-container>
-                    </div>
-                  </div>
-                </div>
-                <div class="list-group-item-container container-fluid"
-                     (click)="pipelineId = launcherComponent.summary?.pipeline?.id; updatePipelineSelection(pipeline)"
-                     *ngIf="launcherComponent.summary?.pipeline?.expanded === true">
-                  <div class="row">
-                    <div class="form-horizontal">
-                      <div class="form-group col-sm-12" *ngFor="let stage of launcherComponent.summary?.pipeline?.stages">
-                        <label class="col-sm-2 control-label">
-                          {{stage.name}}
-                        </label>
-                        {{stage.description}}
-                      </div>
                     </div>
                   </div>
                 </div>
