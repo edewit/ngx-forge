@@ -131,7 +131,7 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
 
     public pickDependencies(event: any) {
         if (event)
-        this.launcherComponent.summary.dependencySnapshot = event;
+        this.launcherComponent.summary.dependencyCheck['dependencySnapshot'] = event;
     }
 
     public pickMetadata(event: any) {

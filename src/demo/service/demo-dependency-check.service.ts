@@ -38,7 +38,8 @@ export class DemoDependencyCheckService implements DependencyCheckService {
       groupId: 'io.openshift.booster',
       projectName: 'app-test-1',
       projectVersion: '1.0.0-SNAPSHOT',
-      spacePath: '/myspace'
+      spacePath: '/myspace',
+      dependencySnapshot: null
     });
   }
 
