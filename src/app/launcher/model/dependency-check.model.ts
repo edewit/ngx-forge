@@ -5,5 +5,5 @@ export class DependencyCheck {
   projectName: string;
   projectVersion: string;
   spacePath: string;
-  dependencySnapshot: DependencySnapshotItem;
+  dependencySnapshot: Array<DependencySnapshotItem>;
 }
