@@ -225,14 +225,13 @@
                            (keyup.enter)="$event.target.blur();">
                   </div>
                 </div>
-                <div class="form-group f8launcher-project-summary-data-form-group">
+                <div class="form-group f8launcher-project-summary-data-form-group" *ngIf="launcherComponent.flow === 'osio'">
                   <label class="col-xs-4 control-label">Space Path</label>
                   <div class="col-xs-8 f8launcher-project-summary-data-field">
                     <span>{{launcherComponent?.summary?.dependencyCheck?.spacePath}}</span>
                   </div>
                 </div>
-                <div class="form-group f8launcher-project-summary-data-form-group"
-                     *ngIf="launcherComponent.targetEnvironment !== 'os'">
+                <div class="form-group f8launcher-project-summary-data-form-group">
                   <label class="col-xs-4 control-label">Target Environment</label>
                   <div *ngIf="launcherComponent.summary?.targetEnvironment === undefined;
                         then showNoTargetTemplate else showTargetTemplate"></div>

@@ -152,7 +152,7 @@
                     </div>
                   </div>
                   <div class="form-group f8launcher-project-summary-data-form-group"
-                         *ngIf="launcherComponent.targetEnvironment !== 'os'">
+                         *ngIf="launcherComponent.flow === 'launch'">
                     <label class="col-xs-4 control-label">Target Environment</label>
                     <div *ngIf="launcherComponent.summary?.targetEnvironment === undefined;
                             then showNoTargetTemplate else showTargetTemplate"></div>

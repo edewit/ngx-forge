@@ -35,11 +35,6 @@ export class LauncherComponent implements AfterViewInit, OnInit {
   @Input() flow: string = 'osio';
 
   /**
-   * Setting the target environment to 'os' will show all steps, except the completed target environment
-   */
-  @Input() targetEnvironment: string;
-
-  /**
    * The event emitted when an cancel has been selected
    */
   @Output('onCancel') onCancel = new EventEmitter();
@@ -73,16 +68,12 @@ export class LauncherComponent implements AfterViewInit, OnInit {
   ngOnInit() {
     let projectName = this.route.snapshot.params['projectName'];
     this._summary = {
+      targetEnvironment: this.flow === 'osio' ? 'os' : undefined,
       dependencyCheck: {
         projectName: (projectName !== undefined && projectName.length > 0) ? projectName : undefined
       },
       gitHubDetails: {}
     } as Summary;
-
-    // set target environment as completed
-    if (this.targetEnvironment !== undefined && this.targetEnvironment.length > 0) {
-      this._summary.targetEnvironment = this.targetEnvironment;
-    }
   }
 
   onInViewportChange($event: any, id: string) {
