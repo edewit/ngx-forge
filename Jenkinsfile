@@ -1,8 +1,8 @@
 #!/usr/bin/groovy
 @Library('github.com/fabric8io/fabric8-pipeline-library@master')
 def utils = new io.fabric8.Utils()
-def org = 'fabric8-ui'
-def repo = 'ngx-forge'
+def org = 'fabric8-launcher'
+def repo = 'ngx-launcher'
 fabric8UINode{
   ws {
     git "https://github.com/${org}/${repo}.git"

@@ -2,9 +2,10 @@
 def ci (){
     stage('build'){
         sh 'npm install'
+        sh 'npm run build'
     }
     stage('unit test'){
-        sh './run_unit_tests.sh'
+        sh 'npm run test:unit'
     }
 }
 
@@ -18,10 +19,6 @@ def cd (b){
         sh 'npm run build'
     }
 
-    stage('unit test'){
-        sh './run_unit_tests.sh'
-    }
-
     stage('release'){
         def published = npmRelease{
             branch = b
@@ -31,10 +28,11 @@ def cd (b){
 }
 
 def updateDownstreamProjects(v){
+    echo 'we would Update Downstream Projects'
     pushPackageJSONChangePR{
         propertyName = 'ngx-forge'
         projects = [
-                'fabric8-ui/fabric8-npm-dependencies'
+            'fabric8-ui/fabric8-npm-dependencies'
         ]
         version = v
         containerName = 'ui'
