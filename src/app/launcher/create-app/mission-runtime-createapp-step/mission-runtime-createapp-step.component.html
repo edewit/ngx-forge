@@ -173,7 +173,7 @@
                       <div class="list-view-pf-description">
                         <div class="list-group-item-heading">
                           {{runtime.name}}
-                          <div class="dropdown" dropdown>
+                          <div *ngIf="launcherComponent?.flow !== 'osio'" class="dropdown" dropdown>
                             <button type="button" class="btn btn-default dropdown-toggle" dropdownToggle
                                     [disabled]="isRuntimeDisabled(runtime) === true">
                               {{runtime.version?.name}}
