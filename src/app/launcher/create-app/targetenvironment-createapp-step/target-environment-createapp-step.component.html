@@ -31,9 +31,21 @@
                   {{benefit}}
                 </li>
               </ul>
-              <select name="cluster" [(ngModel)]="launcherComponent.summary.cluster" *ngIf="targetEnv.clusters">
-                <option *ngFor="let cluster of targetEnv.clusters">{{cluster.id}}</option>
-              </select>
+
+              <div class="dropdown text-center" dropdown *ngIf="targetEnv.clusters">
+                <button type="button" class="btn btn-default dropdown-toggle" dropdownToggle>
+                  <span *ngIf="!launcherComponent.summary.cluster">Select cluster</span>
+                  <span *ngIf="launcherComponent.summary.cluster">{{launcherComponent.summary.cluster.id}}</span>
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu cluster" role="menu" *dropdownMenu
+                    [attr.aria-labelledby]="i + 'dropdown'">
+                  <li *ngFor="let cluster of targetEnv.clusters">
+                    <a href="javascript:void(0)" class="dropdown-item" role="menuitem" tabindex="-1"
+                      (click)="launcherComponent.summary.cluster = cluster">{{cluster.id}}</a>
+                  </li>
+                </ul>
+              </div>
             </div>
             <div class="card-pf-footer">
               <span class="card-pf-footer--title">{{targetEnv.footer}}</span>
