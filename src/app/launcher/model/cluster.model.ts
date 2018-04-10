@@ -1,4 +1,4 @@
 export class Cluster {
-  clusterId: string;
-  name: string;
+  id: string;
+  type: string;
 }
