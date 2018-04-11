@@ -30,7 +30,7 @@ This library does not run on it's own. It must be imported.
 * node 8.3.0
 * npm 5.3.0
 
-#### Install the dependencies:
+#### Install the dependencies: 
  
  `npm install`
  
