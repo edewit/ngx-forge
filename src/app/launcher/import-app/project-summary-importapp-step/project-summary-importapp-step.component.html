@@ -9,7 +9,7 @@
   <div class="container-fluid container-cards-pf">
     <div class="row row-cards-pf">
       <div class="col-xs-12">
-        <div class="card-pf card-pf--small">
+        <div class="card-pf" [ngClass]="{'card-pf--small': launcherComponent.summary?.pipeline === undefined}">
           <div *ngIf="launcherComponent?.summary?.pipeline === undefined;
                       then showNoPipelineTemplate else showPipelineTemplate"></div>
           <ng-template #showNoPipelineTemplate>
@@ -36,23 +36,7 @@
             <div class="card-pf-body">
               <div class="list-group-item"
                    [ngClass]="{'suggested': launcherComponent?.summary?.pipeline?.suggested === true || launcherComponent?.summary?.pipeline?.techpreview === true}">
-                <div class="list-group-item-header">
-                  <div class="f8launcher-tags"
-                       *ngIf="launcherComponent?.summary?.pipeline?.suggested === true || launcherComponent?.summary?.pipeline?.techpreview === true">
-                    <span class="f8launcher-tags-label suggested" container="body" triggers="click"
-                          outsideClick="true"
-                          popover="This pipeline provides an end-to-end process that moves your application from source code to production, with stages to build and test new versions, rollout to staging, review changes, await approval, and promote to production."
-                          *ngIf="launcherComponent?.summary?.pipeline?.suggested === true">
-                      Suggested <i class="pficon pficon-info"></i>
-                    </span>
-                    <span class="f8launcher-tags-label techpreview" container="body" triggers="click"
-                          outsideClick="true"
-                          popover="Technology Preview"
-                          *ngIf="launcherComponent?.summary?.pipeline?.techpreview === true">
-                        Tech Preview <i class="pficon pficon-info"></i>
-                      </span>
-                  </div>
-                </div>
+                   <div class="group" [ngClass]="{'with-tag': launcherComponent.summary?.pipeline?.suggested === true || launcherComponent.summary?.pipeline.techpreview === true}">
                 <div class="list-view-pf-expand">
                         <span class="fa"
                               [ngClass]="{'fa-angle-down': launcherComponent?.summary?.pipeline?.expanded === true,
@@ -74,6 +58,22 @@
                               *ngIf="i !== launcherComponent?.summary?.pipeline?.stages.length - 1"></span>
                       </ng-container>
                     </div>
+                  </div>
+                </div>
+                <div class="f8launcher-tags" [ngClass]="{'suggested-feature-tag': launcherComponent?.summary?.pipeline?.suggested === true}"
+                       *ngIf="launcherComponent?.summary?.pipeline?.suggested === true || launcherComponent?.summary?.pipeline?.techpreview === true">
+                    <span class="f8launcher-tags-label suggested" container="body" triggers="click"
+                          outsideClick="true"
+                          popover="This pipeline provides an end-to-end process that moves your application from source code to production, with stages to build and test new versions, rollout to staging, review changes, await approval, and promote to production."
+                          *ngIf="launcherComponent?.summary?.pipeline?.suggested === true">
+                      Red Hat Suggests <i class="pficon pficon-info"></i>
+                    </span>
+                    <span class="f8launcher-tags-label techpreview" container="body" triggers="click"
+                          outsideClick="true"
+                          popover="Technology Preview"
+                          *ngIf="launcherComponent?.summary?.pipeline?.techpreview === true">
+                        Tech Preview <i class="pficon pficon-info"></i>
+                      </span>
                   </div>
                 </div>
                 <div class="list-group-item-container container-fluid"

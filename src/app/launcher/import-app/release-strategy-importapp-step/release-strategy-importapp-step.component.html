@@ -28,23 +28,7 @@
                 <div class="list-group-item"
                      [ngClass]="{'suggested': pipeline.suggested === true || pipeline.techpreview === true}"
                      *ngFor="let pipeline of (pipelines | sortArray: 'suggested': true)">
-                  <div class="list-group-item-header">
-                    <div class="f8launcher-tags"
-                         *ngIf="pipeline.suggested === true || pipeline.techpreview === true">
-                      <span class="f8launcher-tags-label suggested" container="body" triggers="click"
-                            outsideClick="true"
-                            popover="This pipeline provides an end-to-end process that moves your application from source code to production, with stages to build and test new versions, rollout to staging, review changes, await approval, and promote to production."
-                            *ngIf="pipeline.suggested === true">
-                        Suggested <i class="pficon pficon-info"></i>
-                      </span>
-                      <span class="f8launcher-tags-label techpreview" container="body" triggers="click"
-                            outsideClick="true"
-                            popover="Technology Preview"
-                            *ngIf="pipeline.techpreview === true">
-                        Tech Preview <i class="pficon pficon-info"></i>
-                      </span>
-                    </div>
-                  </div>
+                     <div class="group" [ngClass]="{'with-tag': pipeline.suggested === true || pipeline.techpreview === true}">
                   <div class="list-view-pf-expand">
                         <span class="fa"
                               [ngClass]="{'fa-angle-down': pipeline.expanded === true,
@@ -72,6 +56,22 @@
                                 *ngIf="i !== pipeline.stages.length - 1"></span>
                         </ng-container>
                       </div>
+                    </div>
+                  </div>
+                  <div class="f8launcher-tags" [ngClass]="{'suggested-feature-tag': pipeline.suggested === true}"
+                         *ngIf="pipeline.suggested === true || pipeline.techpreview === true">
+                      <span class="f8launcher-tags-label suggested" container="body" triggers="click"
+                            outsideClick="true"
+                            popover="This pipeline provides an end-to-end process that moves your application from source code to production, with stages to build and test new versions, rollout to staging, review changes, await approval, and promote to production."
+                            *ngIf="pipeline.suggested === true">
+                        Red Hat Suggests <i class="pficon pficon-info"></i>
+                      </span>
+                      <span class="f8launcher-tags-label techpreview" container="body" triggers="click"
+                            outsideClick="true"
+                            popover="Technology Preview"
+                            *ngIf="pipeline.techpreview === true">
+                        Tech Preview <i class="pficon pficon-info"></i>
+                      </span>
                     </div>
                   </div>
                   <div class="list-group-item-container container-fluid"
