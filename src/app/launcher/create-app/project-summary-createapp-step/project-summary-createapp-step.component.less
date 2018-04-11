@@ -9,8 +9,17 @@
       margin-left: 0;
     }
     .list-group-item {
-      &.suggested {
-        border-top: 1px solid @color-pf-blue;
+      padding-top: 0;
+      padding-bottom: 0;
+      .group {
+        flex: 1;
+        flex-direction: column;
+
+        &.with-tag {
+          padding-bottom: 20px;
+          position: relative;
+        }
+
       }
     }
     .list-group-item-header {

@@ -1,38 +1,70 @@
 @import (reference) 'main.less';
 
 .f8launcher-tags {
-  /* borders are ordered */
-  &.prerequisite {
-    border-top: 1px solid @color-pf-orange;
-  }
-  &.suggested, &.techpreview {
-    border-top: 1px solid @color-pf-blue;
-  }
-  &.contribute {
-    border-top: 1px solid @color-pf-green;
-  }
-  &:last-child {
-    margin-right: 0;
-  }
-  &-label {
-    margin-left: 5px;
-    padding: 0 10px;
-    color: @color-pf-white;
-    cursor: pointer;
-    font-size: .9em;
-    float: right;
-    i {
-      color: @color-pf-white;
+    position: absolute;
+    right: -15px;
+    height: 100%;
+    display: flex;
+    flex-direction: column-reverse;
+    border-color: inherit;
+    border-right: 3px solid;
+    border-bottom: 4px solid;
+    bottom: 0;
+    &:before {
+        content: '';
+        display: block;
+        width: 5px;
+        height: 3px;
+        position: absolute;
+        top: 0;
+        right: 0;
     }
-    /* labels are ordered */
-    &.prerequisite {
-      background-color: @color-pf-orange;
+    &.advanced-feature-tag {
+        @advanced-color: @color-pf-orange-400;
+        color: @advanced-color;
+        border-color: @advanced-color;
+        &:before {
+            background: @advanced-color;
+        }
+        .f8launcher-tags-label {
+            color: @advanced-color;
+            background: @color-pf-orange-100;
+        }
     }
-    &.suggested, &.techpreview {
-      background-color: @color-pf-blue;
+    &.not-available-feature-tag {
+        @not-avail-color: @color-pf-black-700;
+        border-color: @not-avail-color;
+        color: @not-avail-color;
+        &:before {
+            background: @not-avail-color;
+        }
+        .f8launcher-tags-label {
+            color: @not-avail-color;
+            background: @color-pf-black-200;
+        }
     }
-    &.contribute {
-      background-color: @color-pf-green;
+    &.suggested-feature-tag {
+        @suggested-color: @color-pf-blue;
+        border-color: @suggested-color;
+        color: @suggested-color;
+        &:before {
+            background: @suggested-color;
+        }
+        .f8launcher-tags-label {
+            color: @suggested-color;
+            background: @color-pf-blue-50;
+        }
     }
-  }
+
+    .f8launcher-tags-label {
+        right: 0;
+        padding: 0 5px;
+        cursor: pointer;
+        font-size: .9em;
+        bottom: 0;
+        margin-left: 0;
+        .tag-icon {
+          color: inherit;
+        }
+    }
 }

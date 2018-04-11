@@ -13,23 +13,20 @@
     }
   }
   .list-group-item {
-    &.suggested {
-      border-top: 1px solid @color-pf-blue;
-    }
 
-    .f8launcher-pipeline-stages--line {
-      position: relative;
-      padding-bottom: 5px;
-      &:after {
-        position: absolute;
-        right: unset;
-        left: 45%;
-        bottom: -12px;
+    .group {
+      flex: 1;
+      flex-direction: column;
+
+      &.with-tag {
+        padding-bottom: 20px;
+        position: relative;
       }
+
     }
 
-    .f8launcher-pipeline-stages--arrow {
-      margin-top: 30px;
+    .list-view-pf-main-info {
+      position: relative;
     }
   }
   .list-group-item-header {

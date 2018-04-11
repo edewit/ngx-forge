@@ -6,13 +6,15 @@
   margin-bottom: 15px;
   margin-left: 57px;
   &--line {
+    position: relative;
     border-bottom: 5px solid @color-pf-blue;
     padding-left: 5px;
     padding-right: 5px;
+    padding-bottom: 10px;
     &:after {
-      position: relative;
-      right: 45%;
-      bottom: -19px;
+      position: absolute;
+      left: 40%;
+      bottom: -11px;
       width: 25px;
       height: 25px;
       content: '\f111';
@@ -29,7 +31,7 @@
     width: 25px;
     height: 2px;
     position: relative;
-    margin-top: 35px;
+    margin-top: 30px;
     margin-right: 20px;
     margin-left: 20px;
     background: @color-pf-blue;

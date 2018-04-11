@@ -35,7 +35,7 @@
               </p>
             </div>
             <div class="card-pf-body">
-              <div class="list-group list-view-pf f8launcher-tags"
+              <div class="list-group list-view-pf"
                    [ngClass]="{'prerequisite': mission.prerequisite !== undefined,
                                'suggested': mission.suggested === true,
                                'contribute': isMissionDisabled(mission) === true}"
@@ -121,7 +121,7 @@
               </p>
             </div>
             <div class="card-pf-body">
-              <div class="list-group list-view-pf f8launcher-tags"
+              <div class="list-group list-view-pf"
                    [ngClass]="{'prerequisite': runtime.prerequisite !== undefined,
                                'suggested': runtime.suggested === true,
                                'contribute': isRuntimeDisabled(runtime) === true}"
