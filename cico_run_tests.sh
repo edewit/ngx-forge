@@ -18,6 +18,7 @@ load_jenkins_vars() {
 
 prep() {
   yum -y update
+  yum -y install docker make git gcc-c++ bzip2 fontconfig
   curl -sL https://rpm.nodesource.com/setup_8.x | sudo -E bash -
   yum -y install nodejs
 }
