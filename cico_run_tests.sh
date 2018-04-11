@@ -6,6 +6,10 @@ set -x
 # Exit on error
 set -e
 
+yum -y update
+curl --silent --location https://rpm.nodesource.com/setup_8.x | sudo bash -
+yum -y install nodejs
+
 function run_tests_and_build() {
   # install dependencies
   npm install
