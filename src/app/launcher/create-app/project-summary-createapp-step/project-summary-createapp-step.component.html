@@ -89,7 +89,7 @@
   <div class="container-fluid container-cards-pf" *ngIf="launcherComponent.summary?.targetEnvironment === 'os' && launcherComponent.flow !== 'launch'">
     <div class="row row-cards-pf">
       <div class="col-xs-12">
-        <div class="card-pf card-pf--small">
+        <div class="card-pf" [ngClass]="{'card-pf--small': launcherComponent.summary?.pipeline === undefined}">
           <div *ngIf="launcherComponent.summary?.pipeline === undefined;
                       then showNoPipelineTemplate else showPipelineTemplate"></div>
           <ng-template #showNoPipelineTemplate>
