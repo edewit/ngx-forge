@@ -6,31 +6,48 @@ set -x
 # Exit on error
 set -e
 
-yum -y update
-curl --silent --location https://rpm.nodesource.com/setup_8.x | sudo bash -
-yum -y install nodejs
+load_jenkins_vars() {
+  if [ -e "jenkins-env" ]; then
+      cat jenkins-env \
+        | grep -E "(DEVSHIFT_TAG_LEN|DEVSHIFT_USERNAME|DEVSHIFT_PASSWORD|JENKINS_URL|GIT_BRANCH|GIT_COMMIT|BUILD_NUMBER|ghprbSourceBranch|ghprbActualCommit|BUILD_URL|ghprbPullId|RECOMMENDER_API_TOKEN)=" \
+        | sed 's/^/export /g' \
+        > ~/.jenkins-env
+      source ~/.jenkins-env
+  fi
+}
 
-function run_tests_and_build() {
-  # install dependencies
-  npm install
+prep() {
+  yum -y update
+  curl -sL https://rpm.nodesource.com/setup_8.x | sudo -E bash -
+  yum -y install nodejs
+}
+
+install_dependencies() {
+  # Build fabric8-analytics-stack-reports-ui
+  npm install;
+  chmod +x /root/payload/node_modules/phantomjs-prebuilt/lib/phantom/bin/phantomjs
 
   if [ $? -eq 0 ]; then
-    echo 'CICO: npm install OK'
+      echo 'CICO: npm install : OK'
   else
-    echo 'CICO: npm install FAIL'
-    exit 1
+      echo 'CICO: npm install : FAIL'
+      exit 1
   fi
+}
 
-  # run unit tests
+run_unit_tests() {
+  # Exec unit tests
   npm run test:unit
 
   if [ $? -eq 0 ]; then
-    echo 'CICO: unit tests OK'
+      echo 'CICO: unit tests OK'
   else
-    echo 'CICO: unit tests FAIL'
-    exit 1
+      echo 'CICO: unit tests FAIL'
+      exit 2
   fi
+}
 
+build_project() {
   # run build
   npm run build
 
@@ -42,4 +59,8 @@ function run_tests_and_build() {
   fi
 }
 
-run_tests_and_build;
+load_jenkins_vars
+prep
+install_dependencies
+run_unit_tests
+build_project
