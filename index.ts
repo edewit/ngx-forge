@@ -1,5 +1,3 @@
-import { DependencyEditorTokenProvider, URLProvider } from 'fabric8-analytics-dep-editor';
-
 export { SpinnerComponent } from './src/app/components/spinner/spinner.component';
 export { PipelineViewComponent } from './src/app/components/pipeline-view/pipeline-view.component';
 export { MultipleSelectionListComponent } from './src/app/components/multiple-selection-list/multiple-selection-list.component';
@@ -21,6 +19,7 @@ export { ForgeExceptionComponent } from './src/app/components/forge-exception/fo
 export { LauncherModule } from './src/app/launcher/launcher.module';
 export { Cluster } from './src/app/launcher/model/cluster.model';
 export { DependencyCheck } from './src/app/launcher/model/dependency-check.model';
+export { DependencyEditor } from './src/app/launcher/model/dependency-editor/dependency-editor.model';
 export { GitHubDetails } from './src/app/launcher/model/github-details.model';
 export { Mission } from './src/app/launcher/model/mission.model';
 export { Pipeline } from './src/app/launcher/model/pipeline.model';
@@ -32,6 +31,7 @@ export { TargetEnvironment } from './src/app/launcher/model/target-environment.m
 // Launcher services
 export { ClusterService } from './src/app/launcher/service/cluster.service';
 export { DependencyCheckService } from './src/app/launcher/service/dependency-check.service';
+export { DependencyEditorService } from './src/app/launcher/service/dependency-editor.service';
 export { GitProviderService } from './src/app/launcher/service/git-provider.service';
 export { MissionRuntimeService } from './src/app/launcher/service/mission-runtime.service';
 export { PipelineService } from './src/app/launcher/service/pipeline.service';
@@ -45,5 +45,4 @@ export { AuthHelperService } from './src/app/launcher/service/auth-provider.serv
 export { HelperService } from './src/app/launcher/service/helper.service';
 
 // Imported from Dependency Editor
-export { URLProvider };
-export { DependencyEditorTokenProvider };
+export { URLProvider, DependencyEditorTokenProvider } from './src/app/launcher/launcher.module';

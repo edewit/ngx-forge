@@ -52,5 +52,4 @@ export abstract class DependencyCheckService {
    * @returns boolean
    */
   abstract validateProjectVersion(projectVersion: string): boolean;
-  abstract getBoosterInfo(missionId: string, runtimeId: string): Observable<string>;
 }

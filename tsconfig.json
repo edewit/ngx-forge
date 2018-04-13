@@ -19,7 +19,8 @@
     "outDir": "dist",
     "paths": {
       "@angular/*": ["node_modules/@angular/*"],
-      "rxjs/*": ["node_modules/rxjs/*"]
+      "rxjs/*": ["node_modules/rxjs/*"],
+      "fabric8-analytics-dependency-editor": ["node_modules/fabric8-analytics-dependency-editor"]
     },
     "lib": [
       "es2015",

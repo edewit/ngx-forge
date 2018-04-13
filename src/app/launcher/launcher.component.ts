@@ -111,7 +111,6 @@ export class LauncherComponent implements AfterViewInit, OnInit {
   }
 
   // Accessors
-
   /**
    * Returns the current step ID
    *
@@ -140,7 +139,7 @@ export class LauncherComponent implements AfterViewInit, OnInit {
       spacePath: (this._summary.dependencyCheck !== undefined) ? this._summary.dependencyCheck.spacePath : undefined,
       targetEnvironment: this._summary.targetEnvironment,
       cluster: this._summary.cluster,
-      dependencyCheck: this._summary.dependencyCheck
+      dependencyEditor: this._summary.dependencyEditor
     } as Selection;
     return selection;
   }
@@ -223,7 +222,6 @@ export class LauncherComponent implements AfterViewInit, OnInit {
   }
 
   // Steps
-
   /**
    * Add step
    *
