@@ -93,24 +93,24 @@
     <div class="row row-cards-pf">
       <div class="col-xs-12">
         <div id="dep-editor" class="card-pf card-pf--small">
-          <div *ngIf="launcherComponent.summary?.pipeline === undefined;
-                      then showNoPipelineTemplate else showPipelineTemplate"></div>
-          <ng-template #showNoPipelineTemplate>
+          <div *ngIf="launcherComponent.summary?.dependencyEditor?.dependencySnapshot === undefined;
+                      then showNoDependencyTemplate else showDependencyTemplate"></div>
+          <ng-template #showNoDependencyTemplate>
             <div class="card-pf-heading">
               <h2 class="card-pf-title">
                 New Dependencies Selected
               </h2>
             </div>
-            <div class="card-pf-body f8launcher-project-summary-data-unavailable dependency">
-              <!-- <h2>
-                <b>{{snapshot}}</b>
-              </h2> -->
-              <span class="dependencies-added" *ngFor="let snapshot of launcherComponent?.summary?.dependencyCheck?.dependencySnapshot">{{snapshot.package}}</span>
-              <!-- <button class="btn btn-default btn-lg f8launcher-authorize-account"
-                      (click)="navToStep('ReleaseStrategy')">Complete Section</button> -->
+            <div class="card-pf-body f8launcher-project-summary-data-unavailable dependency noData-label">
+              <h2>
+                <b>No New Dependencies selected</b>
+              </h2>
+              <p>To proceed with adding new dependencies to this application, this section must be completed.</p>
+              <button class="btn btn-default btn-lg f8launcher-authorize-account"
+                      (click)="navToStep('SelectDependencies')">Complete Section</button>
             </div>
           </ng-template>
-          <ng-template #showPipelineTemplate>
+          <ng-template #showDependencyTemplate>
             <div class="card-pf-heading">
               <h2 class="card-pf-title">
                 New Dependencies Selected
@@ -122,8 +122,8 @@
                 <div class="list-view-pf-main-info">
                   <div class="list-view-pf-body">
                     <div class="list-view-pf-description f8launcher-project-summary-data-unavailable dependency">
-                      <ng-container *ngFor="let snapshot of launcherComponent?.summary?.dependencyCheck?.dependencySnapshot">
-                        <span class="dependencies-added" *ngFor="let snapshot of launcherComponent?.summary?.dependencyCheck?.dependencySnapshot">
+                      <ng-container>
+                        <span class="dependencies-added" *ngFor="let snapshot of launcherComponent?.summary?.dependencyEditor?.dependencySnapshot">
                           {{snapshot.package}}
                         </span>                        
                       </ng-container>
