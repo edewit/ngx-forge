@@ -104,6 +104,15 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
         this.launcherComponent.navToNextStep();
     }
 
+    /**
+     * Navigate to step
+     *
+     * @param {string} id The step ID
+     */
+    navToStep(event: string) {
+        this.launcherComponent.stepIndicator.navToStep(event);
+    }
+
     updateTargetEnvSelection(): void {
         this.initCompleted();
     }
