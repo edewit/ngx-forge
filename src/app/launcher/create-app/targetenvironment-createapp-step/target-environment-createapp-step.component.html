@@ -32,7 +32,17 @@
                 </li>
               </ul>
 
-              <div class="dropdown text-center" dropdown *ngIf="targetEnv.clusters">
+              <p class="text-center" *ngIf="targetEnv.clusters?.length === 0">
+                <button class="btn btn-sm btn-danger" (click)="linkAccounts.open()">Grant Access</button>
+              </p>
+
+              <p class="text-center" *ngIf="targetEnv.clusters?.length > 0">
+                <button class="btn btn-sm btn-default" (click)="linkAccounts.open()">
+                  <span class="glyphicon glyphicon-cog"></span> Configure tokens
+                </button>
+              </p>
+
+              <div class="dropdown text-center" dropdown *ngIf="targetEnv.clusters?.length > 1">
                 <button type="button" class="btn btn-default dropdown-toggle" dropdownToggle>
                   <span *ngIf="!launcherComponent.summary.cluster">Select cluster</span>
                   <span *ngIf="launcherComponent.summary.cluster">{{launcherComponent.summary.cluster.id}}</span>
@@ -77,3 +87,12 @@
     </div>
   </div>
 </section>
+
+<modal #linkAccounts modalClass="modal-lg">
+  <modal-content>
+    <f8launcher-link-accounts-createapp-step></f8launcher-link-accounts-createapp-step>
+  </modal-content>
+  <modal-footer>
+    <button class="btn btn-primary" (click)="linkAccounts.close()">Done</button>
+  </modal-footer>
+</modal>

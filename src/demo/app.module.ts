@@ -24,6 +24,7 @@ import { DemoPipelineService } from './service/demo-pipeline.service';
 import { DemoProjectProgressService } from './service/demo-project-progress.service';
 import { DemoProjectSummaryService } from './service/demo-project-summary.service';
 import { DemoTargetEnvironmentService } from './service/demo-target-environment.service';
+import { DemoTokenService } from './service/demo-token.service';
 
 import { Config } from '../app/service/config.component';
 import { ForgeConfig } from './shared/forge-config';
@@ -43,7 +44,8 @@ import {
   PipelineService,
   ProjectProgressService,
   ProjectSummaryService,
-  TargetEnvironmentService
+  TargetEnvironmentService,
+  TokenService
 } from '../app/launcher/launcher.module';
 
 @NgModule({
@@ -75,7 +77,8 @@ import {
     { provide: Config, useClass: ForgeConfig },
     { provide: FABRIC8_FORGE_API_URL, useValue: 'https://forge.api.prod-preview.openshift.io' },
     { provide: FABRIC8_ORIGIN, useValue: 'osio' },
-    { provide: TokenProvider, useClass: MockAuthenticationService }
+    { provide: TokenProvider, useClass: MockAuthenticationService },
+    { provide: TokenService, useClass: DemoTokenService}
   ],
   bootstrap: [AppComponent]
 })

@@ -1,6 +1,7 @@
 import { NgModule, Provider } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ModalModule } from 'ngx-modal';
 
 import { BsDropdownConfig, BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { PopoverModule } from 'ngx-bootstrap/popover';
@@ -27,6 +28,8 @@ import { ReleaseStrategyCreateappStepComponent }
   from './create-app/release-strategy-createapp-step/release-strategy-createapp-step.component';
 import { TargetEnvironmentCreateappStepComponent }
   from './create-app/targetenvironment-createapp-step/target-environment-createapp-step.component';
+import { LinkAccountsCreateappStepComponent }
+  from './create-app/link-accounts-createapp-step/link-accounts-createapp-step.component';
 
 import { GitproviderImportappStepComponent }
   from './import-app/gitprovider-importapp-step/gitprovider-importapp-step.component';
@@ -53,6 +56,7 @@ export const providers: Provider[] = [
     BsDropdownModule.forRoot(),
     CommonModule,
     FormsModule,
+    ModalModule,
     InViewportModule.forRoot(providers),
     PipeModule,
     PopoverModule.forRoot(),
@@ -75,6 +79,7 @@ export const providers: Provider[] = [
     ReleaseStrategyCreateappStepComponent,
     ReleaseStrategyImportappStepComponent,
     TargetEnvironmentCreateappStepComponent,
+    LinkAccountsCreateappStepComponent,
     StepIndicatorComponent,
     LauncherComponent
   ],
@@ -106,7 +111,7 @@ export { PipelineService } from './service/pipeline.service';
 export { ProjectProgressService } from './service/project-progress.service';
 export { ProjectSummaryService } from './service/project-summary.service';
 export { TargetEnvironmentService } from './service/target-environment.service';
-
+export { TokenService } from './service/token.service';
 
 // Utility Service
 export { HelperService } from './service/helper.service';

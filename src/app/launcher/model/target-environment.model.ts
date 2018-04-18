@@ -1,4 +1,4 @@
-import { Cluster } from "./cluster.model";
+import { Cluster } from './cluster.model';
 
 export class TargetEnvironment {
   description: string;

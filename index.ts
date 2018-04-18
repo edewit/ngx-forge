@@ -37,6 +37,7 @@ export { PipelineService } from './src/app/launcher/service/pipeline.service';
 export { ProjectProgressService } from './src/app/launcher/service/project-progress.service';
 export { ProjectSummaryService } from './src/app/launcher/service/project-summary.service';
 export { TargetEnvironmentService } from './src/app/launcher/service/target-environment.service';
+export { TokenService } from './src/app/launcher/service/token.service';
 
 // Utility Service
 export { AuthHelperService } from './src/app/launcher/service/auth-provider.service';
