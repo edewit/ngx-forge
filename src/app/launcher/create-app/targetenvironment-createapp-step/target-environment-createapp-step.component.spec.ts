@@ -13,6 +13,9 @@ import { LauncherStep } from '../../launcher-step';
 import { TargetEnvironmentCreateappStepComponent } from './target-environment-createapp-step.component';
 import { TargetEnvironment } from '../../model/target-environment.model';
 import { TargetEnvironmentService } from '../../service/target-environment.service';
+import { TokenService } from '../../service/token.service';
+import { ModalModule } from 'ngx-modal';
+import { LinkAccountsCreateappStepComponent } from '../link-accounts-createapp-step/link-accounts-createapp-step.component';
 
 let mockTargetEnvironmentService = {
   getTargetEnvironments(): Observable<TargetEnvironment[]> {
@@ -69,6 +72,12 @@ let mockWizardComponent: TypeWizardComponent = {
   }
 }
 
+let mockTokenService: TokenService = {
+  availableClusters: Observable.of([]),
+  clusters: Observable.of([]),
+  createOathLink: (token) => ''
+}
+
 describe('TargetEnvironmentStepComponent', () => {
   let component: TargetEnvironmentCreateappStepComponent;
   let fixture: ComponentFixture<TargetEnvironmentCreateappStepComponent>;
@@ -79,10 +88,12 @@ describe('TargetEnvironmentStepComponent', () => {
         CommonModule,
         FormsModule,
         RouterTestingModule,
-        InViewportModule
+        InViewportModule,
+        ModalModule
       ],
       declarations: [
-        TargetEnvironmentCreateappStepComponent
+        TargetEnvironmentCreateappStepComponent,
+        LinkAccountsCreateappStepComponent
       ],
       providers: [
         {
@@ -91,9 +102,10 @@ describe('TargetEnvironmentStepComponent', () => {
         {
           provide: LauncherComponent, useValue: mockWizardComponent
         },
-        { 
-          provide: WindowRef, useValue: window 
-        }
+        {
+          provide: WindowRef, useValue: window
+        },
+        { provide: TokenService, useValue: mockTokenService }
       ]
     }).compileComponents();
   }));
