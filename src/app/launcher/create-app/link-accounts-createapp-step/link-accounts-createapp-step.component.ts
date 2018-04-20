@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Optional } from '@angular/core';
 
 import { Cluster } from '../../model/cluster.model';
 import { TokenService } from '../../service/token.service';
@@ -14,9 +14,11 @@ export class LinkAccountsCreateappStepComponent {
   availableClusters: Cluster[] = [];
   clusters: Cluster[] = [];
 
-  constructor(private tokenService: TokenService) {
-    tokenService.clusters.subscribe(clusters => this.clusters = clusters);
-    tokenService.availableClusters.subscribe(clusters => this.availableClusters = clusters);
+  constructor(@Optional() private tokenService: TokenService) {
+    if (tokenService) {
+      tokenService.clusters.subscribe(clusters => this.clusters = clusters);
+      tokenService.availableClusters.subscribe(clusters => this.availableClusters = clusters);
+    }
   }
 
   isChecked(token: Cluster): boolean {
