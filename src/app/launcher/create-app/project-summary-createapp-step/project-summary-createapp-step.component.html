@@ -142,13 +142,13 @@
                   </div>
                   <div class="f8launcher-tags" [ngClass]="{'suggested-feature-tag': launcherComponent.summary?.pipeline?.suggested === true}"
                         *ngIf="launcherComponent.summary?.pipeline?.suggested === true || launcherComponent.summary?.pipeline?.techpreview === true">
-                    <span class="f8launcher-tags-label suggested" container="body" triggers="click"
+                    <span class="f8launcher-tags-label suggested" triggers="click"
                           outsideClick="true"
                           popover="This pipeline provides an end-to-end process that moves your application from source code to production, with stages to build and test new versions, rollout to staging, review changes, await approval, and promote to production."
                           *ngIf="launcherComponent.summary?.pipeline?.suggested === true">
                       Red Hat Suggests <i class="pficon pficon-info"></i>
                     </span>
-                    <span class="f8launcher-tags-label techpreview" container="body" triggers="click"
+                    <span class="f8launcher-tags-label techpreview" triggers="click"
                           outsideClick="true"
                           popover="Technology Preview"
                           *ngIf="launcherComponent.summary?.pipeline?.techpreview === true">
