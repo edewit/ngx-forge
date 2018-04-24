@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http, RequestOptions, Response } from '@angular/http';
-import { Observable } from 'rxjs';
+import { Observable, Subject, BehaviorSubject } from 'rxjs';
 
-import { MissionRuntimeService } from '../../app/launcher/launcher.module';
+import { MissionRuntimeService, Cluster } from '../../app/launcher/launcher.module';
 import { Mission } from '../../app/launcher/launcher.module';
 import { Runtime } from '../../app/launcher/launcher.module';
 
@@ -17,15 +17,16 @@ export class DemoMissionRuntimeService implements MissionRuntimeService {
   private API_BASE: string = 'booster-catalog/';
   private ORIGIN: string = '';
 
+  private _missions: BehaviorSubject<Mission[]> = new BehaviorSubject([]);
+
   constructor(
     private http: Http,
     private helperService: HelperService,
     private tokenProvider: TokenProvider
   ) {
-    if (this.helperService) {
-      this.END_POINT = this.helperService.getBackendUrl();
-      this.ORIGIN = this.helperService.getOrigin();
-    }
+    this.END_POINT = this.helperService.getBackendUrl();
+    this.ORIGIN = this.helperService.getOrigin();
+    this.setCluster();
   }
 
   private get options(): Observable<RequestOptions> {
@@ -39,13 +40,21 @@ export class DemoMissionRuntimeService implements MissionRuntimeService {
     }));
   }
 
+  setCluster(cluster?: Cluster) {
+    this.fetchMission(cluster).subscribe(missions => this._missions.next(missions));
+  }
+
   getMissions(): Observable<Mission[]> {
+    return this._missions.asObservable();
+  }
+
+  private fetchMission(cluster?: Cluster): Observable<Mission[]> {
     let missionEndPoint: string = this.END_POINT + this.API_BASE + 'missions';
     missionEndPoint += `?runsOn=${this.ORIGIN}`;
     return this.options.flatMap((option) => {
       return this.http.get(missionEndPoint, option)
-                  .map(response => response.json() as Mission[])
-                  .catch(this.handleError);
+        .map(response => response.json() as Mission[])
+        .catch(this.handleError);
     });
   }
 

@@ -2,11 +2,14 @@ import { Observable } from 'rxjs';
 
 import { Mission } from '../model/mission.model';
 import { Runtime } from '../model/runtime.model';
+import { Cluster } from '../model/cluster.model';
 
 /**
  * Abstract mission runtime service provided to ensure consumer implements this pattern
  */
 export abstract class MissionRuntimeService {
+
+  setCluster?(cluster: Cluster): void;
 
   /**
    * Retrieve mission list
