@@ -88,4 +88,4 @@ Links:
 
 * [Updating a package when you're using npm shrinkwrap](https://gist.github.com/alanhogan/a32889830384f4e190fa)
 * with npm3, you may need to manually update `node_module/your_dependency/package.json` to remove `peerDependecies` casuing shrinkwrap file hgenration to fail.
-* There is a demo of the [wizard available on OpenShift](http://launcher-ngx-launcher.6923.rh-us-east-1.openshiftapps.com/#/) that is updated with each PR. 
+* There is a demo of the [wizard available on OpenShift](http://launcher-ngx-launcher.6923.rh-us-east-1.openshiftapps.com/#/) that is updated with each PR.
