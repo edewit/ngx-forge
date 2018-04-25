@@ -13,12 +13,8 @@ load_jenkins_vars() {
       # "semantic release" needs token value in GH_TOKEN variable, so create a new variable with the correct value.
       export GH_TOKEN="$FABRIC8CD_GH_TOKEN"
 
-      echo "NPM_TOKEN"
-      echo $NPM_TOKEN
-      echo "FABRIC8CD_GH_TOKEN"
-      echo $FABRIC8CD_GH_TOKEN
-      echo "GIT_COMMIT"
-      echo $GIT_COMMIT
+      # Creating the .npmrc file as it is not available
+      echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' > ~/.npmrc
       echo "CICO: Jenkins environment variables loaded"
   fi
 }
