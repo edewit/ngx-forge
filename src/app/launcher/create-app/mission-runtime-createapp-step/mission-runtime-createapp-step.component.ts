@@ -296,15 +296,8 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
     this.launcherComponent.summary.mission = val;
     this.missionId = val.id; // to support clicking anywhere in list item
 
-    // set maven artifact
-    if (this.launcherComponent && this.launcherComponent.summary &&
-      this.launcherComponent.summary.mission && this.launcherComponent.summary.runtime &&
-      this.launcherComponent.summary.mission.id && this.launcherComponent.summary.runtime.id) {
-      let runtime = this.launcherComponent.summary.runtime.id.replace(/[.\-_]/g, '');
-      let mission = this.launcherComponent.summary.mission.id.replace(/[.\-_]/g, '');
-      this.launcherComponent.summary.dependencyCheck.mavenArtifact = 'booster' + '-' + mission + '-' + runtime
-        + '-' + artifactTS.getTime();
-    }
+    this.setMavenArtifact();
+
     // Clear selected version if not supported by mission
     this.runtimes.forEach((runtime) => {
       let found = false;
@@ -329,27 +322,31 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
   }
 
   private updateRuntimeSelection(val: Runtime): void {
-    let artifactTS: Date = new Date();
     if (this.isRuntimeDisabled(val) === true) {
       return;
     }
     this.launcherComponent.summary.runtime = val;
     this.runtimeId = val.id; // to support clicking anywhere in list item
 
-    // set maven artifact
+    this.setMavenArtifact();
+
+    // Set summary version
+    if (val.version !== undefined) {
+      this.launcherComponent.summary.runtime.version = val.version;
+    }
+    this.initCompleted();
+  }
+
+  private setMavenArtifact(): void {
+    let artifactTS: Date = new Date();
     if (this.launcherComponent && this.launcherComponent.summary &&
       this.launcherComponent.summary.mission && this.launcherComponent.summary.runtime &&
       this.launcherComponent.summary.mission.id && this.launcherComponent.summary.runtime.id) {
       let runtime = this.launcherComponent.summary.runtime.id.replace(/[.\-_]/g, '');
       let mission = this.launcherComponent.summary.mission.id.replace(/[.\-_]/g, '');
       this.launcherComponent.summary.dependencyCheck.mavenArtifact = 'booster' + '-' + mission + '-' + runtime
-        + '-' + artifactTS.getTime();
+        + (this.launcherComponent.flow === 'osio' ? ('-' + artifactTS.getTime()) : '');
     }
-    // Set summary version
-    if (val.version !== undefined) {
-      this.launcherComponent.summary.runtime.version = val.version;
-    }
-    this.initCompleted();
   }
 
   private updateVersionSelection(val: Runtime, version: any): void {
