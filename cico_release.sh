@@ -13,6 +13,9 @@ function release() {
     # Enable verbose output
     npm config set loglevel verbose
 
+    echo "npm whoami"
+    npm whoami
+    
     # Build and Release Planner (It will update the tag on github and push fabric8-planner to npmjs.org)
     npm run semantic-release
 

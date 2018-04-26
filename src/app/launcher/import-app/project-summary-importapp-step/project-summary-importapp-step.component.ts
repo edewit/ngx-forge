@@ -17,6 +17,8 @@ import { ProjectSummaryService } from '../../service/project-summary.service';
 import { Selection } from '../../model/selection.model';
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
+import { DependencyCheck } from '../../model/dependency-check.model';
+import { Summary } from '../../model/summary.model';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -157,6 +159,14 @@ export class ProjectSummaryImportappStepComponent extends LauncherStep implement
   validateGroupId(): void {
     this.launcherComponent.isGroupIdValid =
       this.dependencyCheckService.validateGroupId(this.launcherComponent.summary.dependencyCheck.groupId);
+  }
+
+  get dependencyCheck(): DependencyCheck {
+    return this.launcherComponent.summary.dependencyCheck;
+  }
+
+  get summary(): Summary {
+    return this.launcherComponent.summary;
   }
 
   // Private
