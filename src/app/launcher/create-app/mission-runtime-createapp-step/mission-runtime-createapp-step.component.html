@@ -168,6 +168,12 @@
                   </div>
                   <div class="list-view-pf-main-info"
                        (click)="updateRuntimeSelection(runtime)">
+                    <div class="list-view-pf-left">
+                      <span class="list-view-pf-logo">
+                        <img [src]="_DomSanitizer.bypassSecurityTrustUrl(runtime.icon)"
+                             *ngIf="runtime.icon !== null">
+                      </span>
+                    </div>
                     <div class="list-view-pf-body f8launcher-section-runtime"
                          (click)="updateRuntimeSelection(runtime)">
                       <div class="list-view-pf-description">
