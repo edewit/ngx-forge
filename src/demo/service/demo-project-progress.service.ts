@@ -8,9 +8,32 @@ import { TokenProvider } from '../../app/service/token-provider';
 
 @Injectable()
 export class DemoProjectProgressService implements ProjectProgressService {
-  private progress: Progress[];
-  private _progressSubject: Subject<Progress[]> = new Subject();
+  private progress: any[] = [
+    {
+      statusMessage: "GITHUB_CREATE",
+      data: {
+        location: "https://github.com/fabric8-launcher/launcher-backend"
+      }
+    },
+    { statusMessage: "GITHUB_PUSHED" },
+    {
+      statusMessage: "OPENSHIFT_CREATE",
+      data: {
+        location: "https://console.starter-us-east-2.openshift.com/console/projects"
+      }
+    },
+    { statusMessage: "OPENSHIFT_PIPELINE" },
+    { statusMessage: "GITHUB_WEBHOOK" }
+  ];
+  private _progressSubject: Subject<any[]> = new Subject();
   private timer: Subscription;
+  private init: any[] = [
+    {GITHUB_CREATE: "Creating your new GitHub repository"},
+    {GITHUB_PUSHED: "Pushing your customized Booster code into the repo"},
+    {OPENSHIFT_CREATE:"Creating your project on OpenShift Online"},
+    {OPENSHIFT_PIPELINE:"Setting up your build pipeline"},
+    {GITHUB_WEBHOOK:"Configuring to trigger builds on Git pushes"}
+  ];
 
   getProgress(): WebSocket {
     this.initTimer(); // Timer to simulate progress
@@ -21,66 +44,24 @@ export class DemoProjectProgressService implements ProjectProgressService {
     return socket;
   }
 
-  // Private
-  private getItems(): Progress[] {
-    if (this.progress === undefined) {
-      this.progress = [{
-        'completed': false,
-        'description': 'Creating New GitHub Repository',
-        'hypertext': 'View New Repository',
-        'inProgress': false,
-        'url': 'https://github.com/fabric8-launcher/ngx-launcher'
-      }, {
-        'completed': false,
-        'description': 'Pushing Customized Booster Code into the Repository',
-        'inProgress': false
-      }, {
-        'completed': false,
-        'description': 'Creating Your Project on the OpenShift Cloud',
-        'inProgress': false,
-        'hypertext': 'View New Application',
-        'url': 'https://github.com/fabric8-launcher/ngx-launcher'
-      }, {
-        'completed': false,
-        'description': 'Setting up Build Pipeline',
-        'inProgress': false
-      }, {
-        'completed': false,
-        'description': 'Configure Trigger Builds on Git Pushes',
-        'inProgress': false
-      }] as Progress[];
-    }
-    return this.progress;
-  }
-
   // Timer to simulate progress
   private initTimer(): void {
     if (this.timer !== undefined) {
       this.timer.unsubscribe();
     }
+    let i = 0;
     this.timer = Observable
       .timer(0, 2500) // timer(firstValueDelay, intervalBetweenValues)
       .do(() => {
-        let items = this.getItems();
-        for (let i = 0; i < items.length; i++) {
-          if (items[i].inProgress === true) {
-            items[i].inProgress = false;
-            items[i].completed = true;
-          } else if (items[i].completed === true) {
-            items[i].inProgress = false;
-          } else if (items[i].completed === false) {
-            items[i].inProgress = true;
-            break;
-          }
+        if (this.init) {
+          this._progressSubject.next(this.init);
+          this.init = null;
         }
       })
-      .take(6)
       .subscribe(value => {
-        this.updateProgressStream();
+        if (i < this.progress.length) {
+          this._progressSubject.next(this.progress[i++]);
+        }
       });
-  }
-
-  private updateProgressStream(): void {
-    this._progressSubject.next(this.getItems());
   }
 }
