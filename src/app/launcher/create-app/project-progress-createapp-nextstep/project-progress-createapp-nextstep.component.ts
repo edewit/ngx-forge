@@ -8,7 +8,6 @@ import {
   OnChanges,
   SimpleChanges
 } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
 
 import { Progress } from '../../model/progress.model';
 import { ProjectProgressService } from '../../service/project-progress.service';
@@ -103,6 +102,15 @@ export class ProjectProgressCreateappNextstepComponent implements OnInit, OnChan
       this.socket.close();
     }
     return result;
+  }
+
+  getProgressByKey(key: string): Progress {
+    for (let status of this._progress) {
+      if (status.key === key) {
+        return status;
+      }
+    }
+    return null;
   }
 
   get progress(): Progress[] {

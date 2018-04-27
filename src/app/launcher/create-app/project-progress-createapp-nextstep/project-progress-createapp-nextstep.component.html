@@ -3,27 +3,28 @@
     <div class="container-fluid">
       <h1>Next Steps: Set Up New Application</h1>
       <p>
-        Now you are ready to start interacting, experimenting, and building with your application.  For further instructions on how to run and interact with your booster, refer to the documentation that is attached.
+        Now you are ready to start interacting, experimenting, and building with your application. For further
+        instructions on how to run and interact with your booster, refer to the documentation that is attached.
       </p>
     </div>
   </div>
   <div>
     <div class="container-fluid container-cards-pf">
       <div class="alert-box" *ngIf="isError === true">
-          <div class="alert alert-danger">
-              <span class="pficon pficon-error-circle-o"></span>
-              <strong>Set Up Incomplete</strong> There were some problems.
+        <div class="alert alert-danger">
+          <span class="pficon pficon-error-circle-o"></span>
+          <strong>Set Up Incomplete</strong> There were some problems.
+        </div>
+        <div class="alert alert-detail">
+          <div class="row">
+            <div class="col-xs-2">
+              What happened ?
             </div>
-            <div class="alert alert-detail">
-              <div class="row">
-                <div class="col-xs-2">
-                  What happened ?
-                </div>
-                <div class="col-xs-10">
-                  {{ errorMessage }}
-                </div>
-              </div>
+            <div class="col-xs-10">
+              {{ errorMessage }}
             </div>
+          </div>
+        </div>
       </div>
       <div class="row row-cards-pf">
         <div class="col-xs-12">
@@ -41,14 +42,14 @@
                 </span>
               </h2>
             </div>
-            <div class="card-pf-body">
+            <div class="card-pf-body" *ngIf="allCompleted !== true">
               <div class="list-pf">
                 <div class="list-pf-item" *ngFor="let item of progress">
                   <div class="list-pf-container">
                     <div class="list-pf-content list-pf-content-flex">
                       <div class="pfng-list-content">
                         <div class="list-pf-left"
-                                [ngClass]="{'item-in-progress': item.completed !== true}">
+                             [ngClass]="{'item-in-progress': item.completed !== true}">
                           <span class="pficon"
                                 [ngClass]="{'pficon-ok': item.completed === true,
                                             'pficon-in-progress fa-spin': item.completed !== true,
@@ -57,13 +58,84 @@
                         </div>
                         <div class="list-pf-content-wrapper">
                           <div class="list-pf-main-content"
-                                  [ngClass]="{'item-in-progress': item.completed !== true}">
+                               [ngClass]="{'item-in-progress': item.completed !== true}">
                             {{item.description}}
                           </div>
                         </div>
                         <div class="list-pf-actions"
-                          *ngIf="item.hyperText !== undefined && item.completed === true">
+                             *ngIf="item.hyperText !== undefined && item.completed === true">
                           <a target="_blank" [href]="item.hyperText">{{item.hyperText}}</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-pf-body" *ngIf="allCompleted === true">
+              <div class="list-pf">
+                <div class="list-pf-item">
+                  <div class="list-pf-container">
+
+                    <div class="container">
+                      <div class="row">
+                        <div class="col-sm-4">
+                          <h1>While you wait...</h1>
+                        </div>
+                        <div class="col-sm-8">
+                          <a target="_blank" [href]="getProgressByKey('OPENSHIFT_CREATE').hyperText">Take a look at your build</a><br />
+                          <i>This will take a couple of minutes</i>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="list-pf-item">
+                  <div class="list-pf-container">
+                    <div class="container">
+                      <div class="row">
+                        <div class="col-sm-4">
+                          <h1>Your next step</h1>
+                        </div>
+                        <div class="col-sm-8">
+                          <h4>Next Steps: Update your booster using Continuous Delivery</h4>
+                          <p>Your booster is automatically configured to build and deploy with new commits.</p>
+                          <div class="olist arabic">
+                            <ol class="arabic">
+                              <li>
+                                <p>Clone your project from GitHub.</p>
+                                <div class="listingblock">
+                                  <div class="content">
+                                    <pre class="highlightjs highlight nowrap"><code class="language-bash hljs" data-lang="bash">$ git clone {{getProgressByKey('GITHUB_CREATE').hyperText}}</code></pre>
+                                  </div>
+                                </div>
+                              </li>
+                              <li>
+                                <p>Open your project in your desired IDE or editor.</p>
+                              </li>
+                              <li>
+                                <p>Perform any updates you want to the project.</p>
+                              </li>
+                              <li>
+                                <p>Commit and push your changes back to GitHub.</p>
+                                <div class="listingblock">
+                                  <div class="content">
+                                    <pre class="highlightjs highlight nowrap"><code class="language-bash hljs" data-lang="bash">$ git add .
+$ git commit -m "Made an update"
+$ git push</code></pre>
+                                  </div>
+                                </div>
+                              </li>
+                            </ol>
+                          </div>
+                          <br />
+                          <div class="alert alert-warning" role="alert">
+                            <span class="pficon pficon-warning-triangle-o"></span>
+                            When changes are pushed to your GitHub repository, a new build is automatically triggered on your OpenShift project with those changes.
+                          </div>
+                          <div class="paragraph">
+                            <p>More details on interacting with your booster can be found in your booster’s <a href="{{getProgressByKey('GITHUB_CREATE').hyperText}}/blob/master/README.adoc" target="_blank" rel="noopener">README.adoc</a>.</p>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -79,7 +151,7 @@
   <div>
     <div class="container-fluid">
       <div class="f8launcher-continue">
-        <button class="btn btn-primary btn-lg"  (click)="launcherComponent.completed()">View New Application</button>
+        <button class="btn btn-primary btn-lg" (click)="launcherComponent.completed()">Start a new project</button>
       </div>
     </div>
   </div>
