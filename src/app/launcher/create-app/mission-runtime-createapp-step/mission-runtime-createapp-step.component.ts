@@ -158,6 +158,9 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
    * @returns {boolean} True if mission choice should be disabled
    */
   isMissionDisabled(mission: Mission): boolean {
+    if (this.launcherComponent.flow === 'osio') {
+      return this.isMissionDisabledOSIO(mission);
+    }
     let runtime = this.launcherComponent.summary.runtime; // selected runtime
     if (runtime === undefined) {
       return false; // Nothing should be disabled initially
@@ -201,6 +204,9 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
    * @returns {boolean} True if runtime choice should be disabled
    */
   isRuntimeDisabled(runtime: Runtime): boolean {
+    if (this.launcherComponent.flow === 'osio') {
+      return this.isRuntimeDisabledOSIO(runtime);
+    }
     if (this.launcherComponent.summary.mission === undefined) {
       return false;
     }
@@ -233,6 +239,56 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
       }
     }
     return result;
+  }
+  
+  /**
+   * Returns true if mission choice should be disabled
+   * This is specfically targeting OSIO flow as here we don't have to consider versions of missions
+   *
+   * @param {Mission} mission The mission choice to test
+   * @returns {boolean} True if mission choice should be disabled
+   */
+  isMissionDisabledOSIO(mission: Mission): boolean {
+    let selectedRuntime: Runtime = this.launcherComponent.summary.runtime;
+    if (selectedRuntime === undefined) {
+      return false;
+    }
+
+    if (selectedRuntime && selectedRuntime.missions && selectedRuntime.missions.length) {
+      let missions: Array<any> = selectedRuntime.missions;
+      for (let i = 0; i < missions.length; ++ i) {
+        if (missions[i].id === mission.id) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
+
+  /**
+   * Returns true if runtime choice should be disabled
+   * This is specfically targeting OSIO flow as here we don't have to consider versions of missions
+   *
+   * @param {Runtime} runtime The runtime choice to test
+   * @returns {boolean} True if runtime choice should be disabled
+   */
+  isRuntimeDisabledOSIO(runtime: Runtime): boolean {
+    let selectedMission: Mission = this.launcherComponent.summary.mission;
+    if (selectedMission === undefined) {
+      return false;
+    }
+
+    if (selectedMission && selectedMission.runtimes && selectedMission.runtimes.length) {
+      let runtimes: Array<any> = selectedMission.runtimes;
+      for (let i = 0; i < runtimes.length; ++ i) {
+        if (runtimes[i] === runtime.id) {
+          return false;
+        }
+      }
+    }
+
+    return true;
   }
 
   /**
