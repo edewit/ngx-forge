@@ -46,8 +46,9 @@
                        *ngIf="mission.prerequisite !== undefined || mission.suggested === true || isMissionDisabled(mission) === true">
                     <div class="f8launcher-tags"
                          [ngClass]="{'prerequisite': mission.prerequisite !== undefined,
-                                     'suggested': mission.suggested === true,
-                                     'contribute': isMissionDisabled(mission) === true}">
+                                     'advanced-feature-tag': mission?.metadata?.level !== 'foundational',
+                                     'suggested-feature-tag': mission.suggested === true,
+                                     'not-available-feature-tag': isMissionDisabled(mission) === true}">
                       <ng-template #missionContributeTemplate>
                         This mission and runtime combination is not currently available, but you can contribute to our
                         <a href='https://appdev.openshift.io/docs/contrib-guide.html#_documentation' target="_blank">library</a>
@@ -57,19 +58,18 @@
                             outsideClick="true"
                             [popover]="missionContributeTemplate"
                             *ngIf="isMissionDisabled(mission) === true">
-                        Contribute <i class="pficon pficon-info"></i>
+                        Not available <i class="pficon pficon-info"></i>
                       </span>
                       <span class="f8launcher-tags-label suggested" container="body" triggers="click"
                             outsideClick="true"
                             popover="This mission will get you started with a bare bones working application."
                             *ngIf="mission.suggested === true">
-                        Suggested <i class="pficon pficon-info"></i>
+                        Red Hat Suggests <i class="pficon pficon-info"></i>
                       </span>
-                      <span class="f8launcher-tags-label prerequisite" container="body" triggers="click"
-                            outsideClick="true"
-                            popover="{{mission.prerequisite}}"
-                            *ngIf="mission.prerequisite !== undefined">
-                        Prerequisite <i class="pficon pficon-info"></i>
+                      <span class="f8launcher-tags-label advanced" container="body" triggers="click"
+                            outsideClick="true" 
+                            *ngIf="mission.prerequisite !== undefined || mission?.metadata?.level !== 'foundational'">
+                        Advanced <i class="fa fa-graduation-cap"></i>
                       </span>
                     </div>
                   </div>
@@ -132,8 +132,8 @@
                        *ngIf="runtime.prerequisite !== undefined || runtime.suggested === true || isRuntimeDisabled(runtime) === true">
                     <div class="f8launcher-tags"
                          [ngClass]="{'prerequisite': runtime.prerequisite !== undefined,
-                                     'suggested': runtime.suggested === true,
-                                     'contribute': isRuntimeDisabled(runtime) === true}">
+                                     'suggested-feature-tag': runtime.suggested === true,
+                                     'not-available-feature-tag': isRuntimeDisabled(runtime) === true}">
                       <ng-template #runtimeContributeTemplate>
                         This mission and runtime combination is not currently available, but you can contribute to our
                         <a href='https://appdev.openshift.io/docs/contrib-guide.html#_documentation' target="_blank">library</a>
@@ -143,13 +143,13 @@
                             outsideClick="true"
                             [popover]="runtimeContributeTemplate"
                             *ngIf="isRuntimeDisabled(runtime) === true">
-                        Contribute <i class="pficon pficon-info"></i>
+                        Not available <i class="pficon pficon-info"></i>
                       </span>
                       <span class="f8launcher-tags-label suggested" container="body" triggers="click"
                             outsideClick="true"
                             popover="This runtime will get you started with a bare bones working application."
                             *ngIf="runtime.suggested === true">
-                        Suggested <i class="pficon pficon-info"></i>
+                        Red Hat Suggests <i class="pficon pficon-info"></i>
                       </span>
                       <span class="f8launcher-tags-label prerequisite" container="body" triggers="click"
                             outsideClick="true"
