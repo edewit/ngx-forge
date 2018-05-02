@@ -12,6 +12,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Subscription } from 'rxjs/Subscription';
 
 import { DependencyEditorService } from '../../service/dependency-editor.service';
+import { DependencyCheckService } from '../../service/dependency-check.service';
 import { Selection } from '../../model/selection.model';
 // import { TargetEnvironment } from '../../model/target-environment.model';
 // import { TargetEnvironmentService } from '../../service/target-environment.service';
@@ -32,6 +33,7 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
     public github: string = '';
     public gitref: string = '';
     public boosterInfo: any = null;
+    public metadataInfo: any = null;
     private cacheInfo: any = {};
     private changes: any = {};
 
@@ -40,6 +42,7 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
     constructor(
         @Host() public launcherComponent: LauncherComponent,
         private depEditorService: DependencyEditorService,
+        private dependencyCheckService: DependencyCheckService,
         public _DomSanitizer: DomSanitizer,
         private keyValueDiffers: KeyValueDiffers
     ) {
@@ -65,6 +68,10 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
     ngOnInit() {
         this.changes = this.keyValueDiffers.find(this.launcherComponent.summary).create(null);
         this.launcherComponent.addStep(this);
+        this.dependencyCheckService.getDependencyCheck()
+        .subscribe((val) => {
+            this.metadataInfo = val;
+        });
     }
 
     ngDoCheck() {
@@ -183,7 +190,6 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
                         if (response && response.gitRepo && response.gitRef) {
                             this.github = response.gitRepo;
                             this.gitref = response.gitRef;
-                            console.log('response mission runtime', response, this.gitref);
                         }
                     });
                 }

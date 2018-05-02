@@ -6,8 +6,7 @@
           Select Dependency
       </h1>
       <div class="col-xs-12 col-md-6 f8launcher-section-dependency-editor-desp">
-        <p>Choose a mission and runtime to create a booster, or sample application, 
-          You set up a booster to generate source codeand specifications for your new applications.</p>
+        <p>Select dependencies you wish to add to your booster, or application.</p>
       </div>
     </div>
   </div>
@@ -15,7 +14,7 @@
     <div class="container-fluid container-cards-pf">
       <div class="row row-dep-editor">
         <div class="col-xs-12">
-          <app-dependency-editor [boosterInfo]="boosterInfo && boosterInfo" [githubUrl]="github && github" [githubRef]="gitref && gitref" 
+          <app-dependency-editor [boosterInfo]="boosterInfo && boosterInfo" [githubUrl]="github && github" [githubRef]="gitref && gitref" [metadataInfo]="metadataInfo && metadataInfo"
           (depSnapshot)="pickDependencies($event)" (emitMetadata)="pickMetadata($event)" (navId)="navToStep($event)"></app-dependency-editor>
         </div>
       </div>
