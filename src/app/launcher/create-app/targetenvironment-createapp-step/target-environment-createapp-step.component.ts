@@ -13,6 +13,7 @@ import { TargetEnvironment } from '../../model/target-environment.model';
 import { TargetEnvironmentService } from '../../service/target-environment.service';
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
+import { MissionRuntimeService } from '../../service/mission-runtime.service';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -28,6 +29,7 @@ export class TargetEnvironmentCreateappStepComponent extends LauncherStep implem
 
   constructor(@Host() public launcherComponent: LauncherComponent,
               private targetEnvironmentService: TargetEnvironmentService,
+              private missionRuntimeService: MissionRuntimeService,
               public _DomSanitizer: DomSanitizer) {
     super();
   }
@@ -82,7 +84,8 @@ export class TargetEnvironmentCreateappStepComponent extends LauncherStep implem
     this.launcherComponent.navToNextStep();
   }
 
-  updateTargetEnvSelection(): void {
+  updateTargetEnvSelection(target: TargetEnvironment): void {
+    this.missionRuntimeService.setCluster(target.clusters ? this.launcherComponent.summary.cluster : null);
     this.initCompleted();
   }
 

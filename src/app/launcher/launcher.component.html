@@ -11,6 +11,12 @@
           <f8launcher-step-indicator #stepIndicator></f8launcher-step-indicator>
         </div>
         <div class="f8launcher-container_main">
+          <f8launcher-targetenvironment-createapp-step #targetEnvStep
+            [hidden]="flow === 'osio'"
+            [id]="'TargetEnvironment'"
+            [styleClass]="'target-environment'"
+            [title]="'Select Target Environment'">
+          </f8launcher-targetenvironment-createapp-step>
           <f8launcher-missionruntime-createapp-step #missionRuntimeStep
             [id]="'MissionRuntime'"
             [styleClass]="'mission-runtime'"
@@ -24,12 +30,6 @@
             [title]="'Dependency Checker'">
           </f8launcher-dependencychecker-createapp-step>
           -->
-          <f8launcher-targetenvironment-createapp-step #targetEnvStep
-            [hidden]="flow === 'osio'"
-            [id]="'TargetEnvironment'"
-            [styleClass]="'target-environment'"
-            [title]="'Select Target Environment'">
-          </f8launcher-targetenvironment-createapp-step>
           <f8launcher-releasestrategy-createapp-step
             [hidden]="flow === 'launch'"
             [id]="'ReleaseStrategy'"

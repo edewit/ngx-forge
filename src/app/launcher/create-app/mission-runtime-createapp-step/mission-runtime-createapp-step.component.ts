@@ -29,7 +29,6 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
   private missionId: string;
   private runtimeId: string;
   private subscriptions: Subscription[] = [];
-  private missionRuntimeSubscription: Subscription;
 
   constructor(@Host() public launcherComponent: LauncherComponent,
               private missionRuntimeService: MissionRuntimeService,
@@ -39,24 +38,10 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
 
   ngOnInit() {
     this.launcherComponent.addStep(this);
-    this.missionRuntimeSubscription = Observable
-      .forkJoin([this.missionRuntimeService.getMissions(), this.missionRuntimeService.getRuntimes()])
-      .subscribe((results: any[]) => {
-        console.log(results);
-        if (results.length > 0) {
-          if (results[0]) {
-            this._missions = results[0];
-          }
-          if (results[1]) {
-            this._runtimes = results[1];
-            this._runtimes.forEach((runtime) => {
-              runtime.version = this.getRuntimeVersions(runtime)[0]; // set default menu selection
-            });
-          }
-          this.restoreSummary();
-        }
-    });
-    this.subscriptions.push(this.missionRuntimeSubscription);
+    this.subscriptions.push(this.missionRuntimeService.getMissions()
+      .subscribe(missions => this._missions = missions));
+      this.subscriptions.push(this.missionRuntimeService.getRuntimes()
+      .subscribe(runtimes => this._runtimes = runtimes));
   }
 
   ngOnDestroy() {
