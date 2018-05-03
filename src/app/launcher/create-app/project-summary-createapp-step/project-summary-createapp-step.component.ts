@@ -151,6 +151,7 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
     this.launcherComponent.isProjectNameValid =
       this.dependencyCheckService.validateProjectName(this.launcherComponent.summary.dependencyCheck.projectName);
     if (this.launcherComponent.flow === 'osio') {
+      this.launcherComponent.summary.dependencyCheck.projectName = this.launcherComponent.summary.dependencyCheck.projectName.toLowerCase();
       this.launcherComponent.summary.gitHubDetails.repository =
         this.launcherComponent.summary.dependencyCheck.projectName;
       this.validateRepo();

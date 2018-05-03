@@ -71,6 +71,7 @@
                        placeholder="Enter a unique name for your repository"
                        [disabled]="launcherComponent.summary.gitHubDetails.organization === undefined"
                        [(ngModel)]="launcherComponent.summary.gitHubDetails.repository"
+                       [value]="launcherComponent.summary.gitHubDetails.repository | lowercase"
                        (ngModelChange)="updateGitHubSelection()"
                        (keyup)="validateRepo()">
                 <span class="help-block"

@@ -127,6 +127,9 @@ export class GitproviderCreateappStepComponent extends LauncherStep implements A
     let org = '';
     if (this.launcherComponent && this.launcherComponent.summary &&
       this.launcherComponent.summary.gitHubDetails) {
+        if(this.launcherComponent.summary.dependencyCheck.projectName) {
+          this.launcherComponent.summary.dependencyCheck.projectName = this.launcherComponent.summary.dependencyCheck.projectName.toLowerCase();
+        }
       org = this.launcherComponent.summary.gitHubDetails.organization;
       this.launcherComponent.summary.gitHubDetails.repository =
       this.launcherComponent.summary.dependencyCheck ? this.launcherComponent.summary.dependencyCheck.projectName : '';
@@ -168,6 +171,9 @@ export class GitproviderCreateappStepComponent extends LauncherStep implements A
     } else {
       this.launcherComponent.summary.gitHubDetails.repositoryAvailable = true;
       if (this.launcherComponent.flow === 'osio') {
+        if (this.launcherComponent.summary.gitHubDetails.repository) {
+          this.launcherComponent.summary.gitHubDetails.repository =   this.launcherComponent.summary.gitHubDetails.repository.toLowerCase();
+        }
         this.launcherComponent.summary.dependencyCheck.projectName =
           this.launcherComponent.summary.gitHubDetails.repository;
       }

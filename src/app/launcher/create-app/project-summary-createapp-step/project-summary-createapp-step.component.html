@@ -195,6 +195,7 @@
                     <input class="f8launcher-project-summary-data-field_input f8launcher-application-text-field_input"
                            name="applicationTitle" placeholder="New Application" type="text"
                            [(ngModel)]="launcherComponent.summary.dependencyCheck.projectName"
+                           [value]="launcherComponent.summary.dependencyCheck.projectName | lowercase"
                            (keyup.enter)="$event.target.blur();"
                            (keyup)="validateProjectName()">
                   </div>
