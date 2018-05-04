@@ -3,7 +3,12 @@ import {
   Host,
   Input,
   OnDestroy,
-  ViewEncapsulation
+  ViewEncapsulation,
+  state,
+  trigger,
+  style,
+  animate,
+  transition
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Subscription } from 'rxjs/Subscription';
@@ -19,7 +24,20 @@ import { MissionRuntimeService } from '../../service/mission-runtime.service';
   encapsulation: ViewEncapsulation.None,
   selector: 'f8launcher-targetenvironment-createapp-step',
   templateUrl: './target-environment-createapp-step.component.html',
-  styleUrls: ['./target-environment-createapp-step.component.less']
+  styleUrls: ['./target-environment-createapp-step.component.less'],
+  animations:
+  [
+    trigger('toggleAnimation', [
+      state('active', style({
+        display: 'inline',
+      })),
+      state('inactive', style({
+        opacity: '0',
+        display: 'none'
+      })),
+      transition('active <=> inactive', animate('500ms ease-in-out'))
+    ])
+  ]
 })
 export class TargetEnvironmentCreateappStepComponent extends LauncherStep implements OnDestroy {
   @Input() id: string;
@@ -85,7 +103,9 @@ export class TargetEnvironmentCreateappStepComponent extends LauncherStep implem
   }
 
   updateTargetEnvSelection(target: TargetEnvironment): void {
-    this.missionRuntimeService.setCluster(target.clusters ? this.launcherComponent.summary.cluster : null);
+    if (this.missionRuntimeService.setCluster) {
+      this.missionRuntimeService.setCluster(target.clusters ? this.launcherComponent.summary.cluster : null);
+    }
     this.initCompleted();
   }
 

@@ -16,8 +16,9 @@
       <div class="row row-cards-pf">
         <div class="col-xs-12 col-md-6" *ngFor="let targetEnv of targetEnvironments"
              (click)="launcherComponent.summary.targetEnvironment = targetEnv.id; updateTargetEnvSelection(targetEnv)">
-          <div class="card-pf card-pf-view card-pf-view-select card-pf-view-single-select card-pf--medium"
-               [ngClass]="{'selected-card': targetEnv.id === launcherComponent?.summary?.targetEnvironment}">
+          <div class="card-pf card-pf-view card-pf-view-select card-pf-view-single-select"
+               [class.card-pf--medium]="launcherComponent.flow === 'osio'" [class.card-pf--small]="launcherComponent.flow ==='launch'"
+               [class.selected-card]="targetEnv.id === launcherComponent?.summary?.targetEnvironment">
             <div class="card-title">
               <input name="target-environment" type="radio"
                      [(ngModel)]="launcherComponent.summary.targetEnvironment"
@@ -31,33 +32,11 @@
                   {{benefit}}
                 </li>
               </ul>
-
-              <p class="text-center" *ngIf="targetEnv.clusters?.length === 0">
-                <button class="btn btn-sm btn-primary" (click)="linkAccounts.open()">Grant Access</button>
-              </p>
-
-              <p class="text-center" *ngIf="targetEnv.clusters?.length > 0">
-                <button class="btn btn-sm btn-default" (click)="linkAccounts.open()">
-                  <span class="glyphicon glyphicon-cog"></span> Configure tokens
-                </button>
-              </p>
-
-              <div class="dropdown text-center" dropdown *ngIf="targetEnv.clusters?.length > 1">
-                <button type="button" class="btn btn-default dropdown-toggle" dropdownToggle>
-                  <span *ngIf="!launcherComponent.summary.cluster">Select cluster</span>
-                  <span *ngIf="launcherComponent.summary.cluster">{{launcherComponent.summary.cluster.id}}</span>
-                  <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu cluster" role="menu" *dropdownMenu
-                    [attr.aria-labelledby]="i + 'dropdown'">
-                  <li *ngFor="let cluster of targetEnv.clusters">
-                    <a href="javascript:void(0)" class="dropdown-item" role="menuitem" tabindex="-1"
-                      (click)="launcherComponent.summary.cluster = cluster">{{cluster.id}}</a>
-                  </li>
-                </ul>
-              </div>
             </div>
+
             <div class="card-pf-footer">
+              </span>
+              <p *ngIf="launcherComponent.flow === 'osio'">
               <div class="card-pf-footer--logo">
                 <img [class]="targetEnv.styleClass"
                      [src]="_DomSanitizer.bypassSecurityTrustUrl(targetEnv.icon)"
@@ -69,6 +48,7 @@
       </div>
     </div>
   </div>
+  <f8launcher-link-accounts-createapp-step [@toggleAnimation]="'os' === launcherComponent?.summary?.targetEnvironment ? 'active' : 'inactive'"></f8launcher-link-accounts-createapp-step>
   <div>
     <div class="container-fluid">
       <div class="f8launcher-continue">
@@ -83,12 +63,3 @@
     </div>
   </div>
 </section>
-
-<modal #linkAccounts modalClass="modal-lg">
-  <modal-content>
-    <f8launcher-link-accounts-createapp-step></f8launcher-link-accounts-createapp-step>
-  </modal-content>
-  <modal-footer>
-    <button class="btn btn-primary" (click)="linkAccounts.close()">Done</button>
-  </modal-footer>
-</modal>

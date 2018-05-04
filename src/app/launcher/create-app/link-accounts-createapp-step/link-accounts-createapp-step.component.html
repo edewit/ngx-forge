@@ -1,45 +1,30 @@
-<div class="row">
-  <div class="col-sm-12">
-    <h2>Grant Access</h2>
-  </div>
-</div>
-
-<p>
-  Depending on your configuration choose one or multiple clusters from the list below:
-</p>
-
-<div class="admonitionblock note">
-  <table>
-    <tbody>
-      <tr>
-        <td class="icon">
-          <i class="fa icon-note" title="Note"></i>
-        </td>
-        <td class="content">
-          Check which OpenShift Online cluster you belong to using
-          <a href="https://manage.openshift.com" target="_blank"
-            rel="noopener">https://manage.openshift.com</a>.
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-<div class="list-group list-view-pf list-view-pf-view">
-  <div class="list-group-item" *ngFor="let cluster of clusters">
-    <div class="list-view-pf-actions">
-      <span class="fa-2x pficon pficon-ok" *ngIf="isChecked(cluster)"></span>
-      <a [href]="tokenService.createOathLink(cluster.id)" class="btn btn-default" *ngIf="!isChecked(cluster)">Add</a>
-    </div>
+<div class="list-group list-view-pf list-view-pf-view selected-card">
+  <div class="list-group-item">
     <div class="list-view-pf-main-info">
-      <div class="list-view-pf-left">
-        <span class="fa fa-cubes list-view-pf-icon-sm"></span>
-      </div>
       <div class="list-view-pf-body">
         <div class="list-view-pf-description">
           <div class="list-group-item-heading">
-            Openshift ({{cluster.id}})
+            Select cluster
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="list-group-item" *ngFor="let cluster of clusters">
+    <div class="list-view-pf-checkbox">
+      <input type="radio">
+    </div>
+    <!-- <div class="list-view-pf-actions">
+      <span class="fa-2x pficon pficon-ok" *ngIf="isChecked(cluster)"></span>
+      <a [href]="tokenService.createOathLink(cluster.id)" class="btn btn-default" *ngIf="!isChecked(cluster)">Add</a>
+    </div> -->
+    <div class="list-view-pf-main-info">
+      <div class="list-view-pf-left">
+        <span class="fa pficon-server list-view-pf-icon-sm openshift"></span>
+      </div>
+      <div class="list-view-pf-body">
+        <div class="list-view-pf-description">
+          Openshift ({{cluster.id}})
         </div>
       </div>
     </div>
