@@ -183,8 +183,9 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
             if (this.cacheInfo['mission'] && this.cacheInfo['runtime']) {
                 let mission: string = this.cacheInfo['mission'].id;
                 let runtime: string = this.cacheInfo['runtime'].id;
+                let runtimeVersion: string = this.cacheInfo['runtime'].version;
                 this.boosterInfo = this.cacheInfo;
-                let service = this.depEditorService.getBoosterInfo(mission, runtime);
+                let service = this.depEditorService.getBoosterInfo(mission, runtime, runtimeVersion);
                 if (service) {
                     service.subscribe((response: any) => {
                         if (response && response.gitRepo && response.gitRef) {
