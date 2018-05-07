@@ -50,6 +50,7 @@ describe('ActivateBoosterComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         CommonModule,
+        FormsModule,
         RouterTestingModule
       ],
       declarations: [

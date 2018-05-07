@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { DomSanitizer } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Observable } from 'rxjs';
 import { InViewportModule, WindowRef } from '@thisissoon/angular-inviewport';
 
@@ -16,6 +17,7 @@ import { TargetEnvironmentService } from '../../service/target-environment.servi
 import { TokenService } from '../../service/token.service';
 import { ModalModule } from 'ngx-modal';
 import { LinkAccountsCreateappStepComponent } from '../link-accounts-createapp-step/link-accounts-createapp-step.component';
+import { MissionRuntimeService } from '../../service/mission-runtime.service';
 
 let mockTargetEnvironmentService = {
   getTargetEnvironments(): Observable<TargetEnvironment[]> {
@@ -77,6 +79,10 @@ let mockTokenService: TokenService = {
   clusters: Observable.of([]),
   createOathLink: (token) => ''
 }
+let mockMissionRuntimeService: MissionRuntimeService = {
+  getRuntimes: () => Observable.of([]),
+  getMissions: () => Observable.of([])
+}
 
 describe('TargetEnvironmentStepComponent', () => {
   let component: TargetEnvironmentCreateappStepComponent;
@@ -89,7 +95,8 @@ describe('TargetEnvironmentStepComponent', () => {
         FormsModule,
         RouterTestingModule,
         InViewportModule,
-        ModalModule
+        ModalModule,
+        NoopAnimationsModule
       ],
       declarations: [
         TargetEnvironmentCreateappStepComponent,
@@ -104,6 +111,9 @@ describe('TargetEnvironmentStepComponent', () => {
         },
         {
           provide: WindowRef, useValue: window
+        },
+        {
+          provide: MissionRuntimeService, useValue: mockMissionRuntimeService
         },
         { provide: TokenService, useValue: mockTokenService }
       ]
