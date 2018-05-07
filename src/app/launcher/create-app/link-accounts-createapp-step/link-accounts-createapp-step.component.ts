@@ -1,4 +1,4 @@
-import { Component, Optional } from '@angular/core';
+import { Component, Optional, Output, EventEmitter } from '@angular/core';
 
 import { Cluster } from '../../model/cluster.model';
 import { TokenService } from '../../service/token.service';
@@ -10,7 +10,8 @@ import { Observable } from 'rxjs';
   styleUrls: ['./link-accounts-createapp-step.component.less']
 })
 export class LinkAccountsCreateappStepComponent {
-
+  @Output() select = new EventEmitter();
+  private clusterId: string;
   availableClusters: Cluster[] = [];
   clusters: Cluster[] = [];
 
@@ -23,5 +24,10 @@ export class LinkAccountsCreateappStepComponent {
 
   isChecked(token: Cluster): boolean {
     return this.availableClusters.map(cluster => cluster.id).indexOf(token.id) !== -1;
+  }
+
+  selectCluster(cluster: Cluster): void {
+    this.clusterId = cluster.id;
+    this.select.emit(cluster);
   }
 }

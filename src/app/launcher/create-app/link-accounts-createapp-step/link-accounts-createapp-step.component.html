@@ -10,21 +10,18 @@
       </div>
     </div>
   </div>
-  <div class="list-group-item" *ngFor="let cluster of clusters">
+  <div class="list-group-item" *ngFor="let cluster of clusters" (click)="isChecked(cluster) ? selectCluster(cluster) : null" [class.disabled]="!isChecked(cluster)">
     <div class="list-view-pf-checkbox">
-      <input type="radio">
+      <input name="cluster" type="radio" [(ngModel)]="clusterId" [value]="cluster.id" [disabled]="!isChecked(cluster)">
     </div>
-    <!-- <div class="list-view-pf-actions">
-      <span class="fa-2x pficon pficon-ok" *ngIf="isChecked(cluster)"></span>
-      <a [href]="tokenService.createOathLink(cluster.id)" class="btn btn-default" *ngIf="!isChecked(cluster)">Add</a>
-    </div> -->
     <div class="list-view-pf-main-info">
       <div class="list-view-pf-left">
         <span class="fa pficon-server list-view-pf-icon-sm openshift"></span>
       </div>
       <div class="list-view-pf-body">
         <div class="list-view-pf-description">
-          Openshift ({{cluster.id}})
+          Openshift ({{cluster.id}}) &nbsp;
+          <a [href]="tokenService.createOathLink(cluster.id)" class="btn btn-default" *ngIf="!isChecked(cluster)">Add</a>
         </div>
       </div>
     </div>
