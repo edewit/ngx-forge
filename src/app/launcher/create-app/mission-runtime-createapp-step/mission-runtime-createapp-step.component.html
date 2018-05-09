@@ -138,22 +138,31 @@
                                'contribute': isRuntimeDisabled(runtime) === true}"
                    *ngFor="let runtime of runtimes; let i = index">
                 <div class="list-group-item list-view-pf-stacked list-view-pf-top-align"
-                     [ngClass]="{'disabled': isRuntimeDisabled(runtime) === true, 'selected-list-item': runtimeId === runtime.id}">
+                     [ngClass]="{'disabled': isRuntimeDisabled(runtime) === true || isAvailableOnCluster(runtime), 'selected-list-item': runtimeId === runtime.id}">
                   <div class="list-group-item-header"
-                       *ngIf="runtime.prerequisite !== undefined || runtime.suggested === true || isRuntimeDisabled(runtime) === true">
+                       *ngIf="runtime.prerequisite !== undefined || runtime.suggested === true || isRuntimeDisabled(runtime) === true || isAvailableOnCluster(runtime)">
                     <div class="f8launcher-tags"
                          [ngClass]="{'prerequisite': runtime.prerequisite !== undefined,
                                      'suggested-feature-tag': runtime.suggested === true,
-                                     'not-available-feature-tag': isRuntimeDisabled(runtime) === true}">
+                                     'not-available-feature-tag': isRuntimeDisabled(runtime) === true || isAvailableOnCluster(runtime)}">
                       <ng-template #runtimeContributeTemplate>
                         This mission and runtime combination is not currently available, but you can contribute to our
                         <a href='https://appdev.openshift.io/docs/contrib-guide.html#_documentation' target="_blank">library</a>
                         and help us expand these offerings.
                       </ng-template>
+                      <ng-template #runtimeClusterTemplate>
+                        This cluster doesn't have enough resources to support the mission and runtime (booster) that you selected.
+                      </ng-template>
                       <span class="f8launcher-tags-label contribute" container="body" triggers="click"
                             outsideClick="true"
                             [popover]="runtimeContributeTemplate"
                             *ngIf="isRuntimeDisabled(runtime) === true">
+                        Not available <i class="pficon pficon-info"></i>
+                      </span>
+                      <span class="f8launcher-tags-label" container="body" triggers="click"
+                            outsideClick="true"
+                            [popover]="runtimeClusterTemplate"
+                            *ngIf="isAvailableOnCluster(runtime)">
                         Not available <i class="pficon pficon-info"></i>
                       </span>
                       <span class="f8launcher-tags-label suggested" container="body" triggers="click"

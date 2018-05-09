@@ -253,7 +253,38 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
     }
     return result;
   }
-  
+
+  isAvailableOnCluster(runtime: Runtime): boolean {
+    if (!this.launcherComponent.summary.cluster || !this.launcherComponent.summary.mission) {
+      return false;
+    }
+    let selectedMission = runtime.missions.find(m => m.id === this.launcherComponent.summary.mission.id);
+    let version = selectedMission.versions.find(v => v.booster !== undefined);
+    return version? !this.checkRunsOnCluster(version.booster.metadata.runsOn, this.launcherComponent.summary.cluster.type) : false;
+  }
+
+  private checkRunsOnCluster(supportedCategories: string[], category: string) {
+    let defaultResult = true;
+    if (supportedCategories && supportedCategories.length !== 0) {
+      for (let i = 0; i < supportedCategories.length; i++) {
+        let supportedCategory = supportedCategories[i];
+          if (!supportedCategory.startsWith("!")) {
+              defaultResult = false;
+          }
+          if (supportedCategory.toLowerCase() === 'all'
+                  || supportedCategory.toLowerCase() === '*'
+                  || supportedCategory.toLocaleLowerCase() === category) {
+              return true;
+          } else if (supportedCategory.toLowerCase() === 'none'
+                  || supportedCategory.toLowerCase() === '!*'
+                  || supportedCategory.toLowerCase() === ('!' + category)) {
+              return false;
+          }
+      }
+    }
+    return defaultResult;
+  }
+
   /**
    * Returns true if mission choice should be disabled
    * This is specfically targeting OSIO flow as here we don't have to consider versions of missions

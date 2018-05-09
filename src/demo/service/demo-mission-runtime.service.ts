@@ -120,6 +120,14 @@ export class DemoMissionRuntimeService implements MissionRuntimeService {
           'id': 'crud',
           'versions': [
             {
+              "booster": {
+                "metadata": {
+                    "runsOn": [
+                        "!starter",
+                        "!osio"
+                    ]
+                }
+              },
               'id': 'community',
               'name': '3.5.0.Final (Community)'
             }

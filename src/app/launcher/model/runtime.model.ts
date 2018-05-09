@@ -5,6 +5,11 @@ export class Runtime {
   missions: [{
     id: string;
     versions: [{
+      booster?: {
+        metadata: {
+          runsOn: string[];
+        }
+      },
       id: string;
       name: string;
     }]
