@@ -24,7 +24,7 @@
           </f8launcher-missionruntime-createapp-step>
           <!-- Place holder for Dependency Checker -->
           <f8launcher-dependencychecker-createapp-step
-            [hidden]="false"
+            [hidden]="flow === 'launch' || depEditorFlag !== true"
             [id]="'SelectDependencies'"
             [styleClass]="'select-dependencies'"
             [title]="'Select Dependencies'">
@@ -45,7 +45,8 @@
           <f8launcher-projectsummary-createapp-step
             [id]="'ProjectSummary'"
             [styleClass]="'project-summary'"
-            [title]="'Confirm Application Summary & Setup'">
+            [title]="'Confirm Application Summary & Setup'"
+            [depEditorFlag]="depEditorFlag">
           </f8launcher-projectsummary-createapp-step>
         </div>
         <div class="f8launcher-container_close">

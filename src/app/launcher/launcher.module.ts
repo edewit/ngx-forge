@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ModalModule } from 'ngx-modal';
 
-import { DependencyEditorModule,  URLProvider, DependencyEditorTokenProvider } from 'fabric8-analytics-dependency-editor';
+import { DependencyEditorModule,  URLProvider, DependencyEditorTokenProvider }
+  from '../../../node_modules/fabric8-analytics-dependency-editor';
 import { BsDropdownConfig, BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
@@ -17,7 +18,8 @@ import { CancelOverlayComponent } from './cancel-overlay/cancel-overlay.componen
 
 import { ActivateBoosterCreateappNextstepComponent }
   from './create-app/activate-booster-createapp-nextstep/activate-booster-createapp-nextstep.component';
-import { DependencyEditorCreateappStepComponent } from './create-app/dependency-editor-step/dependency-editor-step.component';
+import { DependencyEditorCreateappStepComponent }
+  from './create-app/dependency-editor-step/dependency-editor-step.component';
 import { GitproviderCreateappStepComponent }
   from './create-app/gitprovider-createapp-step/gitprovider-createapp-step.component';
 import { MissionRuntimeCreateappStepComponent }

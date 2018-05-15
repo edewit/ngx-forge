@@ -86,7 +86,7 @@
       </div>
     </div>
   </div>
-  <div class="container-fluid container-cards-pf" *ngIf="summary?.targetEnvironment === 'os' && launcherComponent.flow !== 'launch'">
+  <div class="container-fluid container-cards-pf" *ngIf="depEditorFlag && summary?.targetEnvironment === 'os' && launcherComponent.flow !== 'launch'">
     <div class="row row-cards-pf">
       <div class="col-xs-12">
         <div id="dep-editor" class="card-pf card-pf--small">

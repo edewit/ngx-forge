@@ -37,6 +37,10 @@ export class LauncherComponent implements AfterViewInit, OnInit {
   @Input() flow: string = 'osio';
 
   /**
+   * Setting the flag to show dependency editor as internal feature
+   */
+  @Input() depEditorFlag:  boolean = false;
+  /**
    * The event emitted when an cancel has been selected
    */
   @Output('onCancel') onCancel = new EventEmitter();
@@ -77,6 +81,7 @@ export class LauncherComponent implements AfterViewInit, OnInit {
   }
 
   ngOnInit() {
+    console.log('---', this.depEditorFlag);
     let projectName = this.route.snapshot.params['projectName'];
     this._summary = {
       targetEnvironment: this.flow === 'osio' ? 'os' : undefined,
