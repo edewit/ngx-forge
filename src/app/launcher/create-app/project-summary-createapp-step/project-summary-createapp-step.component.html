@@ -95,14 +95,14 @@
           <ng-template #showNoDependencyTemplate>
             <div class="card-pf-heading">
               <h2 class="card-pf-title">
-                New Dependencies Selected
+                Selected Dependencies 
               </h2>
             </div>
             <div class="card-pf-body f8launcher-project-summary-data-unavailable dependency noData-label">
               <h2>
-                <b>No New Dependencies selected</b>
+                <b>You haven't selected any additional dependencies</b>
               </h2>
-              <p>To proceed with adding new dependencies to this application, this section must be completed.</p>
+              <p>To add additional dependencies, complete this section. Required dependencies are added for you automatically based on your mission and runtime.</p>
               <button class="btn btn-default btn-lg f8launcher-authorize-account"
                       (click)="navToStep('SelectDependencies')">Complete Section</button>
             </div>
@@ -110,7 +110,7 @@
           <ng-template #showDependencyTemplate>
             <div class="card-pf-heading">
               <h2 class="card-pf-title">
-                New Dependencies Selected
+                Selected Dependencies 
               </h2>
             </div>
             <div class="card-pf-body">
