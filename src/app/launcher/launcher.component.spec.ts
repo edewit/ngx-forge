@@ -13,6 +13,8 @@ import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { DependencyEditorModule,  URLProvider, DependencyEditorTokenProvider }
+  from '../../../node_modules/fabric8-analytics-dependency-editor';
 import { CancelOverlayComponent } from './cancel-overlay/cancel-overlay.component';
 import { LauncherComponent } from './launcher.component';
 import { LauncherStep } from './launcher-step';
@@ -27,11 +29,12 @@ import { ProjectProgressCreateappNextstepComponent }
 import { ProjectProgressImportappNextstepComponent }
   from './import-app/project-progress-importapp-nextstep/project-progress-importapp-nextstep.component';
 
-import { from } from 'rxjs/observable/from';
 import { DependencyCheckService } from './service/dependency-check.service';
 import { ProjectSummaryService } from './service/project-summary.service';
 import { DemoDependencyCheckService } from '../../demo/service/demo-dependency-check.service';
 import { DemoProjectSummaryService } from '../../demo/service/demo-project-summary.service';
+import { HelperService } from './service/helper.service';
+import { TokenProvider } from '../../app/service/token-provider';
 
 @Component({
   selector: 'f8launcher-step-indicator',
@@ -46,6 +49,18 @@ export class Fakef8launcherStepIndicator {
   template: ''
 })
 export class Fakef8launcherMissionruntimeCreateappStep {
+  @Input() id: string;
+  @Input() completed: boolean = false;
+  @Input() hidden: boolean = false;
+  @Input() styleClass: string;
+  @Input() title: string;
+}
+
+@Component({
+  selector: 'f8launcher-dependencychecker-createapp-step',
+  template: ''
+})
+export class Fakef8launcherDependencyCheckeerCreatesppStep {
   @Input() id: string;
   @Input() completed: boolean = false;
   @Input() hidden: boolean = false;
@@ -99,6 +114,7 @@ export class Fakef8launcherProjectSummaryCreateappStep {
   @Input() hidden: boolean = false;
   @Input() styleClass: string;
   @Input() title: string;
+  @Input() depEditorFlag: boolean = false;
 }
 
 @Component({
@@ -138,6 +154,15 @@ export class Fakef8launcherProjectSummaryImportappStep {
   @Input() title: string;
 }
 
+let mockHelperService = {
+  getBackendUrl(): string {
+    return 'https://backend.url/';
+  },
+  getOrigin(): string {
+    return 'origin';
+  }
+};
+
 describe('LauncherComponent', () => {
   let component: LauncherComponent;
   let fixture: ComponentFixture<LauncherComponent>;
@@ -146,12 +171,14 @@ describe('LauncherComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         CommonModule,
+        DependencyEditorModule,
         FormsModule,
         RouterTestingModule
       ],
       declarations: [
         ActivateBoosterCreateappNextstepComponent,
         CancelOverlayComponent,
+        Fakef8launcherDependencyCheckeerCreatesppStep,
         Fakef8launcherGitproviderCreateappStep,
         Fakef8launcherGitproviderImportappStep,
         Fakef8launcherMissionruntimeCreateappStep,
@@ -166,7 +193,9 @@ describe('LauncherComponent', () => {
         ProjectProgressImportappNextstepComponent
       ],
       providers: [
+        TokenProvider,
         { provide: DependencyCheckService, useClass: DemoDependencyCheckService },
+        { provide: HelperService, useValue: mockHelperService },
         { provide: ProjectSummaryService, useClass: DemoProjectSummaryService }
       ]
     }).compileComponents();
