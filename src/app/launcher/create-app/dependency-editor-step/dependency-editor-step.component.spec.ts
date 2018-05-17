@@ -1,22 +1,26 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+   async,
+   ComponentFixture,
+   TestBed }
+ from '@angular/core/testing';
 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
-import { DomSanitizer } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
+import { KeyValueDiffers } from '@angular/core';
 import { InViewportModule, WindowRef } from '@thisissoon/angular-inviewport';
 import { DependencyEditorCreateappStepComponent } from './dependency-editor-step.component';
-import { PopoverModule } from 'ngx-bootstrap';
-import { PipeModule } from 'patternfly-ng/pipe';
-import { DependencyCheckService } from '../../service/dependency-check.service';
+import { DependencyEditorService } from '../../service/dependency-editor.service';
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
+import { RouterTestingModule } from '@angular/router/testing';
 import { DependencyEditor } from '../../model/dependency-editor/dependency-editor.model';
 import { Summary } from '../../model/summary.model';
 import { Selection } from '../../model/selection.model';
+import { DependencyEditorModule,  URLProvider, DependencyEditorTokenProvider }
+ from 'fabric8-analytics-dependency-editor';
 
-describe('ProjectSummaryStepComponent', () => {
+describe('DependencyEditorCreateappStepComponent', () => {
     let component: DependencyEditorCreateappStepComponent;
     let fixture: ComponentFixture<DependencyEditorCreateappStepComponent>;
 
@@ -26,23 +30,19 @@ describe('ProjectSummaryStepComponent', () => {
           CommonModule,
           FormsModule,
           InViewportModule,
-          PipeModule,
-          PopoverModule.forRoot(),
+          DependencyEditorModule,
           RouterTestingModule
         ],
         declarations: [
             DependencyEditorCreateappStepComponent
         ],
         providers : [
-          {
-            provide: DependencyCheckService
-          },
-          {
-            provide: LauncherComponent
-          },
-          {
-            provide: WindowRef
-          }
+            DependencyEditorService,
+            LauncherComponent,
+            URLProvider,
+            DependencyEditorTokenProvider,
+            KeyValueDiffers,
+            WindowRef
         ]
       }).compileComponents();
     }));
@@ -53,7 +53,7 @@ describe('ProjectSummaryStepComponent', () => {
       fixture.detectChanges();
     });
 
-    it('should create', () => {
+    fit('should create', () => {
       expect(component).toBeTruthy();
     });
   });

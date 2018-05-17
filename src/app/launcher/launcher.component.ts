@@ -81,7 +81,6 @@ export class LauncherComponent implements AfterViewInit, OnInit {
   }
 
   ngOnInit() {
-    console.log('---', this.depEditorFlag);
     let projectName = this.route.snapshot.params['projectName'];
     this._summary = {
       targetEnvironment: this.flow === 'osio' ? 'os' : undefined,

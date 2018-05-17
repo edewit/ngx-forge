@@ -117,17 +117,6 @@ export class DemoDependencyCheckService implements DependencyCheckService {
     }));
   }
 
-  getBoosterInfo(missionId: string, runtimeId: string): Observable<any> {
-    if (missionId && runtimeId) {
-      let boosterInfoEndPoint: string = this.END_POINT + this.API_BASE + 'booster';
-      boosterInfoEndPoint += `?mission=${missionId}&runtime=${runtimeId}`;
-      return this.options.flatMap((option) => {
-        return this.http.get(boosterInfoEndPoint, option)
-                    .map(response => response.json() as any)
-                    .catch(this.handleError);
-      });
-    }
-  }
 
   private handleError(error: Response | any) {
     let errMsg: string;
