@@ -22,6 +22,8 @@ import { DependencyEditorCreateappStepComponent }
   from './create-app/dependency-editor-step/dependency-editor-step.component';
 import { GitproviderCreateappStepComponent }
   from './create-app/gitprovider-createapp-step/gitprovider-createapp-step.component';
+  import { GitProviderRepositoryValidatorDirective }
+  from './create-app/gitprovider-createapp-step/gitprovider-repository.validator';
 import { MissionRuntimeCreateappStepComponent }
   from './create-app/mission-runtime-createapp-step/mission-runtime-createapp-step.component';
 import { ProjectProgressCreateappNextstepComponent }
@@ -78,6 +80,7 @@ export const providers: Provider[] = [
     CancelOverlayComponent,
     DependencyEditorCreateappStepComponent,
     GitproviderCreateappStepComponent,
+    GitProviderRepositoryValidatorDirective,
     GitproviderImportappStepComponent,
     MissionRuntimeCreateappStepComponent,
     ProjectProgressCreateappNextstepComponent,
