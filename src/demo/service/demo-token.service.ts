@@ -27,7 +27,7 @@ export class DemoTokenService implements TokenService {
       {
         'id': 'starter-ca-central-1',
         'type': 'starter',
-        'connected': true
+        'connected': false
       },
       {
         'id': 'pro-us-east-1',

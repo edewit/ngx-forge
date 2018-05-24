@@ -1,5 +1,3 @@
-import { Cluster } from './cluster.model';
-
 export class TargetEnvironment {
   description: string;
   benefits: string[];
@@ -8,5 +6,4 @@ export class TargetEnvironment {
   icon: string;
   id: string;
   styleClass: string;
-  clusters?: Cluster[];
 }

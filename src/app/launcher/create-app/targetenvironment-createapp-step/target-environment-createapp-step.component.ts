@@ -67,11 +67,6 @@ export class TargetEnvironmentCreateappStepComponent extends LauncherStep implem
     this.subscriptions.push(this.targetEnvironmentService.getTargetEnvironments().subscribe((val) => {
       if (val !== undefined) {
         this._targetEnvironments = val;
-        val.forEach(targetEnvironment => {
-          if (targetEnvironment.clusters && targetEnvironment.clusters.length === 1) {
-            this.launcherComponent.summary.cluster = targetEnvironment.clusters[0];
-          }
-        });
       }
     }));
   }
@@ -104,7 +99,7 @@ export class TargetEnvironmentCreateappStepComponent extends LauncherStep implem
 
   updateTargetEnvSelection(target: TargetEnvironment): void {
     if (this.missionRuntimeService.setCluster) {
-      this.missionRuntimeService.setCluster(target.clusters ? this.launcherComponent.summary.cluster : null);
+      this.missionRuntimeService.setCluster(target.id === 'os' ? this.launcherComponent.summary.cluster : null);
     }
     this.initCompleted();
   }
