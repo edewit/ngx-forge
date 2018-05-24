@@ -37,7 +37,6 @@ let mockWizardComponent: TypeWizardComponent = {
 };
 
 let mockTokenService: TokenService = {
-  availableClusters: Observable.of([]),
   clusters: Observable.of([]),
   createOathLink: (token) => ''
 }
