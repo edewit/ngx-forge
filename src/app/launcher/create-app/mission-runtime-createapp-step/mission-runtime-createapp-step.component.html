@@ -162,7 +162,7 @@
                       <span class="f8launcher-tags-label" container="body" triggers="click"
                             outsideClick="true"
                             [popover]="runtimeClusterTemplate"
-                            *ngIf="isAvailableOnCluster(runtime)">
+                            *ngIf="!isRuntimeDisabled(runtime) && isAvailableOnCluster(runtime)">
                         Not available <i class="pficon pficon-info"></i>
                       </span>
                       <span class="f8launcher-tags-label suggested" container="body" triggers="click"
