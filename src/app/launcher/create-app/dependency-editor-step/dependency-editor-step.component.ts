@@ -142,9 +142,11 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
 
     private listenForChanges(change: any): void {
         let flag = false;
+        let current = change.currentValue;
+        if (!current) {
+            return;
+        }
         if (change && change.key === 'runtime') {
-            let current = change.currentValue;
-
             if (
                 !this.cacheInfo ||
                 (
@@ -160,7 +162,6 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
                 flag = true;
             }
         } else if (change && change.key === 'mission') {
-            let current = change.currentValue;
             this.cacheInfo['mission'] = {
                 id: current.id
             };
