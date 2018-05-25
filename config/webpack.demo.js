@@ -93,12 +93,26 @@ module.exports = {
           }
         ],
       }, {
-        test: /\.css$/,
-        loader: extractCSS.extract({
+        test: /^(?!.*component).*\.css$/,
+        use: extractCSS.extract({
           fallback: "style-loader",
           use: "css-loader?sourceMap&context=/"
         }),
         exclude: [/node_modules\/@swimlane\/ngx-datatable/]
+      }, {
+        test: /\.component\.css$/,
+        use: [
+          {
+            loader: 'to-string-loader'
+          }, {
+            loader: 'css-loader',
+            options: {
+              minimize: true,
+              sourceMap: true,
+              context: '/'
+            }
+          }
+        ],
       }, {
         test: /\.less$/,
         loaders: [
