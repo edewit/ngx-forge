@@ -21,6 +21,13 @@ export class LinkAccountsCreateappStepComponent {
     this.load();
   }
 
+  ngAfterViewInit() {
+    const connectedClusters = this._clusters.filter(c => c.connected);
+    if (connectedClusters.length === 1) {
+      this.selectCluster(connectedClusters[0]);
+    }
+  }
+
   selectCluster(cluster: Cluster): void {
     this.clusterId = cluster.id;
     this.select.emit(cluster);
@@ -32,13 +39,7 @@ export class LinkAccountsCreateappStepComponent {
 
   private load() {
     if (this.tokenService) {
-      this.tokenService.clusters.subscribe(clusters => {
-        this._clusters = clusters.sort(this.clusterSortFn);
-        const connectedClusters = this._clusters.filter(c => c.connected);
-        if (connectedClusters.length === 1) {
-          this.selectCluster(connectedClusters[0]);
-        }
-      });
+      this.tokenService.clusters.subscribe(clusters => this._clusters = clusters.sort(this.clusterSortFn));
     }
   }
 

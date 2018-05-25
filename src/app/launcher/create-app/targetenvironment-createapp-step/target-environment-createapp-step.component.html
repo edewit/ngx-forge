@@ -47,7 +47,7 @@
     </div>
   </div>
   <f8launcher-link-accounts-createapp-step [@toggleAnimation]="'os' === launcherComponent?.summary?.targetEnvironment ? 'active' : 'inactive'"
-    (select)="launcherComponent.summary.cluster = $event">
+    (select)="selectCluster($event)">
   </f8launcher-link-accounts-createapp-step>
   <div>
     <div class="container-fluid">

@@ -19,6 +19,7 @@ import { TargetEnvironmentService } from '../../service/target-environment.servi
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
 import { MissionRuntimeService } from '../../service/mission-runtime.service';
+import {Cluster} from '../../model/cluster.model';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -95,6 +96,10 @@ export class TargetEnvironmentCreateappStepComponent extends LauncherStep implem
 
   navToNextStep(): void {
     this.launcherComponent.navToNextStep();
+  }
+
+  selectCluster(cluster: Cluster): void {
+    this.launcherComponent.summary.cluster = cluster;
   }
 
   updateTargetEnvSelection(target: TargetEnvironment): void {
