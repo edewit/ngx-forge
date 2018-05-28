@@ -157,6 +157,7 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
                 this.cacheInfo['runtime'] = {
                     name: current.name,
                     id: current.id,
+                    missions: current.missions,
                     version: current.version ? current.version.id : null
                 };
                 flag = true;
@@ -165,6 +166,13 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
             this.cacheInfo['mission'] = {
                 id: current.id
             };
+
+            // If runtime is selected first, version of runtime will be null. This updates that.
+            let missionsArrFromRuntime: Array<any> = this.cacheInfo['runtime'] && this.cacheInfo['runtime']['missions'];
+            if (missionsArrFromRuntime && missionsArrFromRuntime.length) {
+                let filteredMission = missionsArrFromRuntime.filter((mission) => mission.id === this.cacheInfo['mission']['id'])[0];
+                this.cacheInfo['runtime']['version'] = filteredMission && filteredMission.versions && filteredMission.versions[0] && filteredMission.versions[0].id || null;
+            }
             flag = true;
         }
 
