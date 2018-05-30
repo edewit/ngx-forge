@@ -5,16 +5,47 @@ import {
   OnInit,
   ViewEncapsulation
 } from '@angular/core';
+import * as _ from 'lodash';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 
 import { Mission } from '../../model/mission.model';
 import { Runtime } from '../../model/runtime.model';
-import { Selection } from '../../model/selection.model';
 import { MissionRuntimeService } from '../../service/mission-runtime.service';
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
+import { Booster, BoosterRuntime, BoosterVersion } from '../../model/booster.model';
+import { Broadcaster } from 'ngx-base';
+
+export class ViewMission {
+  id: string;
+  name: string;
+  description?: string;
+  advanced: boolean;
+  suggested: boolean;
+  disabled: boolean;
+  disabledReason?: string;
+  prerequisite: boolean;
+  community: boolean;
+  showMore: boolean;
+}
+
+export class ViewRuntime {
+  id: string;
+  name: string;
+  description?: string;
+  icon: string;
+  disabled: boolean;
+  disabledReason?: string;
+  prerequisite: boolean;
+  canChangeVersion: boolean;
+  suggested: boolean;
+  selectedVersion: { id: string; name: string; };
+  versions: {
+    id: string;
+    name: string;
+  }[];
+}
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -23,25 +54,30 @@ import { LauncherStep } from '../../launcher-step';
   styleUrls: ['./mission-runtime-createapp-step.component.less']
 })
 export class MissionRuntimeCreateappStepComponent extends LauncherStep implements OnInit, OnDestroy {
-  private _missions: Mission[] = [];
-  private _runtimes: Runtime[] = [];
+  private _missions: ViewMission[] = [];
+  private _runtimes: ViewRuntime[] = [];
+  private _boosters: Booster[] = null;
 
   private missionId: string;
   private runtimeId: string;
+  private versionId: string;
   private subscriptions: Subscription[] = [];
 
   constructor(@Host() public launcherComponent: LauncherComponent,
               private missionRuntimeService: MissionRuntimeService,
-              public _DomSanitizer: DomSanitizer) {
+              public _DomSanitizer: DomSanitizer,
+              private broadcaster: Broadcaster) {
     super();
   }
 
   ngOnInit() {
     this.launcherComponent.addStep(this);
-    this.subscriptions.push(this.missionRuntimeService.getMissions()
-      .subscribe(missions => this._missions = missions));
-      this.subscriptions.push(this.missionRuntimeService.getRuntimes()
-      .subscribe(runtimes => this._runtimes = runtimes));
+    this.subscriptions.push(this.missionRuntimeService.getBoosters()
+      .subscribe(boosters => {
+        this._boosters = boosters;
+        this.updateSelection();
+      }));
+    this.broadcaster.on('cluster').subscribe(() => this.updateSelection());
   }
 
   ngOnDestroy() {
@@ -50,14 +86,21 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
     });
   }
 
-  // Accessors
+  updateSelection(): void {
+    const cluster = this.getSelectedCluster();
+    this._runtimes = this.getViewRuntimes(cluster);
+    this._missions = this.getViewMission(cluster);
+    this.initCompleted();
+  }
+
+// Accessors
 
   /**
    * Returns a list of missions to display
    *
    * @returns {Mission[]} The missions to display
    */
-  get missions(): Mission[] {
+  get missions(): ViewMission[] {
     return this._missions;
   }
 
@@ -66,7 +109,7 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
    *
    * @returns {Runtime[]} The runtimes to display
    */
-  get runtimes(): Runtime[] {
+  get runtimes(): ViewRuntime[] {
     return this._runtimes;
   }
 
@@ -94,278 +137,6 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
   // Steps
 
   /**
-   * Returns runtime versions for the given runtime and selected mission
-   *
-   * Note that all versions are returned if a mission is not selected
-   *
-   * @param {Runtime} runtime
-   * @returns {any[]}
-   */
-  getRuntimeVersions(runtime: Runtime): any[] {
-    let result: any[] = [];
-    let mission = this.launcherComponent.summary.mission; // selected mission
-    if (mission === undefined) {
-      // Get all runtime versions available
-      runtime.missions.forEach((_mission) => {
-        _mission.versions.forEach((version) => {
-          if (result.length > 0) {
-            let found = false;
-            for (let i = 0; i < result.length; i++) {
-              if (version.id === result[i].id) {
-                found = true;
-                break;
-              }
-            }
-            if (!found) {
-              result.push(version);
-            }
-          } else {
-            result.push(version);
-          }
-        });
-      });
-    } else {
-      for (let i = 0; i < runtime.missions.length; i++) {
-        if (mission.id === runtime.missions[i].id) {
-          runtime.missions[i].versions.forEach((version) => {
-            result.push(version);
-          });
-        }
-      }
-    }
-    return result;
-  }
-
-  /**
-   * Returns true if supported mission version is community
-   *
-   * @param {Mission} mission The mission choice to test
-   * @returns {boolean} True if supported mission version is community
-   */
-  isMissionCommunity(mission: Mission): boolean {
-    if (this.launcherComponent.flow === 'osio') {
-      let runtime = this.launcherComponent.summary.runtime; // selected runtime
-      if (runtime === undefined) {
-        return false; // Nothing should be disabled initially
-      } else {
-        for (let i = 0; i < runtime.missions.length; i++) {
-          if (mission.id === runtime.missions[i].id) {
-            for (let k = 0; k < runtime.missions[i].versions.length; k++) {
-              let version = runtime.missions[i].versions[k];
-              if (version !== undefined && version.id === 'community') {
-                return true;
-              }
-            }
-          }
-        }
-      }
-    } else {
-      return false;
-    }
-  }
-
-  /**
-   * Returns true if mission choice should be disabled
-   *
-   * @param {Mission} mission The mission choice to test
-   * @returns {boolean} True if mission choice should be disabled
-   */
-  isMissionDisabled(mission: Mission): boolean {
-    if (this.launcherComponent.flow === 'osio') {
-      return this.isMissionDisabledOSIO(mission);
-    }
-    let runtime = this.launcherComponent.summary.runtime; // selected runtime
-    if (runtime === undefined) {
-      return false; // Nothing should be disabled initially
-    }
-
-    let result = true;
-    for (let i = 0; i < mission.runtimes.length; i++) {
-      if (mission.runtimes[i] === runtime.id) {
-        result = false;
-        break;
-      }
-    }
-
-    // Ensure selected version is complatible with mission
-    if (!result) {
-      result = true;
-      if (runtime.version === undefined) {
-        result = false;
-      } else {
-        for (let i = 0; i < runtime.missions.length; i++) {
-          if (mission.id === runtime.missions[i].id) {
-            for (let k = 0; k < runtime.missions[i].versions.length; k++) {
-              let version = runtime.missions[i].versions[k];
-              if (version !== undefined && version.id === runtime.version.id) {
-                result = false;
-                break;
-              }
-            }
-            break;
-          }
-        }
-      }
-    }
-    return result;
-  }
-
-  /**
-   * Returns true if runtime choice should be disabled
-   *
-   * @param {Runtime} runtime The runtime choice to test
-   * @returns {boolean} True if runtime choice should be disabled
-   */
-  isRuntimeDisabled(runtime: Runtime): boolean {
-    if (this.launcherComponent.flow === 'osio') {
-      return this.isRuntimeDisabledOSIO(runtime);
-    }
-    if (this.launcherComponent.summary.mission === undefined) {
-      return false;
-    }
-    let result = true;
-    let runtimes = this.launcherComponent.summary.mission.runtimes; // selected mission
-    for (let i = 0; i < runtimes.length; i++) {
-      if (runtime.id === runtimes[i]) {
-        result = false;
-        break;
-      }
-    }
-    // Ensure runtime versions are not empty
-    if (!result) {
-      let mission = this.launcherComponent.summary.mission; // selected mission
-      for (let i = 0; i < runtime.missions.length; i++) {
-        if (mission.id === runtime.missions[i].id) {
-          let versions = runtime.missions[i].versions;
-          if (versions === undefined || versions.length === 0) {
-            result = true;
-            break;
-          }
-          for (let k = 0; k < versions.length; k++) {
-            let version = versions[k];
-            if (version === undefined || version.id === undefined || version.name === undefined) {
-              result = true;
-              break;
-            }
-          }
-        }
-      }
-    }
-    return result;
-  }
-
-  isAvailableOnCluster(runtime: Runtime): boolean {
-    if (!this.launcherComponent.summary.cluster || !this.launcherComponent.summary.mission) {
-      return false;
-    }
-    let selectedMission = runtime.missions.find(m => m.id === this.launcherComponent.summary.mission.id);
-    if (!selectedMission) {
-      return true;
-    }
-    let version = selectedMission.versions.find(v => v.booster !== undefined && v.booster.metadata !== undefined
-      && v.booster.metadata.app !== undefined && v.booster.metadata.app.launcher !== undefined && v.booster.metadata.app.launcher.runsOn !== undefined);
-    return version? !this.checkRunsOnCluster(version.booster.metadata.app.launcher.runsOn, this.launcherComponent.summary.cluster.type) : false;
-  }
-
-  isMissionAvailableOnCluster(mission: Mission): boolean {
-    if (!this.launcherComponent.summary.cluster) {
-      return true;
-    }
-
-    let runtimesThatHaveThisMission = this.runtimes.filter(r => mission.runtimes.indexOf(r.id) !== -1);
-    let runtimeVersion = runtimesThatHaveThisMission.map(r => r.missions.find(m => m.id === mission.id));
-
-    let versions = [].concat.apply([], runtimeVersion.map(x => x.versions));
-    let versionsThatDontRunSomeClusters = versions.filter((v: any) => v.booster !== undefined && v.booster.metadata !== undefined
-      && v.booster.metadata.app !== undefined && v.booster.metadata.app.launcher !== undefined && v.booster.metadata.app.launcher.runsOn !== undefined);
-
-    // when there are some verions that don't have a booster field it means they run on all clusters
-    if (versions.length > versionsThatDontRunSomeClusters.length) {
-      return true;
-    }
-
-    let runs = versionsThatDontRunSomeClusters.map((v:any) =>
-        this.checkRunsOnCluster(v.booster.metadata.app.launcher.runsOn, this.launcherComponent.summary.cluster.type));
-
-    return runs.every((x:boolean) => x);
-  }
-
-  private checkRunsOnCluster(supportedCategories: string[] | string, category: string) {
-    let defaultResult = true;
-    if (typeof supportedCategories === "string") {
-      supportedCategories = [supportedCategories];
-    }
-    if (supportedCategories && supportedCategories.length !== 0) {
-      for (let i = 0; i < supportedCategories.length; i++) {
-        let supportedCategory = supportedCategories[i];
-          if (!supportedCategory.startsWith("!")) {
-              defaultResult = false;
-          }
-          if (supportedCategory.toLowerCase() === 'all'
-                  || supportedCategory.toLowerCase() === '*'
-                  || supportedCategory.toLocaleLowerCase() === category) {
-              return true;
-          } else if (supportedCategory.toLowerCase() === 'none'
-                  || supportedCategory.toLowerCase() === '!*'
-                  || supportedCategory.toLowerCase() === ('!' + category)) {
-              return false;
-          }
-      }
-    }
-    return defaultResult;
-  }
-
-  /**
-   * Returns true if mission choice should be disabled
-   * This is specfically targeting OSIO flow as here we don't have to consider versions of missions
-   *
-   * @param {Mission} mission The mission choice to test
-   * @returns {boolean} True if mission choice should be disabled
-   */
-  isMissionDisabledOSIO(mission: Mission): boolean {
-    let selectedRuntime: Runtime = this.launcherComponent.summary.runtime;
-    if (selectedRuntime === undefined) {
-      return false;
-    }
-
-    if (selectedRuntime && selectedRuntime.missions && selectedRuntime.missions.length) {
-      let missions: Array<any> = selectedRuntime.missions;
-      for (let i = 0; i < missions.length; ++ i) {
-        if (missions[i].id === mission.id) {
-          return false;
-        }
-      }
-    }
-
-    return true;
-  }
-
-  /**
-   * Returns true if runtime choice should be disabled
-   * This is specfically targeting OSIO flow as here we don't have to consider versions of missions
-   *
-   * @param {Runtime} runtime The runtime choice to test
-   * @returns {boolean} True if runtime choice should be disabled
-   */
-  isRuntimeDisabledOSIO(runtime: Runtime): boolean {
-    let selectedMission: Mission = this.launcherComponent.summary.mission;
-    if (selectedMission === undefined) {
-      return false;
-    }
-
-    if (selectedMission && selectedMission.runtimes && selectedMission.runtimes.length) {
-      let runtimes: Array<any> = selectedMission.runtimes;
-      for (let i = 0; i < runtimes.length; ++ i) {
-        if (runtimes[i] === runtime.id) {
-          return false;
-        }
-      }
-    }
-
-    return true;
-  }
-
-  /**
    * Navigate to next step
    */
   navToNextStep(): void {
@@ -376,11 +147,44 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
    * Reset current selections
    */
   resetSelections(): void {
-    this.missionId = undefined;
-    this.runtimeId = undefined;
-    this.launcherComponent.summary.mission = undefined;
-    this.launcherComponent.summary.runtime = undefined;
+    this.clearMission();
+    this.clearRuntime()
+    this.updateSelection();
     this.initCompleted();
+  }
+
+  selectMission(mission: ViewMission): void {
+    this.missionId = mission.id;
+    this.launcherComponent.summary.mission = {
+      id: mission.id,
+      name: mission.name,
+      description: mission.description
+    };
+    this.updateSelection();
+  }
+
+  selectRuntime(runtime: ViewRuntime, version?: BoosterVersion): void {
+    this.runtimeId = runtime.id;
+    const newVersion =  version ? version : runtime.selectedVersion;
+    this.versionId = newVersion.id;
+    this.launcherComponent.summary.runtime = {
+      id: runtime.id,
+      name: runtime.name,
+      description: runtime.description,
+      icon: runtime.icon,
+      version: newVersion
+    };
+    this.updateSelection();
+
+    // FIXME: use a booster change event listener to do this
+    // set maven artifact
+    if (this.stepCompleted) {
+      let artifactTS: Date = new Date();
+      let runtime = this.launcherComponent.summary.runtime.id.replace(/[.\-_]/g, '');
+      let mission = this.launcherComponent.summary.mission.id.replace(/[.\-_]/g, '');
+      this.launcherComponent.summary.dependencyCheck.mavenArtifact = 'booster' + '-' + mission + '-' + runtime
+        + '-' + artifactTS.getTime();
+    }
   }
 
   // Private
@@ -389,103 +193,82 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
     this.completed = this.stepCompleted;
   }
 
-  // Restore mission & runtime summary
-  private restoreSummary(): void {
-    let selection: Selection = this.launcherComponent.selectionParams;
-    if (selection === undefined) {
-      return;
+  private getSelectedCluster(): string {
+    if (this.launcherComponent.summary.targetEnvironment === 'os') {
+      return _.get(this.launcherComponent.summary, 'cluster.type');
     }
-    this.missionId = selection.missionId;
-    this.runtimeId = selection.runtimeId;
-
-    if (this.missions) {
-      this.missions.forEach((val) => {
-        if (this.missionId === val.id) {
-          this.updateMissionSelection(val);
-        }
-      });
-    }
-
-    if (this.runtimes) {
-      this.runtimes.forEach((val) => {
-        if (this.runtimeId === val.id) {
-          this.updateRuntimeSelection(val);
-          this.updateVersionSelection(val, selection.runtimeVersion);
-        }
-      });
-    }
-
-    this.initCompleted();
+    return null;
   }
 
-  private updateMissionSelection(val: Mission): void {
-    let artifactTS: Date = new Date();
-    if (this.isMissionDisabled(val) || !this.isMissionAvailableOnCluster(val)) {
-      return;
-    }
-    this.launcherComponent.summary.mission = val;
-    this.missionId = val.id; // to support clicking anywhere in list item
-
-    // set maven artifact
-    if (this.launcherComponent && this.launcherComponent.summary &&
-      this.launcherComponent.summary.mission && this.launcherComponent.summary.runtime &&
-      this.launcherComponent.summary.mission.id && this.launcherComponent.summary.runtime.id) {
-      let runtime = this.launcherComponent.summary.runtime.id.replace(/[.\-_]/g, '');
-      let mission = this.launcherComponent.summary.mission.id.replace(/[.\-_]/g, '');
-      this.launcherComponent.summary.dependencyCheck.mavenArtifact = 'booster' + '-' + mission + '-' + runtime
-        + '-' + artifactTS.getTime();
-    }
-    // Clear selected version if not supported by mission
-    let selectedRuntime = this.launcherComponent.summary.runtime;
-    this.runtimes.forEach((runtime) => {
-      if (!selectedRuntime || runtime.id === selectedRuntime.id) {
-        let found = false;
-        let versions = this.getRuntimeVersions(runtime);
-        for (let i = 0; i < versions.length; i++) {
-          if (runtime.version !== undefined && runtime.version.id === versions[i].id) {
-            found = true;
-            break;
-          }
-        }
-        if (!found && versions.length > 0) {
-          // reset menu selection
-          runtime.version = versions[0];
-
-          // Reset launcher summary selection
-          if (this.launcherComponent.summary.runtime !== undefined) {
-            this.launcherComponent.summary.runtime.version = versions[0];
-          }
-        }
+  private getViewRuntimes(cluster?: string) {
+    const groupedByRuntime = _.groupBy(this._boosters, b => b.runtime.id);
+    return _.values(groupedByRuntime).map(runtimeBoosters => {
+      const runtime = _.first(runtimeBoosters).runtime;
+      const availableBoosters = MissionRuntimeService.getAvailableBoosters(runtimeBoosters, cluster, this.missionId, runtime.id);
+      const versions = _.uniq(availableBoosters.boosters.map(b => b.version));
+      if (this.runtimeId === runtime.id && availableBoosters.empty) {
+        this.clearRuntime();
       }
+      return {
+        id: runtime.id,
+        name: runtime.name,
+        description: runtime.description,
+        icon: runtime.icon,
+        canChangeVersion: this.launcherComponent.flow === 'launch',
+        suggested: runtime.metadata.suggested,
+        prerequisite: runtime.metadata.prerequisite,
+        disabled: availableBoosters.empty,
+        disabledReason: availableBoosters.emptyReason,
+        selectedVersion: this.getRuntimeSelectedVersion(runtime, versions),
+        versions: versions,
+        showMore: false
+      };
     });
-    this.initCompleted();
   }
 
-  private updateRuntimeSelection(val: Runtime): void {
-    let artifactTS: Date = new Date();
-    if (this.isRuntimeDisabled(val) === true) {
-      return;
+  private getRuntimeSelectedVersion(runtime: BoosterRuntime, versions: BoosterVersion[]): BoosterVersion {
+    if (this.runtimeId === runtime.id && this.versionId) {
+      const selectedVersion = versions.find(v => v.id === this.versionId);
+      if (selectedVersion) {
+        return selectedVersion;
+      }
+      // Reset selected runtime and version since it is not available
+      this.clearRuntime();
     }
-    this.launcherComponent.summary.runtime = val;
-    this.runtimeId = val.id; // to support clicking anywhere in list item
-
-    // set maven artifact
-    if (this.launcherComponent && this.launcherComponent.summary &&
-      this.launcherComponent.summary.mission && this.launcherComponent.summary.runtime &&
-      this.launcherComponent.summary.mission.id && this.launcherComponent.summary.runtime.id) {
-      let runtime = this.launcherComponent.summary.runtime.id.replace(/[.\-_]/g, '');
-      let mission = this.launcherComponent.summary.mission.id.replace(/[.\-_]/g, '');
-      this.launcherComponent.summary.dependencyCheck.mavenArtifact = 'booster' + '-' + mission + '-' + runtime
-        + '-' + artifactTS.getTime();
-    }
-    // Set summary version
-    if (val.version !== undefined) {
-      this.launcherComponent.summary.runtime.version = val.version;
-    }
-    this.initCompleted();
+    return versions[0];
   }
 
-  private updateVersionSelection(val: Runtime, version: any): void {
-    val.version = version; // Don't update summary, just store selection
+  private getViewMission(cluster?: string) {
+    const groupedByMission = _.groupBy(this._boosters, b => b.mission.id);
+    return _.values(groupedByMission).map(missionBoosters => {
+      const mission = _.first(missionBoosters).mission;
+      const availableBoosters = MissionRuntimeService.getAvailableBoosters(missionBoosters, cluster, mission.id, this.runtimeId, this.versionId);
+      if (this.missionId === mission.id && availableBoosters.empty) {
+        this.clearMission();
+      }
+      return {
+        id: mission.id,
+        name: mission.name,
+        description: mission.description,
+        prerequisite: mission.metadata.prerequisite,
+        community: false, // FIXME implement this behavior if still needed
+        advanced: mission.metadata.level === 'advanced',
+        suggested: mission.metadata.suggested,
+        disabled: availableBoosters.empty,
+        disabledReason: availableBoosters.emptyReason,
+        showMore: false
+      };
+    });
+  }
+
+  private clearRuntime(): void {
+    this.runtimeId = undefined;
+    this.versionId = undefined;
+    this.launcherComponent.summary.runtime = undefined;
+  }
+
+  private clearMission(): void {
+    this.missionId = undefined;
+    this.launcherComponent.summary.mission = undefined;
   }
 }

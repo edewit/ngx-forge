@@ -100,14 +100,14 @@ export class TargetEnvironmentCreateappStepComponent extends LauncherStep implem
     this.launcherComponent.navToNextStep();
   }
 
-  selectCluster(cluster: Cluster): void {
+  selectCluster(cluster?: Cluster): void {
     this.launcherComponent.summary.cluster = cluster;
     this.broadcaster.broadcast('cluster', cluster);
   }
 
   updateTargetEnvSelection(target: TargetEnvironment): void {
     if (target.id === 'zip') {
-      this.launcherComponent.summary.cluster = null;
+      this.selectCluster(null);
     }
     this.initCompleted();
   }

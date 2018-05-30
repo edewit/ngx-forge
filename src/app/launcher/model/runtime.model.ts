@@ -1,33 +1,11 @@
 export class Runtime {
-  description?: string;
-  metadata?: any;
-  icon: string;
   id: string;
-  missions: [{
-    id: string;
-    versions: [{
-      booster?: {
-        metadata?: {
-          app?: {
-            launcher?: {
-              runsOn: string[];
-            }
-          }
-        }
-      },
-      id: string;
-      name: string;
-    }]
-  }];
   name: string;
-  projectVersion?: string;
-  pipelinePlatform?: string;
-  prerequisite?: string;
-  suggested?: boolean;
-  version?: {
+  description?: string;
+  icon?:string;
+  pipelinePlatform?:string;
+  version: {
     id: string;
-    name: string;
-  }; // Menu selection
-  url?: string;
-  showMore?: boolean;
+    name: string
+  };
 }

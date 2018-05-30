@@ -1,24 +1,22 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http, RequestOptions, Response } from '@angular/http';
-import { Observable, Subject, BehaviorSubject } from 'rxjs';
 
-import { MissionRuntimeService, Cluster } from '../../app/launcher/launcher.module';
-import { Mission } from '../../app/launcher/launcher.module';
-import { Runtime } from '../../app/launcher/launcher.module';
+import { MissionRuntimeService } from '../../app/launcher/launcher.module';
+import { Observable} from 'rxjs/Observable';
+import { Catalog } from '../../app/launcher/model/catalog.model';
 
-import { HelperService } from '../../app/launcher/service/helper.service';
-import { TokenProvider } from '../../app/service/token-provider';
+const osioMockData = require('../../assets/mock/demo-catalog-osio.json') as Catalog;
+const launchMockData = require('../../assets/mock/demo-catalog-launch.json') as Catalog;
 
-const MockData = require('../../assets/mock/demo-mission-runtime.json')
 
 @Injectable()
-export class DemoMissionRuntimeService implements MissionRuntimeService {
+export class DemoMissionRuntimeService extends MissionRuntimeService {
 
-  getMissions(): Observable<Mission[]> {
-    return Observable.of(MockData.missions);
+  getCatalog(): Observable<Catalog> {
+    const isLauncher = location.href.indexOf('launcher') !== -1;
+    if (isLauncher) {
+      return Observable.of(launchMockData);
+    }
+    return Observable.of(osioMockData);
   }
 
-  getRuntimes(): Observable<Runtime[]> {
-    return Observable.of(MockData.runtimes);
-  }
 }

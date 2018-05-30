@@ -36,69 +36,68 @@
             </div>
             <div class="card-pf-body">
               <div class="list-group list-view-pf"
-                   [ngClass]="{'prerequisite': mission.prerequisite !== undefined,
-                               'suggested': mission.suggested === true,
-                               'contribute': isMissionDisabled(mission) === true,
-                               'community': isMissionCommunity(mission) === true}"
+                   [ngClass]="{'prerequisite': mission.prerequisite,
+                               'suggested': mission.suggested,
+                               'contribute': mission.disabled,
+                               'community': mission.community}"
                    *ngFor="let mission of (missions | sortArray: 'suggested': true)">
                 <div class="list-group-item list-view-pf-stacked list-view-pf-top-align"
-                     [ngClass]="{'disabled': isMissionDisabled(mission) === true || !isMissionAvailableOnCluster(mission), 'selected-list-item': missionId === mission.id}">
+                     [ngClass]="{'disabled': mission.disabled, 'selected-list-item': missionId === mission.id}">
                   <div class="list-group-item-header"
-                       *ngIf="mission.prerequisite !== undefined || mission.suggested === true || isMissionDisabled(mission) === true || isMissionCommunity(mission) === true || !isMissionAvailableOnCluster(mission)">
+                       *ngIf="mission.prerequisite || mission.suggested || mission.advanced || mission.disabled || mission.community">
                     <div class="f8launcher-tags"
-                         [ngClass]="{'prerequisite': mission.prerequisite !== undefined,
-                                     'advanced-feature-tag': mission?.metadata?.level !== 'foundational',
-                                     'suggested-feature-tag': mission.suggested === true,
-                                     'not-available-feature-tag': isMissionDisabled(mission) === true || !isMissionAvailableOnCluster(mission),
-                                     'community-feature-tag': isMissionCommunity(mission) === true}">
-                      <ng-template #missionContributeTemplate>
-                        This mission and runtime combination is not currently available, but you can contribute to our
-                        <a href='https://appdev.openshift.io/docs/contrib-guide.html#_documentation' target="_blank">library</a>
-                        and help us expand these offerings.
-                      </ng-template>
-                      <ng-template #missionCommunityTemplate>
-                        This mission and runtime combination is currently only available in the community version. Support may be discontinued. Use with caution.
-                      </ng-template>
-                      <span class="f8launcher-tags-label contribute" container="body" triggers="click"
-                            outsideClick="true"
-                            [popover]="missionContributeTemplate"
-                            *ngIf="isMissionDisabled(mission) === true">
-                        Not available <i class="pficon pficon-info"></i>
-                      </span>
-                      <span class="f8launcher-tags-label" container="body" triggers="click"
-                            outsideClick="true"
-                            popover="This cluster doesn't have enough resources to support the mission."
-                            *ngIf="!isMissionDisabled(mission) && !isMissionAvailableOnCluster(mission)">
-                        Not available <i class="pficon pficon-info"></i>
+                         [ngClass]="{'prerequisite': mission.prerequisite,
+                                     'advanced-feature-tag': mission.advanced,
+                                     'suggested-feature-tag': mission.suggested,
+                                     'not-available-feature-tag': mission.disabled,
+                                     'community-feature-tag': mission.community}">
+                      <span *ngIf="mission.disabled" [ngSwitch]="mission.disabledReason">
+                        <ng-template #missionContributeTemplate>
+                          This mission and runtime combination is not currently available, but you can contribute to our
+                          <a href='https://appdev.openshift.io/docs/contrib-guide.html#_documentation' target="_blank">library</a>
+                          and help us expand these offerings.
+                        </ng-template>
+                        <span class="f8launcher-tags-label contribute" container="body" triggers="click"
+                              outsideClick="true"
+                              [popover]="missionContributeTemplate"
+                              *ngSwitchCase="'not-implemented'">
+                          Not available <i class="pficon pficon-info"></i>
+                        </span>
+                        <span class="f8launcher-tags-label" container="body" triggers="click"
+                              outsideClick="true"
+                              popover="This cluster doesn't have enough resources to support the mission."
+                              *ngSwitchCase="'unavailable-on-cluster'">
+                          Not available <i class="pficon pficon-info"></i>
+                        </span>
                       </span>
                       <span class="f8launcher-tags-label community" container="body" triggers="click"
                             outsideClick="true"
-                            [popover]="missionCommunityTemplate"
-                            *ngIf="isMissionCommunity(mission) === true">
+                            popover="This mission and runtime combination is currently only available in the community version. Support may be discontinued. Use with caution."
+                            *ngIf="mission.community">
                         Community <i class="pficon pficon-warning-triangle-o"></i>
                       </span>
                       <span class="f8launcher-tags-label suggested" container="body" triggers="click"
                             outsideClick="true"
                             popover="This mission will get you started with a bare bones working application."
-                            *ngIf="mission.suggested === true">
+                            *ngIf="mission.suggested">
                         Red Hat Suggests <i class="pficon pficon-info"></i>
                       </span>
                       <span class="f8launcher-tags-label advanced" container="body" triggers="click"
                             outsideClick="true"
-                            *ngIf="mission.prerequisite !== undefined || mission?.metadata?.level !== 'foundational'">
+                            *ngIf="mission.prerequisite || mission.advanced">
                         Advanced <i class="fa fa-graduation-cap"></i>
                       </span>
                     </div>
                   </div>
                   <div class="list-view-pf-checkbox">
                     <input type="radio" name="mission"
-                           [disabled]="isMissionDisabled(mission) === true && isMissionAvailableOnCluster(mission)"
+                           [disabled]="mission.disabled"
                            [(ngModel)]="missionId"
                            [value]="mission.id"
-                           (ngModelChange)="updateMissionSelection(mission)">
+                           (ngModelChange)="selectMission(mission)">
                   </div>
                   <div class="list-view-pf-main-info"
-                       (click)="updateMissionSelection(mission)">
+                       (click)="selectMission(mission)">
                     <div class="list-view-pf-body f8launcher-section-mission">
                       <div class="list-view-pf-description">
                         <div class="list-group-item-heading">
@@ -108,14 +107,13 @@
                           <span *ngIf="mission.showMore !== true">
                             {{mission.description | truncate: 55}}
                           </span>
-                          <span *ngIf="mission.showMore === true">
+                          <span *ngIf="mission.showMore">
                             {{mission.description}}
                           </span>
                           <span class="description-more">
                             <a href="javascript:void(0)"
-                               (click)="mission.showMore = (mission.showMore !== undefined)
-                                        ? !mission.showMore : true; $event.stopPropagation()">
-                              {{(mission.showMore !== true) ? 'More' : 'Less'}}
+                               (click)="mission.showMore = !mission.showMore; $event.stopPropagation()">
+                              {{(mission.showMore) ? 'Less' : 'More'}}
                             </a>
                           </span>
                         </div>
@@ -139,103 +137,100 @@
             </div>
             <div class="card-pf-body">
               <div class="list-group list-view-pf"
-                   [ngClass]="{'prerequisite': runtime.prerequisite !== undefined,
-                               'suggested': runtime.suggested === true,
-                               'contribute': isRuntimeDisabled(runtime) === true}"
+                   [ngClass]="{'prerequisite': runtime.prerequisite,
+                               'suggested': runtime.suggested,
+                               'contribute': runtime.disabled}"
                    *ngFor="let runtime of runtimes; let i = index">
                 <div class="list-group-item list-view-pf-stacked list-view-pf-top-align"
-                     [ngClass]="{'disabled': isRuntimeDisabled(runtime) === true || isAvailableOnCluster(runtime), 'selected-list-item': runtimeId === runtime.id}">
+                     [ngClass]="{'disabled': runtime.disabled, 'selected-list-item': runtimeId === runtime.id}">
                   <div class="list-group-item-header"
-                       *ngIf="runtime.prerequisite !== undefined || runtime.suggested === true || isRuntimeDisabled(runtime) === true || isAvailableOnCluster(runtime)">
+                       *ngIf="runtime.prerequisite || runtime.suggested || runtime.disabled">
                     <div class="f8launcher-tags"
-                         [ngClass]="{'prerequisite': runtime.prerequisite !== undefined,
-                                     'suggested-feature-tag': runtime.suggested === true,
-                                     'not-available-feature-tag': isRuntimeDisabled(runtime) === true || isAvailableOnCluster(runtime)}">
-                      <ng-template #runtimeContributeTemplate>
-                        This mission and runtime combination is not currently available, but you can contribute to our
-                        <a href='https://appdev.openshift.io/docs/contrib-guide.html#_documentation' target="_blank">library</a>
-                        and help us expand these offerings.
-                      </ng-template>
-                      <ng-template #runtimeClusterTemplate>
-                        This cluster doesn't have enough resources to support the mission and runtime (booster) that you selected.
-                      </ng-template>
-                      <span class="f8launcher-tags-label contribute" container="body" triggers="click"
-                            outsideClick="true"
-                            [popover]="runtimeContributeTemplate"
-                            *ngIf="isRuntimeDisabled(runtime) === true">
-                        Not available <i class="pficon pficon-info"></i>
-                      </span>
-                      <span class="f8launcher-tags-label" container="body" triggers="click"
-                            outsideClick="true"
-                            [popover]="runtimeClusterTemplate"
-                            *ngIf="!isRuntimeDisabled(runtime) && isAvailableOnCluster(runtime)">
-                        Not available <i class="pficon pficon-info"></i>
+                         [ngClass]="{'prerequisite': runtime.prerequisite,
+                                     'suggested-feature-tag': runtime.suggested,
+                                     'not-available-feature-tag': runtime.disabled}">
+                      <span *ngIf="runtime.disabled" [ngSwitch]="runtime.disabledReason">
+                        <ng-template #runtimeContributeTemplate>
+                          This mission and runtime combination is not currently available, but you can contribute to our
+                          <a href='https://appdev.openshift.io/docs/contrib-guide.html#_documentation' target="_blank">library</a>
+                          and help us expand these offerings.
+                        </ng-template>
+                        <span class="f8launcher-tags-label contribute" container="body" triggers="click"
+                              outsideClick="true"
+                              [popover]="runtimeContributeTemplate"
+                              *ngSwitchCase="'not-implemented'">
+                          Not available <i class="pficon pficon-info"></i>
+                        </span>
+                        <span class="f8launcher-tags-label" container="body" triggers="click"
+                              outsideClick="true"
+                              popover="This cluster doesn't have enough resources to support the mission and runtime (booster) that you selected."
+                              *ngSwitchCase="'unavailable-on-cluster'">
+                          Not supported <i class="pficon pficon-info"></i>
+                        </span>
                       </span>
                       <span class="f8launcher-tags-label suggested" container="body" triggers="click"
                             outsideClick="true"
                             popover="This runtime will get you started with a bare bones working application."
-                            *ngIf="runtime.suggested === true">
+                            *ngIf="runtime.suggested">
                         Red Hat Suggests <i class="pficon pficon-info"></i>
                       </span>
                       <span class="f8launcher-tags-label prerequisite" container="body" triggers="click"
                             outsideClick="true"
                             popover="{{runtime.prerequisite}}"
-                            *ngIf="runtime.prerequisite !== undefined">
+                            *ngIf="runtime.prerequisite">
                         Prerequisite <i class="pficon pficon-info"></i>
                       </span>
                     </div>
                   </div>
                   <div class="list-view-pf-checkbox">
                     <input name="runtime" type="radio"
-                           [disabled]="isRuntimeDisabled(runtime) === true"
+                           [disabled]="runtime.disabled"
                            [(ngModel)]="runtimeId"
                            [value]="runtime.id"
-                           (ngModelChange)="updateRuntimeSelection(runtime)">
+                           (ngModelChange)="selectRuntime(runtime)">
                   </div>
                   <div class="list-view-pf-main-info"
-                       (click)="updateRuntimeSelection(runtime)">
+                       (click)="selectRuntime(runtime)">
                     <div class="list-view-pf-left">
                       <span class="list-view-pf-logo">
                         <img [src]="_DomSanitizer.bypassSecurityTrustUrl(runtime.icon)"
-                             *ngIf="runtime.icon !== null">
+                             *ngIf="runtime.icon">
                       </span>
                     </div>
-                    <div class="list-view-pf-body f8launcher-section-runtime"
-                         (click)="updateRuntimeSelection(runtime)">
+                    <div class="list-view-pf-body f8launcher-section-runtime">
                       <div class="list-view-pf-description">
                         <div class="list-group-item-heading">
                           {{runtime.name}}
-                          <div *ngIf="launcherComponent?.flow !== 'osio'" class="dropdown" dropdown>
+                          <div *ngIf="!runtime.disabled && runtime.canChangeVersion" class="dropdown" dropdown (click)="$event.stopPropagation();">
                             <button type="button" class="btn btn-default dropdown-toggle" dropdownToggle
-                                    [disabled]="isRuntimeDisabled(runtime) === true">
-                              {{runtime.version?.name}}
+                                    [disabled]="runtime.disabled">
+                              {{runtime.selectedVersion.name}}
                               <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu" role="menu" *dropdownMenu
                                 [attr.aria-labelledby]="i + 'dropdown'">
-                              <li [ngClass]="{'disabled': isRuntimeDisabled(runtime) === true}"
-                                  *ngFor="let version of getRuntimeVersions(runtime)">
+                              <li [ngClass]="{'disabled': runtime.disabled}"
+                                  *ngFor="let version of runtime.versions">
                                 <a href="javascript:void(0)" class="dropdown-item" role="menuitem" tabindex="-1"
-                                   (click)="updateVersionSelection(runtime, version)"
-                                   *ngIf="isRuntimeDisabled(runtime) !== true">{{version.name}}</a>
+                                   (click)="selectRuntime(runtime, version)"
+                                   *ngIf="!runtime.disabled">{{version.name}}</a>
                                 <a href="javascript:void(0)" class="dropdown-item" role="menuitem"
-                                   *ngIf="isRuntimeDisabled(runtime) === true">{{version.name}}</a>
+                                   *ngIf="runtime.disabled">{{version.name}}</a>
                               </li>
                             </ul>
                           </div>
                         </div>
                         <div class="list-group-item-text" *ngIf="runtime.description">
-                          <span *ngIf="runtime.showMore !== true">
+                          <span *ngIf="!runtime.showMore">
                             {{runtime.description | truncate: 55}}
                           </span>
-                          <span *ngIf="runtime.showMore === true">
+                          <span *ngIf="runtime.showMore">
                             {{runtime.description}}
                           </span>
                           <span class="description-more">
                             <a class="description-more" href="javascript:void(0)"
-                               (click)="runtime.showMore = (runtime.showMore !== undefined)
-                                        ? !runtime.showMore : true; $event.stopPropagation()">
-                              {{(runtime.showMore !== true) ? 'More' : 'Less'}}
+                               (click)="runtime.showMore = !runtime.showMore; $event.stopPropagation()">
+                              {{(runtime.showMore) ? 'Less' : 'More'}}
                             </a>
                           </span>
                         </div>
