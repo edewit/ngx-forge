@@ -262,7 +262,7 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
     if (!selectedMission) {
       return true;
     }
-    let version = selectedMission.versions.find(v => v.booster !== undefined);
+    let version = selectedMission.versions.find(v => v.booster !== undefined && v.booster.metadata !== undefined);
     return version? !this.checkRunsOnCluster(version.booster.metadata.runsOn, this.launcherComponent.summary.cluster.type) : false;
   }
 
@@ -275,7 +275,7 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
     let runtimeVersion = runtimesThatHaveThisMission.map(r => r.missions.find(m => m.id === mission.id));
 
     let versions = [].concat.apply([], runtimeVersion.map(x => x.versions));
-    let versionsThatDontRunSomeClusters = versions.filter((v: any) => v.booster !== undefined);
+    let versionsThatDontRunSomeClusters = versions.filter((v: any) => v.booster !== undefined && v.booster.metadata !== undefined);
 
     // when there are some verions that don't have a booster field it means they run on all clusters
     if (versions.length > versionsThatDontRunSomeClusters.length) {
