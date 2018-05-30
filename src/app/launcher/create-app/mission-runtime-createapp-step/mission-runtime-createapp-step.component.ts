@@ -266,6 +266,28 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
     return version? !this.checkRunsOnCluster(version.booster.metadata.runsOn, this.launcherComponent.summary.cluster.type) : false;
   }
 
+  isMissionAvailableOnCluster(mission: Mission): boolean {
+    if (!this.launcherComponent.summary.cluster) {
+      return true;
+    }
+
+    let runtimesThatHaveThisMission = this.runtimes.filter(r => mission.runtimes.indexOf(r.id) !== -1);
+    let runtimeVersion = runtimesThatHaveThisMission.map(r => r.missions.find(m => m.id === mission.id));
+
+    let versions = [].concat.apply([], runtimeVersion.map(x => x.versions));
+    let versionsThatDontRunSomeClusters = versions.filter((v: any) => v.booster !== undefined);
+
+    // when there are some verions that don't have a booster field it means they run on all clusters
+    if (versions.length > versionsThatDontRunSomeClusters.length) {
+      return true;
+    }
+
+    let runs = versionsThatDontRunSomeClusters.map((v:any) =>
+        this.checkRunsOnCluster(v.booster.metadata.runsOn, this.launcherComponent.summary.cluster.type));
+
+    return runs.every((x:boolean) => x);
+  }
+
   private checkRunsOnCluster(supportedCategories: string[], category: string) {
     let defaultResult = true;
     if (supportedCategories && supportedCategories.length !== 0) {
@@ -393,7 +415,7 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
 
   private updateMissionSelection(val: Mission): void {
     let artifactTS: Date = new Date();
-    if (this.isMissionDisabled(val) === true) {
+    if (this.isMissionDisabled(val) || !this.isMissionAvailableOnCluster(val)) {
       return;
     }
     this.launcherComponent.summary.mission = val;
