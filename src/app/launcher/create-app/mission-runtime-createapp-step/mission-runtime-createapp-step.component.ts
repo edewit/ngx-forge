@@ -288,8 +288,11 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
     return runs.every((x:boolean) => x);
   }
 
-  private checkRunsOnCluster(supportedCategories: string[], category: string) {
+  private checkRunsOnCluster(supportedCategories: string[] | string, category: string) {
     let defaultResult = true;
+    if (typeof supportedCategories === "string") {
+      supportedCategories = [supportedCategories];
+    }
     if (supportedCategories && supportedCategories.length !== 0) {
       for (let i = 0; i < supportedCategories.length; i++) {
         let supportedCategory = supportedCategories[i];
