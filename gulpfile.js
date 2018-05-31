@@ -207,7 +207,7 @@ gulp.task('watch', ['copy-watch-all'], function () {
   });
   util.log('Now run');
   util.log('');
-  util.log(util.colors.red('    npm link', path.resolve(watchDist)));
+  util.log(util.colors.red('    npm link', path.resolve(watchDist), ' --production'));
   util.log('');
   util.log('in the npm module you want to link this one to');
 });
