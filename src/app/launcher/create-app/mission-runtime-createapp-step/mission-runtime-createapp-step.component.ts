@@ -262,12 +262,37 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
     if (!selectedMission) {
       return true;
     }
-    let version = selectedMission.versions.find(v => v.booster !== undefined);
+    let version = selectedMission.versions.find(v => v.booster !== undefined && v.booster.metadata !== undefined);
     return version? !this.checkRunsOnCluster(version.booster.metadata.runsOn, this.launcherComponent.summary.cluster.type) : false;
   }
 
-  private checkRunsOnCluster(supportedCategories: string[], category: string) {
+  isMissionAvailableOnCluster(mission: Mission): boolean {
+    if (!this.launcherComponent.summary.cluster) {
+      return true;
+    }
+
+    let runtimesThatHaveThisMission = this.runtimes.filter(r => mission.runtimes.indexOf(r.id) !== -1);
+    let runtimeVersion = runtimesThatHaveThisMission.map(r => r.missions.find(m => m.id === mission.id));
+
+    let versions = [].concat.apply([], runtimeVersion.map(x => x.versions));
+    let versionsThatDontRunSomeClusters = versions.filter((v: any) => v.booster !== undefined && v.booster.metadata !== undefined);
+
+    // when there are some verions that don't have a booster field it means they run on all clusters
+    if (versions.length > versionsThatDontRunSomeClusters.length) {
+      return true;
+    }
+
+    let runs = versionsThatDontRunSomeClusters.map((v:any) =>
+        this.checkRunsOnCluster(v.booster.metadata.runsOn, this.launcherComponent.summary.cluster.type));
+
+    return runs.every((x:boolean) => x);
+  }
+
+  private checkRunsOnCluster(supportedCategories: string[] | string, category: string) {
     let defaultResult = true;
+    if (typeof supportedCategories === "string") {
+      supportedCategories = [supportedCategories];
+    }
     if (supportedCategories && supportedCategories.length !== 0) {
       for (let i = 0; i < supportedCategories.length; i++) {
         let supportedCategory = supportedCategories[i];
@@ -393,7 +418,7 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
 
   private updateMissionSelection(val: Mission): void {
     let artifactTS: Date = new Date();
-    if (this.isMissionDisabled(val) === true) {
+    if (this.isMissionDisabled(val) || !this.isMissionAvailableOnCluster(val)) {
       return;
     }
     this.launcherComponent.summary.mission = val;

@@ -1,5 +1,6 @@
 export class Runtime {
   description?: string;
+  metadata?: any;
   icon: string;
   id: string;
   missions: [{

@@ -42,14 +42,14 @@
                                'community': isMissionCommunity(mission) === true}"
                    *ngFor="let mission of (missions | sortArray: 'suggested': true)">
                 <div class="list-group-item list-view-pf-stacked list-view-pf-top-align"
-                     [ngClass]="{'disabled': isMissionDisabled(mission) === true, 'selected-list-item': missionId === mission.id}">
+                     [ngClass]="{'disabled': isMissionDisabled(mission) === true || !isMissionAvailableOnCluster(mission), 'selected-list-item': missionId === mission.id}">
                   <div class="list-group-item-header"
-                       *ngIf="mission.prerequisite !== undefined || mission.suggested === true || isMissionDisabled(mission) === true || isMissionCommunity(mission) === true">
+                       *ngIf="mission.prerequisite !== undefined || mission.suggested === true || isMissionDisabled(mission) === true || isMissionCommunity(mission) === true || !isMissionAvailableOnCluster(mission)">
                     <div class="f8launcher-tags"
                          [ngClass]="{'prerequisite': mission.prerequisite !== undefined,
                                      'advanced-feature-tag': mission?.metadata?.level !== 'foundational',
                                      'suggested-feature-tag': mission.suggested === true,
-                                     'not-available-feature-tag': isMissionDisabled(mission) === true,
+                                     'not-available-feature-tag': isMissionDisabled(mission) === true || !isMissionAvailableOnCluster(mission),
                                      'community-feature-tag': isMissionCommunity(mission) === true}">
                       <ng-template #missionContributeTemplate>
                         This mission and runtime combination is not currently available, but you can contribute to our
@@ -63,6 +63,12 @@
                             outsideClick="true"
                             [popover]="missionContributeTemplate"
                             *ngIf="isMissionDisabled(mission) === true">
+                        Not available <i class="pficon pficon-info"></i>
+                      </span>
+                      <span class="f8launcher-tags-label" container="body" triggers="click"
+                            outsideClick="true"
+                            popover="This cluster doesn't have enough resources to support the mission."
+                            *ngIf="!isMissionDisabled(mission) && !isMissionAvailableOnCluster(mission)">
                         Not available <i class="pficon pficon-info"></i>
                       </span>
                       <span class="f8launcher-tags-label community" container="body" triggers="click"
@@ -86,7 +92,7 @@
                   </div>
                   <div class="list-view-pf-checkbox">
                     <input type="radio" name="mission"
-                           [disabled]="isMissionDisabled(mission) === true"
+                           [disabled]="isMissionDisabled(mission) === true && isMissionAvailableOnCluster(mission)"
                            [(ngModel)]="missionId"
                            [value]="mission.id"
                            (ngModelChange)="updateMissionSelection(mission)">
