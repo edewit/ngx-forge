@@ -68,7 +68,7 @@
                       <span class="f8launcher-tags-label" container="body" triggers="click"
                             outsideClick="true"
                             popover="This cluster doesn't have enough resources to support the mission."
-                            *ngIf="!isMissionAvailableOnCluster(mission)">
+                            *ngIf="!isMissionDisabled(mission) && !isMissionAvailableOnCluster(mission)">
                         Not available <i class="pficon pficon-info"></i>
                       </span>
                       <span class="f8launcher-tags-label community" container="body" triggers="click"
