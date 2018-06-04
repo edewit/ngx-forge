@@ -94,10 +94,10 @@
                            [disabled]="mission.disabled"
                            [(ngModel)]="missionId"
                            [value]="mission.id"
-                           (ngModelChange)="selectMission(mission)">
+                           (ngModelChange)="selectBooster(mission)">
                   </div>
                   <div class="list-view-pf-main-info"
-                       (click)="selectMission(mission)">
+                       (click)="selectBooster(mission)">
                     <div class="list-view-pf-body f8launcher-section-mission">
                       <div class="list-view-pf-description">
                         <div class="list-group-item-heading">
@@ -187,10 +187,10 @@
                            [disabled]="runtime.disabled"
                            [(ngModel)]="runtimeId"
                            [value]="runtime.id"
-                           (ngModelChange)="selectRuntime(runtime)">
+                           (ngModelChange)="selectBooster(null, runtime)">
                   </div>
                   <div class="list-view-pf-main-info"
-                       (click)="selectRuntime(runtime)">
+                       (click)="selectBooster(null, runtime)">
                     <div class="list-view-pf-left">
                       <span class="list-view-pf-logo">
                         <img [src]="_DomSanitizer.bypassSecurityTrustUrl(runtime.icon)"
@@ -212,7 +212,7 @@
                               <li [ngClass]="{'disabled': runtime.disabled}"
                                   *ngFor="let version of runtime.versions">
                                 <a href="javascript:void(0)" class="dropdown-item" role="menuitem" tabindex="-1"
-                                   (click)="selectRuntime(runtime, version)"
+                                   (click)="selectBooster(null, runtime, version)"
                                    *ngIf="!runtime.disabled">{{version.name}}</a>
                                 <a href="javascript:void(0)" class="dropdown-item" role="menuitem"
                                    *ngIf="runtime.disabled">{{version.name}}</a>

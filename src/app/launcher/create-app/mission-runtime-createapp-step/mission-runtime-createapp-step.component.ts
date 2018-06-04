@@ -155,38 +155,38 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
     this.initCompleted();
   }
 
-  selectMission(mission: ViewMission): void {
-    this.missionId = mission.id;
-    this.launcherComponent.summary.mission = {
-      id: mission.id,
-      name: mission.name,
-      description: mission.description
-    };
-    this.updateSelection();
-  }
-
-  selectRuntime(runtime: ViewRuntime, version?: BoosterVersion): void {
-    this.runtimeId = runtime.id;
-    const newVersion =  version ? version : runtime.selectedVersion;
-    this.versionId = newVersion.id;
-    this.launcherComponent.summary.runtime = {
-      id: runtime.id,
-      name: runtime.name,
-      description: runtime.description,
-      icon: runtime.icon,
-      version: newVersion
-    };
-    this.updateSelection();
-
-    // FIXME: use a booster change event listener to do this
-    // set maven artifact
-    if (this.stepCompleted) {
-      let artifactTS: Date = new Date();
-      let runtime = this.launcherComponent.summary.runtime.id.replace(/[.\-_]/g, '');
-      let mission = this.launcherComponent.summary.mission.id.replace(/[.\-_]/g, '');
-      this.launcherComponent.summary.dependencyCheck.mavenArtifact = 'booster' + '-' + mission + '-' + runtime
-        + '-' + artifactTS.getTime();
+  selectBooster(mission?: ViewMission, runtime?: ViewRuntime, version?: BoosterVersion): void {
+    if (mission) {
+      this.missionId = mission.id;
+      this.launcherComponent.summary.mission = {
+        id: mission.id,
+        name: mission.name,
+        description: mission.description
+      };
     }
+    if (runtime) {
+      this.runtimeId = runtime.id;
+      const newVersion =  version ? version : runtime.selectedVersion;
+      this.versionId = newVersion.id;
+      this.launcherComponent.summary.runtime = {
+        id: runtime.id,
+        name: runtime.name,
+        description: runtime.description,
+        icon: runtime.icon,
+        version: newVersion
+      };
+
+      // FIXME: use a booster change event listener to do this
+      // set maven artifact
+      if (this.launcherComponent.flow === 'osio' && this.stepCompleted) {
+        let artifactTS: Date = new Date();
+        let runtime = this.launcherComponent.summary.runtime.id.replace(/[.\-_]/g, '');
+        let mission = this.launcherComponent.summary.mission.id.replace(/[.\-_]/g, '');
+        this.launcherComponent.summary.dependencyCheck.mavenArtifact = 'booster' + '-' + mission + '-' + runtime
+          + '-' + artifactTS.getTime();
+      }
+    }
+    this.updateSelection();
   }
 
   // Private
@@ -197,13 +197,8 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
       return;
     }
     const mission = this.missions.find(m => m.id === selection.missionId);
-    if (mission) {
-      this.selectMission(mission);
-    }
     const runtime = this.runtimes.find(r => r.id === selection.runtimeId);
-    if (runtime) {
-      this.selectRuntime(runtime, selection.runtimeVersion);
-    }
+    this.selectBooster(mission, runtime, selection.runtimeVersion);
   }
 
   private initCompleted(): void {
