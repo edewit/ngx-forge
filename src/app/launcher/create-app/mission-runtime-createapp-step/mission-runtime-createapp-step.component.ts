@@ -16,6 +16,7 @@ import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
 import { Booster, BoosterRuntime, BoosterVersion } from '../../model/booster.model';
 import { Broadcaster } from 'ngx-base';
+import { Selection } from '../../model/selection.model';
 
 export class ViewMission {
   id: string;
@@ -76,6 +77,7 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
       .subscribe(boosters => {
         this._boosters = boosters;
         this.updateSelection();
+        this.restoreFromSummary();
       }));
     this.broadcaster.on('cluster').subscribe(() => this.updateSelection());
   }
@@ -148,7 +150,7 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
    */
   resetSelections(): void {
     this.clearMission();
-    this.clearRuntime()
+    this.clearRuntime();
     this.updateSelection();
     this.initCompleted();
   }
@@ -188,6 +190,21 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
   }
 
   // Private
+
+  private restoreFromSummary(): void {
+    let selection: Selection = this.launcherComponent.selectionParams;
+    if (!selection) {
+      return;
+    }
+    const mission = this.missions.find(m => m.id === selection.missionId);
+    if (mission) {
+      this.selectMission(mission);
+    }
+    const runtime = this.runtimes.find(r => r.id === selection.runtimeId);
+    if (runtime) {
+      this.selectRuntime(runtime, selection.runtimeVersion);
+    }
+  }
 
   private initCompleted(): void {
     this.completed = this.stepCompleted;
