@@ -252,7 +252,7 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
       // Reset selected runtime and version since it is not available
       this.clearRuntime();
     }
-    return versions[0];
+    return this.missionRuntimeService.getDefaultVersion(runtime, versions);
   }
 
   private getViewMission(cluster?: string) {

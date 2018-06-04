@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs/Observable';
 import * as _ from 'lodash';
 import { Catalog, CatalogRuntime } from '../model/catalog.model';
-import { Booster } from '../model/booster.model';
+import { Booster, BoosterRuntime, BoosterVersion } from '../model/booster.model';
 
 export class BoosterSelection {
   empty: boolean;
@@ -82,6 +82,10 @@ export abstract class MissionRuntimeService {
   getBoosters(): Observable<Booster[]> {
     return this.getCatalog()
       .map(c => MissionRuntimeService.createBoosters(c));
+  }
+
+  getDefaultVersion(runtime: BoosterRuntime, versions: BoosterVersion[]): BoosterVersion {
+    return versions[0];
   }
 
   abstract getCatalog(): Observable<Catalog>;
