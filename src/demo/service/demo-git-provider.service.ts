@@ -56,7 +56,7 @@ export class DemoGitProviderService implements GitProviderService {
    * @returns {Observable<boolean>} True if GitHub repo exists
    */
   isGitHubRepo(org: string, repoName: string): Observable<boolean> {
-    let result = (repoName === 'patternfly/patternfly'); // Simulate a existing repo
+    let result = (org === 'patternfly' && repoName === 'patternfly'); // Simulate a existing repo
     return Observable.of(result);
   }
 

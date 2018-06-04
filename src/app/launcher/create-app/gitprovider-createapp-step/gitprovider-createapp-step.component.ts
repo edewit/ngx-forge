@@ -38,7 +38,9 @@ export class GitproviderCreateappStepComponent extends LauncherStep implements A
   ngAfterViewInit() {
     if (this.launcherComponent.summary.gitHubDetails.authenticated === true) {
       setTimeout(() => {
-        this.versionSelect.nativeElement.focus();
+        if (this.versionSelect) {
+          this.versionSelect.nativeElement.focus();
+        }
       }, 10);
     }
   }
@@ -65,30 +67,6 @@ export class GitproviderCreateappStepComponent extends LauncherStep implements A
   }
 
   // Accessors
-
-  /**
-   * Returns duplicate name message for when repo exists
-   *
-   * @returns {string}
-   */
-  get duplicateNameMessage(): string {
-    let repo: string = '';
-    let repoList: any[] = [];
-    this.isGitHubRepoNameDup = false;
-    if (this.launcherComponent && this.launcherComponent.summary &&
-      this.launcherComponent.summary.gitHubDetails) {
-      repo = this.launcherComponent.summary.gitHubDetails.repository;
-      repoList = this.launcherComponent.summary.gitHubDetails.repositoryList;
-      repoList.indexOf(repo) !== -1 ? this.isGitHubRepoNameDup = true : this.isGitHubRepoNameDup = false;
-    }
-    if (this.isGitHubRepoNameDup) {
-      return 'Duplicate Name: ' + '\'' + repo + '\' is already in use as ' +
-        this.launcherComponent.summary.gitHubDetails.organization + '/' + repo + '.';
-    } else {
-      return '\'' + repo +
-        '\' is not a valid name, only alphanumeric characters are allowed with "-", "_" or "." ';
-    }
-  }
 
   /**
    * Returns indicator that step is completed
@@ -124,13 +102,6 @@ export class GitproviderCreateappStepComponent extends LauncherStep implements A
   }
 
   /**
-   * Update selection
-   */
-  updateGitHubSelection(): void {
-    this.initCompleted();
-  }
-
-  /**
    * get all repos List for the selected organization
    */
   getGitHubRepos(): void {
@@ -154,44 +125,8 @@ export class GitproviderCreateappStepComponent extends LauncherStep implements A
       if (val !== undefined && this.launcherComponent && this.launcherComponent.summary &&
         this.launcherComponent.summary.gitHubDetails) {
         this.launcherComponent.summary.gitHubDetails.repositoryList = val;
-        this.validateRepo();
       }
     });
-  }
-
-  /**
-   * Ensure repo name is available for the selected organization
-   */
-  validateRepo(): void {
-    let repoName = '';
-    let repoList = [];
-    // gitRepository should follow consist only of alphanumeric characters, '-', '_' or '.'"
-    const pattern = /^[a-zA-Z0-9][a-zA-Z0-9-._]{1,63}$/;
-    this.isGitHubRepoNameDup = false;
-    if (this.launcherComponent && this.launcherComponent.summary &&
-      this.launcherComponent.summary.gitHubDetails) {
-      repoName = this.launcherComponent.summary.gitHubDetails.repository;
-      repoList = this.launcherComponent.summary.gitHubDetails.repositoryList;
-    }
-    if (!pattern.test(repoName)) {
-      this.launcherComponent.summary.gitHubDetails.repositoryAvailable = false;
-    } else if (repoList.indexOf(repoName) !== -1) {
-      this.isGitHubRepoNameDup = true;
-      this.launcherComponent.summary.gitHubDetails.repositoryAvailable = false;
-    } else {
-      this.launcherComponent.summary.gitHubDetails.repositoryAvailable = true;
-      if (this.launcherComponent.flow === 'osio') {
-        if (this.launcherComponent.summary.gitHubDetails.repository) {
-          this.launcherComponent.summary.gitHubDetails.repository =
-            this.launcherComponent.summary.gitHubDetails.repository.toLowerCase();
-        }
-        this.launcherComponent.summary.dependencyCheck.projectName =
-          this.launcherComponent.summary.gitHubDetails.repository;
-        this.launcherComponent.validateProjectName();
-        this.launcherComponent.checkIfProjectNameAvailable();
-      }
-    }
-    this.initCompleted();
   }
 
   // Private
@@ -201,22 +136,6 @@ export class GitproviderCreateappStepComponent extends LauncherStep implements A
       return '';
     }
     return '?selection=' + encodeURI(JSON.stringify(selection));
-  }
-
-  /**
-   * Helper to retrieve request parameters
-   *
-   * @param name The request parameter to retrieve
-   * @returns {any} The request parameter value or null
-   */
-  private getRequestParam(name: string): string {
-    let search = (window.location.search !== undefined && window.location.search.length > 0)
-      ? window.location.search : window.location.href;
-    let param = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(search);
-    if (param !== null) {
-      return decodeURIComponent(param[1]);
-    }
-    return null;
   }
 
   private initCompleted(): void {
