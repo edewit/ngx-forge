@@ -29,7 +29,7 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
   private _missions: ViewMission[] = [];
   private _runtimes: ViewRuntime[] = [];
   private _boosters: Booster[] = null;
-
+  private _cluster: string;
 
   private missionId: string;
   private runtimeId: string;
@@ -88,6 +88,10 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
     return this._runtimes;
   }
 
+  get cluster(): string {
+    return this._cluster;
+  }
+
   /**
    * Returns indicator for at least one selection has been made
    *
@@ -143,16 +147,20 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
       // FIXME: use a booster change event listener to do this
       // set maven artifact
       if (this.launcherComponent.flow === 'osio' && this.stepCompleted) {
-        const artifactTS: number = Date.now();
-        const artifactRuntime = this.launcherComponent.summary.runtime.id.replace(/[.\-_]/g, '');
-        const artifactMission = this.launcherComponent.summary.mission.id.replace(/[.\-_]/g, '');
-        this.launcherComponent.summary.dependencyCheck.mavenArtifact = `booster-${artifactMission}-${artifactRuntime}-${artifactTS}`;
+        this.launcherComponent.summary.dependencyCheck.mavenArtifact = this.createMavenArtifact();
       }
     }
     this.updateBoosterViewStatus();
   }
 
   // Private
+
+  private createMavenArtifact(): string {
+    const artifactTS: number = Date.now();
+    const artifactRuntime = this.launcherComponent.summary.runtime.id.replace(/[.\-_]/g, '');
+    const artifactMission = this.launcherComponent.summary.mission.id.replace(/[.\-_]/g, '');
+    return `booster-${artifactMission}-${artifactRuntime}-${artifactTS}`;
+  }
 
   private restoreFromSummary(): void {
     let selection: Selection = this.launcherComponent.selectionParams;
@@ -176,9 +184,9 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
   }
 
   private updateBoosterViewStatus(): void {
-    const cluster = this.getSelectedCluster();
+    this._cluster = this.getSelectedCluster();
     this._missions.forEach(mission => {
-      const availableBoosters = MissionRuntimeService.getAvailableBoosters(mission.boosters, cluster, mission.id, this.runtimeId, this.versionId);
+      const availableBoosters = MissionRuntimeService.getAvailableBoosters(mission.boosters, this._cluster, mission.id, this.runtimeId, this.versionId);
       if (this.missionId === mission.id && availableBoosters.empty) {
         this.clearMission();
       }
@@ -186,7 +194,7 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
       mission.disabledReason = availableBoosters.emptyReason;
     });
     this._runtimes.forEach(runtime => {
-      const availableBoosters = MissionRuntimeService.getAvailableBoosters(runtime.boosters, cluster, this.missionId, runtime.id);
+      const availableBoosters = MissionRuntimeService.getAvailableBoosters(runtime.boosters, this._cluster, this.missionId, runtime.id);
       const versions = _.uniq(availableBoosters.boosters.map(b => b.version));
       if (this.runtimeId === runtime.id && availableBoosters.empty) {
         this.clearRuntime();

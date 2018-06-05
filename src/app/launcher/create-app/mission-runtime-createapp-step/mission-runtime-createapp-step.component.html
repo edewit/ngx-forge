@@ -61,13 +61,13 @@
                               outsideClick="true"
                               [popover]="missionContributeTemplate"
                               *ngSwitchCase="'not-implemented'">
-                          Not available <i class="pficon pficon-info"></i>
+                          Contribute now <i class="pficon pficon-info"></i>
                         </span>
                         <span class="f8launcher-tags-label" container="body" triggers="click"
                               outsideClick="true"
-                              popover="This cluster doesn't have enough resources to support the mission."
-                              *ngSwitchCase="'unavailable-on-cluster'">
-                          Not available <i class="pficon pficon-info"></i>
+                              popover="The {{cluster}} cluster doesn't have enough resources to support the mission."
+                              *ngSwitchCase="'cluster-incompatibility'">
+                          Cluster too small <i class="pficon pficon-warning-triangle-o"></i>
                         </span>
                       </span>
                       <span class="f8launcher-tags-label community" container="body" triggers="click"
@@ -163,9 +163,9 @@
                         </span>
                         <span class="f8launcher-tags-label" container="body" triggers="click"
                               outsideClick="true"
-                              popover="This cluster doesn't have enough resources to support the mission and runtime (booster) that you selected."
-                              *ngSwitchCase="'unavailable-on-cluster'">
-                          Not supported <i class="pficon pficon-info"></i>
+                              popover="The {{cluster}} cluster doesn't have enough resources to support the mission and runtime (booster) that you selected."
+                              *ngSwitchCase="'cluster-incompatibility'">
+                          Cluster too small <i class="pficon pficon-warning-triangle-o"></i>
                         </span>
                       </span>
                       <span class="f8launcher-tags-label suggested" container="body" triggers="click"

@@ -32,7 +32,7 @@ export abstract class MissionRuntimeService {
     }
     const boostersRunningOnCluster = boosters.filter(b => MissionRuntimeService.checkRunsOnCluster(b, cluster));
     if (boostersRunningOnCluster.length === 0) {
-      return { empty: true, emptyReason: 'unavailable-on-cluster', boosters: [] };
+      return { empty: true, emptyReason: 'cluster-incompatibility', boosters: [] };
     }
     return { empty: false, boosters: boostersRunningOnCluster };
   }
