@@ -1,9 +1,9 @@
 import { Observable } from 'rxjs/Observable';
 import * as _ from 'lodash';
-import { Catalog, CatalogRuntime } from '../model/catalog.model';
+import { Catalog, CatalogMission, CatalogRuntime } from '../model/catalog.model';
 import { Booster, BoosterRuntime, BoosterVersion } from '../model/booster.model';
 
-export class BoosterSelection {
+export class AvailableBoosters {
   empty: boolean;
   emptyReason?: string;
   boosters: Booster[];
@@ -18,7 +18,7 @@ export abstract class MissionRuntimeService {
                               cluster?: string,
                               missionId?: string,
                               runtimeId?: string,
-                              versionId?: string): BoosterSelection {
+                              versionId?: string): AvailableBoosters {
     const availableBoosters = boosters.filter(b => {
       return (!missionId || b.mission.id === missionId)
         && (!runtimeId || b.runtime.id === runtimeId)
@@ -68,11 +68,15 @@ export abstract class MissionRuntimeService {
     const runtimeById = _.keyBy(catalog.runtimes, 'id');
     return catalog.boosters.map(b => {
       const runtime: CatalogRuntime = runtimeById[b.runtime];
+      const mission: CatalogMission = missionById[b.mission];
+      if (!mission || !runtime) {
+        throw new Error(`Invalid catalog booster: ${JSON.stringify(b)}`  );
+      }
       return {
         name: b.name,
         description: b.description,
         metadata: b.metadata,
-        mission: missionById[b.mission],
+        mission: mission,
         runtime: runtime,
         version: runtime.versions.find(v => v.id === b.version)
       };
@@ -84,7 +88,7 @@ export abstract class MissionRuntimeService {
       .map(c => MissionRuntimeService.createBoosters(c));
   }
 
-  getDefaultVersion(runtime: BoosterRuntime, versions: BoosterVersion[]): BoosterVersion {
+  getDefaultVersion(runtimeId: string, versions: BoosterVersion[]): BoosterVersion {
     return versions[0];
   }
 

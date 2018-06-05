@@ -17,6 +17,8 @@ import { ModalModule } from 'ngx-modal';
 import { LinkAccountsCreateappStepComponent } from '../link-accounts-createapp-step/link-accounts-createapp-step.component';
 import { MissionRuntimeService } from '../../service/mission-runtime.service';
 import { Broadcaster } from 'ngx-base';
+import { Catalog } from '../../model/catalog.model';
+import { broadcaster } from '../../launcher.component.spec';
 
 let mockTargetEnvironmentService = {
   getTargetEnvironments(): Observable<TargetEnvironment[]> {
@@ -79,10 +81,15 @@ let mockTokenService: TokenService = {
   clusters: Observable.of([]),
   createOathLink: (token) => ''
 }
-let mockMissionRuntimeService: MissionRuntimeService = {
-  getRuntimes: () => Observable.of([]),
-  getMissions: () => Observable.of([])
+class MockMissionRuntimeService extends MissionRuntimeService {
+  getCatalog(): Observable<Catalog> {
+    return Observable.of();
+  }
 }
+
+
+
+
 
 describe('TargetEnvironmentStepComponent', () => {
   let component: TargetEnvironmentCreateappStepComponent;
@@ -110,13 +117,15 @@ describe('TargetEnvironmentStepComponent', () => {
           provide: LauncherComponent, useValue: mockWizardComponent
         },
         {
+          provide: Broadcaster, useValue: broadcaster
+        },
+        {
           provide: WindowRef, useValue: window
         },
         {
-          provide: MissionRuntimeService, useValue: mockMissionRuntimeService
+          provide: MissionRuntimeService, useClass: MockMissionRuntimeService
         },
-        { provide: TokenService, useValue: mockTokenService },
-        Broadcaster
+        { provide: TokenService, useValue: mockTokenService }
       ]
     }).compileComponents();
   }));

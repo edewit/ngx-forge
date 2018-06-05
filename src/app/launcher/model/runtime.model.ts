@@ -4,7 +4,7 @@ export class Runtime {
   description?: string;
   icon?:string;
   pipelinePlatform?:string;
-  version: {
+  version?: {
     id: string;
     name: string
   };

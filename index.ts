@@ -1,14 +1,15 @@
 // Launcher models
+import { CatalogMission } from './src/app/launcher/model/catalog.model';
+
 export { LauncherModule } from './src/app/launcher/launcher.module';
 export { Cluster } from './src/app/launcher/model/cluster.model';
 export { DependencyCheck } from './src/app/launcher/model/dependency-check.model';
 export { DependencyEditor } from './src/app/launcher/model/dependency-editor/dependency-editor.model';
 export { GitHubDetails } from './src/app/launcher/model/github-details.model';
-export { Mission } from './src/app/launcher/model/mission.model';
 export { Pipeline } from './src/app/launcher/model/pipeline.model';
 export { Progress } from './src/app/launcher/model/progress.model';
-export { Runtime } from './src/app/launcher/model/runtime.model';
 export { Summary } from './src/app/launcher/model/summary.model';
+export { Catalog, CatalogMission, CatalogRuntime, CatalogBooster } from './src/app/launcher/model/catalog.model';
 export { TargetEnvironment } from './src/app/launcher/model/target-environment.model';
 
 // Launcher services

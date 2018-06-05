@@ -1,10 +1,4 @@
-import {
-  Component,
-  Host,
-  OnDestroy,
-  OnInit,
-  ViewEncapsulation
-} from '@angular/core';
+import { Component, Host, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import * as _ from 'lodash';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Subscription } from 'rxjs/Subscription';
@@ -14,38 +8,31 @@ import { Runtime } from '../../model/runtime.model';
 import { MissionRuntimeService } from '../../service/mission-runtime.service';
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
-import { Booster, BoosterRuntime, BoosterVersion } from '../../model/booster.model';
+import { Booster, BoosterVersion } from '../../model/booster.model';
 import { Broadcaster } from 'ngx-base';
 import { Selection } from '../../model/selection.model';
 
-export class ViewMission {
-  id: string;
-  name: string;
-  description?: string;
+export class ViewMission extends Mission {
   advanced: boolean;
   suggested: boolean;
-  disabled: boolean;
+  disabled: boolean = false;
   disabledReason?: string;
   prerequisite: boolean;
   community: boolean;
-  showMore: boolean;
+  showMore: boolean = false;
+  boosters: Booster[];
 }
 
-export class ViewRuntime {
-  id: string;
-  name: string;
-  description?: string;
-  icon: string;
-  disabled: boolean;
+export class ViewRuntime extends Runtime {
+  disabled: boolean = false;
   disabledReason?: string;
   prerequisite: boolean;
   canChangeVersion: boolean;
   suggested: boolean;
   selectedVersion: { id: string; name: string; };
-  versions: {
-    id: string;
-    name: string;
-  }[];
+  versions: BoosterVersion[];
+  showMore: boolean = false;
+  boosters: Booster[];
 }
 
 @Component({
@@ -59,9 +46,11 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
   private _runtimes: ViewRuntime[] = [];
   private _boosters: Booster[] = null;
 
+
   private missionId: string;
   private runtimeId: string;
   private versionId: string;
+
   private subscriptions: Subscription[] = [];
 
   constructor(@Host() public launcherComponent: LauncherComponent,
@@ -76,10 +65,10 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
     this.subscriptions.push(this.missionRuntimeService.getBoosters()
       .subscribe(boosters => {
         this._boosters = boosters;
-        this.updateSelection();
+        this.initBoosters();
         this.restoreFromSummary();
       }));
-    this.broadcaster.on('cluster').subscribe(() => this.updateSelection());
+    this.broadcaster.on('cluster').subscribe(() => this.initBoosters());
   }
 
   ngOnDestroy() {
@@ -88,10 +77,10 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
     });
   }
 
-  updateSelection(): void {
-    const cluster = this.getSelectedCluster();
-    this._runtimes = this.getViewRuntimes(cluster);
-    this._missions = this.getViewMission(cluster);
+  initBoosters(): void {
+    this._runtimes = this.getViewRuntimes();
+    this._missions = this.getViewMission();
+    this.updateViewStatus();
     this.initCompleted();
   }
 
@@ -151,42 +140,32 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
   resetSelections(): void {
     this.clearMission();
     this.clearRuntime();
-    this.updateSelection();
+    this.updateViewStatus();
     this.initCompleted();
   }
 
   selectBooster(mission?: ViewMission, runtime?: ViewRuntime, version?: BoosterVersion): void {
     if (mission) {
       this.missionId = mission.id;
-      this.launcherComponent.summary.mission = {
-        id: mission.id,
-        name: mission.name,
-        description: mission.description
-      };
+      this.launcherComponent.summary.mission = mission;
     }
     if (runtime) {
       this.runtimeId = runtime.id;
       const newVersion =  version ? version : runtime.selectedVersion;
       this.versionId = newVersion.id;
-      this.launcherComponent.summary.runtime = {
-        id: runtime.id,
-        name: runtime.name,
-        description: runtime.description,
-        icon: runtime.icon,
-        version: newVersion
-      };
+      this.launcherComponent.summary.runtime = runtime;
+      this.launcherComponent.summary.runtime.version = newVersion;
 
       // FIXME: use a booster change event listener to do this
       // set maven artifact
       if (this.launcherComponent.flow === 'osio' && this.stepCompleted) {
-        let artifactTS: Date = new Date();
-        let runtime = this.launcherComponent.summary.runtime.id.replace(/[.\-_]/g, '');
-        let mission = this.launcherComponent.summary.mission.id.replace(/[.\-_]/g, '');
-        this.launcherComponent.summary.dependencyCheck.mavenArtifact = 'booster' + '-' + mission + '-' + runtime
-          + '-' + artifactTS.getTime();
+        const artifactTS: number = Date.now();
+        const artifactRuntime = this.launcherComponent.summary.runtime.id.replace(/[.\-_]/g, '');
+        const artifactMission = this.launcherComponent.summary.mission.id.replace(/[.\-_]/g, '');
+        this.launcherComponent.summary.dependencyCheck.mavenArtifact = `booster-${artifactMission}-${artifactRuntime}-${artifactTS}`;
       }
     }
-    this.updateSelection();
+    this.updateViewStatus();
   }
 
   // Private
@@ -212,34 +191,67 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
     return null;
   }
 
-  private getViewRuntimes(cluster?: string) {
+  private getViewRuntimes(): ViewRuntime[] {
     const groupedByRuntime = _.groupBy(this._boosters, b => b.runtime.id);
     return _.values(groupedByRuntime).map(runtimeBoosters => {
       const runtime = _.first(runtimeBoosters).runtime;
-      const availableBoosters = MissionRuntimeService.getAvailableBoosters(runtimeBoosters, cluster, this.missionId, runtime.id);
-      const versions = _.uniq(availableBoosters.boosters.map(b => b.version));
-      if (this.runtimeId === runtime.id && availableBoosters.empty) {
-        this.clearRuntime();
-      }
       return {
         id: runtime.id,
         name: runtime.name,
         description: runtime.description,
         icon: runtime.icon,
         canChangeVersion: this.launcherComponent.flow === 'launch',
-        suggested: runtime.metadata.suggested,
-        prerequisite: runtime.metadata.prerequisite,
-        disabled: availableBoosters.empty,
-        disabledReason: availableBoosters.emptyReason,
-        selectedVersion: this.getRuntimeSelectedVersion(runtime, versions),
-        versions: versions,
-        showMore: false
-      };
+        suggested: _.get(runtime, 'metadata.suggested', false),
+        prerequisite: _.get(runtime, 'metadata.prerequisite', false),
+        showMore: false,
+        boosters: runtimeBoosters
+      } as ViewRuntime;
     });
   }
 
-  private getRuntimeSelectedVersion(runtime: BoosterRuntime, versions: BoosterVersion[]): BoosterVersion {
-    if (this.runtimeId === runtime.id && this.versionId) {
+  private getViewMission(): ViewMission[] {
+    const groupedByMission = _.groupBy(this._boosters, b => b.mission.id);
+    return _.values(groupedByMission).map(missionBoosters => {
+      const mission = _.first(missionBoosters).mission;
+      return {
+        id: mission.id,
+        name: mission.name,
+        description: mission.description,
+        community: false, // FIXME implement this behavior if still needed
+        advanced: _.get(mission, 'metadata.level') === 'advanced',
+        suggested: _.get(mission, 'metadata.suggested', false),
+        prerequisite: _.get(mission, 'metadata.prerequisite', false),
+        showMore: false,
+        boosters: missionBoosters
+      } as ViewMission;
+    });
+  }
+
+  private updateViewStatus(): void {
+    const cluster = this.getSelectedCluster();
+    this._missions.forEach(mission => {
+      const availableBoosters = MissionRuntimeService.getAvailableBoosters(mission.boosters, cluster, mission.id, this.runtimeId, this.versionId);
+      if (this.missionId === mission.id && availableBoosters.empty) {
+        this.clearMission();
+      }
+      mission.disabled = availableBoosters.empty;
+      mission.disabledReason = availableBoosters.emptyReason;
+    });
+    this._runtimes.forEach(runtime => {
+      const availableBoosters = MissionRuntimeService.getAvailableBoosters(runtime.boosters, cluster, this.missionId, runtime.id);
+      const versions = _.uniq(availableBoosters.boosters.map(b => b.version));
+      if (this.runtimeId === runtime.id && availableBoosters.empty) {
+        this.clearRuntime();
+      }
+      runtime.disabled = availableBoosters.empty;
+      runtime.disabledReason = availableBoosters.emptyReason;
+      runtime.versions = versions;
+      runtime.selectedVersion = this.getRuntimeSelectedVersion(runtime.id, versions);
+    });
+  }
+
+  private getRuntimeSelectedVersion(runtimeId: string, versions: BoosterVersion[]): BoosterVersion {
+    if (this.runtimeId === runtimeId && this.versionId) {
       const selectedVersion = versions.find(v => v.id === this.versionId);
       if (selectedVersion) {
         return selectedVersion;
@@ -247,31 +259,9 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
       // Reset selected runtime and version since it is not available
       this.clearRuntime();
     }
-    return this.missionRuntimeService.getDefaultVersion(runtime, versions);
+    return this.missionRuntimeService.getDefaultVersion(runtimeId, versions);
   }
 
-  private getViewMission(cluster?: string) {
-    const groupedByMission = _.groupBy(this._boosters, b => b.mission.id);
-    return _.values(groupedByMission).map(missionBoosters => {
-      const mission = _.first(missionBoosters).mission;
-      const availableBoosters = MissionRuntimeService.getAvailableBoosters(missionBoosters, cluster, mission.id, this.runtimeId, this.versionId);
-      if (this.missionId === mission.id && availableBoosters.empty) {
-        this.clearMission();
-      }
-      return {
-        id: mission.id,
-        name: mission.name,
-        description: mission.description,
-        prerequisite: mission.metadata.prerequisite,
-        community: false, // FIXME implement this behavior if still needed
-        advanced: mission.metadata.level === 'advanced',
-        suggested: mission.metadata.suggested,
-        disabled: availableBoosters.empty,
-        disabledReason: availableBoosters.emptyReason,
-        showMore: false
-      };
-    });
-  }
 
   private clearRuntime(): void {
     this.runtimeId = undefined;

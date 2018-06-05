@@ -1,9 +1,7 @@
-import { async, fakeAsync, ComponentFixture, TestBed, tick } from '@angular/core/testing';
+import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { By } from '@angular/platform-browser';
-import { DomSanitizer } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Observable } from 'rxjs';
 import { InViewportModule, WindowRef } from '@thisissoon/angular-inviewport';
@@ -15,51 +13,62 @@ import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
 import { MissionRuntimeCreateappStepComponent } from './mission-runtime-createapp-step.component';
 import { MissionRuntimeService } from '../../service/mission-runtime.service';
+import { Catalog, CatalogMission, CatalogRuntime } from '../../model/catalog.model';
+import { Broadcaster } from 'ngx-base';
 import { Mission } from '../../model/mission.model';
 import { Runtime } from '../../model/runtime.model';
+import { broadcaster } from '../../launcher.component.spec';
 
-let mockMissionRuntimeService = {
-  getMissions(): Observable<Mission[]> {
-    let missions = Observable.of( [{
-      id: 'crud',
-      name: 'CRUD',
+
+const createMission = (name: string) => ({
+    id: name,
+    name: name,
+    description : `${name} sample desc`,
+    metadata: {
       suggested: true,
-      prerequisite: 'prerequisite text',
-      description : 'sample desp',
-      runtimes: [
-      'vert.x',
-      'nodejs',
-      'spring-boot',
-      'wildfly-swarm'
-      ]
-      }]);
-      return missions;
+      prerequisite: 'prerequisite text'
+    }
+} as CatalogMission);
+
+const createRuntime = (name: string, versions: string[]) => ({
+  id: name,
+  name: name,
+  description : `${name} sample desc`,
+  icon: 'data:image/svg+xml...',
+  metadata: {
+    suggested: true,
+    prerequisite: 'prerequisite text'
   },
-  getRuntimes(): Observable<Runtime[]> {
-    let runtimes = Observable.of( [<Runtime> {
-      'id': 'vert.x',
-      'name': 'Eclipse Vert.x',
-      'suggested': true,
-      'prerequisite': 'prerequisite text',
-      'description': 'Brief description of the technology...',
-      /* stylelint-disable */
-      'icon': "data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 280'%3E%3Cpath fill='%23022B37' d='M107 170.8L67.7 72H46.9L100 204h13.9L167 72h-20.4zm64 33.2h80v-20h-61v-37h60v-19h-60V91h61V72h-80zm180.1-90.7c0-21-14.4-42.3-43.1-42.3h-48v133h19V91h29.1c16.1 0 24 11.1 24 22.4 0 11.5-7.9 22.6-24 22.6H286v9.6l48 58.4h24.7L317 154c22.6-4 34.1-22 34.1-40.7m56.4 90.7v-1c0-6 1.7-11.7 4.5-16.6V91h39V71h-99v20h41v113h14.5z'/%3E%3Cpath fill='%23623C94' d='M458 203c0-9.9-8.1-18-18-18s-18 8.1-18 18 8.1 18 18 18 18-8.1 18-18M577.4 72h-23.2l-27.5 37.8L499.1 72h-40.4c12.1 16 33.6 46.8 47.8 66.3l-37 50.9c2 4.2 3.1 8.9 3.1 13.8v1H499l95.2-132h-16.8zm-19.7 81.5l-20.1 27.9 16.5 22.6h40.2c-9.6-13.7-24-33.3-36.6-50.5z'/%3E%3C/svg%3E",
-      /* stylelint-enable */
-      'projectVersion': 'v1.0.0',
-      'missions': [
-        {
-          'id': 'crud',
-          'versions': [
-            {
-              'id': 'community',
-              'name': '3.5.0.Final (Community)'
-            }
-          ]
-        }]
-    }]);
-    return runtimes;
+  versions: versions.map(v => ({ id: v, name: `${v} name` }))
+} as CatalogRuntime);
+
+const createBooster = (mission: string, runtime: string, version: string) => ({
+  mission: mission,
+  runtime: runtime,
+  version: version,
+  name: `${mission} ${runtime}`,
+  description: '${mission} ${runtime} sample desc'
+});
+
+class MockMissionRuntimeService extends MissionRuntimeService {
+  getCatalog(): Observable<Catalog> {
+    return Observable.of({
+      missions: [
+        createMission('crud'),
+        createMission('healthcheck')
+      ],
+      runtimes: [
+        createRuntime('vert.x', ['community', 'redhat']),
+        createRuntime('nodejs', ['community', 'redhat'])
+      ],
+      boosters: [
+        createBooster('crud', 'vert.x', 'community'),
+        createBooster('crud', 'nodejs', 'redhat'),
+        createBooster('healthcheck', 'vert.x', 'community')
+      ]
+    });
   }
-};
+}
 
 export interface TypeWizardComponent {
   selectedSection: string;
@@ -115,10 +124,13 @@ describe('MissionRuntimeStepComponent', () => {
       ],
       providers: [
         {
-          provide: MissionRuntimeService, useValue: mockMissionRuntimeService
+          provide: MissionRuntimeService, useClass: MockMissionRuntimeService
         },
         {
           provide: LauncherComponent, useValue: mockWizardComponent
+        },
+        {
+          provide: Broadcaster, useValue: broadcaster
         },
         {
           provide: WindowRef, useValue: window
@@ -132,28 +144,24 @@ describe('MissionRuntimeStepComponent', () => {
     component = fixture.componentInstance;
     // component.ngOnInit();
     fixture.detectChanges();
+    element = fixture.nativeElement;
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should have 2 missions and 2 runtimes', () => {
+    expect(component.missions.length).toBe(2, '2 missions');
+    expect(component.runtimes.length).toBe(2, '2 runtimes');
+    expect(element.querySelectorAll('.card-pf-body')[0].children.length).toBe(2, '2 missions displayed');
+    expect(element.querySelectorAll('.card-pf-body')[1].children.length).toBe(2, '2 runtimes displayed');
+  });
+
   // Missions tests
 
-  it('to have count of missions to be 1', () => {
-    let missionsList = component.missions;
-    expect(missionsList.length).toBe(1);
-  });
-
-  it('should have 1 entry for mission created', () => {
-    element = fixture.nativeElement;
-    let missionsSection = element.querySelectorAll('.card-pf-body')[0];
-    expect(missionsSection.children.length).toBe(1);
-  });
-
-  it('should have the class selected-list-item added to the list group item on click of radio button', fakeAsync(() => {
+  it('should have visually selected the mission when click on radio button', fakeAsync(() => {
     fixture.detectChanges();
-    element = fixture.nativeElement;
     let missionsSection = element.querySelectorAll('.card-pf-body')[0];
     let missionGroupItem = missionsSection.querySelector('.list-group-item');
     let radioBtn = <HTMLInputElement>missionGroupItem.querySelector('input[type="radio"]');
@@ -161,40 +169,38 @@ describe('MissionRuntimeStepComponent', () => {
     radioBtn.click();
     tick();
     fixture.detectChanges();
-    expect(beforeChange === false && missionGroupItem.classList.contains('selected-list-item') === true).toBeTruthy();
+    expect(beforeChange).toBeFalsy('Item must not be already selected');
+    expect(missionGroupItem.classList.contains('selected-list-item')).toBeTruthy('Item has not been selected');
   }));
 
-  it('should update the selected mission in launcher component', fakeAsync(() => {
+  it('should select the mission in launcher component summary', fakeAsync(() => {
     fixture.detectChanges();
-    element = fixture.nativeElement;
     let missionsSection = element.querySelectorAll('.card-pf-body')[0];
-    let missionGroupItem = missionsSection.querySelector('.list-group-item');
+    let missionGroupItem = missionsSection.querySelectorAll('.list-group-item')[1];
     let radioBtn = <HTMLInputElement>missionGroupItem.querySelector('input[type="radio"]');
-    let beforeChange = missionGroupItem.classList.contains('selected-list-item');
     radioBtn.click();
     tick();
     fixture.detectChanges();
-    expect(component.launcherComponent.summary.mission).toBe(component.missions[0]);
+    expect(component.launcherComponent.summary.mission).toBe(component.missions[1] as Mission);
   }));
 
   it('should have the suggested missions tag when mission.suggested field is true', () => {
-    element = fixture.nativeElement;
     let missionsSection = element.querySelectorAll('.card-pf-body')[0];
     let featuredTag = missionsSection.querySelector('.f8launcher-tags-label.suggested');
     expect(featuredTag).toBeDefined();
   });
 
-  it('should not have the suggested missions tag when mission.suggested field is false', () => {
-    component.missions[0].suggested = false;
+  it('should not have the suggested missions tag when mission.suggested field is false', fakeAsync(() => {
+    component.missions[1].suggested = false;
     fixture.detectChanges();
-    element = fixture.nativeElement;
+    tick();
     let missionsSection = element.querySelectorAll('.card-pf-body')[0];
-    let featuredTag = missionsSection.querySelector('.f8launcher-tags-label.suggested');
+    let missionGroupItem = missionsSection.querySelectorAll('.list-group-item')[1];
+    let featuredTag = missionGroupItem.querySelector('.f8launcher-tags-label.suggested');
     expect(featuredTag).toBeNull();
-  });
+  }));
 
   it('should have the prerequisite missions tag when mission.prerequisite field is present', () => {
-    element = fixture.nativeElement;
     let missionsSection = element.querySelectorAll('.card-pf-body')[0];
     let featuredTag = missionsSection.querySelector('.f8launcher-tags-label.prerequisite');
     expect(featuredTag).toBeDefined();
@@ -203,32 +209,12 @@ describe('MissionRuntimeStepComponent', () => {
   it('should not have the prerequisite missions tag when mission.prerequisite field is absent', () => {
     delete component.missions[0].prerequisite;
     fixture.detectChanges();
-    element = fixture.nativeElement;
     let missionsSection = element.querySelectorAll('.card-pf-body')[0];
     let featuredTag = missionsSection.querySelector('.f8launcher-tags-label.prerequisite');
     expect(featuredTag).toBeNull();
   });
 
-
-
-  // it('should have the contribute missions tag when mission is enabled', () => {
-  //   element = fixture.nativeElement;
-  //   let missionsSection = element.querySelectorAll('.card-pf-body')[0];
-  //   let featuredTag = missionsSection.querySelector('.f8launcher-tags-label.contribute');
-  //   expect(featuredTag).toBeDefined();
-  // });
-
-  // it('should not have the contribute missions tag when mission is disabled', () => {
-  //   delete component.missions[0].contribute;
-  //   fixture.detectChanges();
-  //   element = fixture.nativeElement;
-  //   let missionsSection = element.querySelectorAll('.card-pf-body')[0];
-  //   let featuredTag = missionsSection.querySelector('.f8launcher-tags-label.contribute');
-  //   expect(featuredTag).toBeNull();
-  // });
-
   it('should have the mission name as specified', () => {
-    element = fixture.nativeElement;
     let missionsSection = element.querySelectorAll('.card-pf-body')[0];
     let missionHead = missionsSection.querySelectorAll('.list-group-item-heading');
     let missions = component.missions, len = missions.length;
@@ -238,7 +224,6 @@ describe('MissionRuntimeStepComponent', () => {
   });
 
   it('should have the mission description as specified', () => {
-    element = fixture.nativeElement;
     let missionsSection = element.querySelectorAll('.card-pf-body')[0];
     let missionHead = missionsSection.querySelectorAll('.list-group-item-text');
     let missions = component.missions, len = missions.length;
@@ -247,23 +232,23 @@ describe('MissionRuntimeStepComponent', () => {
     }
   });
 
-  it('should have the mission description truncated if the length is beyond 55 characters', () => {
+  it('should have the mission description truncated if the length is beyond 55 characters', fakeAsync(() => {
     let desc: string = 'this is a very lengthy description just to check the functionality of truncation';
     component.missions[0].description = desc;
+    component.missions[1].description = desc;
     fixture.detectChanges();
-    element = fixture.nativeElement;
+    tick(500);
     let missionsSection = element.querySelectorAll('.card-pf-body')[0];
     let missionHead = missionsSection.querySelectorAll('.list-group-item-text');
     let missions = component.missions, len = missions.length;
     for (let i = 0; i < len; ++ i) {
       expect((<HTMLDivElement>missionHead[i].children[0]).innerText.trim()).toBe(desc.substr(0, 55) + '...');
     }
-  });
+  }));
 
   it('should show "Less" if the showMore is true - Missions', () => {
     component.missions[0]['showMore'] = true;
     fixture.detectChanges();
-    element = fixture.nativeElement;
     let missionsSection = element.querySelectorAll('.card-pf-body')[0];
     let showMore = <HTMLAnchorElement>missionsSection.querySelector('.description-more').children[0];
     expect(showMore.innerText.trim()).toBe('Less');
@@ -271,7 +256,6 @@ describe('MissionRuntimeStepComponent', () => {
 
   it('should show "More" if the showMore is false - Missions', () => {
     fixture.detectChanges();
-    element = fixture.nativeElement;
     let missionsSection = element.querySelectorAll('.card-pf-body')[0];
     let showMore = <HTMLAnchorElement>missionsSection.querySelector('.description-more').children[0];
     expect(showMore.innerText.trim()).toBe('More');
@@ -279,79 +263,58 @@ describe('MissionRuntimeStepComponent', () => {
 
   it('should disable the runtimes, on click of mission, which aren\'t applicable', fakeAsync(() => {
     fixture.detectChanges();
-    element = fixture.nativeElement;
     let missionsSection = element.querySelectorAll('.card-pf-body')[0];
+    let missionGroupItem = missionsSection.querySelectorAll('.list-group-item')[1];
+    let radioBtn = <HTMLInputElement>missionGroupItem.querySelector('input[type="radio"]');
+    radioBtn.click();
+    tick();
+    fixture.detectChanges();
+    expect(component.runtimes[1].disabled).toBeTruthy();
+  }));
+
+  // Runtimes tests
+
+  it('should have visually selected the runtime when click on radio button', fakeAsync(() => {
+    fixture.detectChanges();
+    let missionsSection = element.querySelectorAll('.card-pf-body')[1];
     let missionGroupItem = missionsSection.querySelector('.list-group-item');
     let radioBtn = <HTMLInputElement>missionGroupItem.querySelector('input[type="radio"]');
     let beforeChange = missionGroupItem.classList.contains('selected-list-item');
     radioBtn.click();
     tick();
     fixture.detectChanges();
-    component.launcherComponent.summary.mission.runtimes.splice(0, 1);
-    fixture.detectChanges();
-    let selectedMission = component.launcherComponent.summary.mission;
-    expect(component.isRuntimeDisabled(component.runtimes[0])).toBeTruthy();
+    expect(beforeChange).toBeFalsy('Item must not be already selected');
+    expect(missionGroupItem.classList.contains('selected-list-item')).toBeTruthy('Item has not been selected');
   }));
 
-
-
-  // Runtimes tests
-
-  it('to have count of runtimes to be 1', () => {
-    let runtimesList = component.runtimes;
-    expect(runtimesList.length).toBe(1);
-  });
-
-  it('should have 1 entry for runtimes created', () => {
-    element = fixture.nativeElement;
-    let runtimesSection = element.querySelectorAll('.card-pf-body')[1];
-    expect(runtimesSection.children.length).toBe(1);
-  });
-
-  it('should have the class selected-list-item added to the list group item on click of radio button', fakeAsync(() => {
+  it('should select the runtime in launcher component summary', fakeAsync(() => {
     fixture.detectChanges();
-    element = fixture.nativeElement;
     let runtimesSection = element.querySelectorAll('.card-pf-body')[1];
-    let runtimeGroupItem = runtimesSection.querySelector('.list-group-item');
+    let runtimeGroupItem = runtimesSection.querySelectorAll('.list-group-item')[1];
     let radioBtn = <HTMLInputElement>runtimeGroupItem.querySelector('input[type="radio"]');
-    let beforeChange = runtimeGroupItem.classList.contains('selected-list-item');
     radioBtn.click();
     tick();
     fixture.detectChanges();
-    expect(beforeChange === false && runtimeGroupItem.classList.contains('selected-list-item') === true).toBeTruthy();
+    expect(component.launcherComponent.summary.runtime).toBe(component.runtimes[1] as Runtime);
   }));
 
-  it('should update the selected runtime in launcher component', fakeAsync(() => {
-    fixture.detectChanges();
-    element = fixture.nativeElement;
-    let runtimesSection = element.querySelectorAll('.card-pf-body')[1];
-    let runtimeGroupItem = runtimesSection.querySelector('.list-group-item');
-    let radioBtn = <HTMLInputElement>runtimeGroupItem.querySelector('input[type="radio"]');
-    let beforeChange = runtimeGroupItem.classList.contains('selected-list-item');
-    radioBtn.click();
-    tick();
-    fixture.detectChanges();
-    expect(component.launcherComponent.summary.runtime).toBe(component.runtimes[0]);
-  }));
 
   it('should have the suggested runtimes tag when runtime.suggested field is true', () => {
-    element = fixture.nativeElement;
     let runtimesSection = element.querySelectorAll('.card-pf-body')[1];
     let featuredTag = runtimesSection.querySelector('.f8launcher-tags-label.suggested');
     expect(featuredTag).toBeDefined();
   });
 
   it('should not have the suggested runtimes tag when runtime.suggested field is false', () => {
-    component.runtimes[0].suggested = false;
+    component.runtimes[1].suggested = false;
     fixture.detectChanges();
-    element = fixture.nativeElement;
     let runtimesSection = element.querySelectorAll('.card-pf-body')[1];
-    let featuredTag = runtimesSection.querySelector('.f8launcher-tags-label.suggested');
+    let runtimeGroupItem = runtimesSection.querySelectorAll('.list-group-item')[1];
+    let featuredTag = runtimeGroupItem.querySelector('.f8launcher-tags-label.suggested');
     expect(featuredTag).toBeNull();
   });
 
   it('should have the prerequisite runtimes tag when runtime.prerequisite field is present', () => {
-    element = fixture.nativeElement;
     let runtimesSection = element.querySelectorAll('.card-pf-body')[1];
     let featuredTag = runtimesSection.querySelector('.f8launcher-tags-label.prerequisite');
     expect(featuredTag).toBeDefined();
@@ -360,30 +323,13 @@ describe('MissionRuntimeStepComponent', () => {
   it('should not have the prerequisite runtimes tag when runtime.prerequisite field is absent', () => {
     delete component.runtimes[0].prerequisite;
     fixture.detectChanges();
-    element = fixture.nativeElement;
     let runtimesSection = element.querySelectorAll('.card-pf-body')[1];
-    let featuredTag = runtimesSection.querySelector('.f8launcher-tags-label.prerequisite');
+    let runtimeGroupItem = runtimesSection.querySelectorAll('.list-group-item')[0];
+    let featuredTag = runtimeGroupItem.querySelector('.f8launcher-tags-label.prerequisite');
     expect(featuredTag).toBeNull();
   });
 
-  // it('should have the contribute runtimes tag when runtime.contribute field is present', () => {
-  //   element = fixture.nativeElement;
-  //   let runtimesSection = element.querySelectorAll('.card-pf-body')[1];
-  //   let featuredTag = runtimesSection.querySelector('.f8launcher-tags-label.contribute');
-  //   expect(featuredTag).toBeDefined();
-  // });
-
-  // it('should not have the contribute runtimes tag when runtime.contribute field is absent', () => {
-  //   delete component.runtimes[0].contribute;
-  //   fixture.detectChanges();
-  //   element = fixture.nativeElement;
-  //   let runtimesSection = element.querySelectorAll('.card-pf-body')[1];
-  //   let featuredTag = runtimesSection.querySelector('.f8launcher-tags-label.contribute');
-  //   expect(featuredTag).toBeNull();
-  // });
-
   it('should have the runtime name as specified', () => {
-    element = fixture.nativeElement;
     let runtimesSection = element.querySelectorAll('.card-pf-body')[1];
     let runtimesHead = runtimesSection.querySelectorAll('.list-group-item-heading');
     let runtimes = component.runtimes, len = runtimes.length;
@@ -393,7 +339,6 @@ describe('MissionRuntimeStepComponent', () => {
   });
 
   it('should have the runtime description as specified', () => {
-    element = fixture.nativeElement;
     let runtimesSection = element.querySelectorAll('.card-pf-body')[1];
     let runtimesHead = runtimesSection.querySelectorAll('.list-group-item-text');
     let runtimes = component.runtimes, len = runtimes.length;
@@ -405,8 +350,8 @@ describe('MissionRuntimeStepComponent', () => {
   it('should have the runtime description truncated if the length is beyond 55 characters', () => {
     let desc: string = 'this is a very lengthy description just to check the functionality of truncation';
     component.runtimes[0].description = desc;
+    component.runtimes[1].description = desc;
     fixture.detectChanges();
-    element = fixture.nativeElement;
     let runtimesSection = element.querySelectorAll('.card-pf-body')[1];
     let runtimesHead = runtimesSection.querySelectorAll('.list-group-item-text');
     let runtimes = component.runtimes, len = runtimes.length;
@@ -416,9 +361,8 @@ describe('MissionRuntimeStepComponent', () => {
   });
 
   it('should show "Less" if the showMore is true - Runtimes', () => {
-    component.runtimes[0]['showMore'] = true;
+    component.runtimes[0].showMore = true;
     fixture.detectChanges();
-    element = fixture.nativeElement;
     let runtimesSection = element.querySelectorAll('.card-pf-body')[1];
     let showMore = <HTMLAnchorElement>runtimesSection.querySelector('.description-more').children[0];
     expect(showMore.innerText.trim()).toBe('Less');
@@ -426,7 +370,6 @@ describe('MissionRuntimeStepComponent', () => {
 
   it('should show "More" if the showMore is false - Runtimes', () => {
     fixture.detectChanges();
-    element = fixture.nativeElement;
     let runtimesSection = element.querySelectorAll('.card-pf-body')[1];
     let showMore = <HTMLAnchorElement>runtimesSection.querySelector('.description-more').children[0];
     expect(showMore.innerText.trim()).toBe('More');
