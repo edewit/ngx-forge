@@ -11,29 +11,13 @@ import { LauncherStep } from '../../launcher-step';
 import { Booster, BoosterVersion } from '../../model/booster.model';
 import { Broadcaster } from 'ngx-base';
 import { Selection } from '../../model/selection.model';
+import {
+  createViewMissions,
+  createViewRuntimes,
+  ViewMission,
+  ViewRuntime
+} from './mission-runtime-createapp-step.model';
 
-export class ViewMission extends Mission {
-  advanced: boolean;
-  suggested: boolean;
-  disabled: boolean = false;
-  disabledReason?: string;
-  prerequisite: boolean;
-  community: boolean;
-  showMore: boolean = false;
-  boosters: Booster[];
-}
-
-export class ViewRuntime extends Runtime {
-  disabled: boolean = false;
-  disabledReason?: string;
-  prerequisite: boolean;
-  canChangeVersion: boolean;
-  suggested: boolean;
-  selectedVersion: { id: string; name: string; };
-  versions: BoosterVersion[];
-  showMore: boolean = false;
-  boosters: Booster[];
-}
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -78,9 +62,9 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
   }
 
   initBoosters(): void {
-    this._runtimes = this.getViewRuntimes();
-    this._missions = this.getViewMission();
-    this.updateViewStatus();
+    this._runtimes = createViewRuntimes(this._boosters, this.launcherComponent.flow === 'launch');
+    this._missions = createViewMissions(this._boosters);
+    this.updateBoosterViewStatus();
     this.initCompleted();
   }
 
@@ -140,7 +124,7 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
   resetSelections(): void {
     this.clearMission();
     this.clearRuntime();
-    this.updateViewStatus();
+    this.updateBoosterViewStatus();
     this.initCompleted();
   }
 
@@ -165,7 +149,7 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
         this.launcherComponent.summary.dependencyCheck.mavenArtifact = `booster-${artifactMission}-${artifactRuntime}-${artifactTS}`;
       }
     }
-    this.updateViewStatus();
+    this.updateBoosterViewStatus();
   }
 
   // Private
@@ -191,43 +175,7 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
     return null;
   }
 
-  private getViewRuntimes(): ViewRuntime[] {
-    const groupedByRuntime = _.groupBy(this._boosters, b => b.runtime.id);
-    return _.values(groupedByRuntime).map(runtimeBoosters => {
-      const runtime = _.first(runtimeBoosters).runtime;
-      return {
-        id: runtime.id,
-        name: runtime.name,
-        description: runtime.description,
-        icon: runtime.icon,
-        canChangeVersion: this.launcherComponent.flow === 'launch',
-        suggested: _.get(runtime, 'metadata.suggested', false),
-        prerequisite: _.get(runtime, 'metadata.prerequisite', false),
-        showMore: false,
-        boosters: runtimeBoosters
-      } as ViewRuntime;
-    });
-  }
-
-  private getViewMission(): ViewMission[] {
-    const groupedByMission = _.groupBy(this._boosters, b => b.mission.id);
-    return _.values(groupedByMission).map(missionBoosters => {
-      const mission = _.first(missionBoosters).mission;
-      return {
-        id: mission.id,
-        name: mission.name,
-        description: mission.description,
-        community: false, // FIXME implement this behavior if still needed
-        advanced: _.get(mission, 'metadata.level') === 'advanced',
-        suggested: _.get(mission, 'metadata.suggested', false),
-        prerequisite: _.get(mission, 'metadata.prerequisite', false),
-        showMore: false,
-        boosters: missionBoosters
-      } as ViewMission;
-    });
-  }
-
-  private updateViewStatus(): void {
+  private updateBoosterViewStatus(): void {
     const cluster = this.getSelectedCluster();
     this._missions.forEach(mission => {
       const availableBoosters = MissionRuntimeService.getAvailableBoosters(mission.boosters, cluster, mission.id, this.runtimeId, this.versionId);
@@ -261,7 +209,6 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
     }
     return this.missionRuntimeService.getDefaultVersion(runtimeId, versions);
   }
-
 
   private clearRuntime(): void {
     this.runtimeId = undefined;
