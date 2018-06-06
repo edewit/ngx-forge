@@ -61,13 +61,13 @@
                               outsideClick="true"
                               [popover]="missionContributeTemplate"
                               *ngSwitchCase="'not-implemented'">
-                          Contribute now <i class="pficon pficon-info"></i>
+                          Not available <i class="pficon pficon-info"></i>
                         </span>
                         <span class="f8launcher-tags-label" container="body" triggers="click"
                               outsideClick="true"
                               popover="The {{cluster}} cluster doesn't have enough resources to support the mission."
                               *ngSwitchCase="'cluster-incompatibility'">
-                          Cluster too small <i class="pficon pficon-warning-triangle-o"></i>
+                          Cluster incompatibility <i class="pficon pficon-warning-triangle-o"></i>
                         </span>
                       </span>
                       <span class="f8launcher-tags-label community" container="body" triggers="click"
@@ -165,7 +165,7 @@
                               outsideClick="true"
                               popover="The {{cluster}} cluster doesn't have enough resources to support the mission and runtime (booster) that you selected."
                               *ngSwitchCase="'cluster-incompatibility'">
-                          Cluster too small <i class="pficon pficon-warning-triangle-o"></i>
+                          Cluster incompatibility <i class="pficon pficon-warning-triangle-o"></i>
                         </span>
                       </span>
                       <span class="f8launcher-tags-label suggested" container="body" triggers="click"
