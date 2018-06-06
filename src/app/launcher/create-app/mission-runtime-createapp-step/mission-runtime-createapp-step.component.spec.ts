@@ -3,7 +3,6 @@ import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Observable } from 'rxjs';
 import { InViewportModule, WindowRef } from '@thisissoon/angular-inviewport';
 
 import { PopoverModule } from 'ngx-bootstrap';
@@ -13,62 +12,11 @@ import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
 import { MissionRuntimeCreateappStepComponent } from './mission-runtime-createapp-step.component';
 import { MissionRuntimeService } from '../../service/mission-runtime.service';
-import { Catalog, CatalogMission, CatalogRuntime } from '../../model/catalog.model';
 import { Broadcaster } from 'ngx-base';
 import { Mission } from '../../model/mission.model';
 import { Runtime } from '../../model/runtime.model';
 import { broadcaster } from '../../launcher.component.spec';
-
-
-const createMission = (name: string) => ({
-    id: name,
-    name: name,
-    description : `${name} sample desc`,
-    metadata: {
-      suggested: true,
-      prerequisite: 'prerequisite text'
-    }
-} as CatalogMission);
-
-const createRuntime = (name: string, versions: string[]) => ({
-  id: name,
-  name: name,
-  description : `${name} sample desc`,
-  icon: 'data:image/svg+xml...',
-  metadata: {
-    suggested: true,
-    prerequisite: 'prerequisite text'
-  },
-  versions: versions.map(v => ({ id: v, name: `${v} name` }))
-} as CatalogRuntime);
-
-const createBooster = (mission: string, runtime: string, version: string) => ({
-  mission: mission,
-  runtime: runtime,
-  version: version,
-  name: `${mission} ${runtime}`,
-  description: '${mission} ${runtime} sample desc'
-});
-
-class MockMissionRuntimeService extends MissionRuntimeService {
-  getCatalog(): Observable<Catalog> {
-    return Observable.of({
-      missions: [
-        createMission('crud'),
-        createMission('healthcheck')
-      ],
-      runtimes: [
-        createRuntime('vert.x', ['community', 'redhat']),
-        createRuntime('nodejs', ['community', 'redhat'])
-      ],
-      boosters: [
-        createBooster('crud', 'vert.x', 'community'),
-        createBooster('crud', 'nodejs', 'redhat'),
-        createBooster('healthcheck', 'vert.x', 'community')
-      ]
-    });
-  }
-}
+import { TestMissionRuntimeService } from '../../service/mission-runtime.service.spec';
 
 export interface TypeWizardComponent {
   selectedSection: string;
@@ -124,7 +72,7 @@ describe('MissionRuntimeStepComponent', () => {
       ],
       providers: [
         {
-          provide: MissionRuntimeService, useClass: MockMissionRuntimeService
+          provide: MissionRuntimeService, useClass: TestMissionRuntimeService
         },
         {
           provide: LauncherComponent, useValue: mockWizardComponent
