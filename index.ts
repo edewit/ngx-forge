@@ -10,6 +10,7 @@ export { Pipeline } from './src/app/launcher/model/pipeline.model';
 export { Progress } from './src/app/launcher/model/progress.model';
 export { Summary } from './src/app/launcher/model/summary.model';
 export { Catalog, CatalogMission, CatalogRuntime, CatalogBooster } from './src/app/launcher/model/catalog.model';
+export { Booster, BoosterVersion, BoosterMission, BoosterRuntime } from './src/app/launcher/model/booster.model';
 export { TargetEnvironment } from './src/app/launcher/model/target-environment.model';
 
 // Launcher services
