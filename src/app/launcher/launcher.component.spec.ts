@@ -35,9 +35,6 @@ import { DemoDependencyCheckService } from '../../demo/service/demo-dependency-c
 import { DemoProjectSummaryService } from '../../demo/service/demo-project-summary.service';
 import { HelperService } from './service/helper.service';
 import { TokenProvider } from '../../app/service/token-provider';
-import { Broadcaster } from 'ngx-base';
-
-export const broadcaster = new Broadcaster();
 
 @Component({
   selector: 'f8launcher-step-indicator',

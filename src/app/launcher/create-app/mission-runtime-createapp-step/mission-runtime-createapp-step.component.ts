@@ -9,7 +9,7 @@ import { EmptyReason, MissionRuntimeService } from '../../service/mission-runtim
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
 import { Booster, BoosterVersion } from '../../model/booster.model';
-import { Broadcaster } from 'ngx-base';
+import { BroadcastService } from '../../service/broadcast.service';
 import { Selection } from '../../model/selection.model';
 import {
   createViewMissions,
@@ -41,7 +41,7 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
   constructor(@Host() public launcherComponent: LauncherComponent,
               private missionRuntimeService: MissionRuntimeService,
               public _DomSanitizer: DomSanitizer,
-              private broadcaster: Broadcaster) {
+              private broadcaster: BroadcastService) {
     super();
   }
 

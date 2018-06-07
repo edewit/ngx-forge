@@ -39,6 +39,7 @@ import { MissionRuntimeService } from './service/mission-runtime.service';
 import { ProjectProgressService } from './service/project-progress.service';
 
 import { LauncherComponent } from './launcher.component';
+import { BroadcastService } from './service/broadcast.service';
 
 // Provide window object so as to not break SSR if using universal
 export const providers: Provider[] = [
@@ -81,7 +82,8 @@ export const providers: Provider[] = [
     LauncherComponent
   ],
   providers: [
-    BsDropdownConfig
+    BsDropdownConfig,
+    BroadcastService
   ]
 })
 export class LauncherModule {

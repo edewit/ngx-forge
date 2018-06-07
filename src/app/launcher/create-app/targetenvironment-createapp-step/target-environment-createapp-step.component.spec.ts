@@ -16,9 +16,8 @@ import { TokenService } from '../../service/token.service';
 import { ModalModule } from 'ngx-modal';
 import { LinkAccountsCreateappStepComponent } from '../link-accounts-createapp-step/link-accounts-createapp-step.component';
 import { MissionRuntimeService } from '../../service/mission-runtime.service';
-import { Broadcaster } from 'ngx-base';
+import { BroadcastService } from '../../service/broadcast.service';
 import { Catalog } from '../../model/catalog.model';
-import { broadcaster } from '../../launcher.component.spec';
 
 let mockTargetEnvironmentService = {
   getTargetEnvironments(): Observable<TargetEnvironment[]> {
@@ -116,9 +115,7 @@ describe('TargetEnvironmentStepComponent', () => {
         {
           provide: LauncherComponent, useValue: mockWizardComponent
         },
-        {
-          provide: Broadcaster, useValue: broadcaster
-        },
+        BroadcastService,
         {
           provide: WindowRef, useValue: window
         },

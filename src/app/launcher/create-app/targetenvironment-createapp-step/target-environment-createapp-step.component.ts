@@ -20,7 +20,7 @@ import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
 import { MissionRuntimeService } from '../../service/mission-runtime.service';
 import {Cluster} from '../../model/cluster.model';
-import { Broadcaster } from 'ngx-base';
+import { BroadcastService } from '../../service/broadcast.service';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -50,7 +50,7 @@ export class TargetEnvironmentCreateappStepComponent extends LauncherStep implem
   constructor(@Host() public launcherComponent: LauncherComponent,
               private targetEnvironmentService: TargetEnvironmentService,
               private missionRuntimeService: MissionRuntimeService,
-              private broadcaster: Broadcaster,
+              private broadcaster: BroadcastService,
               public _DomSanitizer: DomSanitizer) {
     super();
   }
