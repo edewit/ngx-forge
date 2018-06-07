@@ -60,13 +60,13 @@
                         <span class="f8launcher-tags-label contribute" container="body" triggers="click"
                               outsideClick="true"
                               [popover]="missionContributeTemplate"
-                              *ngSwitchCase="'not-implemented'">
+                              *ngSwitchCase="disabledReason.NOT_IMPLEMENTED">
                           Not available <i class="pficon pficon-info"></i>
                         </span>
                         <span class="f8launcher-tags-label" container="body" triggers="click"
                               outsideClick="true"
                               popover="The {{cluster}} cluster doesn't have enough resources to support the mission."
-                              *ngSwitchCase="'cluster-incompatibility'">
+                              *ngSwitchCase="disabledReason.CLUSTER_INCOMPATIBILITY">
                           Cluster incompatibility <i class="pficon pficon-warning-triangle-o"></i>
                         </span>
                       </span>
@@ -158,13 +158,13 @@
                         <span class="f8launcher-tags-label contribute" container="body" triggers="click"
                               outsideClick="true"
                               [popover]="runtimeContributeTemplate"
-                              *ngSwitchCase="'not-implemented'">
+                              *ngSwitchCase="disabledReason.NOT_IMPLEMENTED">
                           Not available <i class="pficon pficon-info"></i>
                         </span>
                         <span class="f8launcher-tags-label" container="body" triggers="click"
                               outsideClick="true"
                               popover="The {{cluster}} cluster doesn't have enough resources to support the mission and runtime (booster) that you selected."
-                              *ngSwitchCase="'cluster-incompatibility'">
+                              *ngSwitchCase="disabledReason.CLUSTER_INCOMPATIBILITY">
                           Cluster incompatibility <i class="pficon pficon-warning-triangle-o"></i>
                         </span>
                       </span>

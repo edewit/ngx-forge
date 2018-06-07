@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { Mission } from '../../model/mission.model';
 import { Runtime } from '../../model/runtime.model';
-import { MissionRuntimeService } from '../../service/mission-runtime.service';
+import { EmptyReason, MissionRuntimeService } from '../../service/mission-runtime.service';
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
 import { Booster, BoosterVersion } from '../../model/booster.model';
@@ -26,6 +26,7 @@ import {
   styleUrls: ['./mission-runtime-createapp-step.component.less']
 })
 export class MissionRuntimeCreateappStepComponent extends LauncherStep implements OnInit, OnDestroy {
+  private disabledReason = EmptyReason;
   private _missions: ViewMission[] = [];
   private _runtimes: ViewRuntime[] = [];
   private _boosters: Booster[] = null;
@@ -186,7 +187,8 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
   private updateBoosterViewStatus(): void {
     this._cluster = this.getSelectedCluster();
     this._missions.forEach(mission => {
-      const availableBoosters = MissionRuntimeService.getAvailableBoosters(mission.boosters, this._cluster, mission.id, this.runtimeId, this.versionId);
+      const availableBoosters = MissionRuntimeService.getAvailableBoosters(mission.boosters,
+        this._cluster, mission.id, this.runtimeId, this.versionId);
       if (this.missionId === mission.id && availableBoosters.empty) {
         this.clearMission();
       }
@@ -194,7 +196,8 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
       mission.disabledReason = availableBoosters.emptyReason;
     });
     this._runtimes.forEach(runtime => {
-      const availableBoosters = MissionRuntimeService.getAvailableBoosters(runtime.boosters, this._cluster, this.missionId, runtime.id);
+      const availableBoosters = MissionRuntimeService.getAvailableBoosters(runtime.boosters,
+        this._cluster, this.missionId, runtime.id);
       const versions = _.uniq(availableBoosters.boosters.map(b => b.version));
       if (this.runtimeId === runtime.id && availableBoosters.empty) {
         this.clearRuntime();

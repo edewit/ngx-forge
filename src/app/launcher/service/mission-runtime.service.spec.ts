@@ -1,4 +1,4 @@
-import { MissionRuntimeService } from './mission-runtime.service';
+import { EmptyReason, MissionRuntimeService } from './mission-runtime.service';
 import { Observable } from 'rxjs/Observable';
 import { Catalog, CatalogMission, CatalogRuntime } from '../model/catalog.model';
 
@@ -113,19 +113,21 @@ describe('MissionRuntimeService', () => {
       let crudBoosters = MissionRuntimeService.getAvailableBoosters(boosters, null, 'crud');
       expect(crudBoosters.boosters.length).toBe(3);
       expect(crudBoosters.boosters[0]).toBe(crudVertxCommunityBooster);
-      expect(crudBoosters.boosters[1]).toBe(crudVertxRedHatBooster]);
+      expect(crudBoosters.boosters[1]).toBe(crudVertxRedHatBooster);
       expect(crudBoosters.boosters[2]).toBe(crudNodeRedHatBooster);
 
       let healthCheck = MissionRuntimeService.getAvailableBoosters(boosters, null, 'healthcheck');
       expect(healthCheck.boosters.length).toBe(1);
       expect(healthCheck.boosters[0]).toBe(healthCheckBooster);
 
-      let crudVertxBoosters = MissionRuntimeService.getAvailableBoosters(boosters, null, 'crud', 'vert.x');
+      let crudVertxBoosters = MissionRuntimeService.getAvailableBoosters(boosters,
+        null, 'crud', 'vert.x');
       expect(crudVertxBoosters.boosters.length).toBe(2);
       expect(crudVertxBoosters.boosters[0]).toBe(crudVertxCommunityBooster);
-      expect(crudVertxBoosters.boosters[1]).toBe(crudVertxRedHatBooster]);
+      expect(crudVertxBoosters.boosters[1]).toBe(crudVertxRedHatBooster);
 
-      let crudVertxRedHatBoosters = MissionRuntimeService.getAvailableBoosters(boosters, null, 'crud', 'vert.x', 'redhat');
+      let crudVertxRedHatBoosters = MissionRuntimeService.getAvailableBoosters(boosters,
+        null, 'crud', 'vert.x', 'redhat');
       expect(crudVertxRedHatBoosters.boosters.length).toBe(1);
       expect(crudVertxRedHatBoosters.boosters[0]).toBe(crudVertxRedHatBooster);
     });
@@ -133,20 +135,22 @@ describe('MissionRuntimeService', () => {
 
   it('should return empty with not-implemented reason when there is no booster for the specified ids', () => {
     service.getBoosters().subscribe((boosters) => {
-      let healthCheckVertx = MissionRuntimeService.getAvailableBoosters(boosters, null, 'healthcheck', 'vertx');
+      let healthCheckVertx = MissionRuntimeService.getAvailableBoosters(boosters,
+        null, 'healthcheck', 'vertx');
       expect(healthCheckVertx.empty).toBeTruthy();
-      expect(healthCheckVertx.emptyReason).toBe('not-implemented');
+      expect(healthCheckVertx.emptyReason).toBe(EmptyReason.NOT_IMPLEMENTED);
     });
   });
 
-  it('should return empty with cluster-incompatibility reason when there is no booster for the specified cluster', () => {
+  it('should return empty with cluster-incompatibility reason when there is no booster for the specified cluster',
+    () => {
     service.getBoosters().subscribe((boosters) => {
       for (let i = 0; i < 3; i++) {
         boosters[i].metadata = { app: { launcher: { runsOn: '!starter' }}};
       }
       let crudStarterBooster = MissionRuntimeService.getAvailableBoosters(boosters, 'starter', 'crud');
       expect(crudStarterBooster.empty).toBeTruthy();
-      expect(crudStarterBooster.emptyReason).toBe('cluster-incompatibility');
+      expect(crudStarterBooster.emptyReason).toBe(EmptyReason.CLUSTER_INCOMPATIBILITY);
     });
   });
 });

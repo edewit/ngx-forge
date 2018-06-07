@@ -3,9 +3,15 @@ import * as _ from 'lodash';
 import { Catalog, CatalogMission, CatalogRuntime } from '../model/catalog.model';
 import { Booster, BoosterRuntime, BoosterVersion } from '../model/booster.model';
 
+
+export enum EmptyReason {
+  NOT_IMPLEMENTED,
+  CLUSTER_INCOMPATIBILITY
+}
+
 export class AvailableBoosters {
   empty: boolean;
-  emptyReason?: string;
+  emptyReason?: EmptyReason;
   boosters: Booster[];
 }
 
@@ -25,14 +31,16 @@ export abstract class MissionRuntimeService {
         && (!versionId || b.version.id === versionId);
     });
     if (availableBoosters.length === 0) {
-      return { empty: true, emptyReason: 'not-implemented', boosters: [] };
+      return { empty: true, emptyReason: EmptyReason.NOT_IMPLEMENTED, boosters: [] };
     }
     if (!cluster) {
       return { empty: false, boosters: availableBoosters };
     }
-    const boostersRunningOnCluster = availableBoosters.filter(b => MissionRuntimeService.checkRunsOnCluster(b, cluster));
+    const boostersRunningOnCluster = availableBoosters.filter(b => {
+      return MissionRuntimeService.checkRunsOnCluster(b, cluster);
+    });
     if (boostersRunningOnCluster.length === 0) {
-      return { empty: true, emptyReason: 'cluster-incompatibility', boosters: [] };
+      return { empty: true, emptyReason: EmptyReason.CLUSTER_INCOMPATIBILITY, boosters: [] };
     }
     return { empty: false, boosters: boostersRunningOnCluster };
   }

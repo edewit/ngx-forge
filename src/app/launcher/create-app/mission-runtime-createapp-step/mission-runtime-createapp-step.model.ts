@@ -3,12 +3,13 @@ import * as _ from 'lodash';
 import { Mission } from '../../model/mission.model';
 import { Runtime } from '../../model/runtime.model';
 import { Booster, BoosterVersion } from '../../model/booster.model';
+import { EmptyReason } from '../../service/mission-runtime.service';
 
 export class ViewMission extends Mission {
   advanced: boolean;
   suggested: boolean;
   disabled: boolean = false;
-  disabledReason?: string;
+  disabledReason?: EmptyReason;
   prerequisite: boolean;
   community: boolean;
   showMore: boolean = false;
@@ -17,7 +18,7 @@ export class ViewMission extends Mission {
 
 export class ViewRuntime extends Runtime {
   disabled: boolean = false;
-  disabledReason?: string;
+  disabledReason?: EmptyReason;
   prerequisite: boolean;
   canChangeVersion: boolean;
   suggested: boolean;
