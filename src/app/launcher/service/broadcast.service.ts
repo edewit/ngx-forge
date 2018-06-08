@@ -38,13 +38,14 @@ interface BroadcastEvent {
  *     }
  *
  */
+let instance: BroadcastService;
+
 @Injectable()
 export class BroadcastService {
   private _eventBus: Subject<BroadcastEvent> = new Subject<BroadcastEvent>();
-  private static instance: BroadcastService;
 
   constructor() {
-    return BroadcastService.instance = BroadcastService.instance || this;
+    return instance = instance || this;
   }
 
   /**
