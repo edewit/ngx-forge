@@ -45,9 +45,13 @@
         </div>
       </div>
     </div>
-    <f8launcher-link-accounts-createapp-step
-      (select)="selectCluster($event)" *ngIf="launcherComponent?.summary?.targetEnvironment === 'os'">
-    </f8launcher-link-accounts-createapp-step>
+    <div *ngIf="launcherComponent?.summary?.targetEnvironment === 'os'">
+      <f8launcher-link-accounts-createapp-step
+        [clusters]="clusters"
+        (select)="selectCluster($event)"
+      >
+      </f8launcher-link-accounts-createapp-step>
+    </div>
   </div>
   <div>
     <div class="container-fluid">

@@ -53,7 +53,7 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
         this.initBoosters();
         this.restoreFromSummary();
       }));
-    this.broadcaster.on('cluster').subscribe(() => this.initBoosters());
+    this.subscriptions.push(this.broadcaster.on('cluster').subscribe(() => this.initBoosters()));
   }
 
   ngOnDestroy() {

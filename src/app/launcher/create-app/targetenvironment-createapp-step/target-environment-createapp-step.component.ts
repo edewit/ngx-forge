@@ -1,14 +1,14 @@
 import {
+  animate,
   Component,
   Host,
   Input,
-  OnDestroy,
-  ViewEncapsulation,
+  OnDestroy, Optional,
   state,
-  trigger,
   style,
-  animate,
-  transition
+  transition,
+  trigger,
+  ViewEncapsulation
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Subscription } from 'rxjs/Subscription';
@@ -18,9 +18,9 @@ import { TargetEnvironment } from '../../model/target-environment.model';
 import { TargetEnvironmentService } from '../../service/target-environment.service';
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
-import { MissionRuntimeService } from '../../service/mission-runtime.service';
-import {Cluster} from '../../model/cluster.model';
+import { Cluster } from '../../model/cluster.model';
 import { BroadcastService } from '../../service/broadcast.service';
+import { TokenService } from '../../service/token.service';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -46,10 +46,11 @@ export class TargetEnvironmentCreateappStepComponent extends LauncherStep implem
 
   private subscriptions: Subscription[] = [];
   private _targetEnvironments: TargetEnvironment[];
+  private _clusters: Cluster[] = [];
 
   constructor(@Host() public launcherComponent: LauncherComponent,
               private targetEnvironmentService: TargetEnvironmentService,
-              private missionRuntimeService: MissionRuntimeService,
+              @Optional() private tokenService: TokenService,
               private broadcaster: BroadcastService,
               public _DomSanitizer: DomSanitizer) {
     super();
@@ -66,7 +67,11 @@ export class TargetEnvironmentCreateappStepComponent extends LauncherStep implem
     setTimeout(() => {
       this.restoreSummary();
     }, 10); // Avoids ExpressionChangedAfterItHasBeenCheckedError
-
+    if (this.tokenService) {
+      this.subscriptions.push(this.tokenService.clusters.subscribe(clusters => {
+        this._clusters = clusters.sort(this.clusterSortFn);
+      }));
+    }
     this.subscriptions.push(this.targetEnvironmentService.getTargetEnvironments().subscribe((val) => {
       if (val !== undefined) {
         this._targetEnvironments = val;
@@ -82,7 +87,8 @@ export class TargetEnvironmentCreateappStepComponent extends LauncherStep implem
    * @returns {boolean} True if step is completed
    */
   get stepCompleted(): boolean {
-    return (this.launcherComponent.summary.targetEnvironment !== undefined);
+    return this.launcherComponent.summary.targetEnvironment
+      && (this.launcherComponent.summary.targetEnvironment === 'zip' || !!this.launcherComponent.summary.cluster);
   }
 
   /**
@@ -94,6 +100,15 @@ export class TargetEnvironmentCreateappStepComponent extends LauncherStep implem
     return this._targetEnvironments;
   }
 
+  /**
+   * Returns clusters to display
+   *
+   * @returns {Cluster[]} The clusters to display
+   */
+  get clusters(): Cluster[] {
+    return this._clusters;
+  }
+
   // Steps
 
   navToNextStep(): void {
@@ -103,6 +118,7 @@ export class TargetEnvironmentCreateappStepComponent extends LauncherStep implem
   selectCluster(cluster?: Cluster): void {
     this.launcherComponent.summary.cluster = cluster;
     this.broadcaster.broadcast('cluster', cluster);
+    this.initCompleted();
   }
 
   updateTargetEnvSelection(target: TargetEnvironment): void {
@@ -126,5 +142,12 @@ export class TargetEnvironmentCreateappStepComponent extends LauncherStep implem
       this.launcherComponent.summary.cluster = selection.cluster;
     }
     this.initCompleted(); // Ensure this is called for launcherComponent.targetEnvironment input
+  }
+
+  private clusterSortFn(a: Cluster, b: Cluster): number {
+    if (a.connected) {
+      return -1;
+    }
+    return a.id.localeCompare(b.id);
   }
 }

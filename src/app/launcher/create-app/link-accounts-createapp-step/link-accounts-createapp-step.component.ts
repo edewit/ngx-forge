@@ -1,4 +1,4 @@
-import { Component, Optional, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
+import { Component, Optional, Output, EventEmitter, ChangeDetectorRef, Input } from '@angular/core';
 
 import { Cluster } from '../../model/cluster.model';
 import { TokenService } from '../../service/token.service';
@@ -11,16 +11,11 @@ import { Observable } from 'rxjs';
 })
 export class LinkAccountsCreateappStepComponent {
   @Output() select = new EventEmitter(true);
-  private _clusters: Cluster[] = [];
+  @Input() clusters: Cluster[] = [];
   private clusterId: string;
 
 
   constructor(@Optional() private tokenService: TokenService, private changeDetector: ChangeDetectorRef) {
-    if (this.tokenService) {
-      tokenService.clusters.subscribe(clusters => {
-        this._clusters = clusters.sort(this.clusterSortFn);
-      });
-    }
   }
 
   ngAfterViewInit() {
@@ -32,22 +27,11 @@ export class LinkAccountsCreateappStepComponent {
     this.select.emit(cluster);
   }
 
-  get clusters(): Cluster[] {
-    return this._clusters;
-  }
-
   private autoSetCluster(): void {
-    const connectedClusters = this._clusters.filter(c => c.connected);
+    const connectedClusters = this.clusters.filter(c => c.connected);
     if (connectedClusters.length === 1) {
       this.selectCluster(connectedClusters[0]);
       this.changeDetector.detectChanges();
     }
-  }
-
-  private clusterSortFn(a: Cluster, b: Cluster): number {
-    if (a.connected) {
-      return -1;
-    }
-    return a.id.localeCompare(b.id);
   }
 }
