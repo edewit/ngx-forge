@@ -66,7 +66,6 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
     this._runtimes = createViewRuntimes(this._boosters, this.launcherComponent.flow === 'launch');
     this._missions = createViewMissions(this._boosters);
     this.updateBoosterViewStatus();
-    this.initCompleted();
   }
 
 // Accessors
@@ -130,7 +129,6 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
     this.clearMission();
     this.clearRuntime();
     this.updateBoosterViewStatus();
-    this.initCompleted();
   }
 
   selectBooster(mission?: ViewMission, runtime?: ViewRuntime, version?: BoosterVersion): void {
@@ -207,6 +205,7 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
       runtime.versions = versions;
       runtime.selectedVersion = this.getRuntimeSelectedVersion(runtime.id, versions);
     });
+    this.initCompleted();
   }
 
   private getRuntimeSelectedVersion(runtimeId: string, versions: BoosterVersion[]): BoosterVersion {
