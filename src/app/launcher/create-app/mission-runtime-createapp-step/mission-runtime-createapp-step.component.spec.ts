@@ -319,4 +319,20 @@ describe('MissionRuntimeStepComponent', () => {
     let showMore = <HTMLAnchorElement>runtimesSection.querySelector('.description-more').children[0];
     expect(showMore.innerText.trim()).toBe('More');
   });
+
+  it('should complete step when booster is selected', fakeAsync(() => {
+    fixture.detectChanges();
+    expect(component.completed).toBeFalsy();
+    let missionsSection = element.querySelectorAll('.card-pf-body')[0];
+    let missionRadioBtn = <HTMLInputElement>missionsSection.querySelector('.list-group-item input[type="radio"]');
+    missionRadioBtn.click();
+    tick();
+    expect(component.completed).toBeFalsy();
+    let runtimesSection = element.querySelectorAll('.card-pf-body')[1];
+    let runtimeRadioBtn = <HTMLInputElement>runtimesSection.querySelector('.list-group-item input[type="radio"]');
+    runtimeRadioBtn.click();
+    tick();
+    fixture.detectChanges();
+    expect(component.completed).toBeTruthy();
+  }));
 });
