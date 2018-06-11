@@ -8,7 +8,7 @@ import { EmptyReason } from '../../service/mission-runtime.service';
 export class ViewMission extends Mission {
   advanced: boolean;
   suggested: boolean;
-  disabled: boolean = false;
+  disabled: boolean;
   disabledReason?: EmptyReason;
   prerequisite: boolean;
   community: boolean;
@@ -17,7 +17,7 @@ export class ViewMission extends Mission {
 }
 
 export class ViewRuntime extends Runtime {
-  disabled: boolean = false;
+  disabled: boolean;
   disabledReason?: EmptyReason;
   prerequisite: boolean;
   canChangeVersion: boolean;
@@ -41,6 +41,7 @@ export function createViewRuntimes(boosters: Booster[], canChangeVersion: boolea
       suggested: _.get(runtime, 'metadata.suggested', false),
       prerequisite: _.get(runtime, 'metadata.prerequisite', false),
       showMore: false,
+      disabled: true,
       boosters: runtimeBoosters
     } as ViewRuntime;
   });
@@ -59,6 +60,7 @@ export function createViewMissions(boosters: Booster[]): ViewMission[] {
       suggested: _.get(mission, 'metadata.suggested', false),
       prerequisite: _.get(mission, 'metadata.prerequisite', false),
       showMore: false,
+      disabled: true,
       boosters: missionBoosters
     } as ViewMission;
   });
