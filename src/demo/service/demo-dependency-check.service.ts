@@ -47,7 +47,7 @@ export class DemoDependencyCheckService implements DependencyCheckService {
    * @param  {string} spaceId
    * @returns Observable
    */
-  getApplicationsInASpace(spaceId: string): Observable<any[]> {
+  getApplicationsInASpace(): Observable<any[]> {
     return Observable.of([{
       attributes: { name: 'app-apr-10-2018-4-25' }
     }, {

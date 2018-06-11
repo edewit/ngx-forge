@@ -32,8 +32,6 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
 
   public setUpErrResponse: Array<any> = [];
   private subscriptions: Subscription[] = [];
-  private spaceId: string;
-  private spaceName: string;
 
   constructor(@Host() public launcherComponent: LauncherComponent,
               private dependencyCheckService: DependencyCheckService,
@@ -52,17 +50,6 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
           // Don't override user's application name
           defaults(this.launcherComponent.summary.dependencyCheck, val);
         }));
-    this.subscriptions.push(
-      this.projectSummaryService.getCurrentContext()
-        .subscribe((response: any) => {
-          if (response && this.launcherComponent && this.launcherComponent.summary &&
-            this.launcherComponent.summary.dependencyCheck) {
-            this.launcherComponent.summary.dependencyCheck.spacePath = response.path;
-            this.spaceName = '/' + response.name;
-            this.spaceId = response.space ? response.space.id : '';
-          }
-        })
-    );
   }
 
   ngOnDestroy() {
@@ -123,7 +110,7 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
   setup(): void {
     this.subscriptions.push(
       this.projectSummaryService
-      .setup(this.launcherComponent.summary, this.spaceId, this.spaceName, false)
+      .setup(this.launcherComponent.summary)
       .subscribe((val: any) => {
         if (val && val['uuid_link']) {
           this.launcherComponent.statusLink = val['uuid_link'];

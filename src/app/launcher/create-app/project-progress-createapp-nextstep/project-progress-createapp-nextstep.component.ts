@@ -3,15 +3,16 @@ import {
   Host,
   Input,
   OnDestroy,
-  OnInit,
   ViewEncapsulation,
   OnChanges,
-  SimpleChanges
+  SimpleChanges,
+  SimpleChange
 } from '@angular/core';
 
 import { Progress } from '../../model/progress.model';
 import { ProjectProgressService } from '../../service/project-progress.service';
 import { LauncherComponent } from '../../launcher.component';
+import { ProjectSummaryService } from '../../../../..';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -19,19 +20,15 @@ import { LauncherComponent } from '../../launcher.component';
   templateUrl: './project-progress-createapp-nextstep.component.html',
   styleUrls: ['./project-progress-createapp-nextstep.component.less']
 })
-export class ProjectProgressCreateappNextstepComponent implements OnInit, OnChanges, OnDestroy {
+export class ProjectProgressCreateappNextstepComponent implements OnChanges, OnDestroy {
   @Input() statusLink: string;
-  isError = false;
-  errorMessage = '';
+  errorMessage: string;
   private _progress: Progress[];
   private socket: WebSocket;
 
   constructor(@Host() public launcherComponent: LauncherComponent,
-              private projectProgressService: ProjectProgressService) {
-  }
-
-  ngOnInit() {
-
+    private projectProgressService: ProjectProgressService,
+    private projectSummaryService: ProjectSummaryService) {
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -46,8 +43,7 @@ export class ProjectProgressCreateappNextstepComponent implements OnInit, OnChan
           for (let item of values) {
             for (let key in item) {
               if (item.hasOwnProperty(key)) {
-                let status = new Progress(false, item[key], '', true, key);
-                this._progress.push(status);
+                this._progress.push({ key: key, description: item[key] } as Progress);
               }
             }
           }
@@ -57,8 +53,11 @@ export class ProjectProgressCreateappNextstepComponent implements OnInit, OnChan
           let data = message.data || {};
           if (data && data.error) {
             console.log(message.data.error);
-            this.isError = true;
             this.errorMessage = data.error;
+            for (let i = this.lastCompleted; i < this._progress.length; i++) {
+              this._progress[i].error = true;
+            }
+            this.socket.close();
           } else {
             for (let status of this._progress) {
               if (status.key === message.statusMessage) {
@@ -85,23 +84,32 @@ export class ProjectProgressCreateappNextstepComponent implements OnInit, OnChan
     this.closeConnections();
   }
 
+  completed() {
+    this.socket.close();
+    this.launcherComponent.completed();
+  }
+
+  private get lastCompleted(): number {
+    return this._progress ? this._progress.findIndex(item => !item.completed) : -1;
+  }
+
+  retry() {
+    const failedStep = this.lastCompleted;
+    this.projectSummaryService.setup(
+      this.launcherComponent.summary, failedStep).subscribe(result => {
+        this._progress = null;
+        this.ngOnChanges({'statusLink': new SimpleChange('', result.uuid_link, false)});
+      });
+  }
+
   // Accessors
 
   get allCompleted(): boolean {
-    if (this._progress === undefined) {
-      return false;
-    }
-    let result = true;
-    for (let i = 0; i < this._progress.length; i++) {
-      if (this._progress[i].completed !== true) {
-        result = false;
-        break;
-      }
-    }
-    if (result) {
-      this.socket.close();
-    }
-    return result;
+    return this._progress ? !this._progress.find(item => !item.completed) : false;
+  }
+
+  get isError(): boolean {
+    return !!this.errorMessage;
   }
 
   getProgressByKey(key: string): Progress {
@@ -124,7 +132,6 @@ export class ProjectProgressCreateappNextstepComponent implements OnInit, OnChan
   }
 
   private reset() {
-    this.isError = false;
-    this.errorMessage = '';
+    this.errorMessage = undefined;
   }
 }

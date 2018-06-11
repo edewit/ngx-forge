@@ -8,6 +8,8 @@ import { ProjectProgressService } from '../../service/project-progress.service';
 import { Progress } from '../../model/progress.model';
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
+import { Summary } from '../../model/summary.model';
+import { ProjectSummaryService } from '../../service/project-summary.service';
 
 let progressSubject: Subject<Progress[]> = new Subject();
 let mockProjectProgressService = {
@@ -19,26 +21,21 @@ let mockProjectProgressService = {
       'completed': false,
       'description': 'Creating New GitHub Repository',
       'hypertext': 'View New Repository',
-      'inProgress': false,
       'url': 'https://github.com/fabric8-launcher/ngx-launcher'
     }, {
       'completed': false,
       'description': 'Pushing Customized Booster Code into the Repository',
-      'inProgress': false
     }, {
       'completed': false,
       'description': 'Creating Your Project on the OpenShift Cloud',
-      'inProgress': false,
       'hypertext': 'View New Application',
       'url': 'https://github.com/fabric8-launcher/ngx-launcher'
     }, {
       'completed': false,
       'description': 'Setting up Build Pipeline',
-      'inProgress': false
     }, {
       'completed': false,
       'description': 'Configure Trigger Builds on Git Pushes',
-      'inProgress': false
     }] as Progress[];
     return progress;
   }
@@ -51,6 +48,12 @@ export interface TypeWizardComponent {
 let mockWizardComponent: TypeWizardComponent = {
   completed() {
     // this.onComplete.emit();
+  }
+};
+
+let mockProjectSummaryService = {
+  setup(summary: Summary): Observable<boolean> {
+    return Observable.of(true);
   }
 };
 
@@ -69,6 +72,9 @@ describe('ProjectProgressComponent', () => {
       providers: [
         {
           provide: LauncherComponent, useValue: mockWizardComponent
+        },
+        {
+          provide: ProjectSummaryService, useValue: mockProjectSummaryService
         },
         {
           provide: ProjectProgressService, useValue: mockProjectProgressService

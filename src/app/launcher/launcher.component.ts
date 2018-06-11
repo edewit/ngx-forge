@@ -39,7 +39,7 @@ export class LauncherComponent implements AfterViewInit, OnInit {
   /**
    * Setting the flag to show dependency editor as internal feature
    */
-  @Input() depEditorFlag:  boolean = false;
+  @Input() depEditorFlag: boolean = false;
   /**
    * The event emitted when an cancel has been selected
    */
@@ -67,9 +67,9 @@ export class LauncherComponent implements AfterViewInit, OnInit {
   private spaceId: string;
 
   constructor(private route: ActivatedRoute,
-              private router: Router,
-              private dependencyCheckService: DependencyCheckService,
-              private projectSummaryService: ProjectSummaryService) {
+    private router: Router,
+    private dependencyCheckService: DependencyCheckService,
+    private projectSummaryService: ProjectSummaryService) {
   }
 
   ngAfterViewInit() {
@@ -89,20 +89,15 @@ export class LauncherComponent implements AfterViewInit, OnInit {
       },
       gitHubDetails: {}
     } as Summary;
-    this.projectSummaryService.getCurrentContext()
-      .subscribe((response: any) => {
-        if (response && this.summary && this.summary.dependencyCheck) {
-          this.spaceId = response.space ? response.space.id : '';
-          this.dependencyCheckService.getApplicationsInASpace(this.spaceId)
-            .subscribe((applications: any[]) => {
-              const apps: string[] = applications.map((app: any) => {
-                const appNameInLowerCase = app.attributes.name ? (<string>app.attributes.name).toLowerCase() : '';
-                return appNameInLowerCase;
-              });
-              this.applicationNames = apps;
-              console.log('applications in step indicator', this.applicationNames);
-            });
-        }
+
+    this.dependencyCheckService.getApplicationsInASpace()
+      .subscribe((applications: any[]) => {
+        const apps: string[] = applications.map((app: any) => {
+          const appNameInLowerCase = app.attributes.name ? (<string>app.attributes.name).toLowerCase() : '';
+          return appNameInLowerCase;
+        });
+        this.applicationNames = apps;
+        console.log('applications in step indicator', this.applicationNames);
       });
   }
 

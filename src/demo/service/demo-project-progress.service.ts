@@ -16,7 +16,8 @@ export class DemoProjectProgressService implements ProjectProgressService {
     {
       statusMessage: "OPENSHIFT_CREATE",
       data: {
-        location: "https://console.starter-us-east-2.openshift.com/console/projects"
+        // location: "https://console.starter-us-east-2.openshift.com/console/projects"
+        error: "this just failed because of no clear reason..."
       }
     },
     { statusMessage: "OPENSHIFT_PIPELINE" },

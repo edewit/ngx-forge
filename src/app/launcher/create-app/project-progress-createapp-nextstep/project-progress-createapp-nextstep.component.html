@@ -13,6 +13,7 @@
         <div class="alert alert-danger">
           <span class="pficon pficon-error-circle-o"></span>
           <strong>Set Up Incomplete</strong> There were some problems.
+          <button class="retry btn btn-primary" (click)="retry()">Retry Set Up</button>
         </div>
         <div class="alert alert-detail">
           <div class="row">
@@ -30,7 +31,7 @@
           <div class="card-pf">
             <div class="card-pf-heading">
               <h2 class="card-pf-title card-pf-title-project-progress">
-                <span *ngIf="allCompleted !== true">
+                <span *ngIf="!allCompleted && !isError">
                   <i class="pficon pficon-in-progress fa-spin"></i> Working Through Setup
                 </span>
                 <span *ngIf="allCompleted === true && isError !== true">
@@ -48,21 +49,22 @@
                     <div class="list-pf-content list-pf-content-flex">
                       <div class="pfng-list-content">
                         <div class="list-pf-left"
-                             [ngClass]="{'item-in-progress': item.completed !== true}">
+                             [ngClass]="{'item-in-progress': !item.completed && !item.error}">
                           <span class="pficon"
-                                [ngClass]="{'pficon-ok': item.completed === true,
-                                            'pficon-in-progress fa-spin': item.completed !== true,
-                                            'icon-clear': item.completed !== true && item.inProgress !== true}">
+                                [ngClass]="{'pficon-ok': item.completed,
+                                            'pficon-in-progress fa-spin': !item.completed && !item.error,
+                                            'pficon-paused': item.error,
+                                            'icon-clear': !item.completed && !item.error}">
                           </span>
                         </div>
                         <div class="list-pf-content-wrapper">
                           <div class="list-pf-main-content"
-                               [ngClass]="{'item-in-progress': item.completed !== true}">
+                               [ngClass]="{'item-in-progress': !item.completed && !item.error}">
                             {{item.description}}
                           </div>
                         </div>
                         <div class="list-pf-actions"
-                             *ngIf="item.hyperText !== undefined && item.completed === true">
+                             *ngIf="item.hyperText">
                           <a target="_blank" [href]="item.hyperText">{{item.hyperText}}</a>
                         </div>
                       </div>
@@ -154,7 +156,7 @@
   <div>
     <div class="container-fluid">
       <div class="f8launcher-continue">
-        <button class="btn btn-primary btn-lg" (click)="launcherComponent.completed()">{{ launcherComponent.flow === 'osio' ? 'View New Application' : 'Start a new project' }}</button>
+        <button class="btn btn-primary btn-lg" (click)="completed()">{{ launcherComponent.flow === 'osio' ? 'View New Application' : 'Start a new project' }}</button>
       </div>
     </div>
   </div>
