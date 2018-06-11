@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
+import { BroadcastService } from '../../service/broadcast.service';
 
 import { DependencyEditorService } from '../../service/dependency-editor.service';
 import { DependencyCheckService } from '../../service/dependency-check.service';
@@ -41,7 +42,8 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
         @Host() public launcherComponent: LauncherComponent,
         @Optional() private depEditorService: DependencyEditorService,
         private dependencyCheckService: DependencyCheckService,
-        private keyValueDiffers: KeyValueDiffers
+        private keyValueDiffers: KeyValueDiffers,
+        private broadcaster: BroadcastService
     ) {
         super();
         if (this.launcherComponent.summary) {
@@ -98,6 +100,9 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
     // Steps
     navToNextStep(): void {
         this.launcherComponent.navToNextStep();
+        this.broadcaster.broadcast('completeDependencyEditorStep', {
+            dependencySnapshot: this.launcherComponent.summary.dependencyEditor.dependencySnapshot
+        });
     }
 
     /**

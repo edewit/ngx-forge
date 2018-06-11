@@ -120,6 +120,10 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
    */
   navToNextStep(): void {
     this.launcherComponent.navToNextStep();
+    this.broadcaster.broadcast('completeMissionRuntimeStep', {
+      mission: this.launcherComponent.summary.mission.name,
+      runtime: this.launcherComponent.summary.runtime.name
+    });
   }
 
   /**

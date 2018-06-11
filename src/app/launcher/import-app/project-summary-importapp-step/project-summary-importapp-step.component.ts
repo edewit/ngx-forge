@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { DomSanitizer } from '@angular/platform-browser';
 
 import { defaults } from 'lodash';
+import { BroadcastService } from '../../service/broadcast.service';
 
 import { Pipeline } from '../../model/pipeline.model';
 import { DependencyCheckService } from '../../service/dependency-check.service';
@@ -37,7 +38,8 @@ export class ProjectSummaryImportappStepComponent extends LauncherStep implement
   constructor(@Host() public launcherComponent: LauncherComponent,
               private dependencyCheckService: DependencyCheckService,
               private projectSummaryService: ProjectSummaryService,
-              public _DomSanitizer: DomSanitizer) {
+              public _DomSanitizer: DomSanitizer,
+              private broadcaster: BroadcastService) {
     super();
   }
 
@@ -110,6 +112,15 @@ export class ProjectSummaryImportappStepComponent extends LauncherStep implement
   navToNextStep(): void {
     this.completed = this.stepCompleted;
     this.launcherComponent.navToNextStep();
+    this.broadcaster.broadcast('completeSummaryStep_Import', {
+      pipeline: this.launcherComponent.summary.pipeline.name,
+      application: this.launcherComponent.summary.dependencyCheck,
+      gitHubDetails: {
+        location: this.launcherComponent.summary.gitHubDetails.organization,
+        username: this.launcherComponent.summary.gitHubDetails.login,
+        repository: this.launcherComponent.summary.gitHubDetails.repository
+      }
+    });
   }
 
   /**
@@ -140,6 +151,15 @@ export class ProjectSummaryImportappStepComponent extends LauncherStep implement
           console.log('error in setup: Import', error);
         })
     );
+    this.broadcaster.broadcast('completeSummaryStep_Create', {
+      pipeline: this.launcherComponent.summary.pipeline.name,
+      application: this.launcherComponent.summary.dependencyCheck,
+      gitHubDetails: {
+        location: this.launcherComponent.summary.gitHubDetails.organization,
+        username: this.launcherComponent.summary.gitHubDetails.login,
+        repository: this.launcherComponent.summary.gitHubDetails.repository
+      }
+    });
   }
 
   /**

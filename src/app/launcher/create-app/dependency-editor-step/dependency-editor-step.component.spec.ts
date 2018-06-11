@@ -22,6 +22,7 @@ import { Summary } from '../../launcher.module';
 import { DemoDependencyEditorService } from '../../../../demo/service/demo-dependency-editor.service';
 import { HelperService } from '../../service/helper.service';
 import { TokenProvider } from '../../../../app/service/token-provider';
+import { BroadcastService } from '../../service/broadcast.service';
 
 let mockHelperService = {
   getBackendUrl(): string {
@@ -108,7 +109,8 @@ describe('DependencyEditorCreateappStepComponent', () => {
         },
         {
           provide: WindowRef, useValue: window
-        }
+        },
+        BroadcastService
       ]
     }).compileComponents();
   }));

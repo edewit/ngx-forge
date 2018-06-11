@@ -16,6 +16,7 @@ import { StepIndicatorComponent } from './step-indicator/step-indicator.componen
 import { LauncherStep } from './launcher-step';
 import { ProjectSummaryService } from './service/project-summary.service';
 import { DependencyCheckService } from './service/dependency-check.service';
+import { BroadcastService } from './service/broadcast.service';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -69,7 +70,8 @@ export class LauncherComponent implements AfterViewInit, OnInit {
   constructor(private route: ActivatedRoute,
               private router: Router,
               private dependencyCheckService: DependencyCheckService,
-              private projectSummaryService: ProjectSummaryService) {
+              private projectSummaryService: ProjectSummaryService,
+              private broadcaster: BroadcastService) {
   }
 
   ngAfterViewInit() {
@@ -267,6 +269,7 @@ export class LauncherComponent implements AfterViewInit, OnInit {
    */
   completed() {
     this.onComplete.emit();
+    this.broadcaster.broadcast('viewApplicationButtonClicked');
   }
 
   /**
