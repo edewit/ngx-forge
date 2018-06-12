@@ -12,6 +12,7 @@ import {
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Subscription } from 'rxjs/Subscription';
+import { Broadcaster } from 'ngx-base';
 
 import { Selection } from '../../model/selection.model';
 import { TargetEnvironment } from '../../model/target-environment.model';
@@ -19,7 +20,6 @@ import { TargetEnvironmentService } from '../../service/target-environment.servi
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
 import { Cluster } from '../../model/cluster.model';
-import { BroadcastService } from '../../service/broadcast.service';
 import { TokenService } from '../../service/token.service';
 
 @Component({
@@ -38,7 +38,7 @@ export class TargetEnvironmentCreateappStepComponent extends LauncherStep implem
   constructor(@Host() public launcherComponent: LauncherComponent,
               private targetEnvironmentService: TargetEnvironmentService,
               @Optional() private tokenService: TokenService,
-              private broadcaster: BroadcastService,
+              private broadcaster: Broadcaster,
               public _DomSanitizer: DomSanitizer) {
     super();
   }

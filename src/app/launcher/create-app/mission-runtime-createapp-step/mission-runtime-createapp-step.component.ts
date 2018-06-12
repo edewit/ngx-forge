@@ -2,6 +2,7 @@ import { Component, Host, OnDestroy, OnInit, ViewEncapsulation } from '@angular/
 import * as _ from 'lodash';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Subscription } from 'rxjs/Subscription';
+import { Broadcaster } from 'ngx-base';
 
 import { Mission } from '../../model/mission.model';
 import { Runtime } from '../../model/runtime.model';
@@ -9,7 +10,6 @@ import { EmptyReason, MissionRuntimeService } from '../../service/mission-runtim
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
 import { Booster, BoosterVersion } from '../../model/booster.model';
-import { BroadcastService } from '../../service/broadcast.service';
 import { Selection } from '../../model/selection.model';
 import {
   createViewMissions,
@@ -41,7 +41,7 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
   constructor(@Host() public launcherComponent: LauncherComponent,
               private missionRuntimeService: MissionRuntimeService,
               public _DomSanitizer: DomSanitizer,
-              private broadcaster: BroadcastService) {
+              private broadcaster: Broadcaster) {
     super();
   }
 
@@ -120,6 +120,11 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
    */
   navToNextStep(): void {
     this.launcherComponent.navToNextStep();
+    const summary = this.launcherComponent.summary;
+    this.broadcaster.broadcast('completeMissionRuntimeStep', {
+      mission: _.get(summary, 'mission.name', null),
+      runtime: _.get(summary, 'runtime.name', null)
+    });
   }
 
   /**

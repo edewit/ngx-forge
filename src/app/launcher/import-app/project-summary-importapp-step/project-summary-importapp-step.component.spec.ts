@@ -13,6 +13,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Observable } from 'rxjs';
 import { InViewportModule, WindowRef } from '@thisissoon/angular-inviewport';
+import { Broadcaster } from 'ngx-base';
 
 import { DependencyCheck } from '../../launcher.module';
 import { DependencyCheckService } from '../../service/dependency-check.service';
@@ -105,6 +106,7 @@ describe('Import ProjectSummaryStepComponent', () => {
         FakeToastNotificationComponent
       ],
       providers : [
+        Broadcaster,
         {
           provide: ProjectSummaryService, useValue: mockProjectSummaryService
         },

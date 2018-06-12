@@ -9,6 +9,8 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
+import { Broadcaster } from 'ngx-base';
+import { get } from 'lodash';
 
 import { DependencyCheckService } from '../../service/dependency-check.service';
 import { GitProviderService } from '../../service/git-provider.service';
@@ -31,7 +33,8 @@ export class GitproviderCreateappStepComponent extends LauncherStep implements A
 
   constructor(@Host() public launcherComponent: LauncherComponent,
               private dependencyCheckService: DependencyCheckService,
-              private gitProviderService: GitProviderService) {
+              private gitProviderService: GitProviderService,
+              private broadcaster: Broadcaster) {
     super();
   }
 
@@ -111,6 +114,12 @@ export class GitproviderCreateappStepComponent extends LauncherStep implements A
    */
   navToNextStep(): void {
     this.launcherComponent.navToNextStep();
+    const summary = this.launcherComponent.summary;
+    this.broadcaster.broadcast('completeGitProviderStep_Create', {
+      location: get(summary, 'gitHubDetails.organization', null),
+      username: get(summary, 'gitHubDetails.login', null),
+      repository: get(summary, 'gitHubDetails.repository', null)
+    });
   }
 
   /**

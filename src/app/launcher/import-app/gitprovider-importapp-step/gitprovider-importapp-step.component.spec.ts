@@ -1,5 +1,4 @@
 import { async, fakeAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -7,17 +6,15 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Observable } from 'rxjs';
 import { InViewportModule, WindowRef } from '@thisissoon/angular-inviewport';
-
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
+import { Broadcaster } from 'ngx-base';
 
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
-
 import { DependencyCheck } from '../../launcher.module';
 import { DependencyCheckService } from '../../service/dependency-check.service';
 import { GitproviderImportappStepComponent } from './gitprovider-importapp-step.component';
 import { GitProviderService } from '../../service/git-provider.service';
-
 import { GitHubDetails } from '../../model/github-details.model';
 
 let mockDependencyCheckService = {
@@ -112,6 +109,7 @@ describe('Import GitProviderStepComponent', () => {
         GitproviderImportappStepComponent
       ],
       providers: [
+        Broadcaster,
         {
           provide: DependencyCheckService, useValue: mockDependencyCheckService
         },

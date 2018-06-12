@@ -11,7 +11,9 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
+import { get } from 'lodash';
 
+import { Broadcaster } from 'ngx-base';
 import { DependencyEditorService } from '../../service/dependency-editor.service';
 import { DependencyCheckService } from '../../service/dependency-check.service';
 import { Selection } from '../../model/selection.model';
@@ -41,7 +43,8 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
         @Host() public launcherComponent: LauncherComponent,
         @Optional() private depEditorService: DependencyEditorService,
         private dependencyCheckService: DependencyCheckService,
-        private keyValueDiffers: KeyValueDiffers
+        private keyValueDiffers: KeyValueDiffers,
+        private broadcaster: Broadcaster
     ) {
         super();
         if (this.launcherComponent.summary) {
@@ -98,6 +101,9 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
     // Steps
     navToNextStep(): void {
         this.launcherComponent.navToNextStep();
+        this.broadcaster.broadcast('completeDependencyEditorStep', {
+            dependencySnapshot: get(this.launcherComponent.summary, 'dependencyEditor.dependencySnapshot', [])
+        });
     }
 
     /**

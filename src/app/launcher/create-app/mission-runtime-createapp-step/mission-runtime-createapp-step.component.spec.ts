@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { InViewportModule, WindowRef } from '@thisissoon/angular-inviewport';
 
+import { Broadcaster } from 'ngx-base';
 import { PopoverModule } from 'ngx-bootstrap';
 import { SortArrayPipeModule, TruncatePipeModule } from 'patternfly-ng/pipe';
 
@@ -12,7 +13,6 @@ import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
 import { MissionRuntimeCreateappStepComponent } from './mission-runtime-createapp-step.component';
 import { MissionRuntimeService } from '../../service/mission-runtime.service';
-import { BroadcastService } from '../../service/broadcast.service';
 import { Mission } from '../../model/mission.model';
 import { Runtime } from '../../model/runtime.model';
 import { TestMissionRuntimeService } from '../../service/mission-runtime.service.spec';
@@ -77,7 +77,7 @@ describe('MissionRuntimeStepComponent', () => {
         {
           provide: LauncherComponent, useValue: mockWizardComponent
         },
-        BroadcastService,
+        Broadcaster,
         {
           provide: WindowRef, useValue: window
         }

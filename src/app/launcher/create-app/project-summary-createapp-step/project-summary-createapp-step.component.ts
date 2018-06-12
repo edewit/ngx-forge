@@ -9,7 +9,8 @@ import {
 import { Subscription } from 'rxjs/Subscription';
 import { DomSanitizer } from '@angular/platform-browser';
 
-import { defaults } from 'lodash';
+import { defaults, get } from 'lodash';
+import { Broadcaster } from 'ngx-base';
 
 import { Pipeline } from '../../model/pipeline.model';
 import { DependencyCheckService } from '../../service/dependency-check.service';
@@ -36,7 +37,8 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
   constructor(@Host() public launcherComponent: LauncherComponent,
               private dependencyCheckService: DependencyCheckService,
               private projectSummaryService: ProjectSummaryService,
-              public _DomSanitizer: DomSanitizer) {
+              public _DomSanitizer: DomSanitizer,
+              private broadcaster: Broadcaster) {
     super();
   }
 
@@ -123,6 +125,19 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
         console.log('error in setup: Create', error);
       })
     );
+    const summary = this.launcherComponent.summary;
+    this.broadcaster.broadcast('completeSummaryStep_Create', {
+      mission: get(summary, 'mission.name', null),
+      runtime: get(summary, 'runtime.name', null),
+      dependencySnapshot: get(summary, 'dependencyEditor.dependencySnapshot', null),
+      pipeline: get(summary, 'pipeline.name', null),
+      application: get(summary, 'dependencyCheck', null),
+      gitHubDetails: {
+        location: get(summary, 'gitHubDetails.organization', null),
+        username: get(summary, 'gitHubDetails.login', null),
+        repository: get(summary, 'gitHubDetails.repository', null)
+      }
+    });
   }
 
   /**

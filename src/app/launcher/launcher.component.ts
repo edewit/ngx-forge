@@ -9,6 +9,7 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Broadcaster } from 'ngx-base';
 
 import { Selection } from './model/selection.model';
 import { Summary } from './model/summary.model';
@@ -69,7 +70,8 @@ export class LauncherComponent implements AfterViewInit, OnInit {
   constructor(private route: ActivatedRoute,
     private router: Router,
     private dependencyCheckService: DependencyCheckService,
-    private projectSummaryService: ProjectSummaryService) {
+    private projectSummaryService: ProjectSummaryService,
+    private broadcaster: Broadcaster) {
   }
 
   ngAfterViewInit() {
@@ -262,6 +264,7 @@ export class LauncherComponent implements AfterViewInit, OnInit {
    */
   completed() {
     this.onComplete.emit();
+    this.broadcaster.broadcast('viewApplicationButtonClicked');
   }
 
   /**

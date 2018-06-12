@@ -6,6 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Observable } from 'rxjs';
 import { InViewportModule, WindowRef } from '@thisissoon/angular-inviewport';
+import { Broadcaster } from 'ngx-base';
 
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
@@ -14,9 +15,9 @@ import { TargetEnvironment } from '../../model/target-environment.model';
 import { TargetEnvironmentService } from '../../service/target-environment.service';
 import { TokenService } from '../../service/token.service';
 import { ModalModule } from 'ngx-modal';
-import { LinkAccountsCreateappStepComponent } from '../link-accounts-createapp-step/link-accounts-createapp-step.component';
+import { LinkAccountsCreateappStepComponent }
+  from '../link-accounts-createapp-step/link-accounts-createapp-step.component';
 import { MissionRuntimeService } from '../../service/mission-runtime.service';
-import { BroadcastService } from '../../service/broadcast.service';
 import { Catalog } from '../../model/catalog.model';
 
 let mockTargetEnvironmentService = {
@@ -115,7 +116,7 @@ describe('TargetEnvironmentStepComponent', () => {
         {
           provide: LauncherComponent, useValue: mockWizardComponent
         },
-        BroadcastService,
+        Broadcaster,
         {
           provide: WindowRef, useValue: window
         },

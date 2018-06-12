@@ -18,20 +18,33 @@ import { ToolbarModule } from 'patternfly-ng/toolbar';
 import { StepIndicatorComponent } from './step-indicator/step-indicator.component';
 import { CancelOverlayComponent } from './cancel-overlay/cancel-overlay.component';
 
-import { ActivateBoosterCreateappNextstepComponent } from './create-app/activate-booster-createapp-nextstep/activate-booster-createapp-nextstep.component';
-import { DependencyEditorCreateappStepComponent } from './create-app/dependency-editor-step/dependency-editor-step.component';
-import { GitproviderCreateappStepComponent } from './create-app/gitprovider-createapp-step/gitprovider-createapp-step.component';
-import { MissionRuntimeCreateappStepComponent } from './create-app/mission-runtime-createapp-step/mission-runtime-createapp-step.component';
-import { ProjectProgressCreateappNextstepComponent } from './create-app/project-progress-createapp-nextstep/project-progress-createapp-nextstep.component';
-import { ProjectSummaryCreateappStepComponent } from './create-app/project-summary-createapp-step/project-summary-createapp-step.component';
-import { ReleaseStrategyCreateappStepComponent } from './create-app/release-strategy-createapp-step/release-strategy-createapp-step.component';
-import { TargetEnvironmentCreateappStepComponent } from './create-app/targetenvironment-createapp-step/target-environment-createapp-step.component';
-import { LinkAccountsCreateappStepComponent } from './create-app/link-accounts-createapp-step/link-accounts-createapp-step.component';
+import { ActivateBoosterCreateappNextstepComponent }
+  from './create-app/activate-booster-createapp-nextstep/activate-booster-createapp-nextstep.component';
+import { DependencyEditorCreateappStepComponent }
+  from './create-app/dependency-editor-step/dependency-editor-step.component';
+import { GitproviderCreateappStepComponent }
+  from './create-app/gitprovider-createapp-step/gitprovider-createapp-step.component';
+import { MissionRuntimeCreateappStepComponent }
+  from './create-app/mission-runtime-createapp-step/mission-runtime-createapp-step.component';
+import { ProjectProgressCreateappNextstepComponent }
+  from './create-app/project-progress-createapp-nextstep/project-progress-createapp-nextstep.component';
+import { ProjectSummaryCreateappStepComponent }
+  from './create-app/project-summary-createapp-step/project-summary-createapp-step.component';
+import { ReleaseStrategyCreateappStepComponent }
+  from './create-app/release-strategy-createapp-step/release-strategy-createapp-step.component';
+import { TargetEnvironmentCreateappStepComponent }
+  from './create-app/targetenvironment-createapp-step/target-environment-createapp-step.component';
+import { LinkAccountsCreateappStepComponent }
+  from './create-app/link-accounts-createapp-step/link-accounts-createapp-step.component';
 
-import { GitproviderImportappStepComponent } from './import-app/gitprovider-importapp-step/gitprovider-importapp-step.component';
-import { ProjectProgressImportappNextstepComponent } from './import-app/project-progress-importapp-nextstep/project-progress-importapp-nextstep.component';
-import { ProjectSummaryImportappStepComponent } from './import-app/project-summary-importapp-step/project-summary-importapp-step.component';
-import { ReleaseStrategyImportappStepComponent } from './import-app/release-strategy-importapp-step/release-strategy-importapp-step.component';
+import { GitproviderImportappStepComponent }
+  from './import-app/gitprovider-importapp-step/gitprovider-importapp-step.component';
+import { ProjectProgressImportappNextstepComponent }
+  from './import-app/project-progress-importapp-nextstep/project-progress-importapp-nextstep.component';
+import { ProjectSummaryImportappStepComponent }
+  from './import-app/project-summary-importapp-step/project-summary-importapp-step.component';
+import { ReleaseStrategyImportappStepComponent }
+  from './import-app/release-strategy-importapp-step/release-strategy-importapp-step.component';
 import { ToastNotificationComponent } from './toast-notification/toast-notification.component';
 
 import { InViewportModule, WindowRef } from '@thisissoon/angular-inviewport';
@@ -39,7 +52,6 @@ import { MissionRuntimeService } from './service/mission-runtime.service';
 import { ProjectProgressService } from './service/project-progress.service';
 
 import { LauncherComponent } from './launcher.component';
-import { BroadcastService } from './service/broadcast.service';
 
 // Provide window object so as to not break SSR if using universal
 export const providers: Provider[] = [
@@ -83,8 +95,7 @@ export const providers: Provider[] = [
     LauncherComponent
   ],
   providers: [
-    BsDropdownConfig,
-    BroadcastService
+    BsDropdownConfig
   ]
 })
 export class LauncherModule {
