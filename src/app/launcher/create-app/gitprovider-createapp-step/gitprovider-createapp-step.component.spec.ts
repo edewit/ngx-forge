@@ -20,7 +20,6 @@ import { GitproviderCreateappStepComponent } from './gitprovider-createapp-step.
 import { GitProviderService } from '../../service/git-provider.service';
 
 import { GitHubDetails } from '../../model/github-details.model';
-import { BroadcastService } from '../../service/broadcast.service';
 
 let mockDependencyCheckService = {
   getDependencyCheck(): Observable<DependencyCheck> {
@@ -115,7 +114,6 @@ describe('GitProviderStepComponent', () => {
         GitproviderCreateappStepComponent
       ],
       providers: [
-        BroadcastService,
         {
           provide: DependencyCheckService, useValue: mockDependencyCheckService
         },

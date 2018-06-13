@@ -23,7 +23,6 @@ import { ProjectSummaryService } from '../../service/project-summary.service';
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
 import { Summary } from '../../launcher.module';
-import { BroadcastService } from '../../service/broadcast.service';
 
 @Component({
   selector: 'fab-toast-notification',
@@ -108,7 +107,6 @@ describe('ProjectSummaryStepComponent', () => {
         FakeToastNotificationComponent
       ],
       providers : [
-        BroadcastService,
         {
           provide: ProjectSummaryService, useValue: mockProjectSummaryService
         },

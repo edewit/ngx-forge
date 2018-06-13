@@ -19,7 +19,6 @@ import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
 import { DependencyCheck } from '../../model/dependency-check.model';
 import { Summary } from '../../model/summary.model';
-import { BroadcastService } from '../../service/broadcast.service';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -39,8 +38,7 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
   constructor(@Host() public launcherComponent: LauncherComponent,
               private dependencyCheckService: DependencyCheckService,
               private projectSummaryService: ProjectSummaryService,
-              public _DomSanitizer: DomSanitizer,
-              private broadcaster: BroadcastService) {
+              public _DomSanitizer: DomSanitizer) {
     super();
   }
 
@@ -138,18 +136,6 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
         console.log('error in setup: Create', error);
       })
     );
-    this.broadcaster.broadcast('completeSummaryStep_Create', {
-      mission: this.launcherComponent.summary.mission.name,
-      runtime: this.launcherComponent.summary.pipeline.name,
-      dependencySnapshot: this.launcherComponent.summary.dependencyEditor.dependencySnapshot,
-      pipeline: this.launcherComponent.summary.pipeline.name,
-      application: this.launcherComponent.summary.dependencyCheck,
-      gitHubDetails: {
-        location: this.launcherComponent.summary.gitHubDetails.organization,
-        username: this.launcherComponent.summary.gitHubDetails.login,
-        repository: this.launcherComponent.summary.gitHubDetails.repository
-      }
-    });
   }
 
   /**

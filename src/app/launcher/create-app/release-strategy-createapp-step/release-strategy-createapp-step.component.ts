@@ -6,7 +6,6 @@ import {
   OnInit,
   ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-import { BroadcastService } from '../../service/broadcast.service';
 
 import { PipelineService } from '../../service/pipeline.service';
 import { Pipeline } from '../../model/pipeline.model';
@@ -29,8 +28,7 @@ export class ReleaseStrategyCreateappStepComponent extends LauncherStep implemen
   private subscriptions: Subscription[] = [];
 
   constructor(@Host() public launcherComponent: LauncherComponent,
-              private pipelineService: PipelineService,
-              private broadcaster: BroadcastService) {
+              private pipelineService: PipelineService) {
     super();
   }
 
@@ -94,9 +92,6 @@ export class ReleaseStrategyCreateappStepComponent extends LauncherStep implemen
 
   navToNextStep(): void {
     this.launcherComponent.navToNextStep();
-    this.broadcaster.broadcast('completePipelineStep_Create', {
-      pipeline: this.launcherComponent.summary.pipeline.name
-    });
   }
 
   updatePipelineSelection(pipeline: Pipeline): void {

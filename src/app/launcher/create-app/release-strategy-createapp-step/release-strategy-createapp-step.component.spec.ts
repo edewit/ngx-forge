@@ -24,7 +24,6 @@ import { Pipeline } from '../../model/pipeline.model';
 import { ReleaseStrategyCreateappStepComponent } from './release-strategy-createapp-step.component';
 import { Selection } from '../../model/selection.model';
 import { Summary } from '../../model/summary.model';
-import { BroadcastService } from '../../service/broadcast.service';
 
 @Component({
   selector: 'pfng-toolbar',
@@ -132,7 +131,6 @@ describe('ReleaseStrategyStepComponent', () => {
         FakePfngToolbarComponent
       ],
       providers : [
-        BroadcastService,
         {
           provide: PipelineService, useValue: mockPipelineService
         },

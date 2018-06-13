@@ -9,7 +9,6 @@ import {
 import { Selection } from '../model/selection.model';
 import { LauncherComponent } from '../launcher.component';
 import { DependencyCheckService } from '../service/dependency-check.service';
-import { BroadcastService } from '../service/broadcast.service';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -27,8 +26,7 @@ export class StepIndicatorComponent implements OnInit {
 
   constructor(
     @Host() public launcherComponent: LauncherComponent,
-    private dependencyCheckService: DependencyCheckService,
-    private broadcaster: BroadcastService) {
+    private dependencyCheckService: DependencyCheckService) {
   }
 
   ngOnInit() {
@@ -65,7 +63,6 @@ export class StepIndicatorComponent implements OnInit {
    * @param {string} id The step ID
    */
   navToStep(id: string) {
-    this.broadcaster.broadcast('stepIndicatorClicked', id);
     let element = document.getElementById(id);
     if (element !== null) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
