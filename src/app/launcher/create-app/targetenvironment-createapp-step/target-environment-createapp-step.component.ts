@@ -31,7 +31,7 @@ import { TokenService } from '../../service/token.service';
   [
     trigger('toggleAnimation', [
       state('active', style({
-        display: 'inline',
+        display: 'inline'
       })),
       state('inactive', style({
         opacity: '0',
@@ -148,6 +148,6 @@ export class TargetEnvironmentCreateappStepComponent extends LauncherStep implem
     if (a.connected) {
       return -1;
     }
-    return a.id.localeCompare(b.id);
+    return a.name.localeCompare(b.name);
   }
 }
