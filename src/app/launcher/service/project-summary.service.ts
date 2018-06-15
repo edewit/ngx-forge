@@ -12,5 +12,14 @@ export abstract class ProjectSummaryService {
    * @param {Summary} summary The project summary
    * @returns {Observable<boolean>}
    */
-  abstract setup(summary: Summary, retry?: number): Observable<any>;
+  abstract setup(summary: Summary, spaceId: string, spaceName: string, isImport: boolean): Observable<any>;
+
+  abstract setupBlank(summary: Summary, spaceId: string, spaceName: string, isImport: boolean): Observable<any>;
+
+  /**s
+   * Get the current context details
+   *
+   * @returns {Observable<any>}
+   */
+  abstract getCurrentContext(): Observable<any>;
 }

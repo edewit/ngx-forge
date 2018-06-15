@@ -14,7 +14,7 @@
     <div class="container-fluid container-cards-pf">
       <div class="row row-dep-editor">
         <div class="col-xs-12">
-          <app-dependency-editor [boosterInfo]="boosterInfo && boosterInfo" [githubUrl]="github && github" [githubRef]="gitref && gitref" [metadataInfo]="metadataInfo && metadataInfo"
+          <app-dependency-editor [blankResponse]="blankResponse" [boosterInfo]="boosterInfo && boosterInfo" [githubUrl]="github && github" [githubRef]="gitref && gitref" [metadataInfo]="metadataInfo && metadataInfo"
           (depSnapshot)="pickDependencies($event)" (emitMetadata)="pickMetadata($event)" (navId)="navToStep($event)"></app-dependency-editor>
         </div>
       </div>

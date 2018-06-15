@@ -8,7 +8,8 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { DomSanitizer } from '@angular/platform-browser';
-import { defaults } from 'lodash';
+
+import * as _ from 'lodash';
 
 import { Pipeline } from '../../model/pipeline.model';
 import { DependencyCheckService } from '../../service/dependency-check.service';
@@ -48,7 +49,7 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
       this.dependencyCheckService.getDependencyCheck()
         .subscribe((val) => {
           // Don't override user's application name
-          defaults(this.launcherComponent.summary.dependencyCheck, val);
+          _.defaults(this.launcherComponent.summary.dependencyCheck, val);
         }));
   }
 
@@ -120,9 +121,30 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
     }
   })
   setup(): void {
-    this.subscriptions.push(
-      this.projectSummaryService
-      .setup(this.launcherComponent.summary)
+
+    if (this.launcherComponent.summary.mission.id === 'blank-mission') {
+      let blankFlowSummary = _.cloneDeep(this.launcherComponent.summary);
+      blankFlowSummary.mission.id = this.launcherComponent.summary.mission.description;
+      this.subscriptions.push(
+
+        this.projectSummaryService.setupBlank(blankFlowSummary, this.spaceId, this.spaceName, false)
+        .subscribe((val: any) => {
+          if (val && val['uuid_link']) {
+            this.launcherComponent.statusLink = val['uuid_link'];
+            this.navToNextStep();
+          }
+        }, (error: any) => {
+          if (error) {
+            this.displaySetUpErrorResponse(error);
+          }
+          console.log('error in setup: Create', error);
+        })
+
+      );
+    } else {
+      this.subscriptions.push(
+        this.projectSummaryService
+      .setup(this.launcherComponent.summary, this.spaceId, this.spaceName, false)
       .subscribe((val: any) => {
         if (val && val['uuid_link']) {
           this.launcherComponent.statusLink = val['uuid_link'];
@@ -134,7 +156,8 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
         }
         console.log('error in setup: Create', error);
       })
-    );
+      );
+    }
   }
 
   /**

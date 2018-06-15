@@ -13,4 +13,5 @@ export abstract class DependencyEditorService {
      * @returns{Observable<string>}
      */
     abstract getBoosterInfo(missionId: string, runtimeId: string, runtimeVersion: string): Observable<string>;
+    abstract getCoreDependencies(runtimeId: string): Observable<any>;
 }

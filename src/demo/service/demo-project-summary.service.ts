@@ -10,4 +10,13 @@ export class DemoProjectSummaryService implements ProjectSummaryService {
   setup(summary: Summary): Observable<any> {
     return Observable.of({'uuid_link': 'http://dummy-link.com/'});
   }
+
+  setupBlank(summary: Summary, spaceId: string, spaceName: string, isImport: boolean): Observable<any> {
+    console.log('Inside setup blank');
+    return Observable.of({'uuid_link': 'http://dummy-link.com/'});
+  }
+
+  getCurrentContext(): Observable<any> {
+    return Observable.of({});
+  }
 }

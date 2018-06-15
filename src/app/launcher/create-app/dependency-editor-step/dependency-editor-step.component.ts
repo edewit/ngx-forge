@@ -34,6 +34,9 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
     public gitref: string = '';
     public boosterInfo: any = null;
     public metadataInfo: any = null;
+
+    public blankResponse: any = null;
+
     private cacheInfo: any = {};
     private changes: any = {};
 
@@ -188,10 +191,15 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
         if (flag) {
             if (this.cacheInfo['mission'] && this.cacheInfo['runtime']) {
                 // this.cacheInfo = JSON.parse(this.cacheInfo);
+                this.boosterInfo = this.cacheInfo;
+                if (this.cacheInfo['mission'].id === 'blank-mission') {
+                    this.handleBlankMissionFlow(this.cacheInfo['runtime'].id);
+                    return;
+                }
+                this.blankResponse = null;
                 let mission: string = this.cacheInfo['mission'].id;
                 let runtime: string = this.cacheInfo['runtime'].id;
                 let runtimeVersion: string = this.cacheInfo['runtime'].version;
-                this.boosterInfo = this.cacheInfo;
                 if ( this.depEditorService) {
                     let service = this.depEditorService.getBoosterInfo(mission, runtime, runtimeVersion);
                     if (service) {
@@ -203,6 +211,19 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
                         });
                     }
                 }
+            }
+        }
+    }
+
+    private handleBlankMissionFlow(runtimeId: string): void {
+        if (runtimeId) {
+            let service = this.depEditorService.getCoreDependencies(runtimeId);
+            if (service) {
+                service.subscribe((response: any) => {
+                    if (response) {
+                        this.blankResponse = response;
+                    }
+                });
             }
         }
     }
