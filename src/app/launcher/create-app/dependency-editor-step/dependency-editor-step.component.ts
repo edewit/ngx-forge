@@ -11,9 +11,7 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
-import { get } from 'lodash';
 
-import { Broadcaster } from 'ngx-base';
 import { DependencyEditorService } from '../../service/dependency-editor.service';
 import { DependencyCheckService } from '../../service/dependency-check.service';
 import { Selection } from '../../model/selection.model';
@@ -21,6 +19,7 @@ import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
 import { DependencyEditor } from '../../model/dependency-editor/dependency-editor.model';
 import { Summary } from '../../model/summary.model';
+import { broadcast } from '../../shared/telemetry.decorator';
 
 @Component({
     encapsulation: ViewEncapsulation.None,
@@ -43,8 +42,7 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
         @Host() public launcherComponent: LauncherComponent,
         @Optional() private depEditorService: DependencyEditorService,
         private dependencyCheckService: DependencyCheckService,
-        private keyValueDiffers: KeyValueDiffers,
-        private broadcaster: Broadcaster
+        private keyValueDiffers: KeyValueDiffers
     ) {
         super();
         if (this.launcherComponent.summary) {
@@ -99,11 +97,13 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
      * @returns {TargetEnvironment[]} The target environments to display
      */
     // Steps
+    @broadcast('completeDependencyEditorStep', {
+        'launcherComponent.summary.dependencyEditor': {
+            dependencySnapshot: 'dependencySnapshot'
+        }
+    })
     navToNextStep(): void {
         this.launcherComponent.navToNextStep();
-        this.broadcaster.broadcast('completeDependencyEditorStep', {
-            dependencySnapshot: get(this.launcherComponent.summary, 'dependencyEditor.dependencySnapshot', [])
-        });
     }
 
     /**
@@ -176,8 +176,11 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
             // If runtime is selected first, version of runtime will be null. This updates that.
             let missionsArrFromRuntime: Array<any> = this.cacheInfo['runtime'] && this.cacheInfo['runtime']['missions'];
             if (missionsArrFromRuntime && missionsArrFromRuntime.length) {
-                let filteredMission = missionsArrFromRuntime.filter((mission) => mission.id === this.cacheInfo['mission']['id'])[0];
-                this.cacheInfo['runtime']['version'] = filteredMission && filteredMission.versions && filteredMission.versions[0] && filteredMission.versions[0].id || null;
+                let filteredMission =
+                    missionsArrFromRuntime.filter((mission) => mission.id === this.cacheInfo['mission']['id'])[0];
+                this.cacheInfo['runtime']['version'] =
+                    filteredMission && filteredMission.versions && filteredMission.versions[0]
+                        && filteredMission.versions[0].id || null;
             }
             flag = true;
         }

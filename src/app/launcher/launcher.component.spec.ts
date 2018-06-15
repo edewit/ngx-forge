@@ -12,7 +12,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Broadcaster } from 'ngx-base';
 
 import { DependencyEditorModule,  URLProvider, DependencyEditorTokenProvider }
   from '../../../node_modules/fabric8-analytics-dependency-editor';
@@ -194,7 +193,6 @@ describe('LauncherComponent', () => {
         ProjectProgressImportappNextstepComponent
       ],
       providers: [
-        Broadcaster,
         TokenProvider,
         { provide: DependencyCheckService, useClass: DemoDependencyCheckService },
         { provide: HelperService, useValue: mockHelperService },

@@ -9,14 +9,13 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-import { Broadcaster } from 'ngx-base';
-import { get } from 'lodash';
 
 import { DependencyCheckService } from '../../service/dependency-check.service';
 import { GitProviderService } from '../../service/git-provider.service';
 import { Selection } from '../../model/selection.model';
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
+import { broadcast } from '../../shared/telemetry.decorator';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -33,8 +32,7 @@ export class GitproviderCreateappStepComponent extends LauncherStep implements A
 
   constructor(@Host() public launcherComponent: LauncherComponent,
               private dependencyCheckService: DependencyCheckService,
-              private gitProviderService: GitProviderService,
-              private broadcaster: Broadcaster) {
+              private gitProviderService: GitProviderService) {
     super();
   }
 
@@ -112,14 +110,16 @@ export class GitproviderCreateappStepComponent extends LauncherStep implements A
   /**
    * Navigate to next step
    */
+  @broadcast('completeGitProviderStep_Create', {
+    'launcherComponent.summary.gitHubDetails': {
+      location: 'organization',
+      username: 'login',
+      repository: 'repository'
+    }
+  })
   navToNextStep(): void {
     this.launcherComponent.navToNextStep();
     const summary = this.launcherComponent.summary;
-    this.broadcaster.broadcast('completeGitProviderStep_Create', {
-      location: get(summary, 'gitHubDetails.organization', null),
-      username: get(summary, 'gitHubDetails.login', null),
-      repository: get(summary, 'gitHubDetails.repository', null)
-    });
   }
 
   /**

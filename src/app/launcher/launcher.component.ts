@@ -9,7 +9,6 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Broadcaster } from 'ngx-base';
 
 import { Selection } from './model/selection.model';
 import { Summary } from './model/summary.model';
@@ -17,6 +16,7 @@ import { StepIndicatorComponent } from './step-indicator/step-indicator.componen
 import { LauncherStep } from './launcher-step';
 import { ProjectSummaryService } from './service/project-summary.service';
 import { DependencyCheckService } from './service/dependency-check.service';
+import { broadcast } from './shared/telemetry.decorator';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -262,9 +262,9 @@ export class LauncherComponent implements AfterViewInit, OnInit {
   /**
    * Setup has completed
    */
+  @broadcast('viewApplicationButtonClicked', {})
   completed() {
     this.onComplete.emit();
-    this.broadcaster.broadcast('viewApplicationButtonClicked');
   }
 
   /**

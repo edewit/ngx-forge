@@ -8,8 +8,7 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { DomSanitizer } from '@angular/platform-browser';
-import { defaults, get } from 'lodash';
-import { Broadcaster } from 'ngx-base';
+import { defaults } from 'lodash';
 
 import { Pipeline } from '../../model/pipeline.model';
 import { DependencyCheckService } from '../../service/dependency-check.service';
@@ -19,6 +18,7 @@ import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
 import { DependencyCheck } from '../../model/dependency-check.model';
 import { Summary } from '../../model/summary.model';
+import { broadcast } from '../../shared/telemetry.decorator';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -37,8 +37,7 @@ export class ProjectSummaryImportappStepComponent extends LauncherStep implement
   constructor(@Host() public launcherComponent: LauncherComponent,
               private dependencyCheckService: DependencyCheckService,
               private projectSummaryService: ProjectSummaryService,
-              public _DomSanitizer: DomSanitizer,
-              private broadcaster: Broadcaster) {
+              public _DomSanitizer: DomSanitizer) {
     super();
   }
 
@@ -110,6 +109,15 @@ export class ProjectSummaryImportappStepComponent extends LauncherStep implement
   /**
    * Set up this application
    */
+  @broadcast('completeSummaryStep_Import', {
+    'launcherComponent.summary': {
+      pipeline: 'pipeline.name',
+      application: 'dependencyCheck',
+      location: 'gitHubDetails.organization',
+      username: 'gitHubDetails.login',
+      repository: 'gitHubDetails.repository'
+    }
+  })
   setup(): void {
     this.subscriptions.push(
       this.projectSummaryService
@@ -126,16 +134,6 @@ export class ProjectSummaryImportappStepComponent extends LauncherStep implement
           console.log('error in setup: Import', error);
         })
     );
-    const summary = this.launcherComponent.summary;
-    this.broadcaster.broadcast('completeSummaryStep_Create', {
-      pipeline: get(summary, 'pipeline.name', null),
-      application: get(summary, 'dependencyCheck', null),
-      gitHubDetails: {
-        location: get(summary, 'gitHubDetails.organization', null),
-        username: get(summary, 'gitHubDetails.login', null),
-        repository: get(summary, 'gitHubDetails.repository', null)
-      }
-    });
   }
 
   /**

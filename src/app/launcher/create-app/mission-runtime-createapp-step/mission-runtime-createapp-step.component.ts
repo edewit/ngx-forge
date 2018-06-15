@@ -17,6 +17,7 @@ import {
   ViewMission,
   ViewRuntime
 } from './mission-runtime-createapp-step.model';
+import { broadcast } from '../../shared/telemetry.decorator';
 
 
 @Component({
@@ -118,13 +119,15 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
   /**
    * Navigate to next step
    */
+  @broadcast('completeMissionRuntimeStep', {
+    'launcherComponent.summary': {
+      mission: 'misson.name',
+      runtime: 'runtime.name'
+    }
+  })
   navToNextStep(): void {
     this.launcherComponent.navToNextStep();
     const summary = this.launcherComponent.summary;
-    this.broadcaster.broadcast('completeMissionRuntimeStep', {
-      mission: _.get(summary, 'mission.name', null),
-      runtime: _.get(summary, 'runtime.name', null)
-    });
   }
 
   /**

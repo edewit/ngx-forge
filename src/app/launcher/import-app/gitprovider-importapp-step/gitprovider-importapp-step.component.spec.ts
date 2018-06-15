@@ -7,7 +7,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Observable } from 'rxjs';
 import { InViewportModule, WindowRef } from '@thisissoon/angular-inviewport';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
-import { Broadcaster } from 'ngx-base';
 
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
@@ -109,7 +108,6 @@ describe('Import GitProviderStepComponent', () => {
         GitproviderImportappStepComponent
       ],
       providers: [
-        Broadcaster,
         {
           provide: DependencyCheckService, useValue: mockDependencyCheckService
         },

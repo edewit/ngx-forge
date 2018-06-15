@@ -5,7 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { Broadcaster } from 'ngx-base';
 import { DependencyEditorTokenProvider, URLProvider } from 'fabric8-analytics-dependency-editor';
 // App components
 import { AppComponent } from './app.component';
@@ -71,6 +71,7 @@ import {
     WelcomeComponent
   ],
   providers: [
+    Broadcaster,
     HelperService,
     { provide: DependencyCheckService, useClass: DemoDependencyCheckService},
     { provide: DependencyEditorService, useClass: DemoDependencyEditorService},

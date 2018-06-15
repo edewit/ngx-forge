@@ -16,7 +16,6 @@ import { InViewportModule, WindowRef } from '@thisissoon/angular-inviewport';
 import { FilterEvent } from 'patternfly-ng/filter';
 import { SortArrayPipeModule } from 'patternfly-ng/pipe';
 import { SortEvent } from 'patternfly-ng/sort';
-import { Broadcaster } from 'ngx-base';
 
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
@@ -132,7 +131,6 @@ describe('ReleaseStrategyStepComponent', () => {
         FakePfngToolbarComponent
       ],
       providers : [
-        Broadcaster,
         {
           provide: PipelineService, useValue: mockPipelineService
         },

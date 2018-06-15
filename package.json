@@ -71,6 +71,7 @@
     "angular-2-dropdown-multiselect": "^1.6.0",
     "fabric8-analytics-dependency-editor": "^0.0.25",
     "lodash": "^4.17.10",
+    "ngx-base": "^2.3.2",
     "ngx-bootstrap": "^2.0.5",
     "ngx-modal": "^0.0.29",
     "patternfly": "^3.30.1",

@@ -8,7 +8,6 @@ import { Observable } from 'rxjs';
 import { InViewportModule, WindowRef } from '@thisissoon/angular-inviewport';
 import { DependencyEditorModule,  URLProvider, DependencyEditorTokenProvider }
   from 'fabric8-analytics-dependency-editor';
-import { Broadcaster } from 'ngx-base';
 
 import { DependencyCheck } from '../../launcher.module';
 import { DependencyCheckService } from '../../service/dependency-check.service';
@@ -20,6 +19,7 @@ import { Summary } from '../../launcher.module';
 import { DemoDependencyEditorService } from '../../../../demo/service/demo-dependency-editor.service';
 import { HelperService } from '../../service/helper.service';
 import { TokenProvider } from '../../../../app/service/token-provider';
+import { broadcast } from '../../shared/telemetry.decorator';
 
 let mockHelperService = {
   getBackendUrl(): string {
@@ -106,8 +106,7 @@ describe('DependencyEditorCreateappStepComponent', () => {
         },
         {
           provide: WindowRef, useValue: window
-        },
-        Broadcaster
+        }
       ]
     }).compileComponents();
   }));
@@ -118,7 +117,7 @@ describe('DependencyEditorCreateappStepComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  fit('should create', () => {
     expect(component).toBeTruthy();
   });
 });

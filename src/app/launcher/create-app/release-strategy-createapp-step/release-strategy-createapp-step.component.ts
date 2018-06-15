@@ -6,14 +6,13 @@ import {
   OnInit,
   ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-import { get } from 'lodash';
-import { Broadcaster } from 'ngx-base';
 
 import { PipelineService } from '../../service/pipeline.service';
 import { Pipeline } from '../../model/pipeline.model';
 import { Selection } from '../../model/selection.model';
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
+import { broadcast } from '../../shared/telemetry.decorator';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -30,8 +29,7 @@ export class ReleaseStrategyCreateappStepComponent extends LauncherStep implemen
   private subscriptions: Subscription[] = [];
 
   constructor(@Host() public launcherComponent: LauncherComponent,
-              private pipelineService: PipelineService,
-              private broadcaster: Broadcaster) {
+              private pipelineService: PipelineService) {
     super();
   }
 
@@ -92,12 +90,13 @@ export class ReleaseStrategyCreateappStepComponent extends LauncherStep implemen
   }
 
   // Steps
-
+  @broadcast('completePipelineStep_Create', {
+    'launcherComponent.summary.pipeline': {
+      pipeline: 'name'
+    }
+  })
   navToNextStep(): void {
     this.launcherComponent.navToNextStep();
-    this.broadcaster.broadcast('completePipelineStep_Create', {
-      pipeline: get(this.launcherComponent.summary, 'pipeline.name', null)
-    });
   }
 
   updatePipelineSelection(pipeline: Pipeline): void {
