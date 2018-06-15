@@ -1,7 +1,7 @@
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
-import {TargetEnvironment, TargetEnvironmentService} from '../../app/launcher/launcher.module';
+import { TargetEnvironment, TargetEnvironmentService } from '../../app/launcher/launcher.module';
 
 const MockTargetEnvironmments = require('../../assets/mock/demo-target-environment.json');
 

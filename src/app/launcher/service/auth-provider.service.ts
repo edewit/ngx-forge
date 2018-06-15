@@ -1,12 +1,12 @@
-import { Injectable, OpaqueToken } from '@angular/core';
+import { Injectable, InjectionToken } from '@angular/core';
 
 @Injectable()
 export class AuthHelperService  {
 
-    AUTH_API_URL: OpaqueToken;
+    AUTH_API_URL: InjectionToken<String>;
     constructor() {}
 
-    getAuthApiURl(): OpaqueToken {
+    getAuthApiURl(): InjectionToken<String> {
         return this.AUTH_API_URL;
     }
 }

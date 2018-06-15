@@ -1,17 +1,15 @@
 // import './rxjs-extensions';
 
-import { NgModule, Provider } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { DependencyEditorTokenProvider, URLProvider } from 'fabric8-analytics-dependency-editor';
-
 // App components
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-
 // Main areas
 import { CreateAppComponent } from './create-app/create-app.component';
 import { GettingStartedLauncherComponent } from './getting-started-launcher/getting-started-launcher.component';

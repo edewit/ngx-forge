@@ -3,7 +3,6 @@ import { Observable } from 'rxjs';
 
 import { GitHubDetails } from '../../app/launcher/model/github-details.model';
 import { GitProviderService } from '../../app/launcher/launcher.module';
-import { AuthHelperService } from '../../app/launcher/service/auth-provider.service';
 
 const GitHubMock = require('../../assets/mock/demo-git-provider.json');
 

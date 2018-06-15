@@ -26,20 +26,7 @@ import { TokenService } from '../../service/token.service';
   encapsulation: ViewEncapsulation.None,
   selector: 'f8launcher-targetenvironment-createapp-step',
   templateUrl: './target-environment-createapp-step.component.html',
-  styleUrls: ['./target-environment-createapp-step.component.less'],
-  animations:
-  [
-    trigger('toggleAnimation', [
-      state('active', style({
-        display: 'inline'
-      })),
-      state('inactive', style({
-        opacity: '0',
-        display: 'none'
-      })),
-      transition('active <=> inactive', animate('500ms ease-in-out'))
-    ])
-  ]
+  styleUrls: ['./target-environment-createapp-step.component.less']
 })
 export class TargetEnvironmentCreateappStepComponent extends LauncherStep implements OnDestroy {
   @Input() id: string;

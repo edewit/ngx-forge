@@ -1,8 +1,8 @@
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
-import {TokenService} from '../../app/launcher/service/token.service';
-import {Cluster} from '../../app/launcher/model/cluster.model';
+import { TokenService } from '../../app/launcher/service/token.service';
+import { Cluster } from '../../app/launcher/model/cluster.model';
 
 const MockClusters = require('../../assets/mock/demo-token.json');
 @Injectable()
