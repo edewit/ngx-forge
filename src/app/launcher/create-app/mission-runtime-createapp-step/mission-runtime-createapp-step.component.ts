@@ -190,9 +190,9 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
       if (this.missionId === mission.id && availableBoosters.empty) {
         this.clearMission();
       }
-      mission.community = this.launcherComponent.flow === 'osio' && this.versionId === 'community';
       mission.disabled = availableBoosters.empty;
       mission.disabledReason = availableBoosters.emptyReason;
+      mission.community = this.launcherComponent.flow === 'osio' && !mission.disabled && this.versionId === 'community';
     });
     this._runtimes.forEach(runtime => {
       const availableBoosters = MissionRuntimeService.getAvailableBoosters(runtime.boosters,
