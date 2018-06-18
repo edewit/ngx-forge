@@ -150,6 +150,25 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
       }
     }
     this.updateBoosterViewStatus();
+
+    // update community for mission based on selected runtime
+    if (this.launcherComponent.summary && this.launcherComponent.summary.runtime.version) {
+      this.updateCommunityForSelectedRuntime();
+    }
+  }
+
+  /**
+   * update community for mission based on selected runtime
+   *
+   */
+  updateCommunityForSelectedRuntime() {
+    if (this.launcherComponent.summary.runtime.version.id === 'community') {
+      this.missions.forEach(m => {
+        if (m.disabled === false) {
+          m.community = true;
+        }
+      });
+    }
   }
 
   // Private
@@ -192,6 +211,8 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
       }
       mission.disabled = availableBoosters.empty;
       mission.disabledReason = availableBoosters.emptyReason;
+      // Set community to be default false
+      mission.community = false;
     });
     this._runtimes.forEach(runtime => {
       const availableBoosters = MissionRuntimeService.getAvailableBoosters(runtime.boosters,
