@@ -1,8 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { By } from '@angular/platform-browser';
-import { DomSanitizer } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Observable } from 'rxjs';
 import { InViewportModule, WindowRef } from '@thisissoon/angular-inviewport';
@@ -15,11 +13,9 @@ import { DependencyEditorService } from '../../service/dependency-editor.service
 import { DependencyEditorCreateappStepComponent } from './dependency-editor-step.component';
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
-import { Summary } from '../../launcher.module';
 import { DemoDependencyEditorService } from '../../../../demo/service/demo-dependency-editor.service';
 import { HelperService } from '../../service/helper.service';
 import { TokenProvider } from '../../../../app/service/token-provider';
-import { broadcast } from '../../shared/telemetry.decorator';
 
 let mockHelperService = {
   getBackendUrl(): string {
@@ -117,7 +113,7 @@ describe('DependencyEditorCreateappStepComponent', () => {
     fixture.detectChanges();
   });
 
-  fit('should create', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 });

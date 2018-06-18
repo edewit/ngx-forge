@@ -20,6 +20,10 @@ import { LinkAccountsCreateappStepComponent }
 import { MissionRuntimeService } from '../../service/mission-runtime.service';
 import { Catalog } from '../../model/catalog.model';
 
+export class BroadcasterTestProvider {
+  static broadcaster = new Broadcaster();
+}
+
 let mockTargetEnvironmentService = {
   getTargetEnvironments(): Observable<TargetEnvironment[]> {
     let targetEnvironments = Observable.of( [{
@@ -116,7 +120,7 @@ describe('TargetEnvironmentStepComponent', () => {
         {
           provide: LauncherComponent, useValue: mockWizardComponent
         },
-        Broadcaster,
+        { provide: Broadcaster, useValue: BroadcasterTestProvider.broadcaster },
         {
           provide: WindowRef, useValue: window
         },

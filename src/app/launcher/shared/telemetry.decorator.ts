@@ -1,7 +1,6 @@
 import * as _ from 'lodash';
 import { Broadcaster } from 'ngx-base';
-import { Summary } from '../model/summary.model';
-import { LauncherModule } from '../launcher.module';
+import { Injector, Optional } from '@angular/core';
 
 export function broadcast(event: string, properties: any): MethodDecorator {
     return function (target: Function, methodName: string, descriptor: any) {
@@ -10,7 +9,10 @@ export function broadcast(event: string, properties: any): MethodDecorator {
 
         descriptor.value = function (...args: any[]) {
 
-            const broadcast: Broadcaster = LauncherModule.injector.get(Broadcaster);
+            const broadcast: Broadcaster = StaticBroadcast.broadcaster;
+            if (!broadcast) {
+              return originalMethod.apply(this, args);
+            }
 
             const mapKeys = (props: any, base?: string): any => {
                 Object.keys(props).forEach(key => {
@@ -21,6 +23,7 @@ export function broadcast(event: string, properties: any): MethodDecorator {
                     }
                 });
             };
+
             let props = _.cloneDeep(properties);
             mapKeys(props);
             broadcast.broadcast(event, props);
@@ -29,4 +32,11 @@ export function broadcast(event: string, properties: any): MethodDecorator {
 
         return descriptor;
     };
+}
+
+export class StaticBroadcast {
+  static broadcaster: Broadcaster = null;
+  constructor(@Optional() broadcaster: Broadcaster) {
+    StaticBroadcast.broadcaster = broadcaster;
+  }
 }
