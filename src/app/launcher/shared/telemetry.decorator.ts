@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import { Broadcaster } from 'ngx-base';
-import { Injector, Optional } from '@angular/core';
+import { LauncherModule } from '../launcher.module';
 
 export function broadcast(event: string, properties: any): MethodDecorator {
     return function (target: Function, methodName: string, descriptor: any) {
@@ -8,8 +8,7 @@ export function broadcast(event: string, properties: any): MethodDecorator {
         const originalMethod = descriptor.value;
 
         descriptor.value = function (...args: any[]) {
-
-            const broadcast: Broadcaster = StaticBroadcast.broadcaster;
+            const broadcast: Broadcaster = LauncherModule.injector.get(Broadcaster);
             if (!broadcast) {
               return originalMethod.apply(this, args);
             }
@@ -26,17 +25,10 @@ export function broadcast(event: string, properties: any): MethodDecorator {
 
             let props = _.cloneDeep(properties);
             mapKeys(props);
-            broadcast.broadcast(event, props);
+            broadcast.broadcast(event, properties);
             return originalMethod.apply(this, args);
         };
 
         return descriptor;
     };
-}
-
-export class StaticBroadcast {
-  static broadcaster: Broadcaster = null;
-  constructor(@Optional() broadcaster: Broadcaster) {
-    StaticBroadcast.broadcaster = broadcaster;
-  }
 }
