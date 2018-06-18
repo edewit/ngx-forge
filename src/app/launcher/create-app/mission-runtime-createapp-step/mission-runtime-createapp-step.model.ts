@@ -55,7 +55,7 @@ export function createViewMissions(boosters: Booster[]): ViewMission[] {
       id: mission.id,
       name: mission.name,
       description: mission.description,
-      community: false, // FIXME implement this behavior if still needed
+      community: false,
       advanced: _.get(mission, 'metadata.level') === 'advanced',
       suggested: _.get(mission, 'metadata.suggested', false),
       prerequisite: _.get(mission, 'metadata.prerequisite', false),
