@@ -9,7 +9,6 @@ import { Observable } from 'rxjs';
 import { InViewportModule, WindowRef } from '@thisissoon/angular-inviewport';
 
 import { PopoverModule } from 'ngx-bootstrap';
-import { PipeModule } from 'patternfly-ng/pipe';
 
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
@@ -106,7 +105,6 @@ describe('GitProviderStepComponent', () => {
         CommonModule,
         FormsModule,
         InViewportModule,
-        PipeModule,
         PopoverModule.forRoot(),
         RouterTestingModule
       ],

@@ -6,7 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { InViewportModule, WindowRef } from '@thisissoon/angular-inviewport';
 
 import { PopoverModule } from 'ngx-bootstrap';
-import { PipeModule } from 'patternfly-ng/pipe';
+import { SortArrayPipeModule, TruncatePipeModule } from 'patternfly-ng/pipe';
 
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
@@ -62,9 +62,10 @@ describe('MissionRuntimeStepComponent', () => {
         CommonModule,
         FormsModule,
         InViewportModule,
-        PipeModule,
         PopoverModule.forRoot(),
-        RouterTestingModule
+        RouterTestingModule,
+        SortArrayPipeModule,
+        TruncatePipeModule
       ],
       declarations: [
         MissionRuntimeCreateappStepComponent

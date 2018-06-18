@@ -12,7 +12,7 @@ import { BsDropdownConfig, BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 
-import { PipeModule } from 'patternfly-ng/pipe';
+import { SortArrayPipeModule, TruncatePipeModule } from 'patternfly-ng/pipe';
 import { ToolbarModule } from 'patternfly-ng/toolbar';
 // Note: This has to be imported first
 import { StepIndicatorComponent } from './step-indicator/step-indicator.component';
@@ -54,9 +54,10 @@ export const providers: Provider[] = [
     FormsModule,
     ModalModule,
     InViewportModule.forRoot(providers),
-    PipeModule,
     PopoverModule.forRoot(),
+    SortArrayPipeModule,
     ToolbarModule,
+    TruncatePipeModule,
     TypeaheadModule.forRoot()
   ],
   exports: [
