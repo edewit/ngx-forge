@@ -1,6 +1,17 @@
 import * as _ from 'lodash';
 import { Broadcaster } from 'ngx-base';
-import { LauncherModule } from '../launcher.module';
+import { Injector } from '@angular/core';
+
+export class StaticInjector {
+    private static injector: Injector = null;
+    static setInjector(injector: Injector) {
+        StaticInjector.injector = injector;
+    }
+
+    static getInjector(): Injector {
+        return StaticInjector.injector;
+    }
+}
 
 export function broadcast(event: string, properties: any): MethodDecorator {
     return function (target: Function, methodName: string, descriptor: any) {
@@ -8,9 +19,9 @@ export function broadcast(event: string, properties: any): MethodDecorator {
         const originalMethod = descriptor.value;
 
         descriptor.value = function (...args: any[]) {
-            const broadcast: Broadcaster = LauncherModule.injector.get(Broadcaster);
+            const broadcast: Broadcaster = StaticInjector.getInjector().get(Broadcaster);
             if (!broadcast) {
-              return originalMethod.apply(this, args);
+                return originalMethod.apply(this, args);
             }
 
             const mapKeys = (props: any, base?: string): any => {
