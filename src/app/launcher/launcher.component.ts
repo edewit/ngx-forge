@@ -70,8 +70,7 @@ export class LauncherComponent implements AfterViewInit, OnInit {
   constructor(private route: ActivatedRoute,
     private router: Router,
     private dependencyCheckService: DependencyCheckService,
-    private projectSummaryService: ProjectSummaryService,
-    private broadcaster: Broadcaster) {
+    private projectSummaryService: ProjectSummaryService) {
   }
 
   ngAfterViewInit() {
