@@ -122,6 +122,29 @@
                   </div>
                 </div>
               </div>
+              <!-- Blank Mission -->
+              <div class="list-group list-view-pf">
+                <div class="list-group-item list-view-pf-stacked list-view-pf-top-align"
+                     [ngClass]="{'selected-list-item': missionId === 'blank'}">
+                  <div class="list-view-pf-checkbox">
+                    <input type="radio" name="mission"
+                           [(ngModel)]="missionId"
+                           [value]="'blank'"
+                           (ngModelChange)="handleBlankMissionClick()">
+                  </div>
+                  <div class="list-view-pf-main-info"
+                       (click)="handleBlankMissionClick()">
+                    <div class="list-view-pf-body f8launcher-section-mission">
+                      <div class="list-view-pf-description">
+                        <div class="list-group-item-heading">
+                          Blank Mission
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Blank Mission -->
             </div>
           </div>
         </div>
