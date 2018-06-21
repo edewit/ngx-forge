@@ -81,12 +81,9 @@ export class ProjectProgressCreateappNextstepComponent implements OnChanges, OnD
   }
 
   ngOnDestroy() {
-    this.closeConnections();
-  }
-
-  completed() {
-    this.socket.close();
-    this.launcherComponent.completed();
+    if (this.socket) {
+      this.socket.close();
+    }
   }
 
   private get lastCompleted(): number {
@@ -98,6 +95,7 @@ export class ProjectProgressCreateappNextstepComponent implements OnChanges, OnD
     this.projectSummaryService.setup(
       this.launcherComponent.summary, failedStep).subscribe(result => {
         this._progress = null;
+        this.errorMessage = null;
         this.ngOnChanges({'statusLink': new SimpleChange('', result.uuid_link, false)});
       });
   }
@@ -118,20 +116,11 @@ export class ProjectProgressCreateappNextstepComponent implements OnChanges, OnD
         return status;
       }
     }
-    return null;
+    return {} as Progress;
   }
 
   get progress(): Progress[] {
     return this._progress;
   }
 
-  private closeConnections() {
-    if (this.socket) {
-      this.socket.close();
-    }
-  }
-
-  private reset() {
-    this.errorMessage = undefined;
-  }
 }
