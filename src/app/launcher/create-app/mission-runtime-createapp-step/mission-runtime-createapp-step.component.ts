@@ -121,7 +121,7 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
    */
   @broadcast('completeMissionRuntimeStep', {
     'launcherComponent.summary': {
-      mission: 'misson.name',
+      mission: 'mission.name',
       runtime: 'runtime.name'
     }
   })
