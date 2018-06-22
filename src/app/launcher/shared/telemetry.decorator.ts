@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 import { Broadcaster } from 'ngx-base';
 import { Injector } from '@angular/core';
+import { PropertiesGetter } from './properties';
 
 export class StaticInjector {
     private static injector: Injector = null;
@@ -20,28 +21,14 @@ export function broadcast(event: string, properties: any): MethodDecorator {
 
         descriptor.value = function (...args: any[]) {
             const injectorInstance = StaticInjector.getInjector();
-            if (!injectorInstance) {
+            if (!injectorInstance && !injectorInstance.get(Broadcaster)) {
                 return originalMethod.apply(this, args);
             }
 
             const broadcast: Broadcaster = injectorInstance.get(Broadcaster);
-            if (!broadcast) {
-                return originalMethod.apply(this, args);
-            }
+            const values = new PropertiesGetter(this).mapKeys(_.cloneDeep(properties));
 
-            const mapKeys = (props: any, base?: string): any => {
-                Object.keys(props).forEach(key => {
-                    if (typeof properties[key] === 'object') {
-                        mapKeys(properties[key], key);
-                    } else {
-                        properties[key] = _.get(this, (base || '') + '.' + properties[base][key]);
-                    }
-                });
-            };
-
-            let props = _.cloneDeep(properties);
-            mapKeys(props);
-            broadcast.broadcast(event, properties);
+            broadcast.broadcast(event, values);
             return originalMethod.apply(this, args);
         };
 
