@@ -12,7 +12,6 @@ import { BsDropdownConfig, BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 
-import { SortArrayPipeModule, TruncatePipeModule } from 'patternfly-ng/pipe';
 import { ToolbarModule } from 'patternfly-ng/toolbar';
 // Note: This has to be imported first
 import { StepIndicatorComponent } from './step-indicator/step-indicator.component';
@@ -46,6 +45,9 @@ import { ProjectSummaryImportappStepComponent }
 import { ReleaseStrategyImportappStepComponent }
   from './import-app/release-strategy-importapp-step/release-strategy-importapp-step.component';
 import { ToastNotificationComponent } from './toast-notification/toast-notification.component';
+
+import { SortArrayPipeModule } from './shared/pipe/sort-array/sort-array.pipe.module';
+import { TruncatePipeModule } from './shared/pipe/truncate/truncate.pipe.module';
 
 import { InViewportModule, WindowRef } from '@thisissoon/angular-inviewport';
 import { MissionRuntimeService } from './service/mission-runtime.service';
