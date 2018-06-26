@@ -4,7 +4,8 @@
          [(ngModel)]="launcherComponent.summary.dependencyCheck.projectName"
          [value]="launcherComponent.summary.dependencyCheck.projectName | lowercase"
          (keyup.enter)="$event.target.blur();"
-         (keyup)="validateProjectName()">
+         (keyup)="validateProjectName()"
+         (click)="broadcastEvent()">
 </div>
 <div [ngClass]="{'has-error': launcherComponent.isProjectNameValid === false}" *ngIf="launcherComponent.isProjectNameValid === false">
   <span class="help-block f8launcher-vertical-bar_application-name-help-text">
