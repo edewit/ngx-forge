@@ -26,8 +26,13 @@ export function broadcast(event: string, properties: any): MethodDecorator {
             }
 
             const broadcast: Broadcaster = injectorInstance.get(Broadcaster);
-            const values = new PropertiesGetter(this).mapKeys(_.cloneDeep(properties));
+            let values = new PropertiesGetter(this).mapKeys(_.cloneDeep(properties));
 
+            if (event === 'stepIndicatorClicked') {
+                values = {
+                    step: args[0] ? args[0] : ''
+                };
+            }
             broadcast.broadcast(event, values);
             return originalMethod.apply(this, args);
         };
