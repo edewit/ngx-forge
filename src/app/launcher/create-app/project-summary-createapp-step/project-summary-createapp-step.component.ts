@@ -109,14 +109,14 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
    */
   @broadcast('completeSummaryStep_Create', {
     'launcherComponent.summary': {
-      mission: 'misson.name',
-      runtime: 'runtime.name',
-      dependencySnapshot: 'dependencyEditor.dependencySnapshot',
-      pipeline: 'pipeline.name',
-      application: 'dependencyCheck',
       location: 'gitHubDetails.organization',
-      username: 'gitHubDetails.login',
-      repository: 'gitHubDetails.repository'
+      mission: 'mission.name',
+      pipeline: 'pipeline.name',
+      projectName: 'dependencyCheck.projectName',
+      repository: 'gitHubDetails.repository',
+      runtime: 'runtime.name',
+      spacePath: 'dependencyCheck.spacePath',
+      username: 'gitHubDetails.login'
     }
   })
   setup(): void {

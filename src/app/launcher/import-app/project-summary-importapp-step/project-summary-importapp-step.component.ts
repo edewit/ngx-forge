@@ -111,11 +111,12 @@ export class ProjectSummaryImportappStepComponent extends LauncherStep implement
    */
   @broadcast('completeSummaryStep_Import', {
     'launcherComponent.summary': {
-      pipeline: 'pipeline.name',
-      application: 'dependencyCheck',
       location: 'gitHubDetails.organization',
-      username: 'gitHubDetails.login',
-      repository: 'gitHubDetails.repository'
+      pipeline: 'pipeline.name',
+      projectName: 'dependencyCheck.projectName',
+      repository: 'gitHubDetails.repository',
+      spacePath: 'dependencyCheck.spacePath',
+      username: 'gitHubDetails.login'
     }
   })
   setup(): void {

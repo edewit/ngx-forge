@@ -113,8 +113,8 @@ export class GitproviderCreateappStepComponent extends LauncherStep implements A
   @broadcast('completeGitProviderStep_Create', {
     'launcherComponent.summary.gitHubDetails': {
       location: 'organization',
-      username: 'login',
-      repository: 'repository'
+      repository: 'repository',
+      username: 'login'
     }
   })
   navToNextStep(): void {

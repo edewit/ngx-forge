@@ -18,13 +18,13 @@ describe('should fatten object and fill properties', () => {
     this.propertiesGetter = new PropertiesGetter({ super: { man: 'clark' } });
 
     expect(this.propertiesGetter.mapKeys({ 'super': { 'firstname': 'man' } }))
-      .toEqual({ 'super': { 'firstname': 'clark' } });
+      .toEqual({ 'firstname': 'clark' });
   });
 
   it('should work for nested properties not found', () => {
     this.propertiesGetter = new PropertiesGetter({ super: { man: 'clark' } });
 
-    expect(this.propertiesGetter.mapKeys({ 'super': { 'lives': 'not' } })).toEqual({ 'super': { 'lives': undefined } });
+    expect(this.propertiesGetter.mapKeys({ 'super': { 'lives': 'not' } })).toEqual({ 'lives': undefined });
   });
 
   it('should work for nested complex', () => {
@@ -37,7 +37,7 @@ describe('should fatten object and fill properties', () => {
     });
 
     expect(this.propertiesGetter.mapKeys({ 'avengers.hawk': { 'never misses': 'eye' } }))
-      .toEqual({ 'avengers.hawk': { 'never misses': 'clint barton' } });
+      .toEqual({ 'never misses': 'clint barton' });
   });
 
 });
