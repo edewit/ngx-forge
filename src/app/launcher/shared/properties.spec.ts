@@ -36,7 +36,7 @@ describe('should fatten object and fill properties', () => {
       }
     });
 
-    expect(this.propertiesGetter.mapKeys({ 'avengers.hawk': { 'never misses': 'eye' } }))
+    expect(this.propertiesGetter.mapKeys({ 'avengers': { 'hawk': { 'never misses': 'eye' } } }))
       .toEqual({ 'never misses': 'clint barton' });
   });
 
