@@ -82,6 +82,9 @@ export class StepIndicatorComponent implements OnInit {
     this.launcherComponent.validateProjectName();
   }
 
+  @broadcast('stepIndicatorProjectInputClicked', {})
+  broadcastEvent(): void { }
+
   // Private
 
   // Restore mission & runtime summary
