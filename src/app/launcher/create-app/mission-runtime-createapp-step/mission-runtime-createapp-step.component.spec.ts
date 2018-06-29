@@ -15,8 +15,39 @@ import { MissionRuntimeCreateappStepComponent } from './mission-runtime-createap
 import { MissionRuntimeService } from '../../service/mission-runtime.service';
 import { Mission } from '../../model/mission.model';
 import { Runtime } from '../../model/runtime.model';
-import { TestMissionRuntimeService } from '../../service/mission-runtime.service.spec';
+import {
+  createBooster,
+  createMission,
+  createRuntime
+} from '../../service/mission-runtime.service.spec';
 import { BroadcasterTestProvider } from '../targetenvironment-createapp-step/target-environment-createapp-step.component.spec';
+import { Observable } from 'rxjs/Observable';
+import { Catalog } from '../../model/catalog.model';
+
+class TestMissionRuntimeService extends MissionRuntimeService {
+
+  public catalog: Catalog = {
+    missions: [
+      createMission('crud'),
+      createMission('healthcheck')
+    ],
+    runtimes: [
+      createRuntime('vert.x', ['community', 'redhat']),
+      createRuntime('nodejs', ['community', 'redhat'])
+    ],
+    boosters: [
+      createBooster('crud', 'vert.x', 'community'),
+      createBooster('crud', 'vert.x', 'redhat'),
+      createBooster('crud', 'nodejs', 'redhat'),
+      createBooster('healthcheck', 'vert.x', 'community')
+    ]
+  };
+
+  getCatalog(): Observable<Catalog> {
+    return Observable.of(this.catalog);
+  }
+}
+
 
 export interface TypeWizardComponent {
   selectedSection: string;

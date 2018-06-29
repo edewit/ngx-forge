@@ -35,7 +35,7 @@ export const createBooster = (mission: string, runtime: string, version: string)
 });
 
 
-export class TestMissionRuntimeService extends MissionRuntimeService {
+class TestMissionRuntimeService extends MissionRuntimeService {
 
   public catalog: Catalog = {
     missions: [
