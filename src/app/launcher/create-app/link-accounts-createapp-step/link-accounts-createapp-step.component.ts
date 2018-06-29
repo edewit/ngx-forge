@@ -11,20 +11,27 @@ import { Observable } from 'rxjs';
 })
 export class LinkAccountsCreateappStepComponent {
   @Output() select = new EventEmitter(true);
-  @Input() clusters: Cluster[] = [];
+
+  private _clusters: Cluster[] = [];
   private clusterId: string;
 
 
   constructor(@Optional() private tokenService: TokenService, private changeDetector: ChangeDetectorRef) {
   }
 
-  ngAfterViewInit() {
-    this.autoSetCluster();
-  }
-
   selectCluster(cluster: Cluster): void {
     this.clusterId = cluster.id;
     this.select.emit(cluster);
+  }
+
+  get clusters(): Cluster[] {
+    return this._clusters;
+  }
+
+  @Input()
+  set clusters(clusters: Cluster[]) {
+    this._clusters = clusters;
+    this.autoSetCluster();
   }
 
   private autoSetCluster(): void {

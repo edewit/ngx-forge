@@ -9,7 +9,8 @@ const MockClusters = require('../../assets/mock/demo-token.json');
 export class DemoTokenService implements TokenService {
 
   get clusters(): Observable<Cluster[]> {
-    return Observable.of(MockClusters);
+    return Observable.of(MockClusters)
+      .delay(2000);
   }
 
   createOathLink(cluster: string): string {
