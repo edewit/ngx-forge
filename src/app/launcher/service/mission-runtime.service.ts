@@ -96,8 +96,15 @@ export abstract class MissionRuntimeService {
       .map(c => MissionRuntimeService.createBoosters(c));
   }
 
-  getDefaultVersion(runtimeId: string, versions: BoosterVersion[]): BoosterVersion {
-    return versions[0];
+  getDefaultVersion(runtimeId: string, versions: BoosterVersion[], boosters: Booster[]): BoosterVersion {
+    const versionIdWithTheMostOccurrence: string = _.chain(boosters)
+      .countBy(b => b.version.id)
+      .toPairs()
+      .sortBy<[string, number]>(1)
+      .map(p => p[0])
+      .last()
+      .value();
+    return versions.find(v => v.id === versionIdWithTheMostOccurrence);
   }
 
   abstract getCatalog(): Observable<Catalog>;

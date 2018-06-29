@@ -1,6 +1,7 @@
 import { EmptyReason, MissionRuntimeService } from './mission-runtime.service';
 import { Observable } from 'rxjs/Observable';
 import { Catalog, CatalogMission, CatalogRuntime } from '../model/catalog.model';
+import { BoosterVersion } from '../model/booster.model';
 
 
 export const createMission = (name: string) => ({
@@ -39,7 +40,8 @@ export class TestMissionRuntimeService extends MissionRuntimeService {
   public catalog: Catalog = {
     missions: [
       createMission('crud'),
-      createMission('healthcheck')
+      createMission('healthcheck'),
+      createMission('rest')
     ],
     runtimes: [
       createRuntime('vert.x', ['community', 'redhat']),
@@ -49,7 +51,8 @@ export class TestMissionRuntimeService extends MissionRuntimeService {
       createBooster('crud', 'vert.x', 'community'),
       createBooster('crud', 'vert.x', 'redhat'),
       createBooster('crud', 'nodejs', 'redhat'),
-      createBooster('healthcheck', 'vert.x', 'community')
+      createBooster('healthcheck', 'vert.x', 'community'),
+      createBooster('rest', 'vert.x', 'community')
     ]
   };
 
@@ -72,7 +75,7 @@ describe('MissionRuntimeService', () => {
   it('should create boosters correctly', () => {
     service.getBoosters().subscribe((boosters) => {
       expect(boosters).toBeTruthy();
-      expect(boosters.length).toBe(4);
+      expect(boosters.length).toBe(5);
       expect(boosters[0].runtime).toBe(service.catalog.runtimes[0]);
       expect(boosters[0].mission).toBe(service.catalog.missions[0]);
       expect(boosters[0].version).toBe(service.catalog.runtimes[0].versions[0]);
@@ -153,4 +156,18 @@ describe('MissionRuntimeService', () => {
       expect(crudStarterBooster.emptyReason).toBe(EmptyReason.CLUSTER_INCOMPATIBILITY);
     });
   });
+
+  it('should return the most compatible version',
+    () => {
+      service.getBoosters().subscribe((boosters) => {
+        const communityVersion: BoosterVersion = { id: 'community', name: 'community name' };
+        const redhatVersion: BoosterVersion = { id: 'redhat', name: 'redhat name' };
+        const version = service.getDefaultVersion(
+          'vert.x',
+          [communityVersion, redhatVersion],
+          boosters.filter((b) => b.runtime.id === 'vert.x')
+        );
+        expect(version).toBe(communityVersion);
+      });
+    });
 });

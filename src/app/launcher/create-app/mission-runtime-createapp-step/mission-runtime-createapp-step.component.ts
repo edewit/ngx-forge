@@ -212,12 +212,12 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
       runtime.disabled = availableBoosters.empty;
       runtime.disabledReason = availableBoosters.emptyReason;
       runtime.versions = versions;
-      runtime.selectedVersion = this.getRuntimeSelectedVersion(runtime.id, versions);
+      runtime.selectedVersion = this.getRuntimeSelectedVersion(runtime.id, versions, availableBoosters.boosters);
     });
     this.initCompleted();
   }
 
-  private getRuntimeSelectedVersion(runtimeId: string, versions: BoosterVersion[]): BoosterVersion {
+  private getRuntimeSelectedVersion(runtimeId: string, versions: BoosterVersion[], boosters: Booster[]): BoosterVersion {
     if (this.runtimeId === runtimeId && this.versionId) {
       const selectedVersion = versions.find(v => v.id === this.versionId);
       if (selectedVersion) {
@@ -226,7 +226,7 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
       // Reset selected runtime and version since it is not available
       this.clearRuntime();
     }
-    return this.missionRuntimeService.getDefaultVersion(runtimeId, versions);
+    return this.missionRuntimeService.getDefaultVersion(runtimeId, versions, boosters);
   }
 
   private clearRuntime(): void {
