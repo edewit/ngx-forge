@@ -45,6 +45,21 @@ export abstract class MissionRuntimeService {
     return { empty: false, boosters: boostersRunningOnCluster };
   }
 
+  static compareVersions(a: BoosterVersion, b: BoosterVersion): number {
+    const aSuggested: boolean = _.get(a, 'metadata.suggested', false);
+    const bSuggested: boolean = _.get(b, 'metadata.suggested', false);
+    if (aSuggested !== bSuggested) {
+      return aSuggested ? -1 : 1;
+    }
+    // TODO remove this 'community' hook mainteners should use suggested field
+    const aCommunity = a.id.indexOf('community') >= 0;
+    const bCommunity = b.id.indexOf('community') >= 0;
+    if (aCommunity !== bCommunity) {
+      return aCommunity ? -1 : 1;
+    }
+    return -1 * a.id.localeCompare(b.id);
+  }
+
   private static checkRunsOnCluster(booster: Booster, cluster: string) {
     let defaultResult = true;
     let runsOn = _.get(booster, 'metadata.app.launcher.runsOn');
@@ -89,23 +104,13 @@ export abstract class MissionRuntimeService {
         source: b.source,
         version: runtime.versions.find(v => v.id === b.version)
       };
-    });
+    })
   }
 
   getBoosters(): Observable<Booster[]> {
     return this.getCatalog()
-      .map(c => MissionRuntimeService.createBoosters(c));
-  }
-
-  getDefaultVersion(runtimeId: string, versions: BoosterVersion[], boosters: Booster[]): BoosterVersion {
-    const versionIdWithTheMostOccurrence: string = _.chain(boosters)
-      .countBy(b => b.version.id)
-      .toPairs()
-      .sortBy<[string, number]>(1)
-      .map(p => p[0])
-      .last()
-      .value();
-    return versions.find(v => v.id === versionIdWithTheMostOccurrence);
+      .map(c => MissionRuntimeService.createBoosters(c))
+      ;
   }
 
   abstract getCatalog(): Observable<Catalog>;

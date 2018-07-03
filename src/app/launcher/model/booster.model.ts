@@ -1,6 +1,7 @@
 export class BoosterVersion {
   id: string;
   name: string;
+  metadata?: any;
 }
 
 export class BoosterRuntime {

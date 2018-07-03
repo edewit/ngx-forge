@@ -1,10 +1,9 @@
 import { EmptyReason, MissionRuntimeService } from './mission-runtime.service';
 import { Observable } from 'rxjs/Observable';
-import { Catalog, CatalogMission, CatalogRuntime } from '../model/catalog.model';
+import { Catalog, CatalogBooster, CatalogMission, CatalogRuntime, CatalogRuntimeVersion } from '../model/catalog.model';
 import { BoosterVersion } from '../model/booster.model';
 
-
-export const createMission = (name: string) => ({
+export const createMission = (name: string): CatalogMission => ({
   id: name,
   name: name,
   description : `${name} sample desc`,
@@ -12,9 +11,15 @@ export const createMission = (name: string) => ({
     suggested: true,
     prerequisite: 'prerequisite text'
   }
-} as CatalogMission);
+});
 
-export const createRuntime = (name: string, versions: string[]) => ({
+export const createVersion = (id: string, suggested: boolean = false): BoosterVersion => ({
+  id: id,
+  name: `${id} name`,
+  metadata: { suggested }
+});
+
+export const createRuntime = (name: string, versions: string[]): CatalogRuntime => ({
   id: name,
   name: name,
   description : `${name} sample desc`,
@@ -23,10 +28,10 @@ export const createRuntime = (name: string, versions: string[]) => ({
     suggested: true,
     prerequisite: 'prerequisite text'
   },
-  versions: versions.map(v => ({ id: v, name: `${v} name` }))
-} as CatalogRuntime);
+  versions: versions.map(createVersion) as CatalogRuntimeVersion[]
+});
 
-export const createBooster = (mission: string, runtime: string, version: string) => ({
+export const createBooster = (mission: string, runtime: string, version: string): CatalogBooster => ({
   mission: mission,
   runtime: runtime,
   version: version,
@@ -157,17 +162,31 @@ describe('MissionRuntimeService', () => {
     });
   });
 
-  it('should return the most compatible version',
+  it('should sort versions as expected',
     () => {
-      service.getBoosters().subscribe((boosters) => {
-        const communityVersion: BoosterVersion = { id: 'community', name: 'community name' };
-        const redhatVersion: BoosterVersion = { id: 'redhat', name: 'redhat name' };
-        const version = service.getDefaultVersion(
-          'vert.x',
-          [communityVersion, redhatVersion],
-          boosters.filter((b) => b.runtime.id === 'vert.x')
-        );
-        expect(version).toBe(communityVersion);
-      });
+      const versions: BoosterVersion[] = [
+        createVersion('v01-community', false),
+        createVersion('v00-community', true),
+        createVersion('v01-redhat', false),
+        createVersion('v02-redhat', false),
+        createVersion('v02-community', false),
+        createVersion('v03-community', false),
+        createVersion('v03-redhat', true),
+        createVersion('v05-community', true)
+      ];
+      const sorted = versions.sort(MissionRuntimeService.compareVersions);
+      const expected: BoosterVersion[] = [
+        createVersion('v05-community', true),
+        createVersion('v00-community', true),
+        createVersion('v03-redhat', true),
+        createVersion('v03-community', false),
+        createVersion('v02-community', false),
+        createVersion('v01-community', false),
+        createVersion('v02-redhat', false),
+        createVersion('v01-redhat', false)
+      ];
+      for (let i = 0; i < versions.length; i++) {
+        expect(sorted[i]).toEqual(expected[i]);
+      }
     });
 });

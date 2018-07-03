@@ -211,19 +211,23 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
     this._runtimes.forEach(runtime => {
       const availableBoosters = MissionRuntimeService.getAvailableBoosters(runtime.boosters,
         this._cluster, this.missionId, runtime.id);
-      const versions = _.uniq(availableBoosters.boosters.map(b => b.version));
+      const versions = _.chain(availableBoosters.boosters)
+        .map(b => b.version)
+        .uniq()
+        .value()
+        .sort(MissionRuntimeService.compareVersions);
       if (this.runtimeId === runtime.id && availableBoosters.empty) {
         this.clearRuntime();
       }
       runtime.disabled = availableBoosters.empty;
       runtime.disabledReason = availableBoosters.emptyReason;
       runtime.versions = versions;
-      runtime.selectedVersion = this.getRuntimeSelectedVersion(runtime.id, versions, availableBoosters.boosters);
+      runtime.selectedVersion = this.getRuntimeSelectedVersion(runtime.id, versions);
     });
     this.initCompleted();
   }
 
-  private getRuntimeSelectedVersion(runtimeId: string, versions: BoosterVersion[], boosters: Booster[]): BoosterVersion {
+  private getRuntimeSelectedVersion(runtimeId: string, versions: BoosterVersion[]): BoosterVersion {
     if (this.runtimeId === runtimeId && this.versionId) {
       const selectedVersion = versions.find(v => v.id === this.versionId);
       if (selectedVersion) {
@@ -232,7 +236,7 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
       // Reset selected runtime and version since it is not available
       this.clearRuntime();
     }
-    return this.missionRuntimeService.getDefaultVersion(runtimeId, versions, boosters);
+    return _.first(versions);
   }
 
   private clearRuntime(): void {
