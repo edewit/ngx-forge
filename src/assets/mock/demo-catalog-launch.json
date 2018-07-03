@@ -5,22 +5,17 @@
         "app": {
           "osio": {
             "enabled": false
-          },
-          "launcher": {
-            "runsOn": [
-              "!starter"
-            ]
           }
         }
       },
-      "mission": "circuit-breaker",
-      "name": "Red Hat Fuse - Circuit Breaker Example",
-      "description": "Booster to demonstrate Circuit Breaker pattern with Apache Camel.",
+      "mission": "health-check",
+      "name": "Red Hat Fuse - Health Check Example",
+      "description": "Booster to demonstrate OpenShift health probes working with Apache Camel through Spring Boot Actuator.",
       "runtime": "fuse",
       "source": {
         "git": {
-          "url": "https://github.com/jboss-fuse/fuse-springboot-circuit-breaker-booster",
-          "ref": "master"
+          "url": "https://github.com/jboss-fuse/fuse-health-check-booster",
+          "ref": "v7.0.0"
         }
       },
       "version": "2.21.0-community"
@@ -30,75 +25,130 @@
         "app": {
           "osio": {
             "enabled": false
-          },
-          "launcher": {
-            "runsOn": [
-              "!starter"
-            ]
           }
         }
       },
-      "mission": "circuit-breaker",
-      "name": "Node.js - Circuit Breaker",
-      "description": "Demonstrates Circuit Breaker in Node.js",
+      "mission": "configmap",
+      "name": "Node.js - HTTP & Config Map",
+      "description": "Simple HTTP endpoint where the Node.js application uses OpenShift ConfigMap to get the application parameters.",
       "runtime": "nodejs",
       "source": {
         "git": {
-          "url": "https://github.com/bucharest-gold/nodejs-circuit-breaker",
-          "ref": "master"
+          "url": "https://github.com/bucharest-gold/nodejs-configmap-redhat",
+          "ref": "v2.0.0"
         }
       },
-      "version": "v8-community"
+      "version": "v10-redhat"
     },
     {
       "metadata": {
         "app": {
+          "osio": {
+            "enabled": false
+          },
+          "launcher": {
+            "runsOn": [
+              "local"
+            ]
+          }
+        }
+      },
+      "mission": "istio-circuit-breaker",
+      "name": "Node.js - Istio - Circuit Breaker",
+      "description": "Runs a Node.js application that utilizes Circuit Breakers on Istio",
+      "runtime": "nodejs",
+      "source": {
+        "git": {
+          "url": "https://github.com/bucharest-gold/nodejs-istio-circuit-breaker",
+          "ref": "v2.0.0"
+        }
+      },
+      "version": "v10-community"
+    },
+    {
+      "metadata": {
+        "app": {
+          "osio": {
+            "enabled": false
+          },
           "launcher": {
             "runsOn": [
               "!starter"
             ]
-          },
-          "osio": {
-            "enabled": false
           }
         }
       },
-      "mission": "cache",
-      "name": "Eclipse Vert.x - Cache",
-      "description": "Demonstrate how to use a cache server in Eclipse Vert.x",
+      "mission": "crud",
+      "name": "Vert.x CRUD Example using JDBC",
+      "description": "Runs a Vert.x application exposing a HTTP endpoint proposing CRUD operations implemented on top of JDBC",
       "runtime": "vert.x",
       "source": {
         "git": {
-          "url": "https://github.com/openshiftio-vertx-boosters/vertx-cache-booster-redhat",
-          "ref": "master"
+          "url": "https://github.com/openshiftio-vertx-boosters/vertx-crud-booster",
+          "ref": "v24"
         }
       },
-      "version": "redhat"
+      "version": "community"
     },
     {
       "metadata": {
         "app": {
           "osio": {
             "enabled": false
-          },
-          "launcher": {
-            "runsOn": [
-              "!starter"
-            ]
           }
         }
       },
-      "mission": "circuit-breaker",
-      "name": "WildFly Swarm - Circuit Breaker",
-      "description": "Demonstrates Circuit Breaker in Wildfly Swarm",
-      "runtime": "wildfly-swarm",
+      "mission": "health-check",
+      "name": "Red Hat Fuse - Health Check Example",
+      "description": "Booster to demonstrate OpenShift health probes working with Apache Camel through Spring Boot Actuator.",
+      "runtime": "fuse",
       "source": {
         "git": {
-          "url": "https://github.com/wildfly-swarm-openshiftio-boosters/wfswarm-circuit-breaker-redhat",
-          "ref": "master"
+          "url": "https://github.com/jboss-fuse/fuse-health-check-booster",
+          "ref": "v7.0.0-redhat"
         }
       },
-      "version": "redhat"
+      "version": "7.0.0-redhat"
+    },
+    {
+      "metadata": {
+        "app": {
+          "osio": {
+            "enabled": false
+          }
+        }
+      },
+      "mission": "rest-http",
+      "name": "Red Hat Fuse - HTTP Example",
+      "description": "Booster to expose a HTTP Greeting endpoint using Apache camel, Spring Boot and Undertow.",
+      "runtime": "fuse",
+      "source": {
+        "git": {
+          "url": "https://github.com/jboss-fuse/fuse-rest-http-booster",
+          "ref": "v7.0.0"
+        }
+      },
+      "version": "2.21.0-community"
+    },
+    {
+      "metadata": {
+        "app": {
+          "osio": {
+            "enabled": false
+          }
+        }
+      },
+      "mission": "rest-http",
+      "name": "Node.js - HTTP",
+      "description": "Runs a Node.js HTTP application",
+      "runtime": "nodejs",
+      "source": {
+        "git": {
+          "url": "https://github.com/bucharest-gold/nodejs-rest-http",
+          "ref": "v2.0.0"
+        }
+      },
+      "version": "v10-community"
     },
     {
       "metadata": {
@@ -120,35 +170,10 @@
       "source": {
         "git": {
           "url": "https://github.com/snowdrop/spring-boot-istio-distributed-tracing-booster.git",
-          "ref": "1.5.12-2"
+          "ref": "1.5.13-2"
         }
       },
       "version": "current-community"
-    },
-    {
-      "metadata": {
-        "app": {
-          "osio": {
-            "enabled": false
-          },
-          "launcher": {
-            "runsOn": [
-              "!starter"
-            ]
-          }
-        }
-      },
-      "mission": "circuit-breaker",
-      "name": "Red Hat Fuse - Circuit Breaker Example",
-      "description": "Booster to demonstrate Circuit Breaker pattern with Apache Camel.",
-      "runtime": "fuse",
-      "source": {
-        "git": {
-          "url": "https://github.com/jboss-fuse/fuse-springboot-circuit-breaker-booster",
-          "ref": "redhat"
-        }
-      },
-      "version": "7.0.0-redhat"
     },
     {
       "metadata": {
@@ -170,153 +195,10 @@
       "source": {
         "git": {
           "url": "https://github.com/snowdrop/spring-boot-istio-circuit-breaker-booster",
-          "ref": "1.5.12-1"
+          "ref": "1.5.13-2"
         }
       },
       "version": "current-community"
-    },
-    {
-      "metadata": {
-        "app": {
-          "osio": {
-            "enabled": false
-          },
-          "launcher": {
-            "runsOn": [
-              "!starter"
-            ]
-          }
-        }
-      },
-      "mission": "cache",
-      "name": "WildFly Swarm - Cache",
-      "description": "Demonstrate how to use a cache server in WildFly Swarm",
-      "runtime": "wildfly-swarm",
-      "source": {
-        "git": {
-          "url": "https://github.com/wildfly-swarm-openshiftio-boosters/wfswarm-cache",
-          "ref": "master"
-        }
-      },
-      "version": "community"
-    },
-    {
-      "metadata": {
-        "app": {
-          "osio": {
-            "enabled": false
-          }
-        }
-      },
-      "mission": "health-check",
-      "name": "Vert.x Health Check Example",
-      "description": "Demonstrate health check and recovery mechanism",
-      "runtime": "vert.x",
-      "source": {
-        "git": {
-          "url": "https://github.com/openshiftio-vertx-boosters/vertx-health-checks-booster",
-          "ref": "master"
-        }
-      },
-      "version": "community"
-    },
-    {
-      "metadata": {
-        "app": {
-          "osio": {
-            "enabled": false
-          }
-        }
-      },
-      "mission": "rest-http",
-      "name": "Vert.x HTTP Booster",
-      "description": "Runs a Vert.x HTTP application",
-      "runtime": "vert.x",
-      "source": {
-        "git": {
-          "url": "https://github.com/openshiftio-vertx-boosters/vertx-http-booster",
-          "ref": "master"
-        }
-      },
-      "version": "community"
-    },
-    {
-      "metadata": {
-        "app": {
-          "osio": {
-            "enabled": false
-          },
-          "launcher": {
-            "runsOn": [
-              "!starter"
-            ]
-          }
-        }
-      },
-      "mission": "crud",
-      "name": "Node.js - CRUD Example",
-      "description": "Runs a Node.js application exposing a HTTP endpoint proposing CRUD operations",
-      "runtime": "nodejs",
-      "source": {
-        "git": {
-          "url": "https://github.com/bucharest-gold/nodejs-rest-http-crud-redhat",
-          "ref": "master"
-        }
-      },
-      "version": "v8-redhat"
-    },
-    {
-      "metadata": {
-        "app": {
-          "osio": {
-            "enabled": false
-          }
-        }
-      },
-      "mission": "rest-http",
-      "name": "Node.js - HTTP",
-      "description": "Runs a Node.js HTTP application",
-      "runtime": "nodejs",
-      "source": {
-        "git": {
-          "url": "https://github.com/bucharest-gold/nodejs-rest-http-redhat",
-          "ref": "master"
-        }
-      },
-      "version": "v10-redhat"
-    },
-    {
-      "metadata": {
-        "app": {
-          "osio": {
-            "enabled": false
-          }
-        }
-      },
-      "mission": "configmap",
-      "name": "Spring Boot - ConfigMap Example",
-      "description": "Booster to expose an HTTP Greeting endpoint using Spring Boot where the message is defined as a Kubernetes ConfigMap property.",
-      "runtime": "spring-boot",
-      "source": {
-        "git": {
-          "url": "https://github.com/snowdrop/spring-boot-configmap-booster",
-          "ref": "1.5.12-2-redhat"
-        }
-      },
-      "version": "current-redhat"
-    },
-    {
-      "mission": "rest-http",
-      "name": "Vert.x HTTP Booster",
-      "description": "Runs a Vert.x HTTP application",
-      "runtime": "vert.x",
-      "source": {
-        "git": {
-          "url": "https://github.com/openshiftio-vertx-boosters/vertx-http-booster-redhat",
-          "ref": "master"
-        }
-      },
-      "version": "redhat"
     },
     {
       "metadata": {
@@ -333,7 +215,7 @@
       "source": {
         "git": {
           "url": "https://github.com/wildfly-swarm-openshiftio-boosters/wfswarm-configmap-redhat",
-          "ref": "master"
+          "ref": "7.1.0-redhat-1"
         }
       },
       "version": "redhat"
@@ -346,14 +228,14 @@
           }
         }
       },
-      "mission": "rest-http",
-      "name": "Red Hat Fuse - HTTP Example",
-      "description": "Booster to expose a HTTP REST endpoint using Apache camel, Spring Boot and Undertow.",
+      "mission": "configmap",
+      "name": "Red Hat Fuse - ConfigMap Example",
+      "description": "Booster to expose an HTTP Greeting endpoint using Apache Camel where the message is defined as a Kubernetes ConfigMap property.",
       "runtime": "fuse",
       "source": {
         "git": {
-          "url": "https://github.com/jboss-fuse/fuse-rest-http-booster",
-          "ref": "redhat"
+          "url": "https://github.com/jboss-fuse/fuse-configmap-booster",
+          "ref": "v7.0.0-redhat"
         }
       },
       "version": "7.0.0-redhat"
@@ -363,65 +245,20 @@
         "app": {
           "osio": {
             "enabled": false
-          },
-          "launcher": {
-            "runsOn": [
-              "!starter"
-            ]
           }
         }
       },
-      "mission": "circuit-breaker",
-      "name": "Vert.x Circuit Breaker Booster",
-      "description": "Runs a Vert.x application using a circuit breaker",
-      "runtime": "vert.x",
-      "source": {
-        "git": {
-          "url": "https://github.com/openshiftio-vertx-boosters/vertx-circuit-breaker-booster",
-          "ref": "master"
-        }
-      },
-      "version": "community"
-    },
-    {
-      "metadata": {
-        "app": {
-          "osio": {
-            "enabled": false
-          }
-        }
-      },
-      "mission": "rest-http",
-      "name": "Node.js - HTTP",
-      "description": "Runs a Node.js HTTP application",
+      "mission": "configmap",
+      "name": "Node.js - HTTP & Config Map",
+      "description": "Simple HTTP endpoint where the Node.js application uses OpenShift ConfigMap to get the application parameters.",
       "runtime": "nodejs",
       "source": {
         "git": {
-          "url": "https://github.com/bucharest-gold/nodejs-rest-http",
-          "ref": "master"
+          "url": "https://github.com/bucharest-gold/nodejs-configmap",
+          "ref": "v1.2.3"
         }
       },
-      "version": "v10-community"
-    },
-    {
-      "metadata": {
-        "app": {
-          "osio": {
-            "enabled": true
-          }
-        }
-      },
-      "mission": "health-check",
-      "name": "WildFly Swarm - Health Checks",
-      "description": "Demonstrates Health Checks in Wildfly Swarm",
-      "runtime": "wildfly-swarm",
-      "source": {
-        "git": {
-          "url": "https://github.com/wildfly-swarm-openshiftio-boosters/wfswarm-health-check",
-          "ref": "master"
-        }
-      },
-      "version": "community"
+      "version": "v8-community"
     },
     {
       "metadata": {
@@ -440,11 +277,109 @@
       "runtime": "nodejs",
       "source": {
         "git": {
-          "url": "https://github.com/bucharest-gold/nodejs-rest-http-secured-redhat",
-          "ref": "master"
+          "url": "https://github.com/bucharest-gold/nodejs-rest-http-secured",
+          "ref": "v1.1.4"
         }
       },
-      "version": "v10-redhat"
+      "version": "v8-community"
+    },
+    {
+      "metadata": {
+        "app": {
+          "osio": {
+            "enabled": false
+          }
+        }
+      },
+      "mission": "configmap",
+      "name": "Spring Boot - ConfigMap Example",
+      "description": "Booster to expose an HTTP Greeting endpoint using Spring Boot where the message is defined as a Kubernetes ConfigMap property.",
+      "runtime": "spring-boot",
+      "source": {
+        "git": {
+          "url": "https://github.com/snowdrop/spring-boot-configmap-booster",
+          "ref": "1.5.13-1-redhat"
+        }
+      },
+      "version": "current-redhat"
+    },
+    {
+      "metadata": {
+        "app": {
+          "osio": {
+            "enabled": false
+          },
+          "launcher": {
+            "runsOn": [
+              "local"
+            ]
+          }
+        }
+      },
+      "mission": "istio-circuit-breaker",
+      "name": "Node.js - Istio - Circuit Breaker",
+      "description": "Runs a Node.js application that utilizes Circuit Breakers on Istio",
+      "runtime": "nodejs",
+      "source": {
+        "git": {
+          "url": "https://github.com/bucharest-gold/nodejs-istio-circuit-breaker",
+          "ref": "v1.0.0"
+        }
+      },
+      "version": "v8-community"
+    },
+    {
+      "metadata": {
+        "app": {
+          "osio": {
+            "enabled": false
+          }
+        }
+      },
+      "mission": "configmap",
+      "name": "Node.js - HTTP & Config Map",
+      "description": "Simple HTTP endpoint where the Node.js application uses OpenShift ConfigMap to get the application parameters.",
+      "runtime": "nodejs",
+      "source": {
+        "git": {
+          "url": "https://github.com/bucharest-gold/nodejs-configmap-redhat",
+          "ref": "v1.2.2"
+        }
+      },
+      "version": "v8-redhat"
+    },
+    {
+      "metadata": {
+        "app": {
+          "osio": {
+            "enabled": false
+          }
+        }
+      },
+      "mission": "rest-http",
+      "name": "Red Hat Fuse - HTTP Example",
+      "description": "Booster to expose a HTTP REST endpoint using Apache camel, Spring Boot and Undertow.",
+      "runtime": "fuse",
+      "source": {
+        "git": {
+          "url": "https://github.com/jboss-fuse/fuse-rest-http-booster",
+          "ref": "v7.0.0-redhat"
+        }
+      },
+      "version": "7.0.0-redhat"
+    },
+    {
+      "mission": "health-check",
+      "name": "Vert.x Health Check Example",
+      "description": "Demonstrate health check and recovery mechanism",
+      "runtime": "vert.x",
+      "source": {
+        "git": {
+          "url": "https://github.com/openshiftio-vertx-boosters/vertx-health-checks-booster-redhat",
+          "ref": "v13"
+        }
+      },
+      "version": "redhat"
     },
     {
       "metadata": {
@@ -461,10 +396,96 @@
       "source": {
         "git": {
           "url": "https://github.com/bucharest-gold/nodejs-health-check",
-          "ref": "master"
+          "ref": "v2.0.0"
         }
       },
-      "version": "v8-community"
+      "version": "v10-community"
+    },
+    {
+      "metadata": {
+        "app": {
+          "osio": {
+            "enabled": false
+          },
+          "launcher": {
+            "runsOn": [
+              "local"
+            ]
+          }
+        }
+      },
+      "mission": "istio-security",
+      "name": "Node.js - Istio - Security",
+      "description": "Runs a Node.js application that showcases security through Mutual TLS and ACL on Istio",
+      "runtime": "nodejs",
+      "source": {
+        "git": {
+          "url": "https://github.com/bucharest-gold/nodejs-istio-security",
+          "ref": "v2.0.0"
+        }
+      },
+      "version": "v10-community"
+    },
+    {
+      "metadata": {
+        "app": {
+          "osio": {
+            "enabled": false
+          },
+          "launcher": {
+            "runsOn": "none"
+          }
+        }
+      },
+      "mission": "rest-http-secured",
+      "name": "WildFly Swarm - REST and RH SSO",
+      "description": "A simple HTTP application using Wildfly Swarm secured by RH SSO",
+      "runtime": "wildfly-swarm",
+      "source": {
+        "git": {
+          "url": "https://github.com/wildfly-swarm-openshiftio-boosters/wfswarm-rest-http-secured-redhat",
+          "ref": "7.1.0-redhat-1"
+        }
+      },
+      "version": "redhat"
+    },
+    {
+      "mission": "rest-http",
+      "name": "Vert.x HTTP Booster",
+      "description": "Runs a Vert.x HTTP application",
+      "runtime": "vert.x",
+      "source": {
+        "git": {
+          "url": "https://github.com/openshiftio-vertx-boosters/vertx-http-booster-redhat",
+          "ref": "v13"
+        }
+      },
+      "version": "redhat"
+    },
+    {
+      "metadata": {
+        "app": {
+          "launcher": {
+            "runsOn": [
+              "!starter"
+            ]
+          },
+          "osio": {
+            "enabled": false
+          }
+        }
+      },
+      "mission": "crud",
+      "name": "Vert.x CRUD Example using JDBC",
+      "description": "Runs a Vert.x application exposing a HTTP endpoint proposing CRUD operations implemented on top of JDBC",
+      "runtime": "vert.x",
+      "source": {
+        "git": {
+          "url": "https://github.com/openshiftio-vertx-boosters/vertx-crud-booster-redhat",
+          "ref": "v12"
+        }
+      },
+      "version": "redhat"
     },
     {
       "metadata": {
@@ -486,35 +507,10 @@
       "source": {
         "git": {
           "url": "https://github.com/bucharest-gold/nodejs-cache",
-          "ref": "master"
+          "ref": "v1.0.1"
         }
       },
-      "version": "v10-community"
-    },
-    {
-      "metadata": {
-        "app": {
-          "osio": {
-            "enabled": false
-          },
-          "launcher": {
-            "runsOn": [
-              "!starter"
-            ]
-          }
-        }
-      },
-      "mission": "cache",
-      "name": "WildFly Swarm - Cache",
-      "description": "Demonstrate how to use a cache server in WildFly Swarm",
-      "runtime": "wildfly-swarm",
-      "source": {
-        "git": {
-          "url": "https://github.com/wildfly-swarm-openshiftio-boosters/wfswarm-cache-redhat",
-          "ref": "master"
-        }
-      },
-      "version": "redhat"
+      "version": "v8-community"
     },
     {
       "metadata": {
@@ -531,10 +527,33 @@
       "source": {
         "git": {
           "url": "https://github.com/snowdrop/spring-boot-http-booster",
-          "ref": "1.5.12-3"
+          "ref": "1.5.13-1"
         }
       },
       "version": "current-community"
+    },
+    {
+      "metadata": {
+        "app": {
+          "launcher": {
+            "runsOn": "none"
+          },
+          "osio": {
+            "enabled": false
+          }
+        }
+      },
+      "mission": "rest-http-secured",
+      "name": "Secured Vertx - Rest & Red Hat SSO",
+      "description": "Quickstart to expose a REST Greeting endpoint using Eclipse Vert.x & Secured by Red Hat SSO",
+      "runtime": "vert.x",
+      "source": {
+        "git": {
+          "url": "https://github.com/openshiftio-vertx-boosters/vertx-secured-http-booster-redhat",
+          "ref": "v19"
+        }
+      },
+      "version": "redhat"
     },
     {
       "metadata": {
@@ -550,79 +569,16 @@
         }
       },
       "mission": "circuit-breaker",
-      "name": "WildFly Swarm - Circuit Breaker",
-      "description": "Demonstrates Circuit Breaker in Wildfly Swarm",
-      "runtime": "wildfly-swarm",
+      "name": "Red Hat Fuse - Circuit Breaker Example",
+      "description": "Booster to demonstrate Circuit Breaker pattern with Apache Camel.",
+      "runtime": "fuse",
       "source": {
         "git": {
-          "url": "https://github.com/wildfly-swarm-openshiftio-boosters/wfswarm-circuit-breaker",
-          "ref": "master"
+          "url": "https://github.com/jboss-fuse/fuse-springboot-circuit-breaker-booster",
+          "ref": "v7.0.0"
         }
       },
-      "version": "community"
-    },
-    {
-      "metadata": {
-        "app": {
-          "osio": {
-            "enabled": false
-          },
-          "launcher": {
-            "runsOn": "none"
-          }
-        }
-      },
-      "mission": "rest-http-secured",
-      "name": "Node.js - REST and RH SSO",
-      "description": "A simple HTTP application using Node.js secured by RH SSO",
-      "runtime": "nodejs",
-      "source": {
-        "git": {
-          "url": "https://github.com/bucharest-gold/nodejs-rest-http-secured",
-          "ref": "master"
-        }
-      },
-      "version": "v10-community"
-    },
-    {
-      "metadata": {
-        "app": {
-          "osio": {
-            "enabled": false
-          }
-        }
-      },
-      "mission": "health-check",
-      "name": "Node.js - Health Checks",
-      "description": "Demonstrates Health Checks in Node.js",
-      "runtime": "nodejs",
-      "source": {
-        "git": {
-          "url": "https://github.com/bucharest-gold/nodejs-health-check-redhat",
-          "ref": "master"
-        }
-      },
-      "version": "v8-redhat"
-    },
-    {
-      "metadata": {
-        "app": {
-          "osio": {
-            "enabled": false
-          }
-        }
-      },
-      "mission": "health-check",
-      "name": "Node.js - Health Checks",
-      "description": "Demonstrates Health Checks in Node.js",
-      "runtime": "nodejs",
-      "source": {
-        "git": {
-          "url": "https://github.com/bucharest-gold/nodejs-health-check",
-          "ref": "master"
-        }
-      },
-      "version": "v10-community"
+      "version": "2.21.0-community"
     },
     {
       "metadata": {
@@ -644,7 +600,7 @@
       "source": {
         "git": {
           "url": "https://github.com/snowdrop/spring-boot-crud-booster",
-          "ref": "1.5.12-3"
+          "ref": "1.5.13-1"
         }
       },
       "version": "current-community"
@@ -669,33 +625,50 @@
       "source": {
         "git": {
           "url": "https://github.com/snowdrop/spring-boot-circuit-breaker-booster",
-          "ref": "1.5.12-2-redhat"
+          "ref": "1.5.13-1-redhat"
         }
       },
       "version": "current-redhat"
     },
     {
-      "runtime": "vert.x",
       "metadata": {
         "app": {
           "osio": {
             "enabled": false
-          },
-          "launcher": {
-            "runsOn": [
-              "!starter"
-            ]
           }
         }
       },
-      "mission": "cache",
+      "mission": "health-check",
+      "name": "Vert.x Health Check Example",
+      "description": "Demonstrate health check and recovery mechanism",
+      "runtime": "vert.x",
       "source": {
         "git": {
-          "url": "https://github.com/openshiftio-vertx-boosters/vertx-cache-booster",
-          "ref": "master"
+          "url": "https://github.com/openshiftio-vertx-boosters/vertx-health-checks-booster",
+          "ref": "v20"
         }
       },
       "version": "community"
+    },
+    {
+      "metadata": {
+        "app": {
+          "osio": {
+            "enabled": false
+          }
+        }
+      },
+      "mission": "health-check",
+      "name": "Node.js - Health Checks",
+      "description": "Demonstrates Health Checks in Node.js",
+      "runtime": "nodejs",
+      "source": {
+        "git": {
+          "url": "https://github.com/bucharest-gold/nodejs-health-check-redhat",
+          "ref": "v1.2.2"
+        }
+      },
+      "version": "v8-redhat"
     },
     {
       "metadata": {
@@ -730,35 +703,22 @@
           },
           "launcher": {
             "runsOn": [
-              "!starter"
+              "local"
             ]
           }
         }
       },
-      "mission": "circuit-breaker",
-      "name": "Spring Boot - Circuit Breaker Example",
-      "description": "Booster to demonstrate Circuit Breaker pattern with Spring Boot.",
-      "runtime": "spring-boot",
+      "mission": "istio-security",
+      "name": "Node.js - Istio - Security",
+      "description": "Runs a Node.js application that showcases security through Mutual TLS and ACL on Istio",
+      "runtime": "nodejs",
       "source": {
         "git": {
-          "url": "https://github.com/snowdrop/spring-boot-circuit-breaker-booster",
-          "ref": "1.5.12-2"
+          "url": "https://github.com/bucharest-gold/nodejs-istio-security",
+          "ref": "v1.0.0"
         }
       },
-      "version": "current-community"
-    },
-    {
-      "mission": "configmap",
-      "name": "Vert.x - HTTP & Config Map",
-      "description": "Simple HTTP endpoint where the Vert.x application uses OpenShift ConfigMap to get the application parameters.",
-      "runtime": "vert.x",
-      "source": {
-        "git": {
-          "url": "https://github.com/openshiftio-vertx-boosters/vertx-configmap-booster-redhat",
-          "ref": "master"
-        }
-      },
-      "version": "redhat"
+      "version": "v8-community"
     },
     {
       "metadata": {
@@ -773,17 +733,17 @@
           }
         }
       },
-      "mission": "crud",
-      "name": "Node.js - CRUD Example",
-      "description": "Runs a Node.js application exposing a HTTP endpoint proposing CRUD operations",
-      "runtime": "nodejs",
+      "mission": "circuit-breaker",
+      "name": "Spring Boot - Circuit Breaker Example",
+      "description": "Booster to demonstrate Circuit Breaker pattern with Spring Boot.",
+      "runtime": "spring-boot",
       "source": {
         "git": {
-          "url": "https://github.com/bucharest-gold/nodejs-rest-http-crud",
-          "ref": "master"
+          "url": "https://github.com/snowdrop/spring-boot-circuit-breaker-booster",
+          "ref": "1.5.13-2"
         }
       },
-      "version": "v10-community"
+      "version": "current-community"
     },
     {
       "metadata": {
@@ -800,7 +760,7 @@
       "source": {
         "git": {
           "url": "https://github.com/wildfly-swarm-openshiftio-boosters/wfswarm-rest-http",
-          "ref": "master"
+          "ref": "13"
         }
       },
       "version": "community"
@@ -810,20 +770,70 @@
         "app": {
           "osio": {
             "enabled": false
+          },
+          "launcher": {
+            "runsOn": [
+              "!starter"
+            ]
           }
         }
       },
-      "mission": "rest-http",
-      "name": "Spring Boot - HTTP Example",
-      "description": "Booster to expose a HTTP Greeting endpoint using Spring Boot and Apache Tomcat in embedded mode.",
-      "runtime": "spring-boot",
+      "mission": "circuit-breaker",
+      "name": "WildFly Swarm - Circuit Breaker",
+      "description": "Demonstrates Circuit Breaker in Wildfly Swarm",
+      "runtime": "wildfly-swarm",
       "source": {
         "git": {
-          "url": "https://github.com/snowdrop/spring-boot-http-booster",
-          "ref": "1.5.12-2-redhat"
+          "url": "https://github.com/wildfly-swarm-openshiftio-boosters/wfswarm-circuit-breaker-redhat",
+          "ref": "7.1.0-redhat-1"
         }
       },
-      "version": "current-redhat"
+      "version": "redhat"
+    },
+    {
+      "metadata": {
+        "app": {
+          "osio": {
+            "enabled": false
+          }
+        }
+      },
+      "mission": "configmap",
+      "name": "Node.js - HTTP & Config Map",
+      "description": "Simple HTTP endpoint where the Node.js application uses OpenShift ConfigMap to get the application parameters.",
+      "runtime": "nodejs",
+      "source": {
+        "git": {
+          "url": "https://github.com/bucharest-gold/nodejs-configmap",
+          "ref": "v2.0.0"
+        }
+      },
+      "version": "v10-community"
+    },
+    {
+      "metadata": {
+        "app": {
+          "launcher": {
+            "runsOn": [
+              "!starter"
+            ]
+          },
+          "osio": {
+            "enabled": false
+          }
+        }
+      },
+      "mission": "cache",
+      "name": "Eclipse Vert.x - Cache",
+      "description": "Demonstrate how to use a cache server in Eclipse Vert.x",
+      "runtime": "vert.x",
+      "source": {
+        "git": {
+          "url": "https://github.com/openshiftio-vertx-boosters/vertx-cache-booster-redhat",
+          "ref": "v2"
+        }
+      },
+      "version": "redhat"
     },
     {
       "metadata": {
@@ -844,11 +854,94 @@
       "runtime": "nodejs",
       "source": {
         "git": {
-          "url": "https://github.com/bucharest-gold/nodejs-cache",
-          "ref": "master"
+          "url": "https://github.com/bucharest-gold/nodejs-cache-redhat",
+          "ref": "v1.0.2"
+        }
+      },
+      "version": "v8-redhat"
+    },
+    {
+      "metadata": {
+        "app": {
+          "osio": {
+            "enabled": true
+          }
+        }
+      },
+      "mission": "rest-http",
+      "name": "Spring Boot - HTTP Example",
+      "description": "Booster to expose a HTTP Greeting endpoint using Spring Boot and Apache Tomcat in embedded mode.",
+      "runtime": "spring-boot",
+      "source": {
+        "git": {
+          "url": "https://github.com/snowdrop/spring-boot-http-booster",
+          "ref": "1.5.13-1-redhat"
+        }
+      },
+      "version": "current-redhat"
+    },
+    {
+      "metadata": {
+        "app": {
+          "osio": {
+            "enabled": false
+          }
+        }
+      },
+      "mission": "rest-http",
+      "name": "WildFly Swarm - HTTP",
+      "description": "Runs a WildFly Swarm HTTP application",
+      "runtime": "wildfly-swarm",
+      "source": {
+        "git": {
+          "url": "https://github.com/wildfly-swarm-openshiftio-boosters/wfswarm-rest-http-redhat",
+          "ref": "7.1.0-redhat-1"
+        }
+      },
+      "version": "redhat"
+    },
+    {
+      "metadata": {
+        "app": {
+          "osio": {
+            "enabled": false
+          }
+        }
+      },
+      "mission": "health-check",
+      "name": "Node.js - Health Checks",
+      "description": "Demonstrates Health Checks in Node.js",
+      "runtime": "nodejs",
+      "source": {
+        "git": {
+          "url": "https://github.com/bucharest-gold/nodejs-health-check",
+          "ref": "v1.2.3"
         }
       },
       "version": "v8-community"
+    },
+    {
+      "runtime": "vert.x",
+      "metadata": {
+        "app": {
+          "osio": {
+            "enabled": false
+          },
+          "launcher": {
+            "runsOn": [
+              "!starter"
+            ]
+          }
+        }
+      },
+      "mission": "cache",
+      "source": {
+        "git": {
+          "url": "https://github.com/openshiftio-vertx-boosters/vertx-cache-booster",
+          "ref": "v1"
+        }
+      },
+      "version": "community"
     },
     {
       "metadata": {
@@ -868,7 +961,7 @@
       "source": {
         "git": {
           "url": "https://github.com/snowdrop/spring-boot-http-secured-booster",
-          "ref": "1.5.12-3"
+          "ref": "1.5.13-1"
         }
       },
       "version": "current-community"
@@ -878,113 +971,20 @@
         "app": {
           "osio": {
             "enabled": false
-          },
-          "launcher": {
-            "runsOn": [
-              "!starter"
-            ]
-          }
-        }
-      },
-      "mission": "circuit-breaker",
-      "name": "Node.js - Circuit Breaker",
-      "description": "Demonstrates Circuit Breaker in Node.js",
-      "runtime": "nodejs",
-      "source": {
-        "git": {
-          "url": "https://github.com/bucharest-gold/nodejs-circuit-breaker-redhat",
-          "ref": "master"
-        }
-      },
-      "version": "v8-redhat"
-    },
-    {
-      "metadata": {
-        "app": {
-          "osio": {
-            "enabled": false
           }
         }
       },
       "mission": "configmap",
-      "name": "Node.js - HTTP & Config Map",
-      "description": "Simple HTTP endpoint where the Node.js application uses OpenShift ConfigMap to get the application parameters.",
-      "runtime": "nodejs",
+      "name": "Red Hat Fuse - ConfigMap Example",
+      "description": "Booster to expose an HTTP REST endpoint using Apache Camel where the message is defined as a Kubernetes ConfigMap property.",
+      "runtime": "fuse",
       "source": {
         "git": {
-          "url": "https://github.com/bucharest-gold/nodejs-configmap-redhat",
-          "ref": "master"
+          "url": "https://github.com/jboss-fuse/fuse-configmap-booster",
+          "ref": "v7.0.0"
         }
       },
-      "version": "v8-redhat"
-    },
-    {
-      "metadata": {
-        "app": {
-          "osio": {
-            "enabled": false
-          },
-          "launcher": {
-            "runsOn": "none"
-          }
-        }
-      },
-      "mission": "rest-http-secured",
-      "name": "WildFly Swarm - REST and RH SSO",
-      "description": "A simple HTTP application using Wildfly Swarm secured by RH SSO",
-      "runtime": "wildfly-swarm",
-      "source": {
-        "git": {
-          "url": "https://github.com/wildfly-swarm-openshiftio-boosters/wfswarm-rest-http-secured",
-          "ref": "master"
-        }
-      },
-      "version": "community"
-    },
-    {
-      "metadata": {
-        "app": {
-          "osio": {
-            "enabled": false
-          },
-          "launcher": {
-            "runsOn": [
-              "!starter"
-            ]
-          }
-        }
-      },
-      "mission": "crud",
-      "name": "Vert.x CRUD Example using JDBC",
-      "description": "Runs a Vert.x application exposing a HTTP endpoint proposing CRUD operations implemented on top of JDBC",
-      "runtime": "vert.x",
-      "source": {
-        "git": {
-          "url": "https://github.com/openshiftio-vertx-boosters/vertx-crud-booster",
-          "ref": "master"
-        }
-      },
-      "version": "community"
-    },
-    {
-      "metadata": {
-        "app": {
-          "osio": {
-            "enabled": false
-          }
-        }
-      },
-      "mission": "configmap",
-      "name": "WildFly Swarm - Config Map",
-      "description": "Simple HTTP endpoint where the WildFly Swarm application uses OpenShift ConfigMap to retrieve application parameters.",
-      "runtime": "wildfly-swarm",
-      "source": {
-        "git": {
-          "url": "https://github.com/wildfly-swarm-openshiftio-boosters/wfswarm-configmap",
-          "ref": "master"
-        }
-      },
-      "version": "community"
+      "version": "2.21.0-community"
     },
     {
       "metadata": {
@@ -1005,8 +1005,151 @@
       "runtime": "nodejs",
       "source": {
         "git": {
-          "url": "https://github.com/bucharest-gold/nodejs-rest-http-crud",
-          "ref": "master"
+          "url": "https://github.com/bucharest-gold/nodejs-rest-http-crud-redhat",
+          "ref": "v2.0.0"
+        }
+      },
+      "version": "v10-redhat"
+    },
+    {
+      "metadata": {
+        "app": {
+          "osio": {
+            "enabled": false
+          },
+          "launcher": {
+            "runsOn": "none"
+          }
+        }
+      },
+      "mission": "rest-http-secured",
+      "name": "Node.js - REST and RH SSO",
+      "description": "A simple HTTP application using Node.js secured by RH SSO",
+      "runtime": "nodejs",
+      "source": {
+        "git": {
+          "url": "https://github.com/bucharest-gold/nodejs-rest-http-secured",
+          "ref": "v2.0.0"
+        }
+      },
+      "version": "v10-community"
+    },
+    {
+      "metadata": {
+        "app": {
+          "launcher": {
+            "runsOn": [
+              "!starter"
+            ]
+          },
+          "osio": {
+            "enabled": false
+          }
+        }
+      },
+      "mission": "circuit-breaker",
+      "name": "Vert.x Circuit Breaker Booster",
+      "description": "Runs a Vert.x application using a circuit breaker",
+      "runtime": "vert.x",
+      "source": {
+        "git": {
+          "url": "https://github.com/openshiftio-vertx-boosters/vertx-circuit-breaker-booster-redhat",
+          "ref": "v12"
+        }
+      },
+      "version": "redhat"
+    },
+    {
+      "metadata": {
+        "app": {
+          "osio": {
+            "enabled": true
+          }
+        }
+      },
+      "mission": "health-check",
+      "name": "WildFly Swarm - Health Checks",
+      "description": "Demonstrates Health Checks in Wildfly Swarm",
+      "runtime": "wildfly-swarm",
+      "source": {
+        "git": {
+          "url": "https://github.com/wildfly-swarm-openshiftio-boosters/wfswarm-health-check",
+          "ref": "10"
+        }
+      },
+      "version": "community"
+    },
+    {
+      "metadata": {
+        "app": {
+          "osio": {
+            "enabled": false
+          },
+          "launcher": {
+            "runsOn": [
+              "!starter"
+            ]
+          }
+        }
+      },
+      "mission": "circuit-breaker",
+      "name": "Node.js - Circuit Breaker",
+      "description": "Demonstrates Circuit Breaker in Node.js",
+      "runtime": "nodejs",
+      "source": {
+        "git": {
+          "url": "https://github.com/bucharest-gold/nodejs-circuit-breaker",
+          "ref": "v2.0.0"
+        }
+      },
+      "version": "v10-community"
+    },
+    {
+      "metadata": {
+        "app": {
+          "osio": {
+            "enabled": false
+          },
+          "launcher": {
+            "runsOn": [
+              "local"
+            ]
+          }
+        }
+      },
+      "mission": "istio-routing",
+      "name": "Node.js - Istio - Routing",
+      "description": "Runs a Node.js application that utilizes Routing on Istio",
+      "runtime": "nodejs",
+      "source": {
+        "git": {
+          "url": "https://github.com/bucharest-gold/nodejs-istio-routing",
+          "ref": "v2.0.0"
+        }
+      },
+      "version": "v10-community"
+    },
+    {
+      "metadata": {
+        "app": {
+          "osio": {
+            "enabled": false
+          },
+          "launcher": {
+            "runsOn": [
+              "!starter"
+            ]
+          }
+        }
+      },
+      "mission": "circuit-breaker",
+      "name": "Node.js - Circuit Breaker",
+      "description": "Demonstrates Circuit Breaker in Node.js",
+      "runtime": "nodejs",
+      "source": {
+        "git": {
+          "url": "https://github.com/bucharest-gold/nodejs-circuit-breaker",
+          "ref": "v1.1.3"
         }
       },
       "version": "v8-community"
@@ -1026,7 +1169,7 @@
       "source": {
         "git": {
           "url": "https://github.com/snowdrop/spring-boot-configmap-booster",
-          "ref": "1.5.12-3"
+          "ref": "1.5.13-1"
         }
       },
       "version": "current-community"
@@ -1040,16 +1183,16 @@
         }
       },
       "mission": "health-check",
-      "name": "Red Hat Fuse - Health Check Example",
-      "description": "Booster to demonstrate OpenShift health probes working with Apache Camel through Spring Boot Actuator.",
-      "runtime": "fuse",
+      "name": "Node.js - Health Checks",
+      "description": "Demonstrates Health Checks in Node.js",
+      "runtime": "nodejs",
       "source": {
         "git": {
-          "url": "https://github.com/jboss-fuse/fuse-health-check-booster",
-          "ref": "redhat"
+          "url": "https://github.com/bucharest-gold/nodejs-health-check-redhat",
+          "ref": "v2.0.0"
         }
       },
-      "version": "2.21.0-community"
+      "version": "v10-redhat"
     },
     {
       "metadata": {
@@ -1071,7 +1214,7 @@
       "source": {
         "git": {
           "url": "https://github.com/snowdrop/spring-boot-cache-booster",
-          "ref": "redhat"
+          "ref": "1.5.13-1-redhat"
         }
       },
       "version": "current-redhat"
@@ -1083,64 +1226,23 @@
             "enabled": false
           },
           "launcher": {
-            "runsOn": "none"
+            "runsOn": [
+              "!starter"
+            ]
           }
         }
       },
-      "mission": "rest-http-secured",
-      "name": "Node.js - REST and RH SSO",
-      "description": "A simple HTTP application using Node.js secured by RH SSO",
-      "runtime": "nodejs",
+      "mission": "circuit-breaker",
+      "name": "Vert.x Circuit Breaker Booster",
+      "description": "Runs a Vert.x application using a circuit breaker",
+      "runtime": "vert.x",
       "source": {
         "git": {
-          "url": "https://github.com/bucharest-gold/nodejs-rest-http-secured",
-          "ref": "master"
+          "url": "https://github.com/openshiftio-vertx-boosters/vertx-circuit-breaker-booster",
+          "ref": "v16"
         }
       },
-      "version": "v8-community"
-    },
-    {
-      "metadata": {
-        "app": {
-          "osio": {
-            "enabled": false
-          },
-          "launcher": {
-            "runsOn": "none"
-          }
-        }
-      },
-      "mission": "rest-http-secured",
-      "name": "Node.js - REST and RH SSO",
-      "description": "A simple HTTP application using Node.js secured by RH SSO",
-      "runtime": "nodejs",
-      "source": {
-        "git": {
-          "url": "https://github.com/bucharest-gold/nodejs-rest-http-secured-redhat",
-          "ref": "master"
-        }
-      },
-      "version": "v8-redhat"
-    },
-    {
-      "metadata": {
-        "app": {
-          "osio": {
-            "enabled": false
-          }
-        }
-      },
-      "mission": "rest-http",
-      "name": "Red Hat Fuse - HTTP Example",
-      "description": "Booster to expose a HTTP Greeting endpoint using Apache camel, Spring Boot and Undertow.",
-      "runtime": "fuse",
-      "source": {
-        "git": {
-          "url": "https://github.com/jboss-fuse/fuse-rest-http-booster",
-          "ref": "master"
-        }
-      },
-      "version": "2.21.0-community"
+      "version": "community"
     },
     {
       "metadata": {
@@ -1162,30 +1264,10 @@
       "source": {
         "git": {
           "url": "https://github.com/snowdrop/spring-boot-istio-security-booster.git",
-          "ref": "1.5.12-2"
+          "ref": "1.5.13-2"
         }
       },
       "version": "current-community"
-    },
-    {
-      "metadata": {
-        "app": {
-          "osio": {
-            "enabled": false
-          }
-        }
-      },
-      "mission": "health-check",
-      "name": "WildFly Swarm - Health Checks",
-      "description": "Demonstrates Health Checks in Wildfly Swarm",
-      "runtime": "wildfly-swarm",
-      "source": {
-        "git": {
-          "url": "https://github.com/wildfly-swarm-openshiftio-boosters/wfswarm-health-check-redhat",
-          "ref": "master"
-        }
-      },
-      "version": "redhat"
     },
     {
       "metadata": {
@@ -1217,25 +1299,20 @@
         "app": {
           "osio": {
             "enabled": false
-          },
-          "launcher": {
-            "runsOn": [
-              "!starter"
-            ]
           }
         }
       },
-      "mission": "crud",
-      "name": "Node.js - CRUD Example",
-      "description": "Runs a Node.js application exposing a HTTP endpoint proposing CRUD operations",
-      "runtime": "nodejs",
+      "mission": "configmap",
+      "name": "Vert.x - HTTP & Config Map",
+      "description": "Simple HTTP endpoint where the Vert.x application uses OpenShift ConfigMap to get the application parameters.",
+      "runtime": "vert.x",
       "source": {
         "git": {
-          "url": "https://github.com/bucharest-gold/nodejs-rest-http-crud-redhat",
-          "ref": "master"
+          "url": "https://github.com/openshiftio-vertx-boosters/vertx-configmap-booster",
+          "ref": "v26"
         }
       },
-      "version": "v10-redhat"
+      "version": "community"
     },
     {
       "metadata": {
@@ -1254,11 +1331,11 @@
       "runtime": "wildfly-swarm",
       "source": {
         "git": {
-          "url": "https://github.com/wildfly-swarm-openshiftio-boosters/wfswarm-rest-http-secured-redhat",
-          "ref": "master"
+          "url": "https://github.com/wildfly-swarm-openshiftio-boosters/wfswarm-rest-http-secured",
+          "ref": "9"
         }
       },
-      "version": "redhat"
+      "version": "community"
     },
     {
       "metadata": {
@@ -1268,62 +1345,17 @@
           }
         }
       },
-      "mission": "health-check",
-      "name": "Red Hat Fuse - Health Check Example",
-      "description": "Booster to demonstrate OpenShift health probes working with Apache Camel through Spring Boot Actuator.",
-      "runtime": "fuse",
-      "source": {
-        "git": {
-          "url": "https://github.com/jboss-fuse/fuse-health-check-booster",
-          "ref": "redhat"
-        }
-      },
-      "version": "7.0.0-redhat"
-    },
-    {
-      "metadata": {
-        "app": {
-          "osio": {
-            "enabled": false
-          },
-          "launcher": {
-            "runsOn": [
-              "!starter"
-            ]
-          }
-        }
-      },
-      "mission": "crud",
-      "name": "Spring Boot - CRUD Example",
-      "description": "Booster to expose an HTTP endpoint with CRUD operations on fruits database.",
-      "runtime": "spring-boot",
-      "source": {
-        "git": {
-          "url": "https://github.com/snowdrop/spring-boot-crud-booster",
-          "ref": "1.5.12-2-redhat"
-        }
-      },
-      "version": "current-redhat"
-    },
-    {
-      "metadata": {
-        "app": {
-          "osio": {
-            "enabled": false
-          }
-        }
-      },
-      "mission": "configmap",
-      "name": "Node.js - HTTP & Config Map",
-      "description": "Simple HTTP endpoint where the Node.js application uses OpenShift ConfigMap to get the application parameters.",
+      "mission": "rest-http",
+      "name": "Node.js - HTTP",
+      "description": "Runs a Node.js HTTP application",
       "runtime": "nodejs",
       "source": {
         "git": {
-          "url": "https://github.com/bucharest-gold/nodejs-configmap",
-          "ref": "master"
+          "url": "https://github.com/bucharest-gold/nodejs-rest-http-redhat",
+          "ref": "v2.0.0"
         }
       },
-      "version": "v10-community"
+      "version": "v10-redhat"
     },
     {
       "metadata": {
@@ -1345,7 +1377,7 @@
       "source": {
         "git": {
           "url": "https://github.com/bucharest-gold/nodejs-circuit-breaker-redhat",
-          "ref": "master"
+          "ref": "v2.0.0"
         }
       },
       "version": "v10-redhat"
@@ -1363,17 +1395,67 @@
           }
         }
       },
-      "mission": "cache",
-      "name": "Node.js Cache Booster",
-      "description": "Demonstrate how to use a cache server from a Node.js application",
-      "runtime": "nodejs",
+      "mission": "crud",
+      "name": "Spring Boot - CRUD Example",
+      "description": "Booster to expose an HTTP endpoint with CRUD operations on fruits database.",
+      "runtime": "spring-boot",
       "source": {
         "git": {
-          "url": "https://github.com/bucharest-gold/nodejs-cache-redhat",
-          "ref": "master"
+          "url": "https://github.com/snowdrop/spring-boot-crud-booster",
+          "ref": "1.5.13-1-redhat"
         }
       },
-      "version": "v10-redhat"
+      "version": "current-redhat"
+    },
+    {
+      "metadata": {
+        "app": {
+          "osio": {
+            "enabled": false
+          },
+          "launcher": {
+            "runsOn": [
+              "!starter"
+            ]
+          }
+        }
+      },
+      "mission": "crud",
+      "name": "HTTP CRUD - Wildfly Swarm",
+      "description": "A simple CRUD applicaiton using Wildfly Swarm",
+      "runtime": "wildfly-swarm",
+      "source": {
+        "git": {
+          "url": "https://github.com/wildfly-swarm-openshiftio-boosters/wfswarm-rest-http-crud-redhat",
+          "ref": "7.1.0-redhat-1"
+        }
+      },
+      "version": "redhat"
+    },
+    {
+      "metadata": {
+        "app": {
+          "osio": {
+            "enabled": false
+          },
+          "launcher": {
+            "runsOn": [
+              "!starter"
+            ]
+          }
+        }
+      },
+      "mission": "circuit-breaker",
+      "name": "Red Hat Fuse - Circuit Breaker Example",
+      "description": "Booster to demonstrate Circuit Breaker pattern with Apache Camel.",
+      "runtime": "fuse",
+      "source": {
+        "git": {
+          "url": "https://github.com/jboss-fuse/fuse-springboot-circuit-breaker-booster",
+          "ref": "v7.0.0-redhat"
+        }
+      },
+      "version": "7.0.0-redhat"
     },
     {
       "metadata": {
@@ -1393,121 +1475,10 @@
       "source": {
         "git": {
           "url": "https://github.com/snowdrop/spring-boot-http-secured-booster",
-          "ref": "1.5.12-2-redhat"
+          "ref": "1.5.13-1-redhat"
         }
       },
       "version": "current-redhat"
-    },
-    {
-      "mission": "health-check",
-      "name": "Vert.x Health Check Example",
-      "description": "Demonstrate health check and recovery mechanism",
-      "runtime": "vert.x",
-      "source": {
-        "git": {
-          "url": "https://github.com/openshiftio-vertx-boosters/vertx-health-checks-booster-redhat",
-          "ref": "master"
-        }
-      },
-      "version": "redhat"
-    },
-    {
-      "metadata": {
-        "app": {
-          "osio": {
-            "enabled": false
-          },
-          "launcher": {
-            "runsOn": "none"
-          }
-        }
-      },
-      "mission": "rest-http-secured",
-      "name": "Secured Vertx - Rest & Red Hat SSO",
-      "description": "Quickstart to expose a REST Greeting endpoint using Eclipse Vert.x & Secured by Red Hat SSO",
-      "runtime": "vert.x",
-      "source": {
-        "git": {
-          "url": "https://github.com/openshiftio-vertx-boosters/vertx-secured-http-booster",
-          "ref": "master"
-        }
-      },
-      "version": "community"
-    },
-    {
-      "metadata": {
-        "app": {
-          "osio": {
-            "enabled": false
-          },
-          "launcher": {
-            "runsOn": [
-              "!starter"
-            ]
-          }
-        }
-      },
-      "mission": "cache",
-      "name": "Spring Boot - Cache Example",
-      "description": "Booster to demonstrate how to use a cache server Spring Boot on OpenShift.",
-      "runtime": "spring-boot",
-      "source": {
-        "git": {
-          "url": "https://github.com/snowdrop/spring-boot-cache-booster",
-          "ref": "1.5.12-2"
-        }
-      },
-      "version": "current-community"
-    },
-    {
-      "metadata": {
-        "app": {
-          "launcher": {
-            "runsOn": [
-              "!starter"
-            ]
-          },
-          "osio": {
-            "enabled": false
-          }
-        }
-      },
-      "mission": "crud",
-      "name": "Vert.x CRUD Example using JDBC",
-      "description": "Runs a Vert.x application exposing a HTTP endpoint proposing CRUD operations implemented on top of JDBC",
-      "runtime": "vert.x",
-      "source": {
-        "git": {
-          "url": "https://github.com/openshiftio-vertx-boosters/vertx-crud-booster-redhat",
-          "ref": "master"
-        }
-      },
-      "version": "redhat"
-    },
-    {
-      "metadata": {
-        "app": {
-          "osio": {
-            "enabled": false
-          },
-          "launcher": {
-            "runsOn": [
-              "!starter"
-            ]
-          }
-        }
-      },
-      "mission": "cache",
-      "name": "Node.js Cache Booster",
-      "description": "Demonstrate how to use a cache server from a Node.js application",
-      "runtime": "nodejs",
-      "source": {
-        "git": {
-          "url": "https://github.com/bucharest-gold/nodejs-cache-redhat",
-          "ref": "master"
-        }
-      },
-      "version": "v8-redhat"
     },
     {
       "metadata": {
@@ -1529,50 +1500,10 @@
       "source": {
         "git": {
           "url": "https://github.com/wildfly-swarm-openshiftio-boosters/wfswarm-rest-http-crud",
-          "ref": "master"
+          "ref": "10"
         }
       },
       "version": "community"
-    },
-    {
-      "metadata": {
-        "app": {
-          "osio": {
-            "enabled": false
-          }
-        }
-      },
-      "mission": "configmap",
-      "name": "Vert.x - HTTP & Config Map",
-      "description": "Simple HTTP endpoint where the Vert.x application uses OpenShift ConfigMap to get the application parameters.",
-      "runtime": "vert.x",
-      "source": {
-        "git": {
-          "url": "https://github.com/openshiftio-vertx-boosters/vertx-configmap-booster",
-          "ref": "master"
-        }
-      },
-      "version": "community"
-    },
-    {
-      "metadata": {
-        "app": {
-          "osio": {
-            "enabled": false
-          }
-        }
-      },
-      "mission": "configmap",
-      "name": "Node.js - HTTP & Config Map",
-      "description": "Simple HTTP endpoint where the Node.js application uses OpenShift ConfigMap to get the application parameters.",
-      "runtime": "nodejs",
-      "source": {
-        "git": {
-          "url": "https://github.com/bucharest-gold/nodejs-configmap",
-          "ref": "master"
-        }
-      },
-      "version": "v8-community"
     },
     {
       "metadata": {
@@ -1587,14 +1518,157 @@
           }
         }
       },
-      "mission": "circuit-breaker",
-      "name": "Node.js - Circuit Breaker",
-      "description": "Demonstrates Circuit Breaker in Node.js",
+      "mission": "cache",
+      "name": "WildFly Swarm - Cache",
+      "description": "Demonstrate how to use a cache server in WildFly Swarm",
+      "runtime": "wildfly-swarm",
+      "source": {
+        "git": {
+          "url": "https://github.com/wildfly-swarm-openshiftio-boosters/wfswarm-cache-redhat",
+          "ref": "7.1.0-redhat-1"
+        }
+      },
+      "version": "redhat"
+    },
+    {
+      "metadata": {
+        "app": {
+          "osio": {
+            "enabled": false
+          },
+          "launcher": {
+            "runsOn": [
+              "!starter"
+            ]
+          }
+        }
+      },
+      "mission": "crud",
+      "name": "Node.js - CRUD Example",
+      "description": "Runs a Node.js application exposing a HTTP endpoint proposing CRUD operations",
       "runtime": "nodejs",
       "source": {
         "git": {
-          "url": "https://github.com/bucharest-gold/nodejs-circuit-breaker",
-          "ref": "master"
+          "url": "https://github.com/bucharest-gold/nodejs-rest-http-crud-redhat",
+          "ref": "v1.2.2"
+        }
+      },
+      "version": "v8-redhat"
+    },
+    {
+      "metadata": {
+        "app": {
+          "osio": {
+            "enabled": false
+          },
+          "launcher": {
+            "runsOn": [
+              "!starter"
+            ]
+          }
+        }
+      },
+      "mission": "cache",
+      "name": "Spring Boot - Cache Example",
+      "description": "Booster to demonstrate how to use a cache server Spring Boot on OpenShift.",
+      "runtime": "spring-boot",
+      "source": {
+        "git": {
+          "url": "https://github.com/snowdrop/spring-boot-cache-booster",
+          "ref": "1.5.13-2"
+        }
+      },
+      "version": "current-community"
+    },
+    {
+      "metadata": {
+        "app": {
+          "osio": {
+            "enabled": false
+          },
+          "launcher": {
+            "runsOn": "none"
+          }
+        }
+      },
+      "mission": "rest-http-secured",
+      "name": "Node.js - REST and RH SSO",
+      "description": "A simple HTTP application using Node.js secured by RH SSO",
+      "runtime": "nodejs",
+      "source": {
+        "git": {
+          "url": "https://github.com/bucharest-gold/nodejs-rest-http-secured-redhat",
+          "ref": "v1.1.2"
+        }
+      },
+      "version": "v8-redhat"
+    },
+    {
+      "metadata": {
+        "app": {
+          "osio": {
+            "enabled": false
+          }
+        }
+      },
+      "mission": "rest-http",
+      "name": "Vert.x HTTP Booster",
+      "description": "Runs a Vert.x HTTP application",
+      "runtime": "vert.x",
+      "source": {
+        "git": {
+          "url": "https://github.com/openshiftio-vertx-boosters/vertx-http-booster",
+          "ref": "v25"
+        }
+      },
+      "version": "community"
+    },
+    {
+      "metadata": {
+        "app": {
+          "osio": {
+            "enabled": false
+          },
+          "launcher": {
+            "runsOn": [
+              "!starter"
+            ]
+          }
+        }
+      },
+      "mission": "cache",
+      "name": "Node.js Cache Booster",
+      "description": "Demonstrate how to use a cache server from a Node.js application",
+      "runtime": "nodejs",
+      "source": {
+        "git": {
+          "url": "https://github.com/bucharest-gold/nodejs-cache-redhat",
+          "ref": "v2.0.0"
+        }
+      },
+      "version": "v10-redhat"
+    },
+    {
+      "metadata": {
+        "app": {
+          "osio": {
+            "enabled": false
+          },
+          "launcher": {
+            "runsOn": [
+              "!starter"
+            ]
+          }
+        }
+      },
+      "mission": "crud",
+      "name": "Node.js - CRUD Example",
+      "description": "Runs a Node.js application exposing a HTTP endpoint proposing CRUD operations",
+      "runtime": "nodejs",
+      "source": {
+        "git": {
+          "url": "https://github.com/bucharest-gold/nodejs-rest-http-crud",
+          "ref": "v2.0.0"
         }
       },
       "version": "v10-community"
@@ -1614,30 +1688,10 @@
       "source": {
         "git": {
           "url": "https://github.com/snowdrop/spring-boot-health-check-booster",
-          "ref": "1.5.12-3"
+          "ref": "1.5.13-1"
         }
       },
       "version": "current-community"
-    },
-    {
-      "metadata": {
-        "app": {
-          "osio": {
-            "enabled": false
-          }
-        }
-      },
-      "mission": "configmap",
-      "name": "Red Hat Fuse - ConfigMap Example",
-      "description": "Booster to expose an HTTP REST endpoint using Apache Camel where the message is defined as a Kubernetes ConfigMap property.",
-      "runtime": "fuse",
-      "source": {
-        "git": {
-          "url": "https://github.com/jboss-fuse/fuse-configmap-booster",
-          "ref": "master"
-        }
-      },
-      "version": "2.21.0-community"
     },
     {
       "metadata": {
@@ -1667,22 +1721,97 @@
     {
       "metadata": {
         "app": {
+          "osio": {
+            "enabled": false
+          },
           "launcher": {
-            "runsOn": "none"
+            "runsOn": [
+              "local"
+            ]
           }
         }
       },
-      "mission": "rest-http-secured",
-      "name": "Secured Vertx - Rest & Red Hat SSO",
-      "description": "Quickstart to expose a REST Greeting endpoint using Eclipse Vert.x & Secured by Red Hat SSO",
-      "runtime": "vert.x",
+      "mission": "istio-routing",
+      "name": "Node.js - Istio - Routing",
+      "description": "Runs a Node.js application that utilizes Routing on Istio",
+      "runtime": "nodejs",
       "source": {
         "git": {
-          "url": "https://github.com/openshiftio-vertx-boosters/vertx-secured-http-booster-redhat",
-          "ref": "master"
+          "url": "https://github.com/bucharest-gold/nodejs-istio-routing",
+          "ref": "v1.0.0"
         }
       },
-      "version": "redhat"
+      "version": "v8-community"
+    },
+    {
+      "metadata": {
+        "app": {
+          "osio": {
+            "enabled": false
+          },
+          "launcher": {
+            "runsOn": [
+              "!starter"
+            ]
+          }
+        }
+      },
+      "mission": "cache",
+      "name": "Node.js Cache Booster",
+      "description": "Demonstrate how to use a cache server from a Node.js application",
+      "runtime": "nodejs",
+      "source": {
+        "git": {
+          "url": "https://github.com/bucharest-gold/nodejs-cache",
+          "ref": "v2.0.0"
+        }
+      },
+      "version": "v10-community"
+    },
+    {
+      "metadata": {
+        "app": {
+          "osio": {
+            "enabled": false
+          }
+        }
+      },
+      "mission": "configmap",
+      "name": "WildFly Swarm - Config Map",
+      "description": "Simple HTTP endpoint where the WildFly Swarm application uses OpenShift ConfigMap to retrieve application parameters.",
+      "runtime": "wildfly-swarm",
+      "source": {
+        "git": {
+          "url": "https://github.com/wildfly-swarm-openshiftio-boosters/wfswarm-configmap",
+          "ref": "11"
+        }
+      },
+      "version": "community"
+    },
+    {
+      "metadata": {
+        "app": {
+          "osio": {
+            "enabled": false
+          },
+          "launcher": {
+            "runsOn": [
+              "!starter"
+            ]
+          }
+        }
+      },
+      "mission": "circuit-breaker",
+      "name": "Node.js - Circuit Breaker",
+      "description": "Demonstrates Circuit Breaker in Node.js",
+      "runtime": "nodejs",
+      "source": {
+        "git": {
+          "url": "https://github.com/bucharest-gold/nodejs-circuit-breaker-redhat",
+          "ref": "v1.1.2"
+        }
+      },
+      "version": "v8-redhat"
     },
     {
       "metadata": {
@@ -1699,7 +1828,7 @@
       "source": {
         "git": {
           "url": "https://github.com/bucharest-gold/nodejs-rest-http-redhat",
-          "ref": "master"
+          "ref": "v1.2.3"
         }
       },
       "version": "v8-redhat"
@@ -1709,20 +1838,23 @@
         "app": {
           "osio": {
             "enabled": false
+          },
+          "launcher": {
+            "runsOn": "none"
           }
         }
       },
-      "mission": "rest-http",
-      "name": "WildFly Swarm - HTTP",
-      "description": "Runs a WildFly Swarm HTTP application",
-      "runtime": "wildfly-swarm",
+      "mission": "rest-http-secured",
+      "name": "Node.js - REST and RH SSO",
+      "description": "A simple HTTP application using Node.js secured by RH SSO",
+      "runtime": "nodejs",
       "source": {
         "git": {
-          "url": "https://github.com/wildfly-swarm-openshiftio-boosters/wfswarm-rest-http-redhat",
-          "ref": "master"
+          "url": "https://github.com/bucharest-gold/nodejs-rest-http-secured-redhat",
+          "ref": "v2.0.0"
         }
       },
-      "version": "redhat"
+      "version": "v10-redhat"
     },
     {
       "metadata": {
@@ -1739,50 +1871,10 @@
       "source": {
         "git": {
           "url": "https://github.com/bucharest-gold/nodejs-rest-http",
-          "ref": "master"
+          "ref": "v1.2.3"
         }
       },
       "version": "v8-community"
-    },
-    {
-      "metadata": {
-        "app": {
-          "osio": {
-            "enabled": false
-          }
-        }
-      },
-      "mission": "configmap",
-      "name": "Red Hat Fuse - ConfigMap Example",
-      "description": "Booster to expose an HTTP Greeting endpoint using Apache Camel where the message is defined as a Kubernetes ConfigMap property.",
-      "runtime": "fuse",
-      "source": {
-        "git": {
-          "url": "https://github.com/jboss-fuse/fuse-configmap-booster",
-          "ref": "redhat"
-        }
-      },
-      "version": "7.0.0-redhat"
-    },
-    {
-      "metadata": {
-        "app": {
-          "osio": {
-            "enabled": false
-          }
-        }
-      },
-      "mission": "health-check",
-      "name": "Node.js - Health Checks",
-      "description": "Demonstrates Health Checks in Node.js",
-      "runtime": "nodejs",
-      "source": {
-        "git": {
-          "url": "https://github.com/bucharest-gold/nodejs-health-check-redhat",
-          "ref": "master"
-        }
-      },
-      "version": "v10-redhat"
     },
     {
       "metadata": {
@@ -1804,35 +1896,10 @@
       "source": {
         "git": {
           "url": "https://github.com/snowdrop/spring-boot-istio-routing-booster.git",
-          "ref": "1.5.12-2"
+          "ref": "1.5.13-2"
         }
       },
       "version": "current-community"
-    },
-    {
-      "metadata": {
-        "app": {
-          "launcher": {
-            "runsOn": [
-              "!starter"
-            ]
-          },
-          "osio": {
-            "enabled": false
-          }
-        }
-      },
-      "mission": "circuit-breaker",
-      "name": "Vert.x Circuit Breaker Booster",
-      "description": "Runs a Vert.x application using a circuit breaker",
-      "runtime": "vert.x",
-      "source": {
-        "git": {
-          "url": "https://github.com/openshiftio-vertx-boosters/vertx-circuit-breaker-booster-redhat",
-          "ref": "master"
-        }
-      },
-      "version": "redhat"
     },
     {
       "metadata": {
@@ -1843,36 +1910,99 @@
         }
       },
       "mission": "health-check",
+      "name": "WildFly Swarm - Health Checks",
+      "description": "Demonstrates Health Checks in Wildfly Swarm",
+      "runtime": "wildfly-swarm",
+      "source": {
+        "git": {
+          "url": "https://github.com/wildfly-swarm-openshiftio-boosters/wfswarm-health-check-redhat",
+          "ref": "7.1.0-redhat-1"
+        }
+      },
+      "version": "redhat"
+    },
+    {
+      "metadata": {
+        "app": {
+          "osio": {
+            "enabled": true
+          }
+        }
+      },
+      "mission": "health-check",
       "name": "Spring Boot - Health Check Example",
       "description": "Booster to demonstrate OpenShift health probes working with Spring Boot Actuator.",
       "runtime": "spring-boot",
       "source": {
         "git": {
           "url": "https://github.com/snowdrop/spring-boot-health-check-booster",
-          "ref": "1.5.12-2-redhat"
+          "ref": "1.5.13-1-redhat"
         }
       },
       "version": "current-redhat"
+    },
+    {
+      "mission": "configmap",
+      "name": "Vert.x - HTTP & Config Map",
+      "description": "Simple HTTP endpoint where the Vert.x application uses OpenShift ConfigMap to get the application parameters.",
+      "runtime": "vert.x",
+      "source": {
+        "git": {
+          "url": "https://github.com/openshiftio-vertx-boosters/vertx-configmap-booster-redhat",
+          "ref": "v15"
+        }
+      },
+      "version": "redhat"
     },
     {
       "metadata": {
         "app": {
           "osio": {
             "enabled": false
+          },
+          "launcher": {
+            "runsOn": [
+              "!starter"
+            ]
           }
         }
       },
-      "mission": "configmap",
-      "name": "Node.js - HTTP & Config Map",
-      "description": "Simple HTTP endpoint where the Node.js application uses OpenShift ConfigMap to get the application parameters.",
-      "runtime": "nodejs",
+      "mission": "circuit-breaker",
+      "name": "WildFly Swarm - Circuit Breaker",
+      "description": "Demonstrates Circuit Breaker in Wildfly Swarm",
+      "runtime": "wildfly-swarm",
       "source": {
         "git": {
-          "url": "https://github.com/bucharest-gold/nodejs-configmap-redhat",
-          "ref": "master"
+          "url": "https://github.com/wildfly-swarm-openshiftio-boosters/wfswarm-circuit-breaker",
+          "ref": "7"
         }
       },
-      "version": "v10-redhat"
+      "version": "community"
+    },
+    {
+      "metadata": {
+        "app": {
+          "osio": {
+            "enabled": false
+          },
+          "launcher": {
+            "runsOn": [
+              "!starter"
+            ]
+          }
+        }
+      },
+      "mission": "cache",
+      "name": "WildFly Swarm - Cache",
+      "description": "Demonstrate how to use a cache server in WildFly Swarm",
+      "runtime": "wildfly-swarm",
+      "source": {
+        "git": {
+          "url": "https://github.com/wildfly-swarm-openshiftio-boosters/wfswarm-cache",
+          "ref": "1"
+        }
+      },
+      "version": "community"
     },
     {
       "metadata": {
@@ -1913,16 +2043,39 @@
         }
       },
       "mission": "crud",
-      "name": "HTTP CRUD - Wildfly Swarm",
-      "description": "A simple CRUD applicaiton using Wildfly Swarm",
-      "runtime": "wildfly-swarm",
+      "name": "Node.js - CRUD Example",
+      "description": "Runs a Node.js application exposing a HTTP endpoint proposing CRUD operations",
+      "runtime": "nodejs",
       "source": {
         "git": {
-          "url": "https://github.com/wildfly-swarm-openshiftio-boosters/wfswarm-rest-http-crud-redhat",
-          "ref": "master"
+          "url": "https://github.com/bucharest-gold/nodejs-rest-http-crud",
+          "ref": "v1.2.3"
         }
       },
-      "version": "redhat"
+      "version": "v8-community"
+    },
+    {
+      "metadata": {
+        "app": {
+          "osio": {
+            "enabled": false
+          },
+          "launcher": {
+            "runsOn": "none"
+          }
+        }
+      },
+      "mission": "rest-http-secured",
+      "name": "Secured Vertx - Rest & Red Hat SSO",
+      "description": "Quickstart to expose a REST Greeting endpoint using Eclipse Vert.x & Secured by Red Hat SSO",
+      "runtime": "vert.x",
+      "source": {
+        "git": {
+          "url": "https://github.com/openshiftio-vertx-boosters/vertx-secured-http-booster",
+          "ref": "v18"
+        }
+      },
+      "version": "community"
     }
   ],
   "runtimes": [
@@ -1941,7 +2094,7 @@
         },
         {
           "id": "redhat",
-          "name": "3.5.1.redhat-003 (RHOAR)"
+          "name": "3.5.1.redhat-004 (RHOAR)"
         }
       ]
     },
@@ -2002,11 +2155,11 @@
       "versions": [
         {
           "id": "current-community",
-          "name": "1.5.12.RELEASE (Community)"
+          "name": "1.5.13.RELEASE (Community)"
         },
         {
           "id": "current-redhat",
-          "name": "1.5.12.RELEASE (RHOAR)"
+          "name": "1.5.13.RELEASE (RHOAR)"
         }
       ]
     },

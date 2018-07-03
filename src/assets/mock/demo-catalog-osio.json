@@ -1,6 +1,19 @@
 {
   "boosters": [
     {
+      "mission": "health-check",
+      "name": "Vert.x Health Check Example",
+      "description": "Demonstrate health check and recovery mechanism",
+      "runtime": "vert.x",
+      "source": {
+        "git": {
+          "url": "https://github.com/openshiftio-vertx-boosters/vertx-health-checks-booster-redhat",
+          "ref": "v13"
+        }
+      },
+      "version": "redhat"
+    },
+    {
       "metadata": {
         "app": {
           "osio": {
@@ -15,23 +28,10 @@
       "source": {
         "git": {
           "url": "https://github.com/wildfly-swarm-openshiftio-boosters/wfswarm-health-check",
-          "ref": "master"
+          "ref": "10"
         }
       },
       "version": "community"
-    },
-    {
-      "mission": "configmap",
-      "name": "Vert.x - HTTP & Config Map",
-      "description": "Simple HTTP endpoint where the Vert.x application uses OpenShift ConfigMap to get the application parameters.",
-      "runtime": "vert.x",
-      "source": {
-        "git": {
-          "url": "https://github.com/openshiftio-vertx-boosters/vertx-configmap-booster-redhat",
-          "ref": "master"
-        }
-      },
-      "version": "redhat"
     },
     {
       "metadata": {
@@ -48,23 +48,76 @@
       "source": {
         "git": {
           "url": "https://github.com/wildfly-swarm-openshiftio-boosters/wfswarm-rest-http",
-          "ref": "master"
+          "ref": "13"
         }
       },
       "version": "community"
     },
     {
+      "metadata": {
+        "app": {
+          "osio": {
+            "enabled": true
+          }
+        }
+      },
       "mission": "health-check",
-      "name": "Vert.x Health Check Example",
-      "description": "Demonstrate health check and recovery mechanism",
+      "name": "Spring Boot - Health Check Example",
+      "description": "Booster to demonstrate OpenShift health probes working with Spring Boot Actuator.",
+      "runtime": "spring-boot",
+      "source": {
+        "git": {
+          "url": "https://github.com/snowdrop/spring-boot-health-check-booster",
+          "ref": "1.5.13-1-redhat"
+        }
+      },
+      "version": "current-redhat"
+    },
+    {
+      "mission": "configmap",
+      "name": "Vert.x - HTTP & Config Map",
+      "description": "Simple HTTP endpoint where the Vert.x application uses OpenShift ConfigMap to get the application parameters.",
       "runtime": "vert.x",
       "source": {
         "git": {
-          "url": "https://github.com/openshiftio-vertx-boosters/vertx-health-checks-booster-redhat",
-          "ref": "master"
+          "url": "https://github.com/openshiftio-vertx-boosters/vertx-configmap-booster-redhat",
+          "ref": "v15"
         }
       },
       "version": "redhat"
+    },
+    {
+      "mission": "rest-http",
+      "name": "Vert.x HTTP Booster",
+      "description": "Runs a Vert.x HTTP application",
+      "runtime": "vert.x",
+      "source": {
+        "git": {
+          "url": "https://github.com/openshiftio-vertx-boosters/vertx-http-booster-redhat",
+          "ref": "v13"
+        }
+      },
+      "version": "redhat"
+    },
+    {
+      "metadata": {
+        "app": {
+          "osio": {
+            "enabled": true
+          }
+        }
+      },
+      "mission": "rest-http",
+      "name": "Spring Boot - HTTP Example",
+      "description": "Booster to expose a HTTP Greeting endpoint using Spring Boot and Apache Tomcat in embedded mode.",
+      "runtime": "spring-boot",
+      "source": {
+        "git": {
+          "url": "https://github.com/snowdrop/spring-boot-http-booster",
+          "ref": "1.5.13-1-redhat"
+        }
+      },
+      "version": "current-redhat"
     },
     {
       "metadata": {
@@ -85,39 +138,6 @@
         }
       },
       "version": "current-osio"
-    },
-    {
-      "mission": "rest-http",
-      "name": "Vert.x HTTP Booster",
-      "description": "Runs a Vert.x HTTP application",
-      "runtime": "vert.x",
-      "source": {
-        "git": {
-          "url": "https://github.com/openshiftio-vertx-boosters/vertx-http-booster-redhat",
-          "ref": "master"
-        }
-      },
-      "version": "redhat"
-    },
-    {
-      "metadata": {
-        "app": {
-          "launcher": {
-            "runsOn": "none"
-          }
-        }
-      },
-      "mission": "rest-http-secured",
-      "name": "Secured Vertx - Rest & Red Hat SSO",
-      "description": "Quickstart to expose a REST Greeting endpoint using Eclipse Vert.x & Secured by Red Hat SSO",
-      "runtime": "vert.x",
-      "source": {
-        "git": {
-          "url": "https://github.com/openshiftio-vertx-boosters/vertx-secured-http-booster-redhat",
-          "ref": "master"
-        }
-      },
-      "version": "redhat"
     }
   ],
   "runtimes": [
@@ -132,7 +152,7 @@
       "versions": [
         {
           "id": "redhat",
-          "name": "3.5.1.redhat-003 (RHOAR)"
+          "name": "3.5.1.redhat-004 (RHOAR)"
         }
       ]
     },
@@ -148,6 +168,10 @@
         {
           "id": "current-osio",
           "name": "1.5.12.RELEASE (OSIO)"
+        },
+        {
+          "id": "current-redhat",
+          "name": "1.5.13.RELEASE (RHOAR)"
         }
       ]
     },
@@ -190,14 +214,6 @@
       "description": "Map business operations to a remote procedure call endpoint over HTTP using a REST framework",
       "metadata": {
         "level": "foundational"
-      }
-    },
-    {
-      "id": "rest-http-secured",
-      "name": "Secured",
-      "description": "Expands on REST API Level 0 to secure the REST endpoint using Red Hat SSO which adds security to your applications while centralizing the security configuration",
-      "metadata": {
-        "level": "advanced"
       }
     }
   ]

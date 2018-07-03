@@ -31,6 +31,7 @@
     margin-top: -2px;
     padding: 0;
   }
+
   // Override to display dropdown in item heading
   .list-view-pf-body {
     &.f8launcher-section-runtime {
@@ -69,5 +70,33 @@
 
   .f8launcher-tags {
     right: 0;
+  }
+
+  .list-group-item-header {
+    display: none;
+  }
+
+  .prerequisite .list-group-item-header { display: block; }
+  .suggested .list-group-item-header { display: block; }
+  .contribute .list-group-item-header { display: block; }
+  .disabled .list-group-item-header { display: block; }
+  .advanced .list-group-item-header { display: block; }
+  .community .list-group-item-header { display: block; }
+
+  .list-view-pf.shrinked {
+
+    .list-view-pf-main-info {
+      padding-top: 2px;
+      padding-bottom: 2px;
+    }
+
+    .list-view-pf-checkbox {
+      margin-top: 2px;
+      margin-bottom: 2px;
+    }
+
+    .list-group-item-text, .f8launcher-tags-label-text {
+      display: none;
+    }
   }
 }

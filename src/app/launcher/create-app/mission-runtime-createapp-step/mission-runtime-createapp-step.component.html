@@ -39,15 +39,16 @@
                    [ngClass]="{'prerequisite': mission.prerequisite,
                                'suggested': mission.suggested,
                                'contribute': mission.disabled,
+                               'disabled': mission.disabled,
+                               'shrinked': mission.shrinked,
+                               'advanced': mission.advanced,
                                'community': mission.community}"
-                   *ngFor="let mission of (missions | sortArray: 'suggested': true)">
+                   *ngFor="let mission of (missions | sortArray: 'suggested': true | sortArray: 'shrinked': false)">
                 <div class="list-group-item list-view-pf-stacked list-view-pf-top-align"
                      [ngClass]="{'disabled': mission.disabled, 'selected-list-item': missionId === mission.id}">
-                  <div class="list-group-item-header"
-                       *ngIf="mission.prerequisite || mission.suggested || mission.advanced || mission.disabled || mission.community">
+                  <div class="list-group-item-header">
                     <div class="f8launcher-tags"
-                         [ngClass]="{'prerequisite': mission.prerequisite,
-                                     'advanced-feature-tag': mission.advanced,
+                         [ngClass]="{'advanced-feature-tag': mission.advanced,
                                      'suggested-feature-tag': mission.suggested,
                                      'not-available-feature-tag': mission.disabled,
                                      'community-feature-tag': mission.community}">
@@ -61,30 +62,30 @@
                               outsideClick="true"
                               [popover]="missionContributeTemplate"
                               *ngSwitchCase="disabledReason.NOT_IMPLEMENTED">
-                          Not available <i class="pficon pficon-info"></i>
+                          <span class="f8launcher-tags-label-text">Not available </span><i class="pficon pficon-info"></i>
                         </span>
                         <span class="f8launcher-tags-label" container="body" triggers="click"
                               outsideClick="true"
                               popover="The {{cluster}} cluster doesn't have enough resources to support the mission."
                               *ngSwitchCase="disabledReason.CLUSTER_INCOMPATIBILITY">
-                          Cluster incompatibility <i class="pficon pficon-warning-triangle-o"></i>
+                          <span class="f8launcher-tags-label-text">Cluster incompatibility </span><i class="pficon pficon-warning-triangle-o"></i>
                         </span>
                       </span>
                       <span class="f8launcher-tags-label community" container="body" triggers="click"
                             outsideClick="true"
                             popover="This mission and runtime combination is currently only available in the community version. Support may be discontinued. Use with caution."
-                            *ngIf="mission.community">
-                        Community <i class="pficon pficon-warning-triangle-o"></i>
+                            *ngIf="!mission.shrinked && mission.community">
+                        <span class="f8launcher-tags-label-text">Community </span><i class="pficon pficon-warning-triangle-o"></i>
                       </span>
                       <span class="f8launcher-tags-label suggested" container="body" triggers="click"
                             outsideClick="true"
                             popover="This mission will get you started with a bare bones working application."
-                            *ngIf="mission.suggested">
-                        Red Hat Suggests <i class="pficon pficon-info"></i>
+                            *ngIf="!mission.shrinked && mission.suggested">
+                        <span class="f8launcher-tags-label-text">Red Hat Suggests </span><i class="pficon pficon-info"></i>
                       </span>
                       <span class="f8launcher-tags-label advanced" container="body" triggers="click"
                             outsideClick="true"
-                            *ngIf="mission.prerequisite || mission.advanced">
+                            *ngIf="!mission.shrinked && mission.advanced">
                         Advanced <i class="fa fa-graduation-cap"></i>
                       </span>
                     </div>

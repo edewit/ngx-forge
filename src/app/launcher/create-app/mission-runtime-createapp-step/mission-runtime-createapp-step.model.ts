@@ -13,6 +13,7 @@ export class ViewMission extends Mission {
   prerequisite: boolean;
   community: boolean;
   showMore: boolean = false;
+  shrinked: boolean = false;
   boosters: Booster[];
 }
 
@@ -26,6 +27,24 @@ export class ViewRuntime extends Runtime {
   versions: BoosterVersion[];
   showMore: boolean = false;
   boosters: Booster[];
+}
+
+export function createViewMissions(boosters: Booster[]): ViewMission[] {
+  const groupedByMission = _.groupBy(boosters, b => b.mission.id);
+  return _.values(groupedByMission).map(missionBoosters => {
+    const mission = _.first(missionBoosters).mission;
+    return {
+      id: mission.id,
+      name: mission.name,
+      description: mission.description,
+      community: false,
+      advanced: _.get(mission, 'metadata.level') === 'advanced' || _.get(mission, 'metadata.prerequisite', false),
+      suggested: _.get(mission, 'metadata.suggested', false),
+      showMore: false,
+      disabled: true,
+      boosters: missionBoosters
+    } as ViewMission;
+  });
 }
 
 export function createViewRuntimes(boosters: Booster[], canChangeVersion: boolean): ViewRuntime[] {
@@ -47,21 +66,3 @@ export function createViewRuntimes(boosters: Booster[], canChangeVersion: boolea
   });
 }
 
-export function createViewMissions(boosters: Booster[]): ViewMission[] {
-  const groupedByMission = _.groupBy(boosters, b => b.mission.id);
-  return _.values(groupedByMission).map(missionBoosters => {
-    const mission = _.first(missionBoosters).mission;
-    return {
-      id: mission.id,
-      name: mission.name,
-      description: mission.description,
-      community: false,
-      advanced: _.get(mission, 'metadata.level') === 'advanced',
-      suggested: _.get(mission, 'metadata.suggested', false),
-      prerequisite: _.get(mission, 'metadata.prerequisite', false),
-      showMore: false,
-      disabled: true,
-      boosters: missionBoosters
-    } as ViewMission;
-  });
-}
