@@ -3,6 +3,7 @@ import { Component, Host, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, Vi
 import { Progress } from '../../model/progress.model';
 import { ProjectProgressService } from '../../service/project-progress.service';
 import { LauncherComponent } from '../../launcher.component';
+import { Broadcaster } from 'ngx-base';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -10,7 +11,7 @@ import { LauncherComponent } from '../../launcher.component';
   templateUrl: './project-progress-importapp-nextstep.component.html',
   styleUrls: ['./project-progress-importapp-nextstep.component.less']
 })
-export class ProjectProgressImportappNextstepComponent implements OnInit, OnChanges, OnDestroy {
+export class ProjectProgressImportappNextstepComponent implements OnChanges, OnDestroy {
   @Input() statusLink: string;
   isError = false;
   errorMessage = '';
@@ -18,11 +19,9 @@ export class ProjectProgressImportappNextstepComponent implements OnInit, OnChan
   private socket: WebSocket;
 
   constructor(@Host() public launcherComponent: LauncherComponent,
+              private broadcaster: Broadcaster,
               private projectProgressService: ProjectProgressService) {
-  }
-
-  ngOnInit() {
-
+    this.broadcaster.on('progressEvents').subscribe((events: Progress[]) => this._progress = events);
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -30,35 +29,19 @@ export class ProjectProgressImportappNextstepComponent implements OnInit, OnChan
     if (statusLink) {
       this.socket = this.projectProgressService.getProgress(statusLink);
       this.socket.onmessage = (event: MessageEvent) => {
-        if (!this._progress) {
-          this._progress = [];
-          let values = JSON.parse(event.data);
-          console.log('data from Import ws', values);
-          for (let item of values) {
-            for (let key in item) {
-              if (item.hasOwnProperty(key)) {
-                let status = {key: key, description: item[key]} as Progress;
-                if (status['key'] !== 'GITHUB_CREATE' && status['key'] !== 'GITHUB_PUSHED') {
-                  this._progress.push(status);
-                }
-              }
-            }
-          }
+        let message = JSON.parse(event.data);
+        let data = message.data || {};
+        if (data && data.error) {
+          this.isError = true;
+          this.errorMessage = data.error;
         } else {
-          let message = JSON.parse(event.data);
-          let data = message.data || {};
-          if (data && data.error) {
-            this.isError = true;
-            this.errorMessage = data.error;
-          } else {
-            for (let status of this._progress) {
-              if (status.key === message.statusMessage) {
-                status.completed = true;
-                if (data.location) {
-                  status.hyperText = data.location;
-                }
-                break;
+          for (let status of this._progress) {
+            if (status.name === message.statusMessage) {
+              status.completed = true;
+              if (data.location) {
+                status.hyperText = data.location;
               }
+              break;
             }
           }
         }

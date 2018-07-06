@@ -6,26 +6,14 @@ import { ProjectProgressImportappNextstepComponent } from './project-progress-im
 import { ProjectProgressService } from '../../service/project-progress.service';
 import { Progress } from '../../model/progress.model';
 import { LauncherComponent } from '../../launcher.component';
+import { Broadcaster } from 'ngx-base';
+import { BroadcasterTestProvider } from
+  '../../create-app/targetenvironment-createapp-step/target-environment-createapp-step.component.spec';
 
 let progressSubject: Subject<Progress[]> = new Subject();
 let mockProjectProgressService = {
   getProgress(): Observable<Progress[]> {
     return progressSubject.asObservable();
-  },
-  getItems(): Progress[] {
-    let progress = [{
-      'completed': false,
-      'description': 'Creating Your Project on the OpenShift Cloud',
-      'hypertext': 'View New Application',
-      'url': 'https://github.com/fabric8-launcher/ngx-launcher'
-    }, {
-      'completed': false,
-      'description': 'Setting up Build Pipeline'
-    }, {
-      'completed': false,
-      'description': 'Configure Trigger Builds on Git Pushes'
-    }] as Progress[];
-    return progress;
   }
 };
 
@@ -52,6 +40,7 @@ describe('Import ProjectProgressComponent', () => {
         ProjectProgressImportappNextstepComponent
       ],
       providers: [
+        { provide: Broadcaster, useValue: BroadcasterTestProvider.broadcaster },
         {
           provide: LauncherComponent, useValue: mockWizardComponent
         },

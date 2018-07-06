@@ -35,6 +35,11 @@ import { DemoDependencyCheckService } from '../../demo/service/demo-dependency-c
 import { DemoProjectSummaryService } from '../../demo/service/demo-project-summary.service';
 import { HelperService } from './service/helper.service';
 import { TokenProvider } from '../../app/service/token-provider';
+import { Subject, Observable } from 'rxjs';
+import { Progress } from './model/progress.model';
+import { ProjectProgressService } from './service/project-progress.service';
+import { Broadcaster } from 'ngx-base';
+import { BroadcasterTestProvider } from './create-app/targetenvironment-createapp-step/target-environment-createapp-step.component.spec';
 
 @Component({
   selector: 'f8launcher-step-indicator',
@@ -164,6 +169,13 @@ let mockHelperService = {
   }
 };
 
+let progressSubject: Subject<Progress[]> = new Subject();
+let mockProjectProgressService = {
+  getProgress(): Observable<Progress[]> {
+    return progressSubject.asObservable();
+  }
+};
+
 describe('LauncherComponent', () => {
   let component: LauncherComponent;
   let fixture: ComponentFixture<LauncherComponent>;
@@ -197,6 +209,8 @@ describe('LauncherComponent', () => {
         TokenProvider,
         { provide: DependencyCheckService, useClass: DemoDependencyCheckService },
         { provide: HelperService, useValue: mockHelperService },
+        { provide: ProjectProgressService, useValue: mockProjectProgressService },
+        { provide: Broadcaster, useValue: BroadcasterTestProvider.broadcaster },
         { provide: ProjectSummaryService, useClass: DemoProjectSummaryService }
       ]
     }).compileComponents();

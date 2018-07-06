@@ -4,12 +4,12 @@ import { Observable } from 'rxjs';
 import { TokenService } from '../../app/launcher/service/token.service';
 import { Cluster } from '../../app/launcher/model/cluster.model';
 
-const MockClusters = require('../../assets/mock/demo-token.json');
+const mockClusters = require('../../assets/mock/demo-token.json');
 @Injectable()
 export class DemoTokenService implements TokenService {
 
   get clusters(): Observable<Cluster[]> {
-    return Observable.of(MockClusters)
+    return Observable.of(mockClusters)
       .delay(2000);
   }
 

@@ -2,16 +2,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import {
   Component,
-  Host,
-  Input,
-  OnDestroy,
-  OnInit,
-  ViewEncapsulation
-} from '@angular/core';
+  Input} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { By } from '@angular/platform-browser';
-import { DomSanitizer } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Observable } from 'rxjs';
 import { InViewportModule, WindowRef } from '@thisissoon/angular-inviewport';
@@ -22,21 +15,23 @@ import { ProjectSummaryCreateappStepComponent } from './project-summary-createap
 import { ProjectSummaryService } from '../../service/project-summary.service';
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
-import { Summary } from '../../launcher.module';
+import { Broadcaster } from 'ngx-base';
+import { BroadcasterTestProvider } from
+  '../targetenvironment-createapp-step/target-environment-createapp-step.component.spec';
 
 @Component({
   selector: 'fab-toast-notification',
   template: ''
 })
 export class FakeToastNotificationComponent {
-  @Input() notifications: any 
+  @Input() notifications: any;
 }
 
 let mockProjectSummaryService = {
-  setup(summary: Summary): Observable<boolean> {
+  setup(): Observable<boolean> {
     return Observable.of(true);
   },
-  verify(summary: Summary): Observable<boolean> {
+  verify(): Observable<boolean> {
     return Observable.of(true);
   },
   getCurrentContext(): Observable<any> {
@@ -107,6 +102,7 @@ describe('ProjectSummaryStepComponent', () => {
         FakeToastNotificationComponent
       ],
       providers : [
+        { provide: Broadcaster, useValue: BroadcasterTestProvider.broadcaster },
         {
           provide: ProjectSummaryService, useValue: mockProjectSummaryService
         },

@@ -13,6 +13,7 @@ import { Progress } from '../../model/progress.model';
 import { ProjectProgressService } from '../../service/project-progress.service';
 import { LauncherComponent } from '../../launcher.component';
 import { ProjectSummaryService } from '../../../../..';
+import { Broadcaster } from 'ngx-base';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -28,7 +29,12 @@ export class ProjectProgressCreateappNextstepComponent implements OnChanges, OnD
 
   constructor(@Host() public launcherComponent: LauncherComponent,
     private projectProgressService: ProjectProgressService,
-    private projectSummaryService: ProjectSummaryService) {
+    private projectSummaryService: ProjectSummaryService,
+    private broadcaster: Broadcaster) {
+      this.broadcaster.on('progressEvents').subscribe((events: Progress[]) => {
+        console.log('got the event list', events);
+        this._progress = events;
+      });
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -36,37 +42,24 @@ export class ProjectProgressCreateappNextstepComponent implements OnChanges, OnD
     if (statusLink) {
       this.socket = this.projectProgressService.getProgress(statusLink);
       this.socket.onmessage = (event: MessageEvent) => {
-        if (!this._progress) {
-          this._progress = [];
-          let values = JSON.parse(event.data);
-          console.log('data from Create ws', values);
-          for (let item of values) {
-            for (let key in item) {
-              if (item.hasOwnProperty(key)) {
-                this._progress.push({ key: key, description: item[key] } as Progress);
-              }
-            }
+        let message = JSON.parse(event.data);
+        console.log('data from ws', message);
+        let data = message.data || {};
+        if (data && data.error) {
+          console.log(message.data.error);
+          this.errorMessage = data.error;
+          for (let i = this.lastCompleted; i < this._progress.length; i++) {
+            this._progress[i].error = true;
           }
+          this.socket.close();
         } else {
-          let message = JSON.parse(event.data);
-          console.log('data from ws', message);
-          let data = message.data || {};
-          if (data && data.error) {
-            console.log(message.data.error);
-            this.errorMessage = data.error;
-            for (let i = this.lastCompleted; i < this._progress.length; i++) {
-              this._progress[i].error = true;
-            }
-            this.socket.close();
-          } else {
-            for (let status of this._progress) {
-              if (status.key === message.statusMessage) {
-                status.completed = true;
-                if (data.location != null) {
-                  status.hyperText = data.location;
-                }
-                break;
+          for (let status of this._progress) {
+            if (status.name === message.statusMessage) {
+              status.completed = true;
+              if (data.location != null) {
+                status.hyperText = data.location;
               }
+              break;
             }
           }
         }
@@ -112,7 +105,7 @@ export class ProjectProgressCreateappNextstepComponent implements OnChanges, OnD
 
   getProgressByKey(key: string): Progress {
     for (let status of this._progress) {
-      if (status.key === key) {
+      if (status.name === key) {
         return status;
       }
     }

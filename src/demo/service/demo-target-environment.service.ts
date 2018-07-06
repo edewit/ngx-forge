@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 
 import { TargetEnvironment, TargetEnvironmentService } from '../../app/launcher/launcher.module';
 
-const MockTargetEnvironmments = require('../../assets/mock/demo-target-environment.json');
+const mockTargetEnvironmments = require('../../assets/mock/demo-target-environment.json');
 
 @Injectable()
 export class DemoTargetEnvironmentService implements TargetEnvironmentService {
@@ -14,6 +14,6 @@ export class DemoTargetEnvironmentService implements TargetEnvironmentService {
    * @returns {Observable<TargetEnvironment>} The target environments
    */
   getTargetEnvironments(): Observable<TargetEnvironment[]> {
-    return Observable.from([MockTargetEnvironmments]);
+    return Observable.from([mockTargetEnvironmments]);
   }
 }

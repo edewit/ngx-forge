@@ -2,14 +2,10 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import {
   Component,
-  EventEmitter,
-  Input,
-  Output
+  Input
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { By } from '@angular/platform-browser';
-import { DomSanitizer } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Observable } from 'rxjs';
 import { InViewportModule, WindowRef } from '@thisissoon/angular-inviewport';
@@ -21,13 +17,16 @@ import { ProjectSummaryService } from '../../service/project-summary.service';
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
 import { Summary } from '../../launcher.module';
+import { Broadcaster } from 'ngx-base';
+import { BroadcasterTestProvider } from
+  '../../create-app/targetenvironment-createapp-step/target-environment-createapp-step.component.spec';
 
 @Component({
   selector: 'fab-toast-notification',
   template: ''
 })
 export class FakeToastNotificationComponent {
-  @Input() notifications: any 
+  @Input() notifications: any;
 }
 
 let mockProjectSummaryService = {
@@ -105,6 +104,7 @@ describe('Import ProjectSummaryStepComponent', () => {
         FakeToastNotificationComponent
       ],
       providers : [
+        { provide: Broadcaster, useValue: BroadcasterTestProvider.broadcaster },
         {
           provide: ProjectSummaryService, useValue: mockProjectSummaryService
         },

@@ -21,6 +21,7 @@ import { LauncherStep } from '../../launcher-step';
 import { DependencyCheck } from '../../model/dependency-check.model';
 import { Summary } from '../../model/summary.model';
 import { broadcast } from '../../shared/telemetry.decorator';
+import { Broadcaster } from 'ngx-base';
 import { NgForm } from '@angular/forms';
 
 @Component({
@@ -41,6 +42,7 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
   constructor(@Host() public launcherComponent: LauncherComponent,
               private dependencyCheckService: DependencyCheckService,
               private projectSummaryService: ProjectSummaryService,
+              private broadcaster: Broadcaster,
               public _DomSanitizer: DomSanitizer) {
     super();
   }
@@ -122,10 +124,13 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
       this.projectSummaryService
       .setup(this.launcherComponent.summary)
       .subscribe((val: any) => {
-        if (val && val['uuid_link']) {
-          this.launcherComponent.statusLink = val['uuid_link'];
-          this.navToNextStep();
+        if (!val || !val['uuid_link']) {
+          this.displaySetUpErrorResponse('Invalid response from server!');
         }
+
+        this.launcherComponent.statusLink = val['uuid_link'];
+        this.broadcaster.broadcast('progressEvents', val.events);
+        this.navToNextStep();
       }, (error) => {
         this.setupInProgress = false;
         if (error) {

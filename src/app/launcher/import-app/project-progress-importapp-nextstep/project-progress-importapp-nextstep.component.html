@@ -50,15 +50,15 @@
                         <div class="list-pf-left"
                                 [ngClass]="{'item-in-progress': item.completed !== true}">
                           <span class="pficon"
-                                [ngClass]="{'pficon-ok': item.completed,
-                                            'pficon-in-progress fa-spin': item.completed !== true,
-                                            'icon-clear': item.completed !== true && item.inProgress !== true}">
+                            [ngClass]="{'pficon-ok': item.completed,
+                            'pficon-in-progress fa-spin': !item.completed && !item.error,
+                            'pficon-paused': item.error}">
                           </span>
                         </div>
                         <div class="list-pf-content-wrapper">
                           <div class="list-pf-main-content"
                                   [ngClass]="{'item-in-progress': item.completed !== true}">
-                            {{item?.description}}
+                            {{item?.message}}
                           </div>
                         </div>
                         <div class="list-pf-actions"
