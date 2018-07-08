@@ -17,7 +17,7 @@ import { Selection } from '../../model/selection.model';
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
 import { DependencyEditor } from '../../model/dependency-editor/dependency-editor.model';
-import { broadcast } from '../../shared/telemetry.decorator';
+import { broadcast } from 'fabric8-analytics-dependency-editor';
 
 @Component({
     encapsulation: ViewEncapsulation.None,

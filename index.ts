@@ -30,7 +30,7 @@ export { AuthHelperService } from './src/app/launcher/service/auth-provider.serv
 export { HelperService } from './src/app/launcher/service/helper.service';
 export { TokenProvider } from './src/app/service/token-provider';
 export { Config } from './src/app/service/config.component';
-export { StaticInjector } from './src/app/launcher/shared/telemetry.decorator';
+export { StaticInjector } from 'fabric8-analytics-dependency-editor';
 
 // Imported from Dependency Editor
 export { URLProvider, DependencyEditorTokenProvider } from './src/app/launcher/launcher.module';

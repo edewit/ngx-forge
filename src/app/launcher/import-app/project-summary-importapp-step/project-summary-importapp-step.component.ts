@@ -7,6 +7,7 @@ import {
   ViewEncapsulation,
   ViewChild
 } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
 import { DomSanitizer } from '@angular/platform-browser';
 import { defaults } from 'lodash';
@@ -19,8 +20,7 @@ import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
 import { DependencyCheck } from '../../model/dependency-check.model';
 import { Summary } from '../../model/summary.model';
-import { broadcast } from '../../shared/telemetry.decorator';
-import { NgForm } from '@angular/forms';
+import { broadcast } from 'fabric8-analytics-dependency-editor';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
