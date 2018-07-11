@@ -184,10 +184,7 @@
   "release": {
     "branch": "master",
     "debug": false,
-    "pkgRoot": "./dist",
-    "verifyConditions": {
-      "path": "./node_modules/@krux/condition-jenkins"
-    }
+    "pkgRoot": "./dist"
   },
   "config": {
     "commitizen": {
