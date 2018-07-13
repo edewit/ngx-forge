@@ -25,10 +25,13 @@ export function broadcast(event: string, properties: any): MethodDecorator {
                 return originalMethod.apply(this, args);
             }
 
-            const broadcast: Broadcaster = injectorInstance.get(Broadcaster);
+            const broadcaster: Broadcaster = injectorInstance.get(Broadcaster);
             const values = new PropertiesGetter(this, args).mapKeys(_.cloneDeep(properties));
 
-            broadcast.broadcast(event, values);
+            broadcaster.broadcast('analyticsTracker', {
+                event: event,
+                data: values
+            });
             return originalMethod.apply(this, args);
         };
 
