@@ -25,15 +25,18 @@ export class DemoMissionRuntimeService extends MissionRuntimeService {
     };
     mock.missions.push(blank);
 
-    mock.runtimes.forEach(function(r) {
-      let run = <CatalogBooster>{
-        description: 'Blank mission flow',
-        metadata: null,
-        mission: 'blank-mission',
-        runtime: r.id,
-        version: 'community'
+    mock.runtimes.forEach((r) => {
+      r.versions.forEach((v) => {
+        let run = <CatalogBooster>{
+          name: 'Blank Mission',
+          description: 'Blank mission flow',
+          metadata: null,
+          mission: 'blank-mission',
+          runtime: r.id,
+          version: v.id
         };
-      mock.boosters.push(run);
+        mock.boosters.push(run);
+      });
     });
     return Observable.of(osioMockData);
   }

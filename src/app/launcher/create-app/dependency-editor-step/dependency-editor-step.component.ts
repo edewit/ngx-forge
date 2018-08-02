@@ -204,7 +204,7 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
     }
 
     private handleBlankMissionFlow(runtimeId: string): void {
-        if (runtimeId) {
+        if (this.depEditorService && runtimeId) {
             let service = this.depEditorService.getCoreDependencies(runtimeId);
             if (service) {
                 service.subscribe((response: any) => {
