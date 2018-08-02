@@ -36,6 +36,7 @@ export class ProjectSummaryImportappStepComponent extends LauncherStep implement
   private subscriptions: Subscription[] = [];
   private spaceId: string;
   private spaceName: string;
+  private setupInprogress: boolean = false;
 
   constructor(@Host() public launcherComponent: LauncherComponent,
               private dependencyCheckService: DependencyCheckService,
@@ -115,6 +116,7 @@ export class ProjectSummaryImportappStepComponent extends LauncherStep implement
     }
   })
   setup(): void {
+    this.setupInprogress = true;
     this.subscriptions.push(
       this.projectSummaryService
         .setup(this.launcherComponent.summary)
@@ -125,6 +127,7 @@ export class ProjectSummaryImportappStepComponent extends LauncherStep implement
           }
         }, (error) => {
           if (error) {
+            this.setupInprogress = false;
             this.displaySetUpErrorResponse(error);
           }
           console.log('error in setup: Import', error);
