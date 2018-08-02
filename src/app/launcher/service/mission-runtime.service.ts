@@ -92,7 +92,8 @@ export abstract class MissionRuntimeService {
     return catalog.boosters.map(b => {
       const runtime: CatalogRuntime = runtimeById[b.runtime];
       const mission: CatalogMission = missionById[b.mission];
-      if (!mission || !runtime) {
+      const version = runtime && runtime.versions.find(v => v.id === b.version);
+      if (!mission || !runtime || !version) {
         throw new Error(`Invalid catalog booster: ${JSON.stringify(b)}`  );
       }
       return {
@@ -102,9 +103,9 @@ export abstract class MissionRuntimeService {
         mission: mission,
         runtime: runtime,
         source: b.source,
-        version: runtime.versions.find(v => v.id === b.version)
+        version: version
       };
-    })
+    });
   }
 
   getBoosters(): Observable<Booster[]> {
