@@ -35,8 +35,8 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
   @Input() depEditorFlag: boolean;
 
   public setUpErrResponse: Array<any> = [];
+  public setupInProgress: boolean = false;
   private subscriptions: Subscription[] = [];
-  private setupInProgress: boolean = false;
 
   constructor(@Host() public launcherComponent: LauncherComponent,
               private dependencyCheckService: DependencyCheckService,

@@ -8,7 +8,7 @@ import { Summary } from '../../app/launcher/model/summary.model';
 export class DemoProjectSummaryService implements ProjectSummaryService {
 
   setup(summary: Summary): Observable<any> {
-    return Observable.of({'uuid_link': 'http://dummy-link.com/'});
+    return Observable.of({'uuid_link': 'http://dummy-link.com/'}).delay(3000);
   }
 
 }

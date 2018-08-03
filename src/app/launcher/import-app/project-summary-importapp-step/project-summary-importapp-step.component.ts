@@ -33,10 +33,10 @@ export class ProjectSummaryImportappStepComponent extends LauncherStep implement
   @Input() id: string;
 
   public setUpErrResponse: Array<any> = [];
+  public setupInProgress: boolean = false;
   private subscriptions: Subscription[] = [];
   private spaceId: string;
   private spaceName: string;
-  private setupInProgress: boolean = false;
 
   constructor(@Host() public launcherComponent: LauncherComponent,
               private dependencyCheckService: DependencyCheckService,
