@@ -36,7 +36,7 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
 
   public setUpErrResponse: Array<any> = [];
   private subscriptions: Subscription[] = [];
-  private setupInprogress: boolean = false;
+  private setupInProgress: boolean = false;
 
   constructor(@Host() public launcherComponent: LauncherComponent,
               private dependencyCheckService: DependencyCheckService,
@@ -117,7 +117,7 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
     }
   })
   setup(): void {
-    this.setupInprogress = true;
+    this.setupInProgress = true;
     this.subscriptions.push(
       this.projectSummaryService
       .setup(this.launcherComponent.summary)
@@ -127,8 +127,8 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
           this.navToNextStep();
         }
       }, (error) => {
+        this.setupInProgress = false;
         if (error) {
-          this.setupInprogress = false;
           this.displaySetUpErrorResponse(error);
         }
         console.log('error in setup: Create', error);
