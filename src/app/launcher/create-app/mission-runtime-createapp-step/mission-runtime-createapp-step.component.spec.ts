@@ -20,7 +20,9 @@ import {
   createMission,
   createRuntime
 } from '../../service/mission-runtime.service.spec';
-import { BroadcasterTestProvider } from '../targetenvironment-createapp-step/target-environment-createapp-step.component.spec';
+import {
+  BroadcasterTestProvider
+} from '../targetenvironment-createapp-step/target-environment-createapp-step.component.spec';
 import { Observable } from 'rxjs/Observable';
 import { Catalog } from '../../model/catalog.model';
 
@@ -224,19 +226,43 @@ describe('MissionRuntimeStepComponent', () => {
     }
   }));
 
-  it('should show "Less" if the showMore is true - Missions', () => {
+  it('should show "Less" if the showMore is true and description length is more then 55 characters - Missions', () => {
     component.missions[0]['showMore'] = true;
     fixture.detectChanges();
     let missionsSection = element.querySelectorAll('.card-pf-body')[0];
-    let showMore = <HTMLAnchorElement>missionsSection.querySelector('.description-more').children[0];
-    expect(showMore.innerText.trim()).toBe('Less');
+    let missionItems = missionsSection.querySelectorAll('.list-group-item-text');
+    let descElement1 = <HTMLSpanElement>missionsSection.querySelectorAll('.list-group-item-text .description')[0];
+    let description1 = descElement1.innerText.trim();
+    let index1 = description1.indexOf('...');
+    if (index1 > -1) {
+      let showMore = <HTMLAnchorElement>missionsSection.querySelector('.description-more').children[0];
+      expect(showMore.innerText.trim()).toBe('Less');
+    } else {
+      let showMoreElement = missionItems[0].querySelector('.description-more');
+      expect(showMoreElement).toEqual(null);
+    }
+    let descElement2 = <HTMLSpanElement>missionItems[1].querySelector('.description');
+    let description2 = descElement2.innerText.trim();
+    let index2 = description2.indexOf('...');
+    if (index2 > -1) {
+      let showMore = <HTMLAnchorElement>missionsSection.querySelector('.description-more').children[0];
+      expect(showMore.innerText.trim()).toBe('Less');
+    } else {
+      let showMoreElement = missionItems[1].querySelector('.description-more');
+      expect(showMoreElement).toEqual(null);
+    }
   });
 
-  it('should show "More" if the showMore is false - Missions', () => {
+  it('should show "More" if the showMore is false and description length is more that 55 characters - Missions', () => {
     fixture.detectChanges();
     let missionsSection = element.querySelectorAll('.card-pf-body')[0];
-    let showMore = <HTMLAnchorElement>missionsSection.querySelector('.description-more').children[0];
-    expect(showMore.innerText.trim()).toBe('More');
+    let descElement = <HTMLSpanElement>missionsSection.querySelectorAll('.list-group-item-text .description')[0];
+    let description = descElement.innerText.trim();
+    let index = description.indexOf('...');
+    if (index > -1) {
+      let showMore = <HTMLAnchorElement>missionsSection.querySelector('.description-more').children[0];
+      expect(showMore.innerText.trim()).toBe('More');
+    }
   });
 
   it('should disable the runtimes, on click of mission, which aren\'t applicable', fakeAsync(() => {
@@ -338,19 +364,29 @@ describe('MissionRuntimeStepComponent', () => {
     }
   });
 
-  it('should show "Less" if the showMore is true - Runtimes', () => {
+  it('should show "Less" if the showMore is true and description length is more that 55 characters - Runtimes', () => {
     component.runtimes[0].showMore = true;
     fixture.detectChanges();
     let runtimesSection = element.querySelectorAll('.card-pf-body')[1];
-    let showMore = <HTMLAnchorElement>runtimesSection.querySelector('.description-more').children[0];
-    expect(showMore.innerText.trim()).toBe('Less');
+    let descElement = <HTMLSpanElement>runtimesSection.querySelectorAll('.list-group-item-text .description')[0];
+    let description = descElement.innerText.trim();
+    let index = description.indexOf('...');
+    if (index > -1) {
+      let showMore = <HTMLAnchorElement>runtimesSection.querySelector('.description-more').children[0];
+      expect(showMore.innerText.trim()).toBe('Less');
+    }
   });
 
-  it('should show "More" if the showMore is false - Runtimes', () => {
+  it('should show "More" if the showMore is false and description length is more that 55 characters - Runtimes', () => {
     fixture.detectChanges();
     let runtimesSection = element.querySelectorAll('.card-pf-body')[1];
-    let showMore = <HTMLAnchorElement>runtimesSection.querySelector('.description-more').children[0];
-    expect(showMore.innerText.trim()).toBe('More');
+    let descElement = <HTMLSpanElement>runtimesSection.querySelectorAll('.list-group-item-text .description')[0];
+    let description = descElement.innerText.trim();
+    let index = description.indexOf('...');
+    if (index > -1) {
+      let showMore = <HTMLAnchorElement>runtimesSection.querySelector('.description-more').children[0];
+      expect(showMore.innerText.trim()).toBe('More');
+    }
   });
 
   it('should complete step when booster is selected', fakeAsync(() => {

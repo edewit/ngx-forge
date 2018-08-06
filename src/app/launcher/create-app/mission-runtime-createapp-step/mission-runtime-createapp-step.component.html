@@ -105,13 +105,13 @@
                           {{mission.name}}
                         </div>
                         <div class="list-group-item-text" *ngIf="mission.description">
-                          <span *ngIf="mission.showMore !== true">
+                          <span class="description" *ngIf="mission.showMore !== true">
                             {{mission.description | truncate: 55}}
                           </span>
                           <span *ngIf="mission.showMore">
                             {{mission.description}}
                           </span>
-                          <span class="description-more">
+                          <span class="description-more" *ngIf="mission.description.length > 55">
                             <a href="javascript:void(0)"
                                (click)="mission.showMore = !mission.showMore; $event.stopPropagation()">
                               {{(mission.showMore) ? 'Less' : 'More'}}
@@ -222,13 +222,13 @@
                           </div>
                         </div>
                         <div class="list-group-item-text" *ngIf="runtime.description">
-                          <span *ngIf="!runtime.showMore">
+                          <span class="description" *ngIf="!runtime.showMore">
                             {{runtime.description | truncate: 55}}
                           </span>
                           <span *ngIf="runtime.showMore">
                             {{runtime.description}}
                           </span>
-                          <span class="description-more">
+                          <span class="description-more" *ngIf="runtime.description.length > 55">
                             <a class="description-more" href="javascript:void(0)"
                                (click)="runtime.showMore = !runtime.showMore; $event.stopPropagation()">
                               {{(runtime.showMore) ? 'Less' : 'More'}}
