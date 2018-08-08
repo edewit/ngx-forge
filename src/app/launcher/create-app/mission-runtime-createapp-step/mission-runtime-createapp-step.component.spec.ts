@@ -22,7 +22,8 @@ import {
 } from '../../service/mission-runtime.service.spec';
 import {
   BroadcasterTestProvider
-} from '../targetenvironment-createapp-step/target-environment-createapp-step.component.spec';
+}
+  from '../targetenvironment-createapp-step/target-environment-createapp-step.component.spec';
 import { Observable } from 'rxjs/Observable';
 import { Catalog } from '../../model/catalog.model';
 
