@@ -239,8 +239,10 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
       if (selectedVersion) {
         return selectedVersion;
       }
-      // Reset selected runtime and version since it is not available
-      this.clearRuntime();
+      // If the current selected version is not compatible, auto select the first available version
+      const autoSelectedVersion = _.first(versions);
+      this.versionId = autoSelectedVersion.id;
+      return autoSelectedVersion;
     }
     return _.first(versions);
   }
