@@ -1,16 +1,9 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output
-} from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {async, ComponentFixture, TestBed, tick} from '@angular/core/testing';
 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Observable } from 'rxjs';
 import { InViewportModule, WindowRef } from '@thisissoon/angular-inviewport';
 
 import { FilterEvent } from 'patternfly-ng/filter';
@@ -20,43 +13,15 @@ import { SortEvent } from 'patternfly-ng/sort';
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
 import { PipelineService } from '../../service/pipeline.service';
-import { Pipeline } from '../../model/pipeline.model';
 import { ReleaseStrategyCreateappStepComponent } from './release-strategy-createapp-step.component';
 import { Selection } from '../../model/selection.model';
 import { Summary } from '../../model/summary.model';
 
-@Component({
-  selector: 'pfng-toolbar',
-  template: ''
-})
-export class FakePfngToolbarComponent {
-  @Input() config: any;
-  @Output() onFilterChange = new EventEmitter<FilterEvent>();
-  @Output() onSortChange = new EventEmitter<SortEvent>();
-}
-
-let mockPipelineService = {
-  getPipelines(): Observable<Pipeline[]> {
-    let pipelines = Observable.of([<Pipeline>{
-        'id': 'Pipeline1',
-        'suggested': true,
-        'name': 'Release',
-        'description': 'A slightly longer description of this pipeline\'s capabilities and usage.',
-        'stages': [{
-          name: 'Stage Name',
-          description: 'description...'
-        }, {
-          name: 'Stage Name',
-          description: 'description...'
-        }, {
-          name: 'Stage Name',
-          description: 'description...'
-        }],
-        'platform': 'maven'
-      }]);
-      return pipelines;
-  }
-};
+import { BroadcasterTestProvider } from
+    '../targetenvironment-createapp-step/target-environment-createapp-step.component.spec';
+import { Broadcaster } from 'ngx-base';
+import {mavenReleasePipeline, StubbedPipelineService} from './pipelines.fixture.spec';
+import { ViewRuntime } from '../mission-runtime-createapp-step/mission-runtime-createapp-step.model';
 
 export interface TypeWizardComponent {
   selectedSection: string;
@@ -114,8 +79,9 @@ let mockWizardComponent: TypeWizardComponent = {
 };
 
 describe('ReleaseStrategyStepComponent', () => {
-  let component: ReleaseStrategyCreateappStepComponent;
+  let releaseStrategyComponent: ReleaseStrategyCreateappStepComponent;
   let fixture: ComponentFixture<ReleaseStrategyCreateappStepComponent>;
+  let element: HTMLElement;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -127,30 +93,64 @@ describe('ReleaseStrategyStepComponent', () => {
         SortArrayPipeModule
       ],
       declarations: [
-        ReleaseStrategyCreateappStepComponent,
-        FakePfngToolbarComponent
+        ReleaseStrategyCreateappStepComponent
       ],
       providers : [
-        {
-          provide: PipelineService, useValue: mockPipelineService
-        },
-        {
-          provide: LauncherComponent, useValue: mockWizardComponent
-        },
-        {
-          provide: WindowRef, useValue: window
-        }
+        { provide: PipelineService, useClass: StubbedPipelineService },
+        { provide: LauncherComponent, useValue: mockWizardComponent },
+        { provide: WindowRef, useValue: window },
+        { provide: Broadcaster, useValue: BroadcasterTestProvider.broadcaster }
       ]
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ReleaseStrategyCreateappStepComponent);
-    component = fixture.componentInstance;
+    releaseStrategyComponent = fixture.componentInstance;
+    element = fixture.nativeElement;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  describe('pipeline selection', () => {
+
+    it('should change pipeline selection to node when runtime event change', () => {
+      // given
+      let pipelines = releaseStrategyComponent.pipelines;
+      expect(pipelines.length).toBe(0);
+      BroadcasterTestProvider.broadcaster.broadcast('runtime-changed', {pipelinePlatform: 'node'} as ViewRuntime);
+
+      // when
+      fixture.detectChanges();
+      pipelines = releaseStrategyComponent.pipelines;
+
+      // then
+      expect(pipelines.length).toBe(2);
+      expect(pipelines.map(value => value.id))
+        .toContain( 'node-releaseandstage', 'node-releasestageapproveandpromote' );
+    });
+
+    it('should reset pipeline selection when runtime changes from maven to node', () => {
+      // given
+      BroadcasterTestProvider.broadcaster.broadcast('runtime-changed', {pipelinePlatform: 'maven'} as ViewRuntime);
+      let pipelines = releaseStrategyComponent.pipelines;
+      expect(pipelines.length).toBe(3);
+
+      // when
+      releaseStrategyComponent.updatePipelineSelection(mavenReleasePipeline);
+      BroadcasterTestProvider.broadcaster.broadcast('runtime-changed', {pipelinePlatform: 'node'} as ViewRuntime);
+      fixture.detectChanges();
+      pipelines = releaseStrategyComponent.pipelines;
+
+      // then
+      expect(pipelines.length).toBe(2);
+      expect(pipelines.map(value => value.id))
+        .toContain( 'node-releaseandstage', 'node-releasestageapproveandpromote' );
+    });
+
+    it('should not show pipelines when runtime not selected', () => {
+      expect(releaseStrategyComponent.pipelines.length).toBe(0);
+    });
+
   });
+
 });

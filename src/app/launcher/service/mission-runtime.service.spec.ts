@@ -28,7 +28,7 @@ export const createRuntime = (name: string, versions: string[]): CatalogRuntime 
     suggested: true,
     prerequisite: 'prerequisite text'
   },
-  versions: versions.map(createVersion) as CatalogRuntimeVersion[]
+  versions: versions.map(version => createVersion(version)) as CatalogRuntimeVersion[]
 });
 
 export const createBooster = (mission: string, runtime: string, version: string): CatalogBooster => ({

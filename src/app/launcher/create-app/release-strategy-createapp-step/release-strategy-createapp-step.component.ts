@@ -13,6 +13,8 @@ import { Selection } from '../../model/selection.model';
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
 import { broadcast } from '../../shared/telemetry.decorator';
+import { Broadcaster} from 'ngx-base';
+import { Runtime } from '../../model/runtime.model';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -23,25 +25,29 @@ import { broadcast } from '../../shared/telemetry.decorator';
 export class ReleaseStrategyCreateappStepComponent extends LauncherStep implements OnInit, OnDestroy {
   @Input() id: string;
 
-  private _pipelines: Pipeline[];
+  private _pipelines: Pipeline[] = [];
+  private _allPipelines: Pipeline[] = [];
   private _pipelineId: string;
 
   private subscriptions: Subscription[] = [];
 
   constructor(@Host() public launcherComponent: LauncherComponent,
-              private pipelineService: PipelineService) {
+              private pipelineService: PipelineService,
+              private broadcaster: Broadcaster) {
     super();
   }
 
   ngOnInit() {
     this.launcherComponent.addStep(this);
-    let filterByRuntime: string = 'maven';
-    if (this.launcherComponent && this.launcherComponent.summary && this.launcherComponent.summary.runtime) {
-      filterByRuntime = this.launcherComponent.summary.runtime.pipelinePlatform;
-    }
-    this.subscriptions.push(this.pipelineService.getPipelines(filterByRuntime).subscribe((result: Array<Pipeline>) => {
-      this._pipelines = result;
+    this.subscriptions.push(this.pipelineService.getPipelines().subscribe((result: Array<Pipeline>) => {
+      this._allPipelines = result;
       this.restoreSummary();
+    }));
+    this.subscriptions.push(this.broadcaster.on('runtime-changed').subscribe((runtime: Runtime) => {
+      this._pipelines = this._allPipelines.filter(({platform}) => platform === runtime.pipelinePlatform);
+      if ((this.launcherComponent.summary.pipeline || {} as Pipeline).platform !== runtime.pipelinePlatform) {
+        this.updatePipelineSelection(undefined);
+      }
     }));
   }
 

@@ -8,14 +8,13 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Observable } from 'rxjs';
 import { InViewportModule, WindowRef } from '@thisissoon/angular-inviewport';
 
-  import { FilterEvent } from 'patternfly-ng/filter';
-  import { SortArrayPipeModule } from 'patternfly-ng/pipe';
-  import { SortEvent } from 'patternfly-ng/sort';
+import { FilterEvent } from 'patternfly-ng/filter';
+import { SortArrayPipeModule } from 'patternfly-ng/pipe';
+import { SortEvent } from 'patternfly-ng/sort';
 
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';

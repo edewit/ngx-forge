@@ -1,13 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
-import { By } from '@angular/platform-browser';
 import { Observable, Subject } from 'rxjs';
 
 import { ProjectProgressImportappNextstepComponent } from './project-progress-importapp-nextstep.component';
 import { ProjectProgressService } from '../../service/project-progress.service';
 import { Progress } from '../../model/progress.model';
 import { LauncherComponent } from '../../launcher.component';
-import { LauncherStep } from '../../launcher-step';
 
 let progressSubject: Subject<Progress[]> = new Subject();
 let mockProjectProgressService = {
@@ -18,17 +16,14 @@ let mockProjectProgressService = {
     let progress = [{
       'completed': false,
       'description': 'Creating Your Project on the OpenShift Cloud',
-      'inProgress': false,
       'hypertext': 'View New Application',
       'url': 'https://github.com/fabric8-launcher/ngx-launcher'
     }, {
       'completed': false,
-      'description': 'Setting up Build Pipeline',
-      'inProgress': false
+      'description': 'Setting up Build Pipeline'
     }, {
       'completed': false,
-      'description': 'Configure Trigger Builds on Git Pushes',
-      'inProgress': false
+      'description': 'Configure Trigger Builds on Git Pushes'
     }] as Progress[];
     return progress;
   }

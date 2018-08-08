@@ -149,12 +149,12 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
       this.versionId = newVersion.id;
       this.launcherComponent.summary.runtime = runtime;
       this.launcherComponent.summary.runtime.version = newVersion;
-
       // FIXME: use a booster change event listener to do this
       // set maven artifact
       if (this.launcherComponent.flow === 'osio' && this.completed) {
         this.launcherComponent.summary.dependencyCheck.mavenArtifact = this.createMavenArtifact();
       }
+      this.broadcaster.broadcast('runtime-changed', runtime);
     }
     this.handleBlankMissionFlow();
     this.updateBoosterViewStatus();

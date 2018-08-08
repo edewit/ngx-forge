@@ -23,6 +23,7 @@ export class ViewRuntime extends Runtime {
   prerequisite: boolean;
   canChangeVersion: boolean;
   suggested: boolean;
+  pipelinePlatform: string;
   selectedVersion: { id: string; name: string; };
   versions: BoosterVersion[];
   showMore: boolean = false;
@@ -59,6 +60,7 @@ export function createViewRuntimes(boosters: Booster[], canChangeVersion: boolea
       canChangeVersion: canChangeVersion,
       suggested: _.get(runtime, 'metadata.suggested', false),
       prerequisite: _.get(runtime, 'metadata.prerequisite', false),
+      pipelinePlatform: _.get(runtime, 'metadata.pipelinePlatform', false),
       showMore: false,
       disabled: true,
       boosters: runtimeBoosters
