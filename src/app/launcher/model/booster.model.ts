@@ -10,6 +10,7 @@ export class BoosterRuntime {
   description?: string;
   metadata?: any;
   icon: string;
+  versions?: BoosterVersion[];
 }
 
 export class BoosterMission {

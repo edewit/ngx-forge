@@ -136,8 +136,9 @@ describe('MissionRuntimeService', () => {
 
       let crudVertxRedHatBoosters = MissionRuntimeService.getAvailableBoosters(boosters,
         null, 'crud', 'vert.x', 'redhat');
-      expect(crudVertxRedHatBoosters.boosters.length).toBe(1);
-      expect(crudVertxRedHatBoosters.boosters[0]).toBe(crudVertxRedHatBooster);
+      expect(crudVertxRedHatBoosters.boosters.length).toBe(2);
+      expect(crudVertxRedHatBoosters.boosters[0]).toBe(crudVertxCommunityBooster);
+      expect(crudVertxRedHatBoosters.boosters[1]).toBe(crudVertxRedHatBooster);
     });
   });
 

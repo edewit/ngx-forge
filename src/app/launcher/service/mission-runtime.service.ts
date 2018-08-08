@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs/Observable';
 import * as _ from 'lodash';
 import { Catalog, CatalogMission, CatalogRuntime } from '../model/catalog.model';
-import { Booster, BoosterRuntime, BoosterVersion } from '../model/booster.model';
+import { Booster, BoosterVersion } from '../model/booster.model';
 
 
 export enum EmptyReason {
@@ -28,7 +28,7 @@ export abstract class MissionRuntimeService {
     const availableBoosters = boosters.filter(b => {
       return (!missionId || b.mission.id === missionId)
         && (!runtimeId || b.runtime.id === runtimeId)
-        && (!versionId || b.version.id === versionId);
+        && (!versionId || b.runtime.versions.filter((v: BoosterVersion) => v.id === versionId).length > 0);
     });
     if (availableBoosters.length === 0) {
       return { empty: true, emptyReason: EmptyReason.NOT_IMPLEMENTED, boosters: [] };
