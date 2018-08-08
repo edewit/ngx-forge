@@ -212,7 +212,7 @@ describe('MissionRuntimeStepComponent', () => {
     }
   });
 
-  it('should have the mission description truncated if the length is beyond 55 characters', fakeAsync(() => {
+  it('should have the mission description truncated if the length is beyond 65 characters', fakeAsync(() => {
     let desc: string = 'this is a very lengthy description just to check the functionality of truncation';
     component.missions[0].description = desc;
     component.missions[1].description = desc;
@@ -222,11 +222,11 @@ describe('MissionRuntimeStepComponent', () => {
     let missionHead = missionsSection.querySelectorAll('.list-group-item-text');
     let missions = component.missions, len = missions.length;
     for (let i = 0; i < len; ++ i) {
-      expect((<HTMLDivElement>missionHead[i].children[0]).innerText.trim()).toBe(desc.substr(0, 55) + '...');
+      expect((<HTMLDivElement>missionHead[i].children[0]).innerText.trim()).toBe(desc.substr(0, 65) + '...');
     }
   }));
 
-  it('should show "Less" if the showMore is true and description length is more then 55 characters - Missions', () => {
+  it('should show "Less" if the showMore is true and description length is more then 65 characters - Missions', () => {
     component.missions[0]['showMore'] = true;
     fixture.detectChanges();
     let missionsSection = element.querySelectorAll('.card-pf-body')[0];
@@ -253,7 +253,7 @@ describe('MissionRuntimeStepComponent', () => {
     }
   });
 
-  it('should show "More" if the showMore is false and description length is more that 55 characters - Missions', () => {
+  it('should show "More" if the showMore is false and description length is more that 65 characters - Missions', () => {
     fixture.detectChanges();
     let missionsSection = element.querySelectorAll('.card-pf-body')[0];
     let descElement = <HTMLSpanElement>missionsSection.querySelectorAll('.list-group-item-text .description')[0];
@@ -351,7 +351,7 @@ describe('MissionRuntimeStepComponent', () => {
     }
   });
 
-  it('should have the runtime description truncated if the length is beyond 55 characters', () => {
+  it('should have the runtime description truncated if the length is beyond 65 characters', () => {
     let desc: string = 'this is a very lengthy description just to check the functionality of truncation';
     component.runtimes[0].description = desc;
     component.runtimes[1].description = desc;
@@ -360,11 +360,11 @@ describe('MissionRuntimeStepComponent', () => {
     let runtimesHead = runtimesSection.querySelectorAll('.list-group-item-text');
     let runtimes = component.runtimes, len = runtimes.length;
     for (let i = 0; i < len; ++ i) {
-      expect((<HTMLDivElement>runtimesHead[i].children[0]).innerText.trim()).toBe(desc.substr(0, 55) + '...');
+      expect((<HTMLDivElement>runtimesHead[i].children[0]).innerText.trim()).toBe(desc.substr(0, 65) + '...');
     }
   });
 
-  it('should show "Less" if the showMore is true and description length is more that 55 characters - Runtimes', () => {
+  it('should show "Less" if the showMore is true and description length is more that 65 characters - Runtimes', () => {
     component.runtimes[0].showMore = true;
     fixture.detectChanges();
     let runtimesSection = element.querySelectorAll('.card-pf-body')[1];
@@ -377,7 +377,7 @@ describe('MissionRuntimeStepComponent', () => {
     }
   });
 
-  it('should show "More" if the showMore is false and description length is more that 55 characters - Runtimes', () => {
+  it('should show "More" if the showMore is false and description length is more that 65 characters - Runtimes', () => {
     fixture.detectChanges();
     let runtimesSection = element.querySelectorAll('.card-pf-body')[1];
     let descElement = <HTMLSpanElement>runtimesSection.querySelectorAll('.list-group-item-text .description')[0];

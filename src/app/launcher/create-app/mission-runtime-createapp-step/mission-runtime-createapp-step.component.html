@@ -106,12 +106,12 @@
                         </div>
                         <div class="list-group-item-text" *ngIf="mission.description">
                           <span class="description" *ngIf="mission.showMore !== true">
-                            {{mission.description | truncate: 55}}
+                            {{mission.description | truncate: 65}}
                           </span>
                           <span *ngIf="mission.showMore">
                             {{mission.description}}
                           </span>
-                          <span class="description-more" *ngIf="mission.description.length > 55">
+                          <span class="description-more" *ngIf="mission.description.length > 65">
                             <a href="javascript:void(0)"
                                (click)="mission.showMore = !mission.showMore; $event.stopPropagation()">
                               {{(mission.showMore) ? 'Less' : 'More'}}
@@ -223,12 +223,12 @@
                         </div>
                         <div class="list-group-item-text" *ngIf="runtime.description">
                           <span class="description" *ngIf="!runtime.showMore">
-                            {{runtime.description | truncate: 55}}
+                            {{runtime.description | truncate: 65}}
                           </span>
                           <span *ngIf="runtime.showMore">
                             {{runtime.description}}
                           </span>
-                          <span class="description-more" *ngIf="runtime.description.length > 55">
+                          <span class="description-more" *ngIf="runtime.description.length > 65">
                             <a class="description-more" href="javascript:void(0)"
                                (click)="runtime.showMore = !runtime.showMore; $event.stopPropagation()">
                               {{(runtime.showMore) ? 'Less' : 'More'}}
