@@ -206,7 +206,7 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
         mission.shrinked = true;
       } else {
         availableBoosters = MissionRuntimeService.getAvailableBoosters(mission.boosters,
-          this._cluster, mission.id, this.runtimeId, this.versionId);
+          this._cluster, mission.id, this.runtimeId);
       }
       mission.disabled = availableBoosters.empty;
       mission.disabledReason = availableBoosters.emptyReason;

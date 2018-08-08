@@ -202,7 +202,7 @@
                       <div class="list-view-pf-description">
                         <div class="list-group-item-heading">
                           {{runtime.name}}
-                          <div *ngIf="!runtime.disabled && runtime.canChangeVersion" class="dropdown" dropdown>
+                          <div *ngIf="!runtime.disabled && runtime.canChangeVersion && missionId && runtime.id == runtimeId" class="dropdown" dropdown>
                             <button type="button" class="btn btn-default dropdown-toggle" dropdownToggle
                                     [disabled]="runtime.disabled">
                               {{runtime.selectedVersion.name}}
