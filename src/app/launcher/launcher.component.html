@@ -1,4 +1,4 @@
-<f8launcher-cancel-overlay *ngIf="showCancelOverlay === true"></f8launcher-cancel-overlay>
+<f8launcher-cancel-overlay *ngIf="showCancelOverlay  "></f8launcher-cancel-overlay>
 <div class="f8launcher">
   <div class="f8launcher-container">
     <div *ngIf="importApp; then showImportAppTemplate else showCreateAppTemplate"></div>
@@ -37,7 +37,7 @@
             [title]="'Select Pipeline'">
           </f8launcher-releasestrategy-createapp-step>
           <f8launcher-gitprovider-createapp-step
-            [hidden]="flow === 'launch' && !(summary?.targetEnvironment === 'os' && targetEnvStep.completed === true)"
+            [hidden]="flow === 'launch' && !(summary?.targetEnvironment === 'os' && targetEnvStep.completed  )"
             [id]="'GitProvider'"
             [styleClass]="'git-provider'"
             [title]="'Authorize Git Provider'">
