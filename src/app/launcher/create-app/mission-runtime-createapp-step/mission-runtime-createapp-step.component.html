@@ -105,10 +105,10 @@
                           {{mission.name}}
                         </div>
                         <div class="list-group-item-text" *ngIf="mission.description">
-                          <span class="description" *ngIf="mission.showMore !== true">
+                          <span class="description truncated" *ngIf="mission.showMore !== true">
                             {{mission.description | truncate: 65}}
                           </span>
-                          <span *ngIf="mission.showMore">
+                          <span class="description full" *ngIf="mission.showMore">
                             {{mission.description}}
                           </span>
                           <span class="description-more" *ngIf="mission.description.length > 65">
@@ -202,7 +202,7 @@
                       <div class="list-view-pf-description">
                         <div class="list-group-item-heading">
                           {{runtime.name}}
-                          <div *ngIf="!runtime.disabled && runtime.canChangeVersion && missionId && runtime.id == runtimeId" class="dropdown" dropdown>
+                          <div *ngIf="!runtime.disabled && canChangeVersion && missionId && runtime.id == runtimeId" class="dropdown" dropdown>
                             <button type="button" class="btn btn-default dropdown-toggle" dropdownToggle
                                     [disabled]="runtime.disabled">
                               {{runtime.selectedVersion.name}}
@@ -222,10 +222,10 @@
                           </div>
                         </div>
                         <div class="list-group-item-text" *ngIf="runtime.description">
-                          <span class="description" *ngIf="!runtime.showMore">
+                          <span class="description truncated" *ngIf="!runtime.showMore">
                             {{runtime.description | truncate: 65}}
                           </span>
-                          <span *ngIf="runtime.showMore">
+                          <span class="description full" *ngIf="runtime.showMore">
                             {{runtime.description}}
                           </span>
                           <span class="description-more" *ngIf="runtime.description.length > 65">

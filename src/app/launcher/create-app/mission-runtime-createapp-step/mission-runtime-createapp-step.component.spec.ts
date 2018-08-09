@@ -6,7 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { InViewportModule, WindowRef } from '@thisissoon/angular-inviewport';
 
 import { Broadcaster } from 'ngx-base';
-import { PopoverModule } from 'ngx-bootstrap';
+import { BsDropdownModule, PopoverModule } from 'ngx-bootstrap';
 import { SortArrayPipeModule, TruncatePipeModule } from 'patternfly-ng/pipe';
 
 import { LauncherComponent } from '../../launcher.component';
@@ -15,17 +15,14 @@ import { MissionRuntimeCreateappStepComponent } from './mission-runtime-createap
 import { MissionRuntimeService } from '../../service/mission-runtime.service';
 import { Mission } from '../../model/mission.model';
 import { Runtime } from '../../model/runtime.model';
-import {
-  createBooster,
-  createMission,
-  createRuntime
-} from '../../service/mission-runtime.service.spec';
-import {
-  BroadcasterTestProvider
-}
-  from '../targetenvironment-createapp-step/target-environment-createapp-step.component.spec';
+import { createBooster, createMission, createRuntime } from '../../service/mission-runtime.service.spec';
+import { BroadcasterTestProvider } from '../targetenvironment-createapp-step/target-environment-createapp-step.component.spec';
 import { Observable } from 'rxjs/Observable';
 import { Catalog } from '../../model/catalog.model';
+
+
+const longDescription = `An innovative approach to packaging and running Java EE applications,
+ packaging them with just enough of the server runtime to "java -jar" your application`;
 
 class TestMissionRuntimeService extends MissionRuntimeService {
 
@@ -61,7 +58,7 @@ export interface TypeWizardComponent {
   onInViewportChange($event: any, id: string): any;
 }
 
-let mockWizardComponent: TypeWizardComponent = {
+const mockWizardComponent: TypeWizardComponent = {
   selectedSection: '',
   steps: [],
   summary: {
@@ -91,9 +88,38 @@ describe('MissionRuntimeStepComponent', () => {
   let fixture: ComponentFixture<MissionRuntimeCreateappStepComponent>;
   let element: HTMLElement;
 
+  function getMissionsSection(): Element {
+    return element.querySelectorAll('.card-pf-body')[0];
+  }
+
+  function getMissionItem(index: number): Element {
+    return getMissionsSection().querySelectorAll('.list-group-item')[index];
+  }
+
+  function getRuntimesSection(): Element {
+    return element.querySelectorAll('.card-pf-body')[1];
+  }
+
+  function getRuntimeItem(index: number): Element {
+    return getRuntimesSection().querySelectorAll('.list-group-item')[index];
+  }
+
+  function selectItem(item: Element) {
+    const radioBtn = <HTMLInputElement>item.querySelector('input[type="radio"]');
+    radioBtn.click();
+    tick();
+    fixture.detectChanges();
+  }
+
+  function isItemSelected(item: Element): boolean {
+    return item.classList.contains('selected-list-item');
+  }
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        BsDropdownModule.forRoot(),
+        FormsModule,
         CommonModule,
         FormsModule,
         InViewportModule,
@@ -135,145 +161,107 @@ describe('MissionRuntimeStepComponent', () => {
   it('should have 2 missions and 2 runtimes', () => {
     expect(component.missions.length).toBe(2, '2 missions');
     expect(component.runtimes.length).toBe(2, '2 runtimes');
-    expect(element.querySelectorAll('.card-pf-body')[0].children.length).toBe(2, '2 missions displayed');
-    expect(element.querySelectorAll('.card-pf-body')[1].children.length).toBe(2, '2 runtimes displayed');
+    expect(getMissionsSection().children.length).toBe(2, '2 missions displayed');
+    expect(getRuntimesSection().children.length).toBe(2, '2 runtimes displayed');
   });
 
   // Missions tests
 
   it('should have visually selected the mission when click on radio button', fakeAsync(() => {
     fixture.detectChanges();
-    let missionsSection = element.querySelectorAll('.card-pf-body')[0];
-    let missionGroupItem = missionsSection.querySelector('.list-group-item');
-    let radioBtn = <HTMLInputElement>missionGroupItem.querySelector('input[type="radio"]');
-    let beforeChange = missionGroupItem.classList.contains('selected-list-item');
-    radioBtn.click();
-    tick();
-    fixture.detectChanges();
-    expect(beforeChange).toBeFalsy('Item must not be already selected');
-    expect(missionGroupItem.classList.contains('selected-list-item')).toBeTruthy('Item has not been selected');
+
+    const missionItem = getMissionItem(0);
+    expect(isItemSelected(missionItem)).toBeFalsy('Item must not be already selected');
+    selectItem(missionItem);
+    expect(isItemSelected(missionItem)).toBeTruthy('Item has not been selected');
   }));
 
   it('should select the mission in launcher component summary', fakeAsync(() => {
     fixture.detectChanges();
-    let missionsSection = element.querySelectorAll('.card-pf-body')[0];
-    let missionGroupItem = missionsSection.querySelectorAll('.list-group-item')[1];
-    let radioBtn = <HTMLInputElement>missionGroupItem.querySelector('input[type="radio"]');
-    radioBtn.click();
-    tick();
-    fixture.detectChanges();
+    selectItem(getMissionItem(0));
+    expect(component.launcherComponent.summary.mission).toBe(component.missions[0] as Mission);
+
+    selectItem(getMissionItem(1));
     expect(component.launcherComponent.summary.mission).toBe(component.missions[1] as Mission);
   }));
 
   it('should have the suggested missions tag when mission.suggested field is true', () => {
-    let missionsSection = element.querySelectorAll('.card-pf-body')[0];
-    let featuredTag = missionsSection.querySelector('.f8launcher-tags-label.suggested');
-    expect(featuredTag).toBeDefined();
+    expect(getMissionsSection().querySelector('.f8launcher-tags-label.suggested')).toBeDefined();
   });
 
   it('should not have the suggested missions tag when mission.suggested field is false', fakeAsync(() => {
     component.missions[1].suggested = false;
     fixture.detectChanges();
     tick();
-    let missionsSection = element.querySelectorAll('.card-pf-body')[0];
-    let missionGroupItem = missionsSection.querySelectorAll('.list-group-item')[1];
-    let featuredTag = missionGroupItem.querySelector('.f8launcher-tags-label.suggested');
-    expect(featuredTag).toBeNull();
+    expect(getMissionItem(1).querySelector('.f8launcher-tags-label.suggested')).toBeNull();
   }));
 
   it('should have the prerequisite missions tag when mission.prerequisite field is present', () => {
-    let missionsSection = element.querySelectorAll('.card-pf-body')[0];
-    let featuredTag = missionsSection.querySelector('.f8launcher-tags-label.prerequisite');
-    expect(featuredTag).toBeDefined();
+    expect(getMissionsSection().querySelector('.f8launcher-tags-label.prerequisite')).toBeDefined();
   });
 
   it('should not have the prerequisite missions tag when mission.prerequisite field is absent', () => {
     delete component.missions[0].prerequisite;
     fixture.detectChanges();
-    let missionsSection = element.querySelectorAll('.card-pf-body')[0];
-    let featuredTag = missionsSection.querySelector('.f8launcher-tags-label.prerequisite');
-    expect(featuredTag).toBeNull();
+    expect(getMissionItem(0).querySelector('.f8launcher-tags-label.prerequisite')).toBeNull();
   });
 
   it('should have the mission name as specified', () => {
-    let missionsSection = element.querySelectorAll('.card-pf-body')[0];
-    let missionHead = missionsSection.querySelectorAll('.list-group-item-heading');
-    let missions = component.missions, len = missions.length;
+    const missionsSection = getMissionsSection();
+    const missionHead = missionsSection.querySelectorAll('.list-group-item-heading');
+    const missions = component.missions, len = missions.length;
     for (let i = 0; i < len; ++ i) {
       expect((<HTMLDivElement>missionHead[i]).innerText.trim()).toBe(missions[i].name);
     }
   });
 
   it('should have the mission description as specified', () => {
-    let missionsSection = element.querySelectorAll('.card-pf-body')[0];
-    let missionHead = missionsSection.querySelectorAll('.list-group-item-text');
-    let missions = component.missions, len = missions.length;
+    const missionsSection = getMissionsSection();
+    const missionText = missionsSection.querySelectorAll('.list-group-item-text');
+    const missions = component.missions, len = missions.length;
     for (let i = 0; i < len; ++ i) {
-      expect((<HTMLDivElement>missionHead[i].children[0]).innerText.trim()).toBe(missions[i].description);
+      expect((<HTMLDivElement>missionText[i].children[0]).innerText.trim()).toBe(missions[i].description);
     }
   });
 
   it('should have the mission description truncated if the length is beyond 65 characters', fakeAsync(() => {
-    let desc: string = 'this is a very lengthy description just to check the functionality of truncation';
-    component.missions[0].description = desc;
-    component.missions[1].description = desc;
+    component.missions[0].description = longDescription;
+    component.missions[1].description = longDescription;
     fixture.detectChanges();
     tick(500);
-    let missionsSection = element.querySelectorAll('.card-pf-body')[0];
-    let missionHead = missionsSection.querySelectorAll('.list-group-item-text');
-    let missions = component.missions, len = missions.length;
+    const missionsSection = getMissionsSection();
+    const missionText = missionsSection.querySelectorAll('.list-group-item-text');
+    const missions = component.missions, len = missions.length;
     for (let i = 0; i < len; ++ i) {
-      expect((<HTMLDivElement>missionHead[i].children[0]).innerText.trim()).toBe(desc.substr(0, 65) + '...');
+      expect((<HTMLDivElement>missionText[i].children[0]).innerText.trim()).toBe(longDescription.substr(0, 65) + '...');
     }
   }));
 
-  it('should show "Less" if the showMore is true and description length is more then 65 characters - Missions', () => {
-    component.missions[0]['showMore'] = true;
+  it('should handle mission show more/less correctly', fakeAsync(() => {
+    component.missions[0].description = longDescription;
+    tick(500);
     fixture.detectChanges();
-    let missionsSection = element.querySelectorAll('.card-pf-body')[0];
-    let missionItems = missionsSection.querySelectorAll('.list-group-item-text');
-    let descElement1 = <HTMLSpanElement>missionsSection.querySelectorAll('.list-group-item-text .description')[0];
-    let description1 = descElement1.innerText.trim();
-    let index1 = description1.indexOf('...');
-    if (index1 > -1) {
-      let showMore = <HTMLAnchorElement>missionsSection.querySelector('.description-more').children[0];
-      expect(showMore.innerText.trim()).toBe('Less');
-    } else {
-      let showMoreElement = missionItems[0].querySelector('.description-more');
-      expect(showMoreElement).toEqual(null);
-    }
-    let descElement2 = <HTMLSpanElement>missionItems[1].querySelector('.description');
-    let description2 = descElement2.innerText.trim();
-    let index2 = description2.indexOf('...');
-    if (index2 > -1) {
-      let showMore = <HTMLAnchorElement>missionsSection.querySelector('.description-more').children[0];
-      expect(showMore.innerText.trim()).toBe('Less');
-    } else {
-      let showMoreElement = missionItems[1].querySelector('.description-more');
-      expect(showMoreElement).toEqual(null);
-    }
-  });
+    const missionItem1 = getMissionItem(0);
+    expect(missionItem1.querySelector('.description.truncated')).toBeTruthy();
+    expect(missionItem1.querySelector('.description.full')).toBeFalsy();
+    const showMore = <HTMLAnchorElement>missionItem1.querySelector('.description-more a');
+    expect(showMore.innerText.trim()).toBe('More');
+    showMore.click();
+    tick();
+    fixture.detectChanges();
+    expect(showMore.innerText.trim()).toBe('Less');
+    expect(missionItem1.querySelector('.description.truncated')).toBeFalsy();
+    expect(missionItem1.querySelector('.description.full')).toBeTruthy();
 
-  it('should show "More" if the showMore is false and description length is more that 65 characters - Missions', () => {
-    fixture.detectChanges();
-    let missionsSection = element.querySelectorAll('.card-pf-body')[0];
-    let descElement = <HTMLSpanElement>missionsSection.querySelectorAll('.list-group-item-text .description')[0];
-    let description = descElement.innerText.trim();
-    let index = description.indexOf('...');
-    if (index > -1) {
-      let showMore = <HTMLAnchorElement>missionsSection.querySelector('.description-more').children[0];
-      expect(showMore.innerText.trim()).toBe('More');
-    }
-  });
+    const missionItem2 = getMissionItem(1);
+    expect(missionItem2.querySelector('.description.truncated')).toBeTruthy();
+    expect(missionItem2.querySelector('.description.full')).toBeFalsy();
+    expect(missionItem2.querySelector('.description-more a')).toBeFalsy();
+  }));
 
   it('should disable the runtimes, on click of mission, which aren\'t applicable', fakeAsync(() => {
     fixture.detectChanges();
-    let missionsSection = element.querySelectorAll('.card-pf-body')[0];
-    let missionGroupItem = missionsSection.querySelectorAll('.list-group-item')[1];
-    let radioBtn = <HTMLInputElement>missionGroupItem.querySelector('input[type="radio"]');
-    radioBtn.click();
-    tick();
-    fixture.detectChanges();
+    selectItem(getMissionItem(1));
     expect(component.runtimes[1].disabled).toBeTruthy();
   }));
 
@@ -281,128 +269,169 @@ describe('MissionRuntimeStepComponent', () => {
 
   it('should have visually selected the runtime when click on radio button', fakeAsync(() => {
     fixture.detectChanges();
-    let missionsSection = element.querySelectorAll('.card-pf-body')[1];
-    let missionGroupItem = missionsSection.querySelector('.list-group-item');
-    let radioBtn = <HTMLInputElement>missionGroupItem.querySelector('input[type="radio"]');
-    let beforeChange = missionGroupItem.classList.contains('selected-list-item');
-    radioBtn.click();
-    tick();
-    fixture.detectChanges();
-    expect(beforeChange).toBeFalsy('Item must not be already selected');
-    expect(missionGroupItem.classList.contains('selected-list-item')).toBeTruthy('Item has not been selected');
+
+    const runtimeItem = getRuntimeItem(0);
+    expect(isItemSelected(runtimeItem)).toBeFalsy('Item must not be already selected');
+    selectItem(runtimeItem);
+    expect(isItemSelected(runtimeItem)).toBeTruthy('Item has not been selected');
   }));
 
   it('should select the runtime in launcher component summary', fakeAsync(() => {
     fixture.detectChanges();
-    let runtimesSection = element.querySelectorAll('.card-pf-body')[1];
-    let runtimeGroupItem = runtimesSection.querySelectorAll('.list-group-item')[1];
-    let radioBtn = <HTMLInputElement>runtimeGroupItem.querySelector('input[type="radio"]');
-    radioBtn.click();
-    tick();
-    fixture.detectChanges();
+    selectItem(getRuntimeItem(0));
+    expect(component.launcherComponent.summary.runtime).toBe(component.runtimes[0] as Runtime);
+
+    selectItem(getRuntimeItem(1));
     expect(component.launcherComponent.summary.runtime).toBe(component.runtimes[1] as Runtime);
   }));
 
 
   it('should have the suggested runtimes tag when runtime.suggested field is true', () => {
-    let runtimesSection = element.querySelectorAll('.card-pf-body')[1];
-    let featuredTag = runtimesSection.querySelector('.f8launcher-tags-label.suggested');
-    expect(featuredTag).toBeDefined();
+    expect(getRuntimesSection().querySelector('.f8launcher-tags-label.suggested')).toBeDefined();
   });
 
-  it('should not have the suggested runtimes tag when runtime.suggested field is false', () => {
+  it('should not have the suggested runtimes tag when runtime.suggested field is false', fakeAsync(() => {
     component.runtimes[1].suggested = false;
     fixture.detectChanges();
-    let runtimesSection = element.querySelectorAll('.card-pf-body')[1];
-    let runtimeGroupItem = runtimesSection.querySelectorAll('.list-group-item')[1];
-    let featuredTag = runtimeGroupItem.querySelector('.f8launcher-tags-label.suggested');
-    expect(featuredTag).toBeNull();
-  });
+    tick();
+    expect(getRuntimeItem(1).querySelector('.f8launcher-tags-label.suggested')).toBeNull();
+  }));
 
   it('should have the prerequisite runtimes tag when runtime.prerequisite field is present', () => {
-    let runtimesSection = element.querySelectorAll('.card-pf-body')[1];
-    let featuredTag = runtimesSection.querySelector('.f8launcher-tags-label.prerequisite');
-    expect(featuredTag).toBeDefined();
+    expect(getRuntimesSection().querySelector('.f8launcher-tags-label.prerequisite')).toBeDefined();
   });
 
   it('should not have the prerequisite runtimes tag when runtime.prerequisite field is absent', () => {
     delete component.runtimes[0].prerequisite;
     fixture.detectChanges();
-    let runtimesSection = element.querySelectorAll('.card-pf-body')[1];
-    let runtimeGroupItem = runtimesSection.querySelectorAll('.list-group-item')[0];
-    let featuredTag = runtimeGroupItem.querySelector('.f8launcher-tags-label.prerequisite');
-    expect(featuredTag).toBeNull();
+    expect(getRuntimeItem(0).querySelector('.f8launcher-tags-label.prerequisite')).toBeNull();
   });
 
   it('should have the runtime name as specified', () => {
-    let runtimesSection = element.querySelectorAll('.card-pf-body')[1];
-    let runtimesHead = runtimesSection.querySelectorAll('.list-group-item-heading');
-    let runtimes = component.runtimes, len = runtimes.length;
+    const runtimeSection = getRuntimesSection();
+    const head = runtimeSection.querySelectorAll('.list-group-item-heading');
+    const runtimes = component.runtimes, len = runtimes.length;
     for (let i = 0; i < len; ++ i) {
-      expect((<HTMLDivElement>runtimesHead[i]).childNodes[0].textContent.trim()).toBe(runtimes[i].name);
+      expect((<HTMLDivElement>head[i]).innerText.trim()).toBe(runtimes[i].name);
     }
   });
 
   it('should have the runtime description as specified', () => {
-    let runtimesSection = element.querySelectorAll('.card-pf-body')[1];
-    let runtimesHead = runtimesSection.querySelectorAll('.list-group-item-text');
-    let runtimes = component.runtimes, len = runtimes.length;
+    const runtimeSection = getRuntimesSection();
+    const text = runtimeSection.querySelectorAll('.list-group-item-text');
+    const runtimes = component.runtimes, len = runtimes.length;
     for (let i = 0; i < len; ++ i) {
-      expect((<HTMLDivElement>runtimesHead[i].children[0]).innerText.trim()).toBe(runtimes[i].description);
+      expect((<HTMLDivElement>text[i].children[0]).innerText.trim()).toBe(runtimes[i].description);
     }
   });
 
-  it('should have the runtime description truncated if the length is beyond 65 characters', () => {
-    let desc: string = 'this is a very lengthy description just to check the functionality of truncation';
-    component.runtimes[0].description = desc;
-    component.runtimes[1].description = desc;
+  it('should have the runtime description truncated if the length is beyond 65 characters', fakeAsync(() => {
+    component.runtimes[0].description = longDescription;
+    component.runtimes[1].description = longDescription;
     fixture.detectChanges();
-    let runtimesSection = element.querySelectorAll('.card-pf-body')[1];
-    let runtimesHead = runtimesSection.querySelectorAll('.list-group-item-text');
-    let runtimes = component.runtimes, len = runtimes.length;
-    for (let i = 0; i < len; ++ i) {
-      expect((<HTMLDivElement>runtimesHead[i].children[0]).innerText.trim()).toBe(desc.substr(0, 65) + '...');
+    tick(500);
+    const runtimeSection = getRuntimesSection();
+    const text = runtimeSection.querySelectorAll('.list-group-item-text');
+    for (let i = 0; i < component.runtimes.length; ++ i) {
+      expect((<HTMLDivElement>text[i].children[0]).innerText.trim()).toBe(longDescription.substr(0, 65) + '...');
     }
-  });
+  }));
 
-  it('should show "Less" if the showMore is true and description length is more that 65 characters - Runtimes', () => {
-    component.runtimes[0].showMore = true;
+  it('should handle runtime show more/less correctly', fakeAsync(() => {
+    component.runtimes[0].description = longDescription;
+    tick(500);
     fixture.detectChanges();
-    let runtimesSection = element.querySelectorAll('.card-pf-body')[1];
-    let descElement = <HTMLSpanElement>runtimesSection.querySelectorAll('.list-group-item-text .description')[0];
-    let description = descElement.innerText.trim();
-    let index = description.indexOf('...');
-    if (index > -1) {
-      let showMore = <HTMLAnchorElement>runtimesSection.querySelector('.description-more').children[0];
-      expect(showMore.innerText.trim()).toBe('Less');
-    }
-  });
+    const item1 = getRuntimeItem(0);
+    expect(item1.querySelector('.description.truncated')).toBeTruthy();
+    expect(item1.querySelector('.description.full')).toBeFalsy();
+    const showMore = <HTMLAnchorElement>item1.querySelector('.description-more a');
+    expect(showMore.innerText.trim()).toBe('More');
+    showMore.click();
+    tick();
+    fixture.detectChanges();
+    expect(showMore.innerText.trim()).toBe('Less');
+    expect(item1.querySelector('.description.truncated')).toBeFalsy();
+    expect(item1.querySelector('.description.full')).toBeTruthy();
 
-  it('should show "More" if the showMore is false and description length is more that 65 characters - Runtimes', () => {
+    const item2 = getRuntimeItem(1);
+    expect(item2.querySelector('.description.truncated')).toBeTruthy();
+    expect(item2.querySelector('.description.full')).toBeFalsy();
+    expect(item2.querySelector('.description-more a')).toBeFalsy();
+  }));
+
+  it('should disable the missions, on click of runtime, which aren\'t applicable', fakeAsync(() => {
     fixture.detectChanges();
-    let runtimesSection = element.querySelectorAll('.card-pf-body')[1];
-    let descElement = <HTMLSpanElement>runtimesSection.querySelectorAll('.list-group-item-text .description')[0];
-    let description = descElement.innerText.trim();
-    let index = description.indexOf('...');
-    if (index > -1) {
-      let showMore = <HTMLAnchorElement>runtimesSection.querySelector('.description-more').children[0];
-      expect(showMore.innerText.trim()).toBe('More');
-    }
-  });
+    selectItem(getRuntimeItem(1));
+    expect(component.missions[1].disabled).toBeTruthy();
+  }));
 
   it('should complete step when booster is selected', fakeAsync(() => {
     fixture.detectChanges();
     expect(component.completed).toBeFalsy();
-    let missionsSection = element.querySelectorAll('.card-pf-body')[0];
-    let missionRadioBtn = <HTMLInputElement>missionsSection.querySelector('.list-group-item input[type="radio"]');
-    missionRadioBtn.click();
-    tick();
+    selectItem(getMissionItem(0));
     expect(component.completed).toBeFalsy();
-    let runtimesSection = element.querySelectorAll('.card-pf-body')[1];
-    let runtimeRadioBtn = <HTMLInputElement>runtimesSection.querySelector('.list-group-item input[type="radio"]');
-    runtimeRadioBtn.click();
+    selectItem(getRuntimeItem(0));
+    expect(component.completed).toBeTruthy();
+  }));
+
+  it('should not show versions dropdown when canChangeVersion is false', fakeAsync(() => {
+    component.canChangeVersion = false;
+    fixture.detectChanges();
+    expect(getRuntimeItem(0).querySelector('.dropdown')).toBeFalsy();
+    expect(getRuntimeItem(1).querySelector('.dropdown')).toBeFalsy();
+
+    selectItem(getMissionItem(0));
+    expect(getRuntimeItem(0).querySelector('.dropdown')).toBeFalsy();
+    expect(getRuntimeItem(1).querySelector('.dropdown')).toBeFalsy();
+
+    selectItem(getRuntimeItem(0));
+    expect(getRuntimeItem(0).querySelector('.dropdown')).toBeFalsy();
+    expect(getRuntimeItem(1).querySelector('.dropdown')).toBeFalsy();
+  }));
+
+  it(`should show versions dropdown only when canChangeVersion is true
+   and mission and runtime are selected`, fakeAsync(() => {
+    component.canChangeVersion = true;
+    fixture.detectChanges();
+    expect(getRuntimeItem(0).querySelector('.dropdown')).toBeFalsy();
+    expect(getRuntimeItem(1).querySelector('.dropdown')).toBeFalsy();
+
+    selectItem(getMissionItem(0));
+    expect(getRuntimeItem(0).querySelector('.dropdown')).toBeFalsy();
+    expect(getRuntimeItem(1).querySelector('.dropdown')).toBeFalsy();
+
+    selectItem(getRuntimeItem(0));
+    expect(getRuntimeItem(0).querySelector('.dropdown')).toBeTruthy();
+    expect(getRuntimeItem(1).querySelector('.dropdown')).toBeFalsy();
+
+    selectItem(getRuntimeItem(1));
+    expect(getRuntimeItem(0).querySelector('.dropdown')).toBeFalsy();
+    expect(getRuntimeItem(1).querySelector('.dropdown')).toBeTruthy();
+  }));
+
+  it(`should select version when clicking on versions dropdown`, fakeAsync(() => {
+    component.canChangeVersion = true;
+    fixture.detectChanges();
+    expect(component.versionId).toBeFalsy();
+    selectItem(getMissionItem(0));
+    expect(component.versionId).toBeFalsy();
+    selectItem(getRuntimeItem(0));
+    expect(component.versionId).toBe('community');
+    const item1 = getRuntimeItem(0);
+    const versionDropdownButton = <HTMLButtonElement>item1.querySelector('.dropdown button.dropdown-toggle');
+    expect(versionDropdownButton).toBeTruthy();
+    versionDropdownButton.click();
     tick();
     fixture.detectChanges();
-    expect(component.completed).toBeTruthy();
+    const redhatVersion = <HTMLLinkElement>item1.querySelectorAll('.dropdown ul.dropdown-menu li a')[1];
+    expect(redhatVersion).toBeTruthy();
+    redhatVersion.click();
+    tick();
+    fixture.detectChanges();
+    expect(component.versionId).toBe('redhat');
+
+    // Should auto rest to compatible version
+    selectItem(getMissionItem(1));
+    expect(component.versionId).toBe('community');
   }));
 });

@@ -21,7 +21,6 @@ export class ViewRuntime extends Runtime {
   disabled: boolean;
   disabledReason?: EmptyReason;
   prerequisite: boolean;
-  canChangeVersion: boolean;
   suggested: boolean;
   pipelinePlatform: string;
   selectedVersion: { id: string; name: string; };
@@ -48,7 +47,7 @@ export function createViewMissions(boosters: Booster[]): ViewMission[] {
   });
 }
 
-export function createViewRuntimes(boosters: Booster[], canChangeVersion: boolean): ViewRuntime[] {
+export function createViewRuntimes(boosters: Booster[]): ViewRuntime[] {
   const groupedByRuntime = _.groupBy(boosters, b => b.runtime.id);
   return _.values(groupedByRuntime).map(runtimeBoosters => {
     const runtime = _.first(runtimeBoosters).runtime;
@@ -57,7 +56,6 @@ export function createViewRuntimes(boosters: Booster[], canChangeVersion: boolea
       name: runtime.name,
       description: runtime.description,
       icon: runtime.icon,
-      canChangeVersion: canChangeVersion,
       suggested: _.get(runtime, 'metadata.suggested', false),
       prerequisite: _.get(runtime, 'metadata.prerequisite', false),
       pipelinePlatform: _.get(runtime, 'metadata.pipelinePlatform', false),

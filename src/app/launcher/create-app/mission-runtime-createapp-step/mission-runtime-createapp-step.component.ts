@@ -29,13 +29,15 @@ import { broadcast } from '../../shared/telemetry.decorator';
 export class MissionRuntimeCreateappStepComponent extends LauncherStep implements OnInit, OnDestroy {
   public missionId: string;
   public runtimeId: string;
+  public canChangeVersion: boolean;
+
+  versionId: string;
 
   private disabledReason = EmptyReason;
   private _missions: ViewMission[] = [];
   private _runtimes: ViewRuntime[] = [];
   private _boosters: Booster[] = null;
   private _cluster: string;
-  private versionId: string;
 
   private subscriptions: Subscription[] = [];
 
@@ -44,6 +46,7 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
               public _DomSanitizer: DomSanitizer,
               private broadcaster: Broadcaster) {
     super();
+    this.canChangeVersion = this.launcherComponent.flow === 'launch';
   }
 
   ngOnInit() {
@@ -64,7 +67,7 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
   }
 
   initBoosters(): void {
-    this._runtimes = createViewRuntimes(this._boosters, this.launcherComponent.flow === 'launch');
+    this._runtimes = createViewRuntimes(this._boosters);
     this._missions = createViewMissions(this._boosters);
     this.updateBoosterViewStatus();
   }
