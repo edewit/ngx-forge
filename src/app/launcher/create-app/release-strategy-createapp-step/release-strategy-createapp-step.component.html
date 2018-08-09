@@ -22,12 +22,12 @@
             <div class="card-pf-body">
               <div class="list-group list-view-pf list-view-pf-view">
                 <div class="list-group-item"
-                     [ngClass]="{'suggested': pipeline.suggested   || pipeline.techPreview  }"
+                     [ngClass]="{'suggested': pipeline.suggested || pipeline.techPreview}"
                      *ngFor="let pipeline of (pipelines | sortArray: 'suggested': true)">
-                     <div class="group" [ngClass]="{'with-tag': pipeline.suggested   || pipeline.techPreview  }">
+                     <div class="group" [ngClass]="{'with-tag': pipeline.suggested || pipeline.techPreview}">
                         <div class="list-view-pf-expand">
                               <span class="fa"
-                                    [ngClass]="{'fa-angle-down': pipeline.expanded  ,
+                                    [ngClass]="{'fa-angle-down': pipeline.expanded,
                                                 'fa-angle-right': pipeline.expanded !== true}"
                                     (click)="toggleExpanded(pipeline)">
                               </span>
@@ -54,18 +54,18 @@
                             </div>
                           </div>
                         </div>
-                        <div class="f8launcher-tags" [ngClass]="{'suggested-feature-tag': pipeline.suggested  }"
-                              *ngIf="pipeline.suggested   || pipeline.techPreview  ">
+                        <div class="f8launcher-tags" [ngClass]="{'suggested-feature-tag': pipeline.suggested}"
+                              *ngIf="pipeline.suggested || pipeline.techPreview">
                             <span class="f8launcher-tags-label suggested" container="body" triggers="click"
                                   outsideClick="true"
                                   popover="This pipeline provides an end-to-end process that moves your application from source code to production, with stages to build and test new versions, rollout to staging, review changes, await approval, and promote to production."
-                                  *ngIf="pipeline.suggested  ">
+                                  *ngIf="pipeline.suggested">
                               Red Hat Suggests <i class="pficon pficon-info tag-icon"></i>
                             </span>
                             <span class="f8launcher-tags-label techpreview" container="body" triggers="click"
                                   outsideClick="true"
                                   popover="Technology Preview"
-                                  *ngIf="pipeline.techPreview  ">
+                                  *ngIf="pipeline.techPreview">
                               Tech Preview <i class="pficon pficon-info"></i>
                             </span>
                           </div>
@@ -75,7 +75,7 @@
 
                   <div class="list-group-item-container container-fluid"
                        (click)="pipelineId = pipeline.id; updatePipelineSelection(pipeline)"
-                       *ngIf="pipeline.expanded  ">
+                       *ngIf="pipeline.expanded">
                     <div class="row">
                       <div class="form-horizontal">
                         <div class="form-group col-sm-12" *ngFor="let stage of pipeline.stages">

@@ -116,7 +116,7 @@
             </div>
             <div class="card-pf-body">
               <div class="list-group-item"
-                   [ngClass]="{'suggested': launcherComponent.summary?.pipeline?.suggested   || launcherComponent.summary?.pipeline?.techPreview }">
+                   [ngClass]="{'suggested': launcherComponent.summary?.pipeline?.suggested || launcherComponent.summary?.pipeline?.techpreview}">
                 <div class="list-view-pf-main-info">
                   <div class="list-view-pf-body">
                     <div class="list-view-pf-description f8launcher-project-summary-data-unavailable dependency">
@@ -165,11 +165,11 @@
             </div>
             <div class="card-pf-body">
               <div class="list-group-item"
-                   [ngClass]="{'suggested': summary?.pipeline?.suggested   || summary?.pipeline?.techPreview  }">
-                <div class="group" [ngClass]="{'with-tag': summary?.pipeline?.suggested   || summary?.pipeline?.techPreview  }">
+                   [ngClass]="{'suggested': summary?.pipeline?.suggested || summary?.pipeline?.techPreview}">
+                <div class="group" [ngClass]="{'with-tag': summary?.pipeline?.suggested || summary?.pipeline?.techPreview}">
                   <div class="list-view-pf-expand">
                           <span class="fa"
-                                [ngClass]="{'fa-angle-down': summary?.pipeline?.expanded  ,
+                                [ngClass]="{'fa-angle-down': summary?.pipeline?.expanded,
                                             'fa-angle-right': summary?.pipeline?.expanded !== true}"
                                 (click)="toggleExpanded(summary.pipeline)">
                           </span>
@@ -190,25 +190,25 @@
                       </div>
                     </div>
                   </div>
-                  <div class="f8launcher-tags" [ngClass]="{'suggested-feature-tag': launcherComponent.summary?.pipeline?.suggested  }"
-                        *ngIf="launcherComponent.summary?.pipeline?.suggested   || launcherComponent.summary?. pipeline?.techPreview  ">
+                  <div class="f8launcher-tags" [ngClass]="{'suggested-feature-tag': launcherComponent.summary?.pipeline?.suggested}"
+                        *ngIf="launcherComponent.summary?.pipeline?.suggested || launcherComponent.summary?.pipeline?.techpreview">
                     <span class="f8launcher-tags-label suggested" container="body" triggers="click"
                           outsideClick="true"
                           popover="This pipeline provides an end-to-end process that moves your application from source code to production, with stages to build and test new versions, rollout to staging, review changes, await approval, and promote to production."
-                          *ngIf="summary?.pipeline?.suggested  ">
+                          *ngIf="summary?.pipeline?.suggested">
                       Red Hat Suggests <i class="pficon pficon-info"></i>
                     </span>
                     <span class="f8launcher-tags-label techpreview" container="body" triggers="click"
                           outsideClick="true"
                           popover="Technology Preview"
-                          *ngIf="summary?.pipeline?.techPreview  ">
+                          *ngIf="summary?.pipeline?.techPreview">
                         Tech Preview <i class="pficon pficon-info"></i>
                       </span>
                   </div>
                 </div>
                 <div class="list-group-item-container container-fluid"
                      (click)="pipelineId = summary?.pipeline?.id; updatePipelineSelection(pipeline)"
-                     *ngIf="summary?.pipeline?.expanded  ">
+                     *ngIf="summary?.pipeline?.expanded">
                   <div class="row">
                     <div class="form-horizontal">
                       <div class="form-group col-sm-12" *ngFor="let stage of summary?.pipeline?.stages">

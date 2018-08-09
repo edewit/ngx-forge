@@ -14,14 +14,14 @@
   </span>
 </div>
 <div class="f8launcher-vertical-bar"
-     [ngClass]="{'in-progress': inProgress  }">
+     [ngClass]="{'in-progress': inProgress}">
   <a class="f8launcher-vertical-bar_steps--item {{step.styleClass}}" href="javascript:void(0)"
      [class.active]="launcherComponent.selectedSection === step.id"
-     [ngClass]="{'hide': step.hidden  }"
+     [ngClass]="{'hide': step.hidden}"
      (click)="navToStep(step.id)"
      *ngFor="let step of launcherComponent.steps">
     <div class="f8launcher-step-circle"
-         [ngClass]="{'completed': step.completed  }">
+         [ngClass]="{'completed': step.completed}">
     </div>
     <span class="f8launcher-vertical-bar_steps--title">{{step.title}}</span>
   </a>

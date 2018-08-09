@@ -9,7 +9,7 @@
   </div>
   <div>
     <div class="container-fluid container-cards-pf">
-      <div class="alert-box" *ngIf="isError  ">
+      <div class="alert-box" *ngIf="isError">
           <div class="alert alert-danger">
               <span class="pficon pficon-error-circle-o"></span>
               <strong>Set Up Incomplete</strong> There were some problems.
@@ -33,10 +33,10 @@
                 <span *ngIf="allCompleted !== true">
                   <i class="pficon pficon-in-progress fa-spin"></i> Working Through Setup
                 </span>
-                <span *ngIf="allCompleted   && isError !== true">
+                <span *ngIf="allCompleted && isError !== true">
                   <i class="pficon pficon-ok"></i> Your Application is Ready
                 </span>
-                <span *ngIf="isError  ">
+                <span *ngIf="isError">
                   <i class="pficon pficon-error-circle-o"></i> Set Up Incomplete
                 </span>
               </h2>
@@ -50,7 +50,7 @@
                         <div class="list-pf-left"
                                 [ngClass]="{'item-in-progress': item.completed !== true}">
                           <span class="pficon"
-                                [ngClass]="{'pficon-ok': item.completed  ,
+                                [ngClass]="{'pficon-ok': item.completed,
                                             'pficon-in-progress fa-spin': item.completed !== true,
                                             'icon-clear': item.completed !== true && item.inProgress !== true}">
                           </span>
@@ -62,7 +62,7 @@
                           </div>
                         </div>
                         <div class="list-pf-actions"
-                          *ngIf="item?.hyperText !== undefined && item?.completed  ">
+                          *ngIf="item?.hyperText !== undefined && item?.completed">
                           <a target="_blank" [href]="item?.hyperText">{{item?.hyperText}}</a>
                         </div>
                       </div>

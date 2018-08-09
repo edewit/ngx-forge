@@ -9,7 +9,7 @@
   </div>
   <div>
     <div class="container-fluid container-cards-pf">
-      <div class="alert-box" *ngIf="isError  ">
+      <div class="alert-box" *ngIf="isError">
         <div class="alert alert-danger">
           <span class="pficon pficon-error-circle-o"></span>
           <strong>Set Up Incomplete</strong> There were some problems.
@@ -34,10 +34,10 @@
                 <span *ngIf="!allCompleted && !isError">
                   <i class="pficon pficon-in-progress fa-spin"></i> Working Through Setup
                 </span>
-                <span *ngIf="allCompleted   && isError !== true">
+                <span *ngIf="allCompleted && isError !== true">
                   <i class="pficon pficon-ok"></i> Your Application is Ready
                 </span>
-                <span *ngIf="isError  ">
+                <span *ngIf="isError">
                   <i class="pficon pficon-error-circle-o"></i> Set Up Incomplete
                 </span>
               </h2>
@@ -72,7 +72,7 @@
                 </div>
               </div>
             </div>
-            <div class="card-pf-body" *ngIf="launcherComponent.flow === 'launch' && allCompleted  ">
+            <div class="card-pf-body" *ngIf="launcherComponent.flow === 'launch' && allCompleted">
               <div class="list-pf">
                 <div class="list-pf-item">
                   <div class="list-pf-container">
