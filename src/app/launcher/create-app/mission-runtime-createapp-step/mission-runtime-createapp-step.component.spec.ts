@@ -390,13 +390,9 @@ describe('MissionRuntimeStepComponent', () => {
   }));
 
   it(`should show versions dropdown only when canChangeVersion is true
-   and mission and runtime are selected`, fakeAsync(() => {
+   and runtime are selected`, fakeAsync(() => {
     component.canChangeVersion = true;
     fixture.detectChanges();
-    expect(getRuntimeItem(0).querySelector('.dropdown')).toBeFalsy();
-    expect(getRuntimeItem(1).querySelector('.dropdown')).toBeFalsy();
-
-    selectItem(getMissionItem(0));
     expect(getRuntimeItem(0).querySelector('.dropdown')).toBeFalsy();
     expect(getRuntimeItem(1).querySelector('.dropdown')).toBeFalsy();
 
