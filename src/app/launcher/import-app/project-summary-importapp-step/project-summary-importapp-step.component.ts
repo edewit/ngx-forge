@@ -79,7 +79,7 @@ export class ProjectSummaryImportappStepComponent extends LauncherStep implement
     }
     for (let i = 0; i < this.launcherComponent.steps.length - 1; i++) {
       let step = this.launcherComponent.steps[i];
-      if (!(step.optional === true || step.completed === true) && step.hidden !== true) {
+      if (!step.hidden && !(step.optional || step.completed)) {
         return false;
       }
     }

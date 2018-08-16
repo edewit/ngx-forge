@@ -252,7 +252,7 @@ export class LauncherComponent implements AfterViewInit, OnInit {
    */
   navToNextStep(fromStepId: string = this.selectedSection): void {
     let summaryStep = this.getStep('ProjectSummary');
-    if (summaryStep !== undefined && summaryStep.completed === true) {
+    if (summaryStep && summaryStep.completed) {
       this.summaryCompleted = true;
       return;
     }
