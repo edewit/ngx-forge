@@ -1,0 +1,50 @@
+@import (reference) '../../../assets/stylesheets/shared/main.less';
+
+.f8launcher {
+  &-provider-card {
+    background-color: @color-pf-white;
+    min-height: 300px;
+    padding-left: 0;
+    padding-right: 0;
+    box-shadow: .5px 1px 0 rgba(0, 0, 0, .3), 0 -.5px 1px 0 rgba(0, 0, 0, .3);
+    &-icon {
+      min-height: 300px;
+      border-right: 1px solid;
+      margin: 10px 0;
+      border-right-color: @color-pf-black-400;
+      h3 {
+        font-weight: 600;
+      }
+      i {
+        padding: 25px;
+      }
+    }
+    &-info {
+      text-align: left;
+    }
+    &-information {
+      padding-left: 15px;
+      padding-right: 15px;
+      min-height: 300px;
+      margin: 10px 0;
+      h3 {
+        font-weight: 600;
+      }
+      &-authorize {
+        .f8launcher {
+          &-username {
+            vertical-align: bottom;
+            font-style: italic;
+            font-size: 1.4em;
+          }
+          &-authorize-account {
+            float: right;
+          }
+        }
+      }
+    }
+  }
+  ul.dropdown-menu {
+    max-height: 400px;
+  }
+}

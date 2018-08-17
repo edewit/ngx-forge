@@ -1,0 +1,49 @@
+@import (reference) '../../../assets/stylesheets/shared/main.less';
+
+.f8launcher-section-release-strategy {
+  .control-label {
+    text-align: left;
+  }
+  .card-pf {
+    &-heading {
+      border: none;
+    }
+    &-body {
+      margin-top: -31px;
+    }
+  }
+  .list-group-item {
+
+    .group {
+      flex: 1;
+      flex-direction: column;
+
+      &.with-tag {
+        padding-bottom: 20px;
+        position: relative;
+      }
+
+    }
+
+    .list-view-pf-main-info {
+      position: relative;
+    }
+  }
+  .list-group-item-header {
+    cursor: default;
+    margin-left: 16px;
+    margin-right: -16px;
+    margin-top: -1px;
+    padding: 0;
+  }
+  .list-group-item-container,
+  .list-view-pf-main-info {
+    cursor: pointer;
+  }
+  .list-view-pf-expand {
+    margin-right: 7px;
+    .fa-angle-down {
+      padding-right: 6px;
+    }
+  }
+}

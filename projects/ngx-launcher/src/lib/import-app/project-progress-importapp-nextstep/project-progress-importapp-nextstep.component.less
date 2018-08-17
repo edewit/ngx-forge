@@ -1,0 +1,39 @@
+@import (reference) '../../../assets/stylesheets/shared/main.less';
+
+.f8launcher {
+  &-section-project-progress {
+    .f8launcher-grid();
+    grid-column-gap: 15px;
+    grid-auto-rows: auto;
+    grid-template-areas: 'main';
+    grid-template-columns: 1fr;
+    width: 100vw;
+    .card-pf-title-project-progress {
+      /* stylelint-disable-next-line declaration-no-important */
+      display: block !important;
+      text-align: center;
+    }
+    .pfng-list-content {
+      display: flex;
+      flex: 1;
+    }
+    .item-in-progress {
+        opacity: .4;
+    }
+    .icon-clear {
+      &:before {
+        color: transparent;
+      }
+    }
+    .alert-box {
+      .alert-danger {
+        margin-bottom: 0;
+      }
+      .alert-detail {
+        border-color: #c00;
+        border-top: none;
+        color: #363636;
+      }
+    }
+  }
+}

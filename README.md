@@ -2,91 +2,86 @@
 
 [![Build Status](https://semaphoreci.com/api/v1/fabric8-launcher/ngx-launcher/branches/master/shields_badge.svg)](https://semaphoreci.com/fabric8-launcher/ngx-launcher)
 [![npm version](https://badge.fury.io/js/ngx-launcher.svg)](https://badge.fury.io/js/ngx-launcher)
-[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release) 
+[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
-A collection of Angular services and components to work with [Forge Wizard UI](http://forge.jboss.org/). 
+A collection of Angular services and components to work with [Forge Wizard UI](http://forge.jboss.org/) to provide an easy getting started experience with OpenShift.
 
 
 You can see how it is used in:
-* [fabric8-ui](https://github.com/fabric8io/fabric8-ui) application - deployed https://openshift.io 
+* [fabric8-ui](https://github.com/fabric8io/fabric8-ui) application - deployed https://openshift.io
 * [launchpad-frontend](https://github.com/fabric8-launchpad/launchpad-frontend) application - deployed https://launch.openshift.io
 
-All components shared a common object model for the Input. 
+All components shared a common object model for the Input.
 ForgeService provide common REST endpoints like `next`, `validate`, `execute` to work with your Swarm backends, see:
 * [launchpad backend](https://github.com/fabric8-launch/launchpad-backend) and its [launchpad-addon](https://github.com/fabric8-launch/launchpad-addon).
 * [fabric8 backend](https://github.com/fabric8io/generator-backend) and its [fabrci8-generator add-on ](https://github.com/fabric8io/fabric8-generator).
 
 ## Getting started:
 
-This library does not run on it's own. It must be imported. 
+This library does not run on it's own. It must be imported.
 
 `npm install ngx-launcher`
 
-  
-## Building it 
- 
+
+## Building it
+
 #### Pre-requisites
-* node 8.3.0
-* npm 5.3.0
+* node v8.9.1+ (required by anuglar-cli 6+)
+* npm 5.5.1
+
+This angular library is built using [angular-cli](https://github.com/angular/angular-cli/wiki)'s workspace.
+The main application is the demo app. The library source is under [/projects/ngx-launcher](/projects/ngx-launcher)
 
 #### Install the dependencies:
- 
- `npm install`
- 
+
+ ```
+ npm install
+ ```
+
 #### If you need to update the dependencies you can reinstall:
- 
- `npm run reinstall`
- 
+
+ ```
+ npm run clean
+ npm install
+ ```
+
 #### Run the tests:
- 
- `npm test`
- 
-#### Build the library:
- 
- `npm run build`
- 
-## Library Build
 
-### Production
+ ```
+ npm test
+ ```
+> NOTE: to run the library test in watch mode: `npm run test:lib:dev`
 
-To build ngx-launcher as a npm library, use:
+#### Build library and demo app:
+ ```
+ npm run build
+ ```
+
+#### Run the demo
+
+```shell
+npm install
+npm run build
+npm start
+```
+Open your browser on http://localhost:4200/
+
+## Release
+
+* pre-requisites
+Login to [npmjs central repo](https://www.npmjs.com/) with your credential (you should be owner of the library).
+
+* build `ngx-launcher` as a npm library
 
 ```
-npm run build   
-npm run bundle-webpack
+npm run build
+```
+
+* publish
+```
 npm publish dist
 ```
 
-### Development
-
-To build ngx-launcher as an npm library and embed it into a webapp such as
-fabric8-ui, you should:
-
-1. Run `npm run watch:library` in this directory. This will build ngx-launcher as
-a library and then set up a watch task to rebuild any ts, html and less files you
-change.
-2. In the webapp into which you are embedding, run `npm link <path to ngx-launcher>/dist-watch --production`.
-This will create a symlink from `node_modules/ngx-launcher` to the `dist-watch` directory
-and install that symlinked node module into your webapp.
-3. Run your webapp in development mode, making sure you have a watch on `node_modules/ngx-launcher`
-enabled. To do this using a typical Angular Webpack setup, such as the one based on Angular Class,
-just run `npm start. You will have access to both JS sourcemaps and SASS sourcemaps if your webapp
-is properly setup.
-
-## Dependencies
-
-Our dependencies (`--dev` included) are managed but npm-shrinkwrap.
-When updating versions, make sure you update both `package.json` and `npm-shrinkwrap.json`.
-
-To generate a new shrinkwrap file:
-```
-npm install shrinkwrap
-npm shrinkwrap --dev
-```
-Links:
-
-* [Updating a package when you're using npm shrinkwrap](https://gist.github.com/alanhogan/a32889830384f4e190fa)
-* with npm3, you may need to manually update `node_module/your_dependency/package.json` to remove `peerDependecies` casuing shrinkwrap file hgenration to fail.
-* There is a demo of the [wizard available on OpenShift](http://launcher-ngx-launcher.6923.rh-us-east-1.openshiftapps.com/#/) that is updated with each PR. 
+> Note: semantic release are done via fabric8cd using `semantic-release`
 
 

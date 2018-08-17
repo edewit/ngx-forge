@@ -1,0 +1,16 @@
+{
+  "name": "ngx-launcher",
+  "version": "0.0.1",
+  "dependencies": {
+    "lodash": "^4.17.10",
+    "ngx-base": "^2.3.6",
+    "@thisissoon/angular-inviewport": "^3.0.1",
+    "ngx-bootstrap": "^3.0.1",
+    "patternfly": "^3.28.0",
+    "patternfly-ng": "^4.0.1"
+  },
+  "peerDependencies": {
+    "@angular/common": "^6.1.1",
+    "@angular/core": "^6.1.1"
+  }
+}

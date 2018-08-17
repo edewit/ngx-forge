@@ -1,0 +1,39 @@
+<section id="SelectDependencies" class="f8launcher-section-dependency-check f8launcher-container_main--inside" [ngClass]="{'hidden': hidden}">
+  <div>
+    <div class="container-fluid">
+      <h1 snInViewport (onInViewportChange)="launcherComponent.onInViewportChange($event, 'SelectDependencies')"
+      [debounce]="500">
+          Select Dependency
+      </h1>
+      <div class="col-xs-12 col-md-6 f8launcher-section-dependency-editor-desp">
+        <p>Review and add dependencies to your applications.</p>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="container-fluid container-cards-pf">
+      <div class="row row-dep-editor">
+        <div class="col-xs-12" *ngIf="depEditorFlag">
+          <!--<app-dependency-editor [blankResponse]="blankResponse" [boosterInfo]="boosterInfo && boosterInfo" [githubUrl]="github && github" [githubRef]="gitref && gitref" [metadataInfo]="metadataInfo && metadataInfo"-->
+          <!--(depSnapshot)="pickDependencies($event)" [broadcaster]="broadcaster && broadcaster" (emitMetadata)="pickMetadata($event)" (navId)="navToStep($event)"></app-dependency-editor>-->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div class="container-fluid">
+      <div class="f8launcher-continue">
+        <button class="btn btn-link"
+          class.animate-continue="completed"
+          [disabled]="!completed"
+          (click)="navToNextStep()">
+          <span class="fa-stack fa-2x">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-angle-double-down fa-stack-1x fa-inverse"></i>
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>

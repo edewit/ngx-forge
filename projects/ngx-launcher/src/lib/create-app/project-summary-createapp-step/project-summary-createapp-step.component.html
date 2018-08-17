@@ -1,0 +1,399 @@
+<section class="f8launcher-section-project-summary f8launcher-container_main--end"
+         [ngClass]="{'hidden': hidden}">
+  <fab-toast-notification [notifications]="setUpErrResponse"></fab-toast-notification>
+  <div>
+    <div class="container-fluid">
+      <h1 snInViewport (onInViewportChange)="launcherComponent.onInViewportChange($event, 'ProjectSummary')"
+          [debounce]="500">Confirm Application Summary & Setup</h1>
+    </div>
+  </div>
+  <div>
+    <div class="container-fluid container-cards-pf">
+      <div class="row row-cards-pf">
+        <div class="col-xs-12 col-md-6">
+          <div class="card-pf card-pf--xsmall">
+            <div *ngIf="summary?.mission === undefined;
+                        then showNoMissionTemplate else showMissionTemplate"></div>
+            <ng-template #showNoMissionTemplate>
+              <div class="card-pf-heading">
+                <h2 class="card-pf-title">
+                  Mission
+                </h2>
+              </div>
+              <div class="card-pf-body f8launcher-project-summary-data-unavailable">
+                <h2>
+                  <b>Incomplete</b>
+                </h2>
+                <p>To proceed with setting up this application, this section must be completed.</p>
+                <button class="btn btn-default btn-lg f8launcher-authorize-account"
+                        (click)="navToStep('MissionRuntime')">Complete Section</button>
+              </div>
+            </ng-template>
+            <ng-template #showMissionTemplate>
+              <div class="card-pf-heading">
+                <h2 class="card-pf-title">
+                  Mission
+                </h2>
+              </div>
+              <div class="card-pf-body card-column">
+                <div class="card-column-single">
+                  <b>{{summary?.mission?.name}}</b>
+                  <p>{{summary?.mission?.description}}</p>
+                </div>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+        <div class="col-xs-12 col-md-6">
+          <div class="card-pf card-pf--xsmall">
+            <div *ngIf="summary?.runtime === undefined;
+                        then showNoRuntimeTemplate else showRuntimeTemplate"></div>
+            <ng-template #showNoRuntimeTemplate>
+              <div class="card-pf-heading">
+                <h2 class="card-pf-title">
+                  Runtime
+                </h2>
+              </div>
+              <div class="card-pf-body f8launcher-project-summary-data-unavailable">
+                <h2>
+                  <b>Incomplete</b>
+                </h2>
+                <p>To proceed with setting up this application, this section must be completed.</p>
+                <button class="btn btn-default btn-lg f8launcher-authorize-account"
+                        (click)="navToStep('MissionRuntime')">Complete Section</button>
+              </div>
+            </ng-template>
+            <ng-template #showRuntimeTemplate>
+              <div class="card-pf-heading">
+                <h2 class="card-pf-title">
+                  Runtime
+                </h2>
+              </div>
+              <div class="card-pf-body card-column">
+                <div class="card-column-60">
+                  <b>{{summary?.runtime?.name}}</b>
+                  <b class="pull-right">{{summary?.runtime?.version?.name}}</b>
+                  <p>{{summary?.runtime?.description}}</p>
+                </div>
+                <div class="card-column-40">
+                  <img class="card-column_runtime-icon"
+                       [src]="_DomSanitizer.bypassSecurityTrustUrl(summary?.runtime?.icon)"
+                       *ngIf="summary?.runtime?.icon !== null">
+                </div>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid container-cards-pf" *ngIf="depEditorFlag && summary?.targetEnvironment === 'os' && launcherComponent.flow !== 'launch'">
+    <div class="row row-cards-pf">
+      <div class="col-xs-12">
+        <div id="dep-editor" class="card-pf card-pf--small">
+          <div *ngIf="launcherComponent.summary?.dependencyEditor?.dependencySnapshot === undefined;
+                      then showNoDependencyTemplate else showDependencyTemplate"></div>
+          <ng-template #showNoDependencyTemplate>
+            <div class="card-pf-heading">
+              <h2 class="card-pf-title">
+                Selected Dependencies
+              </h2>
+            </div>
+            <div class="card-pf-body f8launcher-project-summary-data-unavailable dependency noData-label">
+              <h2>
+                <b>You haven't selected any additional dependencies</b>
+              </h2>
+              <p>To add additional dependencies, complete this section. Required dependencies are added for you automatically based on your mission and runtime.</p>
+              <button class="btn btn-default btn-lg f8launcher-authorize-account"
+                      (click)="navToStep('SelectDependencies')">Complete Section</button>
+            </div>
+          </ng-template>
+          <ng-template #showDependencyTemplate>
+            <div class="card-pf-heading">
+              <h2 class="card-pf-title">
+                Selected Dependencies
+              </h2>
+            </div>
+            <div class="card-pf-body">
+              <div class="list-group-item"
+                   [ngClass]="{'suggested': launcherComponent.summary?.pipeline?.suggested || launcherComponent.summary?.pipeline?.techPreview}">
+                <div class="list-view-pf-main-info">
+                  <div class="list-view-pf-body">
+                    <div class="list-view-pf-description f8launcher-project-summary-data-unavailable dependency">
+                      <ng-container>
+                        <span class="dependencies-added" *ngFor="let snapshot of launcherComponent?.summary?.dependencyEditor?.dependencySnapshot">
+                          {{snapshot.package}}
+                        </span>
+                      </ng-container>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+  <form class="form-horizontal" #form="ngForm">
+  <div class="container-fluid container-cards-pf" *ngIf="launcherComponent.summary?.targetEnvironment === 'os' && launcherComponent.flow !== 'launch'">
+    <div class="row row-cards-pf">
+      <div class="col-xs-12">
+        <div class="card-pf" [ngClass]="{'card-pf--small': summary?.pipeline === undefined}">
+          <div *ngIf="summary?.pipeline === undefined;
+                      then showNoPipelineTemplate else showPipelineTemplate"></div>
+          <ng-template #showNoPipelineTemplate>
+            <div class="card-pf-heading">
+              <h2 class="card-pf-title">
+                Pipeline
+              </h2>
+            </div>
+            <div class="card-pf-body f8launcher-project-summary-data-unavailable">
+              <h2>
+                <b>Incomplete</b>
+              </h2>
+              <p>To proceed with setting up this application, this section must be completed.</p>
+              <button class="btn btn-default btn-lg f8launcher-authorize-account"
+                      (click)="navToStep('ReleaseStrategy')">Complete Section</button>
+            </div>
+          </ng-template>
+          <ng-template #showPipelineTemplate>
+            <div class="card-pf-heading">
+              <h2 class="card-pf-title">
+                Pipeline
+              </h2>
+            </div>
+            <div class="card-pf-body">
+              <div class="list-group-item"
+                   [ngClass]="{'suggested': summary?.pipeline?.suggested || summary?.pipeline?.techPreview}">
+                <div class="group" [ngClass]="{'with-tag': summary?.pipeline?.suggested || summary?.pipeline?.techPreview}">
+                  <div class="list-view-pf-expand">
+                          <span class="fa"
+                                [ngClass]="{'fa-angle-down': summary?.pipeline?.expanded,
+                                            'fa-angle-right': summary?.pipeline?.expanded !== true}"
+                                (click)="toggleExpanded(summary.pipeline)">
+                          </span>
+                  </div>
+                  <div class="list-view-pf-main-info">
+                    <div class="list-view-pf-body">
+                      <div class="list-view-pf-description">
+                        <ng-container *ngFor="let stage of summary?.pipeline?.stages; let i = index">
+                              <span class="f8launcher-pipeline-stages--line">
+                                <span class="f8launcher-pipeline-stages--name">
+                                  {{stage.name || stage}}
+                                </span>
+                              </span>
+                          <span class="f8launcher-pipeline-stages--arrow"
+                                *ngIf="i !== summary?.pipeline?.stages.length - 1"></span>
+                        </ng-container>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="f8launcher-tags" [ngClass]="{'suggested-feature-tag': launcherComponent.summary?.pipeline?.suggested}"
+                        *ngIf="launcherComponent.summary?.pipeline?.suggested || launcherComponent.summary?.pipeline?.techPreview">
+                    <span class="f8launcher-tags-label suggested" container="body" triggers="click"
+                          outsideClick="true"
+                          popover="This pipeline provides an end-to-end process that moves your application from source code to production, with stages to build and test new versions, rollout to staging, review changes, await approval, and promote to production."
+                          *ngIf="summary?.pipeline?.suggested">
+                      Red Hat Suggests <i class="pficon pficon-info"></i>
+                    </span>
+                    <span class="f8launcher-tags-label techpreview" container="body" triggers="click"
+                          outsideClick="true"
+                          popover="Technology Preview"
+                          *ngIf="summary?.pipeline?.techPreview">
+                        Tech Preview <i class="pficon pficon-info"></i>
+                      </span>
+                  </div>
+                </div>
+                <div class="list-group-item-container container-fluid"
+                     *ngIf="summary?.pipeline?.expanded">
+                  <div class="row">
+                    <div class="form-horizontal">
+                      <div class="form-group col-sm-12" *ngFor="let stage of summary?.pipeline?.stages">
+                        <label class="col-sm-2 control-label">
+                          {{stage.name}}
+                        </label>
+                        {{stage.description}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid container-cards-pf">
+    <div class="row row-cards-pf">
+      <div class="col-xs-12 col-md-6">
+        <div class="card-pf card-pf--small">
+          <div class="card-pf-heading">
+            <h2 class="card-pf-title">
+              Application Information
+            </h2>
+          </div>
+          <div class="card-pf-body card-column">
+            <div class="card-column-single">
+              <div class="form-horizontal">
+                <div class="form-group f8launcher-project-summary-data-form-group">
+                  <label class="col-xs-4 control-label">Application Name</label>
+                  <div class="col-xs-8 f8launcher-project-summary-data-field f8launcher-application-text-field">
+                    <input class="f8launcher-project-summary-data-field_input f8launcher-application-text-field_input"
+                           name="applicationTitle" placeholder="New Application" type="text" #projectName="ngModel"
+                           [(ngModel)]="dependencyCheck.projectName" lowercase validateProjectName required
+                           (keyup.enter)="$event.target.blur();">
+                  </div>
+                  <div *ngIf="projectName.invalid && (projectName.dirty || projectName.touched)" class="col-xs-8 col-xs-offset-4 has-error">
+                    <span *ngIf="projectName.errors.pattern" class="help-block f8launcher-vertical-bar_application-name-help-text">
+                      Please enter a valid Application Name.
+                    </span>
+                    <span *ngIf="projectName.errors.duplicate" class="help-block f8launcher-vertical-bar_application-name-help-text">
+                      Application name is already used. Please enter a new one.
+                    </span>
+                  </div>
+                </div>
+                <div class="form-group f8launcher-project-summary-data-form-group"
+                  *ngIf="launcherComponent.flow !== 'osio' && summary?.runtime?.id !== 'nodejs'">
+                  <label class="col-xs-4 control-label">Maven Artifact</label>
+                  <div class="col-xs-8 f8launcher-project-summary-data-field f8launcher-application-text-field">
+                    <input class="f8launcher-project-summary-data-field_input f8launcher-application-text-field_input"
+                           name="artifact" placeholder="Maven Artifact" type="text" pattern="[a-z][a-z0-9-]{3,63}"
+                           [(ngModel)]="dependencyCheck.mavenArtifact" #mavenArtifact="ngModel"
+                           (keyup.enter)="$event.target.blur();">
+                  </div>
+                  <div *ngIf="mavenArtifact.invalid && (mavenArtifact.dirty || mavenArtifact.touched)" class="col-xs-8 col-xs-offset-4 has-error">
+                    <span class="help-block">
+                      Please enter a valid Maven Artifact.
+                    </span>
+                  </div>
+                </div>
+                <div class="form-group f8launcher-project-summary-data-form-group">
+                  <label class="col-xs-4 control-label">Version</label>
+                  <div class="col-xs-8 f8launcher-project-summary-data-field f8launcher-application-text-field">
+                    <input class="f8launcher-project-summary-data-field_input f8launcher-application-text-field_input"
+                           name="version" placeholder="Version Number" type="text" pattern="[a-zA-Z0-9-.]{3,63}"
+                           [(ngModel)]="dependencyCheck.projectVersion" #projectVersion="ngModel" required
+                           (keyup.enter)="$event.target.blur();">
+                  </div>
+                  <div *ngIf="projectVersion.invalid && (projectVersion.dirty || projectVersion.touched)" class="col-xs-8 col-xs-offset-4 has-error">
+                    <span class="help-block">
+                      Please enter a valid Version.
+                    </span>
+                  </div>
+                </div>
+                <div class="form-group f8launcher-project-summary-data-form-group" *ngIf="summary?.runtime?.id !== 'nodejs'">
+                  <label class="col-xs-4 control-label">Group ID</label>
+                  <div class="col-xs-8 f8launcher-project-summary-data-field f8launcher-application-text-field">
+                    <input class="f8launcher-project-summary-data-field_input f8launcher-application-text-field_input"
+                           name="groupId" placeholder="Group ID" type="text" pattern="[a-z][a-z0-9.]{3,63}" required
+                           [(ngModel)]="dependencyCheck.groupId" #groupId="ngModel">
+                  </div>
+                  <div *ngIf="groupId.invalid && (groupId.dirty || groupId.touched)" class="col-xs-8 col-xs-offset-4 has-error">
+                    <span class="help-block">
+                      Please enter a valid Group ID.
+                    </span>
+                  </div>
+                </div>
+                <div class="form-group f8launcher-project-summary-data-form-group" *ngIf="launcherComponent.flow === 'osio'">
+                  <label class="col-xs-4 control-label">Space Path</label>
+                  <div class="col-xs-8 f8launcher-project-summary-data-field">
+                    <span>{{summary?.dependencyCheck?.spacePath}}</span>
+                  </div>
+                </div>
+                <div class="form-group f8launcher-project-summary-data-form-group">
+                  <label class="col-xs-4 control-label">Target Environment</label>
+                  <div *ngIf="summary?.targetEnvironment === undefined;
+                        then showNoTargetTemplate else showTargetTemplate"></div>
+                  <ng-template #showNoTargetTemplate>
+                    <div class="col-xs-8 f8launcher-project-summary-data-field">
+                      <button class="btn btn-default"
+                              (click)="navToStep('TargetEnvironment')">Complete Section</button>
+                    </div>
+                  </ng-template>
+                  <ng-template #showTargetTemplate>
+                    <div class="col-xs-8 f8launcher-project-summary-data-field">
+                      <span>{{summary?.targetEnvironment === 'os' ? 'OpenShift' : '.Zip File'}}</span>
+                    </div>
+                  </ng-template>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 col-md-6" *ngIf="summary?.targetEnvironment === 'os'">
+        <div class="card-pf card-pf--small">
+          <div *ngIf="summary?.gitHubDetails?.organization === undefined
+                      || summary?.gitHubDetails?.repository === undefined
+                      then showNoGitHubTemplate else showGitHubTemplate"></div>
+          <ng-template #showNoGitHubTemplate>
+            <div class="card-pf-heading">
+              <h2 class="card-pf-title">
+                GitHub
+              </h2>
+            </div>
+            <div class="card-pf-body f8launcher-project-summary-data-unavailable">
+              <h2>
+                <b>Incomplete</b>
+              </h2>
+              <p>To proceed with setting up this application, this section must be completed.</p>
+              <button class="btn btn-default btn-lg f8launcher-authorize-account"
+                      (click)="navToStep('GitProvider')">Complete Section</button>
+            </div>
+          </ng-template>
+          <ng-template #showGitHubTemplate>
+            <div class="card-pf-heading">
+              <h2 class="card-pf-title">
+                Authorized GitHub Account
+              </h2>
+            </div>
+            <div class="card-pf-body card-column">
+              <div class="card-column-70">
+                <div class="form-group f8launcher-project-summary-data-form-group">
+                  <label class="col-xs-5 control-label">Username</label>
+                  <div class="col-xs-6 f8launcher-project-summary-data-field">
+                    <div class="f8launcher-project-summary-data-field-account">
+                      <img class="card-column_user-profile-icon"
+                            [src]="summary?.gitHubDetails?.avatar"
+                            *ngIf="summary?.gitHubDetails.avatar !== undefined">
+                      <i class="fa fa-ban fa-2x"
+                          *ngIf="summary?.gitHubDetails?.avatar === undefined"></i>
+                      <span class="f8launcher-project-summary-data-field-account-username">
+                        {{summary?.gitHubDetails?.login}}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group f8launcher-project-summary-data-form-group">
+                  <label class="col-xs-5 control-label">Location</label>
+                  <div class="col-xs-6 f8launcher-project-summary-data-field">
+                    <span>{{summary?.gitHubDetails?.organization}}</span>
+                  </div>
+                </div>
+                <div class="form-group f8launcher-project-summary-data-form-group">
+                  <label class="col-xs-5 control-label">Repository</label>
+                  <div class="col-xs-6 f8launcher-project-summary-data-field">
+                    <span>{{summary?.gitHubDetails?.repository}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="card-column-30">
+                <i class="fa fa-github git-provider-icon"></i>
+              </div>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+  </form>
+  <div class="container-fluid">
+    <div id="ProjectSummary" class="f8launcher-continue">
+      <button class="btn btn-primary btn-xlarge"
+              [disabled]="!completed || setupInProgress"
+              (click)="setup()">Set Up Application <i *ngIf="setupInProgress" class="pficon pficon-in-progress fa-spin"></i></button>
+    </div>
+  </div>
+</section>
