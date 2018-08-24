@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class AnalyticsUrlService {
 
     getRecommenderAPIUrl(): string {
-      return process.env['ANALYTICS_RECOMMENDER_URL'] || '';
+      return environment.ANALYTICS_RECOMMENDER_URL || '';
     }
 
     getLicenseAPIUrl(): string {
-      return process.env['ANALYTICS_LICENSE_URL'] || '';
+      return environment.ANALYTICS_LICENSE_URL || '';
     }
 
 }
