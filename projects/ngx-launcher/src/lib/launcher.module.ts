@@ -1,13 +1,13 @@
 import { NgModule, Provider } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-// import { ModalModule } from 'ngx-modal';
+import { ModalModule } from 'ngx-modal';
 
-// import {
-//   DependencyEditorModule,
-//   DependencyEditorTokenProvider,
-//   URLProvider
-// } from 'fabric8-analytics-dependency-editor';
+import {
+  DependencyEditorModule,
+  DependencyEditorTokenProvider,
+  URLProvider
+} from 'fabric8-analytics-dependency-editor';
 import { BsDropdownConfig, BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
@@ -68,9 +68,9 @@ export const providers: Provider[] = [
   imports: [
     BsDropdownModule.forRoot(),
     CommonModule,
-    // DependencyEditorModule,
+    DependencyEditorModule,
     FormsModule,
-    // ModalModule,
+    ModalModule,
     InViewportModule.forRoot(providers),
     PopoverModule.forRoot(),
     SortArrayPipeModule,
@@ -139,4 +139,4 @@ export { TokenService } from './service/token.service';
 // Utility Service
 export { HelperService } from './service/helper.service';
 
-//export { DependencyEditorModule,  URLProvider, DependencyEditorTokenProvider };
+export { DependencyEditorModule,  URLProvider, DependencyEditorTokenProvider };

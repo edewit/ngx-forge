@@ -2,7 +2,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CommonModule } from '@angular/common';
 import { StepIndicatorComponent } from './step-indicator.component';
-import { By } from '@angular/platform-browser';
 
 
 describe('StepIndicatorComponent', () => {

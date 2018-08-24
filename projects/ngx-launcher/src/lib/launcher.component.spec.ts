@@ -1,25 +1,16 @@
 import {
   Component,
-  Host,
-  Input,
-  OnDestroy,
-  OnInit,
-  ViewEncapsulation
+  Input
 } from '@angular/core';
 
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 
-// import { DependencyEditorModule,  URLProvider, DependencyEditorTokenProvider } from '../../../node_modules/fabric8-analytics-dependency-editor';
+import { RouterTestingModule } from '@angular/router/testing';
 import { CancelOverlayComponent } from './cancel-overlay/cancel-overlay.component';
 import { LauncherComponent } from './launcher.component';
-import { LauncherStep } from './launcher-step';
-import { Selection } from './model/selection.model';
-import { StepIndicatorComponent } from './step-indicator/step-indicator.component';
-import { Summary } from './model/summary.model';
+
 
 import { ActivateBoosterCreateappNextstepComponent }
   from './create-app/activate-booster-createapp-nextstep/activate-booster-createapp-nextstep.component';
@@ -28,10 +19,6 @@ import { ProjectProgressCreateappNextstepComponent }
 import { ProjectProgressImportappNextstepComponent }
   from './import-app/project-progress-importapp-nextstep/project-progress-importapp-nextstep.component';
 
-import { DependencyCheckService } from './service/dependency-check.service';
-import { ProjectSummaryService } from './service/project-summary.service';
-// import { DemoDependencyCheckService } from '../../demo/service/demo-dependency-check.service';
-// import { DemoProjectSummaryService } from '../../demo/service/demo-project-summary.service';
 import { HelperService } from './service/helper.service';
 import { TokenProvider } from '../lib/service/token-provider';
 import { Subject, Observable } from 'rxjs';
@@ -39,6 +26,11 @@ import { Progress } from './model/progress.model';
 import { ProjectProgressService } from './service/project-progress.service';
 import { Broadcaster } from 'ngx-base';
 import { BroadcasterTestProvider } from './create-app/targetenvironment-createapp-step/target-environment-createapp-step.component.spec';
+import { DependencyCheckService } from './service/dependency-check.service';
+import { DemoDependencyCheckService } from '../../../../src/app/service/demo-dependency-check.service';
+import { ProjectSummaryService } from './service/project-summary.service';
+import { DemoProjectSummaryService } from '../../../../src/app/service/demo-project-summary.service';
+import { DependencyEditorModule } from 'fabric8-analytics-dependency-editor';
 
 // @ts-ignore
 @Component({
@@ -184,7 +176,7 @@ describe('LauncherComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         CommonModule,
-        // DependencyEditorModule,
+        DependencyEditorModule,
         FormsModule,
         RouterTestingModule
       ],
@@ -207,11 +199,11 @@ describe('LauncherComponent', () => {
       ],
       providers: [
         TokenProvider,
-        // { provide: DependencyCheckService, useClass: DemoDependencyCheckService },
+        { provide: DependencyCheckService, useClass: DemoDependencyCheckService },
         { provide: HelperService, useValue: mockHelperService },
         { provide: ProjectProgressService, useValue: mockProjectProgressService },
         { provide: Broadcaster, useValue: BroadcasterTestProvider.broadcaster },
-        // { provide: ProjectSummaryService, useClass: DemoProjectSummaryService }
+        { provide: ProjectSummaryService, useClass: DemoProjectSummaryService }
       ]
     }).compileComponents();
   }));
@@ -222,7 +214,7 @@ describe('LauncherComponent', () => {
     fixture.detectChanges();
   });
 
-  xit('should create', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 });

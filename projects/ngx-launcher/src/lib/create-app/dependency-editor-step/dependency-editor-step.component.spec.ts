@@ -4,19 +4,19 @@ import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Observable, of} from 'rxjs';
 import { InViewportModule, WindowRef } from '@thisissoon/angular-inviewport';
-// import { DependencyEditorModule,  URLProvider, DependencyEditorTokenProvider } from 'fabric8-analytics-dependency-editor';
+import { DependencyEditorModule,  URLProvider, DependencyEditorTokenProvider } from 'fabric8-analytics-dependency-editor';
 import { Broadcaster } from 'ngx-base';
 
 import { DependencyCheck } from '../../launcher.module';
 import { DependencyCheckService } from '../../service/dependency-check.service';
-// import { DependencyEditorService } from '../../service/dependency-editor.service';
+import { DependencyEditorService } from '../../service/dependency-editor.service';
 import { DependencyEditorCreateappStepComponent } from './dependency-editor-step.component';
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
-// import { DemoDependencyEditorService } from '../../../../demo/service/demo-dependency-editor.service';
 import { HelperService } from '../../service/helper.service';
 import { TokenProvider } from '../../../lib/service/token-provider';
 import { BroadcasterTestProvider } from '../targetenvironment-createapp-step/target-environment-createapp-step.component.spec';
+import { DemoDependencyEditorService } from '../../../../../../src/app/service/demo-dependency-editor.service';
 
 const mockHelperService = {
   getBackendUrl(): string {
@@ -81,7 +81,7 @@ describe('DependencyEditorCreateappStepComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         CommonModule,
-        // DependencyEditorModule,
+        DependencyEditorModule,
         FormsModule,
         RouterTestingModule,
         InViewportModule
@@ -94,9 +94,9 @@ describe('DependencyEditorCreateappStepComponent', () => {
         {
           provide: DependencyCheckService, useValue: mockDependencyCheckService
         },
-        // {
-        //   provide: DependencyEditorService, useClass: DemoDependencyEditorService
-        // },
+        {
+          provide: DependencyEditorService, useClass: DemoDependencyEditorService
+        },
         { provide: HelperService, useValue: mockHelperService },
         {
           provide: LauncherComponent, useValue: mockWizardComponent

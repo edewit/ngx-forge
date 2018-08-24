@@ -37,4 +37,4 @@ export { Config } from './lib/service/config.component';
 export { StaticInjector } from './lib/shared/telemetry.decorator';
 
 // Imported from Dependency Editor
-// export { URLProvider, DependencyEditorTokenProvider } from './lib/launcher.module';
+export { URLProvider, DependencyEditorTokenProvider } from './lib/launcher.module';

@@ -23,13 +23,13 @@
             [title]="'Select Mission & Runtime'">
           </f8launcher-missionruntime-createapp-step>
           <!-- Place holder for Dependency Checker -->
-          <!--<f8launcher-dependencychecker-createapp-step-->
-            <!--[hidden]="flow === 'launch' || depEditorFlag !== true"-->
-            <!--[id]="'SelectDependencies'"-->
-            <!--[depEditorFlag]="depEditorFlag"-->
-            <!--[styleClass]="'select-dependencies'"-->
-            <!--[title]="'Select Dependencies'">-->
-          <!--</f8launcher-dependencychecker-createapp-step>-->
+          <f8launcher-dependencychecker-createapp-step
+            [hidden]="flow === 'launch' || depEditorFlag !== true"
+            [id]="'SelectDependencies'"
+            [depEditorFlag]="depEditorFlag"
+            [styleClass]="'select-dependencies'"
+            [title]="'Select Dependencies'">
+          </f8launcher-dependencychecker-createapp-step>
           <f8launcher-releasestrategy-createapp-step
             [hidden]="flow === 'launch'"
             [id]="'ReleaseStrategy'"

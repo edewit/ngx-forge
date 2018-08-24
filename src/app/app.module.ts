@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Broadcaster } from 'ngx-base';
-// import { DependencyEditorTokenProvider, URLProvider } from 'fabric8-analytics-dependency-editor';
+//import { DependencyEditorTokenProvider, URLProvider } from 'fabric8-analytics-dependency-editor';
 // App components
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -36,7 +36,7 @@ import { AnalyticsUrlService } from './shared/analytics-url.service';
 import { HelperService } from '../../projects/ngx-launcher/src/lib/service/helper.service';
 
 import {
-  DependencyCheckService,
+  DependencyCheckService, DependencyEditorTokenProvider,
   GitProviderService,
   LauncherModule,
   MissionRuntimeService,
@@ -44,7 +44,7 @@ import {
   ProjectProgressService,
   ProjectSummaryService,
   TargetEnvironmentService,
-  TokenService
+  TokenService, URLProvider
 } from '../../projects/ngx-launcher/src/lib/launcher.module';
 
 
@@ -80,8 +80,8 @@ import {
     { provide: FABRIC8_ORIGIN, useValue: 'osio' },
     { provide: TokenProvider, useClass: MockAuthenticationService },
     { provide: TokenService, useClass: DemoTokenService},
-    // { provide: DependencyEditorTokenProvider, useExisting: TokenProvider },
-    // { provide: URLProvider, useClass: AnalyticsUrlService }
+    { provide: DependencyEditorTokenProvider, useExisting: TokenProvider },
+    { provide: URLProvider, useClass: AnalyticsUrlService }
   ],
   bootstrap: [AppComponent]
 })
