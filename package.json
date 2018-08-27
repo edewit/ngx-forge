@@ -18,9 +18,21 @@
     "test:app": "ng test --watch=false",
     "test:lib": "ng test ngx-launcher --watch=false --browsers ChromeHeadlessNoSandbox",
     "test:lib:dev": "ng test ngx-launcher",
-    "rimraf": "rimraf"
+    "rimraf": "rimraf",
+    "semantic-release": "semantic-release"
   },
-  "private": true,
+  "homepage": "https://github.com/fabric8-launcher/ngx-launcher",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fabric8-launcher/ngx-launcher.git"
+  },
+  "bugs": {
+    "url": "https://github.com/fabric8-launcher/ngx-launcher/issues"
+  },
+  "engines": {
+    "node": ">= 8.9.0",
+    "npm": ">= 5.5.0"
+  },
   "dependencies": {
     "@angular/common": "^6.1.1",
     "@angular/core": "^6.1.1",
@@ -59,11 +71,21 @@
     "ng-packagr": "^3.0.0-rc.2",
     "protractor": "~5.3.0",
     "rimraf": "2.6.2",
-    "semantic-release": "8.2.0",
+    "semantic-release": "^15.9.11",
     "ts-node": "~5.0.1",
     "tsickle": ">=0.25.5",
     "tslib": "^1.7.1",
     "tslint": "~5.9.1",
     "typescript": "~2.7.2"
+  },
+  "release": {
+    "branch": "master",
+    "debug": true,
+    "pkgRoot": "dist/ngx-launcher"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
