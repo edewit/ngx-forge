@@ -1,0 +1,41 @@
+@import (reference) '../../assets/stylesheets/shared/main.less';
+
+.cancel-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, .8);
+  z-index: 1200;
+  &-form {
+    color: @color-pf-white;
+    &--step {
+      margin-top: 5%;
+      padding: 35px;
+      &_title {
+        font-size: 2em; // matches h4
+      }
+      &_tool-bar {
+        margin-top: 15px;
+        text-align: center;
+        color: @color-pf-black-700;
+        .btn.disabled, .btn[disabled] {
+          /* stylelint-disable */
+          background-color: transparent !important;
+          background: transparent !important;
+          /* stylelint-enable */
+        }
+        .btn.btn-primary {
+          margin-right: 10px;
+        }
+        .btn.btn-outline {
+          &:extend(.btn-primary);
+          background-color: transparent;
+          border-color: @color-pf-white;
+          background-image: none;
+        }
+      }
+    }
+  }
+}
