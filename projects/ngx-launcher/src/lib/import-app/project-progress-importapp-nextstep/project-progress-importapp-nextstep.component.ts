@@ -13,7 +13,6 @@ import { Broadcaster } from 'ngx-base';
 })
 export class ProjectProgressImportappNextstepComponent implements OnChanges, OnDestroy {
   @Input() statusLink: string;
-  isError = false;
   errorMessage = '';
   private _progress: Progress[];
   private socket: WebSocket;
@@ -28,24 +27,7 @@ export class ProjectProgressImportappNextstepComponent implements OnChanges, OnD
     const statusLink = changes['statusLink']['currentValue'];
     if (statusLink) {
       this.socket = this.projectProgressService.getProgress(statusLink);
-      this.socket.onmessage = (event: MessageEvent) => {
-        const message = JSON.parse(event.data);
-        const data = message.data || {};
-        if (data && data.error) {
-          this.isError = true;
-          this.errorMessage = data.error;
-        } else {
-          for (const status of this._progress) {
-            if (status.name === message.statusMessage) {
-              status.completed = true;
-              if (data.location) {
-                status.hyperText = data.location;
-              }
-              break;
-            }
-          }
-        }
-      };
+      this.socket.onmessage = this.handleMessage;
       this.socket.onerror = (error: ErrorEvent) => {
         console.log('error in fetching messages in progress Component: Import', error);
       };
@@ -54,6 +36,28 @@ export class ProjectProgressImportappNextstepComponent implements OnChanges, OnD
       };
     }
   }
+
+  private handleMessage = (event: MessageEvent) => {
+    const message = JSON.parse(event.data);
+    console.log('data from ws', message);
+    const data = message.data || {};
+    if (data && data.error) {
+      console.log(message.data.error);
+      this.errorMessage = data.error;
+      for (const step of this._progress.filter((s) => !s.completed)) {
+        step.error = true;
+      }
+      this.socket.close();
+      return;
+    }
+    const status = this._progress.find((p) => p.name === message.statusMessage);
+    if (status) {
+      status.completed = true;
+      if (data.location != null) {
+        status.hyperText = data.location;
+      }
+    }
+  };
 
   ngOnDestroy() {
     this.closeConnections();
@@ -75,6 +79,10 @@ export class ProjectProgressImportappNextstepComponent implements OnChanges, OnD
     return result;
   }
 
+  get isError(): boolean {
+    return !!this.errorMessage;
+  }
+
   get progress(): Progress[] {
     return this._progress;
   }
@@ -86,7 +94,6 @@ export class ProjectProgressImportappNextstepComponent implements OnChanges, OnD
   }
 
   private reset() {
-    this.isError = false;
     this.errorMessage = '';
   }
 }

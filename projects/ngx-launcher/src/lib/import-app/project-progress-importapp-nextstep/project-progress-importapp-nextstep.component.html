@@ -30,10 +30,10 @@
           <div class="card-pf">
             <div class="card-pf-heading">
               <h2 class="card-pf-title card-pf-title-project-progress">
-                <span *ngIf="allCompleted !== true">
+                <span *ngIf="!allCompleted && !isError">
                   <i class="pficon pficon-in-progress fa-spin"></i> Working Through Setup
                 </span>
-                <span *ngIf="allCompleted && isError !== true">
+                <span *ngIf="allCompleted && !isError">
                   <i class="pficon pficon-ok"></i> Your Application is Ready
                 </span>
                 <span *ngIf="isError">

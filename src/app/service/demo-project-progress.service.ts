@@ -2,29 +2,44 @@ import { Injectable } from '@angular/core';
 import { timer, Subject, Subscription } from 'rxjs';
 import { ProjectProgressService } from '../../../projects/ngx-launcher/src/lib/service/project-progress.service';
 
+const PROGRESS_ERROR = [
+  {
+    statusMessage: 'GITHUB_CREATE',
+    data: {
+      location: 'https://github.com/fabric8-launcher/launcher-backend'
+    }
+  },
+  { statusMessage: 'GITHUB_PUSHED' },
+  {
+    statusMessage: 'OPENSHIFT_CREATE',
+    data: {
+      error: 'Failed to create the Openshift application'
+    }
+  },
+];
+
+const PROGRESS_RETRY = [
+  {
+    statusMessage: 'OPENSHIFT_CREATE',
+    data: {
+      location: 'https://console.starter-us-east-2.openshift.com/console/projects'
+    }
+  },
+  { statusMessage: 'OPENSHIFT_PIPELINE' },
+  { statusMessage: 'GITHUB_WEBHOOK' }
+];
+
+
 @Injectable()
 export class DemoProjectProgressService implements ProjectProgressService {
-  private progress: any[] = [
-    {
-      statusMessage: 'GITHUB_CREATE',
-      data: {
-        location: 'https://github.com/fabric8-launcher/launcher-backend'
-      }
-    },
-    { statusMessage: 'GITHUB_PUSHED' },
-    {
-      statusMessage: 'OPENSHIFT_CREATE',
-      data: {
-        location: 'https://console.starter-us-east-2.openshift.com/console/projects'
-      }
-    },
-    { statusMessage: 'OPENSHIFT_PIPELINE' },
-    { statusMessage: 'GITHUB_WEBHOOK' }
-  ];
-  private _progressSubject: Subject<any[]> = new Subject();
+
+  private progress: any[];
+  private _progressSubject: Subject<any[]>;
   private timer: Subscription;
 
-  getProgress(): WebSocket {
+  getProgress(link: string): WebSocket {
+    this._progressSubject = new Subject();
+    this.progress = link.indexOf('retry') >= 0 || link.indexOf('import') >= 0 ? PROGRESS_RETRY : PROGRESS_ERROR;
     this.initTimer(); // Timer to simulate progress
     const socket = new WebSocket('wss://echo.websocket.org');
     this._progressSubject.subscribe(item => {

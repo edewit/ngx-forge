@@ -6,10 +6,10 @@ import { Summary } from '../../../projects/ngx-launcher/src/lib/model/summary.mo
 @Injectable()
 export class DemoProjectSummaryService implements ProjectSummaryService {
 
-  setup(summary: Summary): Observable<any> {
+  setup(summary: Summary, retry?: number): Observable<any> {
     if (window.location.href.indexOf('import') !== -1) {
       return of({
-        'uuid_link': 'http://dummy-link.com/',
+        'uuid_link': 'http://import-link.com/',
         'events': [
           { 'name': 'OPENSHIFT_CREATE', 'message': 'Creating your project on OpenShift Online' },
           { 'name': 'OPENSHIFT_PIPELINE', 'message': 'Setting up your build pipeline' },
@@ -17,8 +17,9 @@ export class DemoProjectSummaryService implements ProjectSummaryService {
         ]
       });
     }
+    const link = retry ? 'http://retry-link.com/' : 'http://dummy-link.com/';
     return of({
-      'uuid_link': 'http://dummy-link.com/',
+      'uuid_link': link,
       'events': [
         { 'name': 'GITHUB_CREATE', 'message': 'Creating your new GitHub repository' },
         { 'name': 'GITHUB_PUSHED', 'message': 'Pushing your customized Booster code into the repo' },

@@ -1,13 +1,4 @@
-import {
-  Component,
-  Host,
-  Input,
-  OnDestroy,
-  ViewEncapsulation,
-  OnChanges,
-  SimpleChanges,
-  SimpleChange
-} from '@angular/core';
+import { Component, Host, Input, OnChanges, OnDestroy, SimpleChanges, ViewEncapsulation } from '@angular/core';
 
 import { Progress } from '../../model/progress.model';
 import { ProjectProgressService } from '../../service/project-progress.service';
@@ -41,29 +32,7 @@ export class ProjectProgressCreateappNextstepComponent implements OnChanges, OnD
     const statusLink = changes['statusLink']['currentValue'];
     if (statusLink) {
       this.socket = this.projectProgressService.getProgress(statusLink);
-      this.socket.onmessage = (event: MessageEvent) => {
-        const message = JSON.parse(event.data);
-        console.log('data from ws', message);
-        const data = message.data || {};
-        if (data && data.error) {
-          console.log(message.data.error);
-          this.errorMessage = data.error;
-          for (let i = this.lastCompleted; i < this._progress.length; i++) {
-            this._progress[i].error = true;
-          }
-          this.socket.close();
-        } else {
-          for (const status of this._progress) {
-            if (status.name === message.statusMessage) {
-              status.completed = true;
-              if (data.location != null) {
-                status.hyperText = data.location;
-              }
-              break;
-            }
-          }
-        }
-      };
+      this.socket.onmessage = this.handleMessage;
       this.socket.onerror = (error: ErrorEvent) => {
         console.log('error in fetching messages in progress Component: Create', error);
       };
@@ -71,6 +40,28 @@ export class ProjectProgressCreateappNextstepComponent implements OnChanges, OnD
         console.log('closed the socket call in progress component in Create');
       };
     }
+  }
+
+  private handleMessage = (event: MessageEvent) => {
+      const message = JSON.parse(event.data);
+      console.log('data from ws', message);
+      const data = message.data || {};
+      if (data && data.error) {
+        console.log(message.data.error);
+        this.errorMessage = data.error;
+        for (const step of this._progress.filter((s) => !s.completed)) {
+          step.error = true;
+        }
+        this.socket.close();
+        return;
+      }
+      const status = this._progress.find((p) => p.name === message.statusMessage);
+      if (status) {
+        status.completed = true;
+        if (data.location != null) {
+          status.hyperText = data.location;
+        }
+      }
   }
 
   ngOnDestroy() {
@@ -86,10 +77,15 @@ export class ProjectProgressCreateappNextstepComponent implements OnChanges, OnD
   retry() {
     const failedStep = this.lastCompleted;
     this.projectSummaryService.setup(
-      this.launcherComponent.summary, failedStep).subscribe(result => {
-        this._progress = null;
+      this.launcherComponent.summary, failedStep).subscribe(val => {
         this.errorMessage = null;
-        this.ngOnChanges({'statusLink': new SimpleChange('', result.uuid_link, false)});
+        if (!val || !val['uuid_link']) {
+          this.errorMessage = 'Invalid response from server!';
+        }
+        for (const step of this._progress.filter((s) => !s.completed)) {
+          step.error = false;
+        }
+        this.launcherComponent.statusLink = val['uuid_link'];
       });
   }
 
