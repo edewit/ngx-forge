@@ -1,4 +1,18 @@
-<div class="f8launcher-cluster-card list-group list-view-pf list-view-pf-view selected-card" *ngIf="clusters?.length > 1">
+<div class="cluster-slate blank-slate-pf" *ngIf="!clusters?.length">
+  <div class="blank-slate-pf-icon">
+    <span class="pficon pficon pficon-cluster"></span>
+  </div>
+  <h1 class="cluster-slate">
+    No Active Clusters Found
+  </h1>
+  <p>
+    We couldn't find an active cluster associated to your account.
+  </p>
+  <p>
+    Go and <a href="https://manage.openshift.com/">activate a cluster</a>.
+  </p>
+</div>
+<div class="f8launcher-cluster-card list-group list-view-pf list-view-pf-view" *ngIf="clusters?.length > 1">
   <div class="list-group-item">
     <div class="list-view-pf-main-info">
       <div class="list-view-pf-body">
