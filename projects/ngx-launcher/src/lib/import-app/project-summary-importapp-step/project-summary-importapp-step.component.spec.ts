@@ -8,7 +8,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Observable, of } from 'rxjs';
-import { InViewportModule, WindowRef } from '@thisissoon/angular-inviewport';
 
 import { DependencyCheck } from '../../launcher.module';
 import { DependencyCheckService } from '../../service/dependency-check.service';
@@ -95,8 +94,7 @@ describe('Import ProjectSummaryStepComponent', () => {
       imports: [
         CommonModule,
         FormsModule,
-        RouterTestingModule,
-        InViewportModule
+        RouterTestingModule
       ],
       declarations: [
         ProjectSummaryImportappStepComponent,
@@ -112,9 +110,6 @@ describe('Import ProjectSummaryStepComponent', () => {
         },
         {
           provide: LauncherComponent, useValue: mockWizardComponent
-        },
-        {
-          provide: WindowRef, useValue: window
         }
       ]
     }).compileComponents();

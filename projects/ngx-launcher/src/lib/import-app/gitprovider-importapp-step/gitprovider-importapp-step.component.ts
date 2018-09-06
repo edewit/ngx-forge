@@ -34,7 +34,7 @@ export class GitproviderImportappStepComponent extends LauncherStep implements A
   constructor(@Host() public launcherComponent: LauncherComponent,
               private dependencyCheckService: DependencyCheckService,
               private gitProviderService: GitProviderService) {
-    super();
+    super(launcherComponent);
   }
 
   ngAfterViewInit() {

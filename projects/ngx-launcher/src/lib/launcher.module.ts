@@ -52,17 +52,11 @@ import { ReleaseStrategyImportappStepComponent }
   from './import-app/release-strategy-importapp-step/release-strategy-importapp-step.component';
 import { ToastNotificationComponent } from './toast-notification/toast-notification.component';
 
-import { InViewportModule, WindowRef } from '@thisissoon/angular-inviewport';
 import { MissionRuntimeService } from './service/mission-runtime.service';
 import { ProjectProgressService } from './service/project-progress.service';
 
 import { LauncherComponent } from './launcher.component';
 import { Broadcaster } from 'ngx-base';
-
-// Provide window object so as to not break SSR if using universal
-export const providers: Provider[] = [
-  { provide: WindowRef, useValue: window }
-];
 
 @NgModule({
   imports: [
@@ -71,7 +65,6 @@ export const providers: Provider[] = [
     DependencyEditorModule,
     FormsModule,
     ModalModule,
-    InViewportModule.forRoot(providers),
     PopoverModule.forRoot(),
     SortArrayPipeModule,
     ToolbarModule,

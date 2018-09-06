@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Observable, of } from 'rxjs';
-import { InViewportModule, WindowRef } from '@thisissoon/angular-inviewport';
 import { Broadcaster } from 'ngx-base';
 
 import { LauncherComponent } from '../../launcher.component';
@@ -44,14 +43,14 @@ const mockTargetEnvironmentService = {
       return targetEnvironments;
   }
 };
-export interface TypeWizardComponent{
-  selectedSection: string,
-  steps: LauncherStep[],
-  summary: any,
-  summaryCompleted: boolean,
-  addStep(step: LauncherStep): void
+export interface TypeWizardComponent {
+  selectedSection: string;
+  steps: LauncherStep[];
+  summary: any;
+  summaryCompleted: boolean;
+  addStep(step: LauncherStep): void;
   onInViewportChange($event: any, id: string): any;
-};
+}
 
 const mockWizardComponent: TypeWizardComponent = {
   selectedSection: '',
@@ -98,7 +97,6 @@ describe('TargetEnvironmentStepComponent', () => {
         CommonModule,
         FormsModule,
         RouterTestingModule,
-        InViewportModule,
         NoopAnimationsModule
       ],
       declarations: [
@@ -113,9 +111,6 @@ describe('TargetEnvironmentStepComponent', () => {
           provide: LauncherComponent, useValue: mockWizardComponent
         },
         { provide: Broadcaster, useValue: BroadcasterTestProvider.broadcaster },
-        {
-          provide: WindowRef, useValue: window
-        },
         {
           provide: MissionRuntimeService, useClass: MockMissionRuntimeService
         },

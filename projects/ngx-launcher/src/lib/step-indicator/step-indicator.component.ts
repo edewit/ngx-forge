@@ -56,10 +56,6 @@ export class StepIndicatorComponent implements OnInit {
     if (element !== null) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-    setTimeout(() => {
-      // The onInViewportChange event doesn't always set the ID as expected
-      this.launcherComponent.onInViewportChange(true, id);
-    }, 10);
   }
 
 

@@ -1,8 +1,7 @@
-<section id="SelectDependencies" class="f8launcher-section-dependency-check f8launcher-container_main--inside" [ngClass]="{'hidden': hidden}">
+<section id="SelectDependencies" class="f8launcher-section-dependency-check f8launcher-container_main--inside" [ngClass]="{'hidden': hidden}" #section>
   <div>
     <div class="container-fluid">
-      <h1 snInViewport (onInViewportChange)="launcherComponent.onInViewportChange($event, 'SelectDependencies')"
-      [debounce]="500">
+      <h1>
           Select Dependency
       </h1>
       <div class="col-xs-12 col-md-6 f8launcher-section-dependency-editor-desp">

@@ -45,7 +45,7 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
               private missionRuntimeService: MissionRuntimeService,
               public _DomSanitizer: DomSanitizer,
               private broadcaster: Broadcaster) {
-    super();
+    super(launcherComponent);
     this.canChangeVersion = this.launcherComponent.flow === 'launch';
   }
 

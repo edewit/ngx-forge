@@ -1,10 +1,9 @@
 <section class="f8launcher-section-project-summary f8launcher-container_main--end"
-         [ngClass]="{'hidden': hidden}">
+         [ngClass]="{'hidden': hidden}" #section>
   <fab-toast-notification [notifications]="setUpErrResponse"></fab-toast-notification>
   <div>
     <div class="container-fluid">
-      <h1 snInViewport (onInViewportChange)="launcherComponent.onInViewportChange($event, 'ProjectSummary')"
-          [debounce]="500">Confirm Application Summary & Setup</h1>
+      <h1>Confirm Application Summary & Setup</h1>
     </div>
   </div>
   <div>

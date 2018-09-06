@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Observable, of } from 'rxjs';
-import { InViewportModule, WindowRef } from '@thisissoon/angular-inviewport';
 
 import { PopoverModule } from 'ngx-bootstrap';
 
@@ -97,7 +96,6 @@ describe('GitProviderStepComponent', () => {
       imports: [
         CommonModule,
         FormsModule,
-        InViewportModule,
         PopoverModule.forRoot(),
         RouterTestingModule
       ],
@@ -113,9 +111,6 @@ describe('GitProviderStepComponent', () => {
         },
         {
           provide: LauncherComponent, useValue: mockWizardComponent
-        },
-        {
-          provide: WindowRef, useValue: window
         }
       ]
     }).compileComponents();

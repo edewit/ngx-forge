@@ -10,7 +10,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Observable, of } from 'rxjs';
-import { InViewportModule, WindowRef } from '@thisissoon/angular-inviewport';
 
 import { FilterEvent } from 'patternfly-ng/filter';
 import { SortArrayPipeModule } from 'patternfly-ng/pipe';
@@ -117,7 +116,6 @@ describe('Import ReleaseStrategyStepComponent', () => {
         imports: [
           CommonModule,
           FormsModule,
-          InViewportModule,
           RouterTestingModule,
           SortArrayPipeModule
         ],
@@ -131,9 +129,6 @@ describe('Import ReleaseStrategyStepComponent', () => {
           },
           {
             provide: LauncherComponent, useValue: mockWizardComponent
-          },
-          {
-            provide: WindowRef, useValue: window
           }
         ]
       }).compileComponents();

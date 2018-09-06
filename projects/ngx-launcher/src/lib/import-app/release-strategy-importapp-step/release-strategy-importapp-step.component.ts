@@ -54,7 +54,7 @@ export class ReleaseStrategyImportappStepComponent extends LauncherStep implemen
 
   constructor(@Host() public launcherComponent: LauncherComponent,
               private pipelineService: PipelineService) {
-    super();
+    super(launcherComponent);
   }
 
   ngOnInit() {

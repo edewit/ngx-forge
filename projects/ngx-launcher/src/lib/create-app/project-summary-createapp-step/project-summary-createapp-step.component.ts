@@ -44,7 +44,7 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
               private projectSummaryService: ProjectSummaryService,
               private broadcaster: Broadcaster,
               public _DomSanitizer: DomSanitizer) {
-    super();
+    super(launcherComponent);
   }
 
   ngOnInit() {

@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Observable, of} from 'rxjs';
-import { InViewportModule, WindowRef } from '@thisissoon/angular-inviewport';
 import { DependencyEditorModule,  URLProvider, DependencyEditorTokenProvider } from 'fabric8-analytics-dependency-editor';
 import { Broadcaster } from 'ngx-base';
 
@@ -83,8 +82,7 @@ describe('DependencyEditorCreateappStepComponent', () => {
         CommonModule,
         DependencyEditorModule,
         FormsModule,
-        RouterTestingModule,
-        InViewportModule
+        RouterTestingModule
       ],
       declarations: [
         DependencyEditorCreateappStepComponent
@@ -100,9 +98,6 @@ describe('DependencyEditorCreateappStepComponent', () => {
         { provide: HelperService, useValue: mockHelperService },
         {
           provide: LauncherComponent, useValue: mockWizardComponent
-        },
-        {
-          provide: WindowRef, useValue: window
         },
         { provide: Broadcaster, useValue: BroadcasterTestProvider.broadcaster }
       ]

@@ -1,9 +1,8 @@
 <section id="MissionRuntime" class="f8launcher-section-mission-runtime f8launcher-container_main--start"
-         [ngClass]="{'hidden': hidden}">
+         [ngClass]="{'hidden': hidden}" #section>
   <div>
     <div class="container-fluid">
-      <h1 snInViewport (onInViewportChange)="launcherComponent.onInViewportChange($event, 'MissionRuntime')"
-          [debounce]="500">
+      <h1>
         Select Mission & Runtime
       </h1>
       <div class="col-xs-12 col-md-6 f8launcher-section-mission-runtime-desp">

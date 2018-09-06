@@ -48,7 +48,7 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
         private dependencyCheckService: DependencyCheckService,
         private keyValueDiffers: KeyValueDiffers
     ) {
-        super();
+        super(launcherComponent);
         if (this.launcherComponent.summary) {
             this.launcherComponent.summary['dependencyEditor'] = new DependencyEditor();
         }

@@ -1,9 +1,8 @@
 <section id="ReleaseStrategy" class="f8launcher-section-release-strategy f8launcher-container_main--inside"
-         [ngClass]="{'hidden': hidden}">
+         [ngClass]="{'hidden': hidden}" #section>
   <div>
     <div class="container-fluid">
-      <h1 snInViewport (onInViewportChange)="launcherComponent.onInViewportChange($event, 'ReleaseStrategy')"
-          [debounce]="500">Select Pipeline</h1>
+      <h1>Select Pipeline</h1>
       <p>
         Pipelines define how your application is deployed.  Each pipeline has multiple stages with a varying set of capabilities.
       </p>

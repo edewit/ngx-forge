@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Observable, of } from 'rxjs';
-import { InViewportModule, WindowRef } from '@thisissoon/angular-inviewport';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 
 import { LauncherComponent } from '../../launcher.component';
@@ -94,7 +93,6 @@ describe('Import GitProviderStepComponent', () => {
       imports: [
         CommonModule,
         FormsModule,
-        InViewportModule,
         TypeaheadModule.forRoot(),
         RouterTestingModule
       ],
@@ -111,9 +109,6 @@ describe('Import GitProviderStepComponent', () => {
         },
         {
           provide: LauncherComponent, useValue: mockWizardComponent
-        },
-        {
-          provide: WindowRef, useValue: window
         }
       ]
     }).compileComponents();

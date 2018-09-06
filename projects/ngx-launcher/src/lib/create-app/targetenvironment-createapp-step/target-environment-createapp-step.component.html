@@ -1,9 +1,8 @@
 <section id="TargetEnvironment" class="f8launcher-section-target-environment f8launcher-container_main--start"
-         [ngClass]="{'hidden': hidden}">
+         [ngClass]="{'hidden': hidden}" #section>
   <div>
     <div class="container-fluid">
-      <h1 snInViewport (onInViewportChange)="launcherComponent.onInViewportChange($event, 'TargetEnvironment')"
-          [debounce]="500">
+      <h1>
           Select Target Environment
         </h1>
       <p>

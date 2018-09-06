@@ -3,7 +3,6 @@ import {async, ComponentFixture, TestBed, tick} from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { InViewportModule, WindowRef } from '@thisissoon/angular-inviewport';
 
 import { SortArrayPipeModule } from 'patternfly-ng/pipe';
 
@@ -84,7 +83,6 @@ describe('ReleaseStrategyStepComponent', () => {
       imports: [
         CommonModule,
         FormsModule,
-        InViewportModule,
         RouterTestingModule,
         SortArrayPipeModule
       ],
@@ -94,7 +92,6 @@ describe('ReleaseStrategyStepComponent', () => {
       providers : [
         { provide: PipelineService, useClass: StubbedPipelineService },
         { provide: LauncherComponent, useValue: mockWizardComponent },
-        { provide: WindowRef, useValue: window },
         { provide: Broadcaster, useValue: BroadcasterTestProvider.broadcaster }
       ]
     }).compileComponents();

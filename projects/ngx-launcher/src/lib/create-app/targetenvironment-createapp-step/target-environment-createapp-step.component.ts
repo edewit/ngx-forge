@@ -35,7 +35,7 @@ export class TargetEnvironmentCreateappStepComponent extends LauncherStep implem
               @Optional() private tokenService: TokenService,
               private broadcaster: Broadcaster,
               public _DomSanitizer: DomSanitizer) {
-    super();
+    super(launcherComponent);
   }
 
   ngOnDestroy() {

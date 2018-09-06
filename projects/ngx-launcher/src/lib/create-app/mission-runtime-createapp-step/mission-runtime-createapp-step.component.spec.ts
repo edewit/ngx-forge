@@ -3,7 +3,6 @@ import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { InViewportModule, WindowRef } from '@thisissoon/angular-inviewport';
 
 import { Broadcaster } from 'ngx-base';
 import { BsDropdownModule, PopoverModule } from 'ngx-bootstrap';
@@ -122,7 +121,6 @@ describe('MissionRuntimeStepComponent', () => {
         FormsModule,
         CommonModule,
         FormsModule,
-        InViewportModule,
         PopoverModule.forRoot(),
         RouterTestingModule,
         SortArrayPipeModule,
@@ -138,10 +136,7 @@ describe('MissionRuntimeStepComponent', () => {
         {
           provide: LauncherComponent, useValue: mockWizardComponent
         },
-        { provide: Broadcaster, useValue: BroadcasterTestProvider.broadcaster },
-        {
-          provide: WindowRef, useValue: window
-        }
+        { provide: Broadcaster, useValue: BroadcasterTestProvider.broadcaster }
       ]
     }).compileComponents();
   }));
