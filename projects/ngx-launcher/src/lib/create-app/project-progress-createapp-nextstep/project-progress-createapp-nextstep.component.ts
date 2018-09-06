@@ -1,10 +1,13 @@
 import { Component, Host, Input, OnChanges, OnDestroy, SimpleChanges, ViewEncapsulation } from '@angular/core';
 
+import { map } from 'rxjs/operators';
 import { Progress } from '../../model/progress.model';
 import { ProjectProgressService } from '../../service/project-progress.service';
 import { LauncherComponent } from '../../launcher.component';
 import { ProjectSummaryService } from '../../service/project-summary.service';
 import { Broadcaster } from 'ngx-base';
+import { WorkSpacesService } from '../../service/workSpaces.service';
+import { CheService } from '../../service/che.service';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -15,13 +18,17 @@ import { Broadcaster } from 'ngx-base';
 export class ProjectProgressCreateappNextstepComponent implements OnChanges, OnDestroy {
   @Input() statusLink: string;
   errorMessage: string;
+  codeBaseCreated: boolean = false;
+  codebaseId: string;
   private _progress: Progress[];
   private socket: WebSocket;
 
   constructor(@Host() public launcherComponent: LauncherComponent,
     private projectProgressService: ProjectProgressService,
     private projectSummaryService: ProjectSummaryService,
-    private broadcaster: Broadcaster) {
+    private broadcaster: Broadcaster,
+    private workSpaceService: WorkSpacesService,
+    private cheService: CheService) {
       this.broadcaster.on('progressEvents').subscribe((events: Progress[]) => {
         console.log('got the event list', events);
         this._progress = events;
@@ -46,6 +53,10 @@ export class ProjectProgressCreateappNextstepComponent implements OnChanges, OnD
       const message = JSON.parse(event.data);
       console.log('data from ws', message);
       const data = message.data || {};
+      if (data.codeBaseId !== undefined) {
+        this.codeBaseCreated = true;
+        this.codebaseId = data.codeBaseId;
+      }
       if (data && data.error) {
         console.log(message.data.error);
         this.errorMessage = data.error;
@@ -87,6 +98,17 @@ export class ProjectProgressCreateappNextstepComponent implements OnChanges, OnD
         }
         this.launcherComponent.statusLink = val['uuid_link'];
       });
+  }
+
+  createWorkSpace() {
+    this.cheService.getState().subscribe(che => {
+      if (!che.clusterFull) {
+        return this.workSpaceService.createWorkSpace(this.codebaseId)
+          .pipe(map(workSpaceLinks => {
+            console.log(workSpaceLinks, '####-99');
+          }));
+      }
+    });
   }
 
   // Accessors
