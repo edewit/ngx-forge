@@ -70,15 +70,16 @@
                 </h2>
               </div>
               <div class="card-pf-body card-column">
-                <div class="card-column-60">
-                  <b>{{summary?.runtime?.name}}</b>
-                  <b class="pull-right">{{summary?.runtime?.version?.name}}</b>
+                <div>
+                  <div>
+                    <b>{{summary?.runtime?.name}} {{summary?.runtime?.version?.name}}</b>
+                  </div>
+                  <div class="pull-right">
+                    <img class="card-column_runtime-icon"
+                          [src]="_DomSanitizer.bypassSecurityTrustUrl(summary?.runtime?.icon)"
+                          *ngIf="summary?.runtime?.icon !== null">
+                  </div>
                   <p>{{summary?.runtime?.description}}</p>
-                </div>
-                <div class="card-column-40">
-                  <img class="card-column_runtime-icon"
-                       [src]="_DomSanitizer.bypassSecurityTrustUrl(summary?.runtime?.icon)"
-                       *ngIf="summary?.runtime?.icon !== null">
                 </div>
               </div>
             </ng-template>
