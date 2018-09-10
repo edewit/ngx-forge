@@ -5,7 +5,8 @@ import {
   OnDestroy,
   OnInit,
   ViewEncapsulation,
-  ViewChild
+  ViewChild,
+  ComponentFactoryResolver
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -23,6 +24,9 @@ import { Summary } from '../../model/summary.model';
 import { broadcast } from '../../shared/telemetry.decorator';
 import { Broadcaster } from 'ngx-base';
 import { NgForm } from '@angular/forms';
+import {ReviewDirective} from './review.directive';
+import {ReviewComponent} from "../../review.component";
+import {GitproviderCreateappReviewComponent} from "../gitprovider-createapp-step/gitprovider-createapp-review.component";
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -35,6 +39,8 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
   @Input() id: string;
   @Input() depEditorFlag: boolean;
 
+  @ViewChild(ReviewDirective) reviewHost: ReviewDirective;
+
   public setUpErrResponse: Array<any> = [];
   public setupInProgress = false;
   private subscriptions: Subscription[] = [];
@@ -43,7 +49,8 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
               private dependencyCheckService: DependencyCheckService,
               private projectSummaryService: ProjectSummaryService,
               private broadcaster: Broadcaster,
-              public _DomSanitizer: DomSanitizer) {
+              public _DomSanitizer: DomSanitizer,
+              private componentFactoryResolver: ComponentFactoryResolver) {
     super(launcherComponent);
   }
 
@@ -57,12 +64,26 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
           // Don't override user's application name
           _.defaults(this.launcherComponent.summary.dependencyCheck, val);
         }));
+
+    this.loadComponents();
   }
 
   ngOnDestroy() {
     this.subscriptions.forEach((sub) => {
       sub.unsubscribe();
     });
+  }
+
+  private loadComponents() {
+    // TODO when adding a "step" it should register it's review component as well
+    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(GitproviderCreateappReviewComponent);
+
+    const viewContainerRef = this.reviewHost.viewContainerRef;
+    viewContainerRef.clear();
+
+    const componentRef = viewContainerRef.createComponent(componentFactory);
+    // TODO refactor summary to get the github details more dynamic then this.
+    (<ReviewComponent>componentRef.instance).data = this.launcherComponent.summary.gitHubDetails;
   }
 
   // Accessors

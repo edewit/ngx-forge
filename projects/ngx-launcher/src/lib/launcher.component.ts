@@ -14,9 +14,7 @@ import { Selection } from './model/selection.model';
 import { Summary } from './model/summary.model';
 import { StepIndicatorComponent } from './step-indicator/step-indicator.component';
 import { LauncherStep } from './launcher-step';
-import { ProjectSummaryService } from './service/project-summary.service';
 import { broadcast } from './shared/telemetry.decorator';
-import { Broadcaster } from 'ngx-base';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -60,15 +58,11 @@ export class LauncherComponent implements AfterViewInit, OnInit {
   private _summary: Summary;
   private summaryCompleted = false;
 
-  constructor(private route: ActivatedRoute,
-    private broad: Broadcaster,
-    private router: Router,
-    private projectSummaryService: ProjectSummaryService) {
+  constructor(private route: ActivatedRoute) {
   }
 
   ngAfterViewInit() {
     setTimeout(() => {
-      const params = this.selectionParams;
       const id = (this.selectionParams !== undefined) ? 'GitProvider' : this.firstNonHiddenStep.id;
       this.stepIndicator.navToStep(id);
     }, 300);

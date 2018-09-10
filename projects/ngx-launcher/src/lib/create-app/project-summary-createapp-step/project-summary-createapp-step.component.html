@@ -323,69 +323,7 @@
           </div>
         </div>
       </div>
-      <div class="col-xs-12 col-md-6" *ngIf="summary?.targetEnvironment === 'os'">
-        <div class="card-pf card-pf--small">
-          <div *ngIf="summary?.gitHubDetails?.organization === undefined
-                      || summary?.gitHubDetails?.repository === undefined
-                      then showNoGitHubTemplate else showGitHubTemplate"></div>
-          <ng-template #showNoGitHubTemplate>
-            <div class="card-pf-heading">
-              <h2 class="card-pf-title">
-                GitHub
-              </h2>
-            </div>
-            <div class="card-pf-body f8launcher-project-summary-data-unavailable">
-              <h2>
-                <b>Incomplete</b>
-              </h2>
-              <p>To proceed with setting up this application, this section must be completed.</p>
-              <button class="btn btn-default btn-lg f8launcher-authorize-account"
-                      (click)="navToStep('GitProvider')">Complete Section</button>
-            </div>
-          </ng-template>
-          <ng-template #showGitHubTemplate>
-            <div class="card-pf-heading">
-              <h2 class="card-pf-title">
-                Authorized GitHub Account
-              </h2>
-            </div>
-            <div class="card-pf-body card-column">
-              <div class="card-column-70">
-                <div class="form-group f8launcher-project-summary-data-form-group">
-                  <label class="col-xs-5 control-label">Username</label>
-                  <div class="col-xs-6 f8launcher-project-summary-data-field">
-                    <div class="f8launcher-project-summary-data-field-account">
-                      <img class="card-column_user-profile-icon"
-                            [src]="summary?.gitHubDetails?.avatar"
-                            *ngIf="summary?.gitHubDetails.avatar !== undefined">
-                      <i class="fa fa-ban fa-2x"
-                          *ngIf="summary?.gitHubDetails?.avatar === undefined"></i>
-                      <span class="f8launcher-project-summary-data-field-account-username">
-                        {{summary?.gitHubDetails?.login}}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div class="form-group f8launcher-project-summary-data-form-group">
-                  <label class="col-xs-5 control-label">Location</label>
-                  <div class="col-xs-6 f8launcher-project-summary-data-field">
-                    <span>{{summary?.gitHubDetails?.organization}}</span>
-                  </div>
-                </div>
-                <div class="form-group f8launcher-project-summary-data-form-group">
-                  <label class="col-xs-5 control-label">Repository</label>
-                  <div class="col-xs-6 f8launcher-project-summary-data-field">
-                    <span>{{summary?.gitHubDetails?.repository}}</span>
-                  </div>
-                </div>
-              </div>
-              <div class="card-column-30">
-                <i class="fa fa-github git-provider-icon"></i>
-              </div>
-            </div>
-          </ng-template>
-        </div>
-      </div>
+      <ng-template review-host></ng-template>
     </div>
   </div>
   </form>
