@@ -4,6 +4,7 @@ import { Progress } from '../../model/progress.model';
 import { ProjectProgressService } from '../../service/project-progress.service';
 import { LauncherComponent } from '../../launcher.component';
 import { Broadcaster } from 'ngx-base';
+import { Router } from '@angular/router';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -11,16 +12,25 @@ import { Broadcaster } from 'ngx-base';
   templateUrl: './project-progress-importapp-nextstep.component.html',
   styleUrls: ['./project-progress-importapp-nextstep.component.less']
 })
-export class ProjectProgressImportappNextstepComponent implements OnChanges, OnDestroy {
+export class ProjectProgressImportappNextstepComponent implements OnChanges, OnDestroy, OnInit {
   @Input() statusLink: string;
   errorMessage = '';
+  userName: string;
+  spaceName: string;
   private _progress: Progress[];
   private socket: WebSocket;
 
   constructor(@Host() public launcherComponent: LauncherComponent,
               private broadcaster: Broadcaster,
-              private projectProgressService: ProjectProgressService) {
+              private projectProgressService: ProjectProgressService,
+              private router: Router) {
     this.broadcaster.on('progressEvents').subscribe((events: Progress[]) => this._progress = events);
+  }
+
+  ngOnInit() {
+    const currentUrl = this.router.url.split('/');
+    this.userName = currentUrl[1];
+    this.spaceName = currentUrl[2];
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -57,10 +67,17 @@ export class ProjectProgressImportappNextstepComponent implements OnChanges, OnD
         status.hyperText = data.location;
       }
     }
-  };
+  }
 
   ngOnDestroy() {
     this.closeConnections();
+  }
+
+  addQuery() {
+    const query = '{\"application\":[\"' + this.launcherComponent.currentSelection.projectName + '\"]}';
+    return {
+      q: query
+    };
   }
 
   // Accessors

@@ -79,7 +79,11 @@
   <div>
     <div class="container-fluid">
       <div class="f8launcher-continue">
-        <button class="btn btn-primary btn-lg"  (click)="launcherComponent.completed()">View New Application</button>
+        <button class="btn btn-primary btn-lg" (click)="launcherComponent.completed()">View New Application</button>
+        <a class="btn btn-primary btn-lg margin-left-10"
+          *ngIf="launcherComponent.flow === 'osio'"
+          [routerLink]="['/', userName, spaceName, 'create', 'pipelines']"
+          [queryParams]="addQuery()">View Pipelines</a>
       </div>
     </div>
   </div>

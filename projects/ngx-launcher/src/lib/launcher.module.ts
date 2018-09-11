@@ -1,6 +1,7 @@
 import { NgModule, Provider } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { ModalModule } from 'ngx-modal';
 
 import {
@@ -66,6 +67,7 @@ import { Broadcaster } from 'ngx-base';
     FormsModule,
     ModalModule,
     PopoverModule.forRoot(),
+    RouterModule,
     SortArrayPipeModule,
     ToolbarModule,
     TruncatePipeModule,
@@ -128,6 +130,8 @@ export { ProjectProgressService } from './service/project-progress.service';
 export { ProjectSummaryService } from './service/project-summary.service';
 export { TargetEnvironmentService } from './service/target-environment.service';
 export { TokenService } from './service/token.service';
+export { CheService } from './service/che.service';
+export { WorkSpacesService } from './service/workSpaces.service';
 
 // Utility Service
 export { HelperService } from './service/helper.service';

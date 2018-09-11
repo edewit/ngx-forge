@@ -41,6 +41,13 @@ export class LauncherComponent implements AfterViewInit, OnInit {
    * Setting the flag to show dependency editor as internal feature
    */
   @Input() depEditorFlag = false;
+
+  /**
+   * Setting the flag appType for demo app or real app.
+   * Value should be 'realApp' or 'demoApp'
+   */
+  @Input() appType = 'realApp';
+
   /**
    * The event emitted when an cancel has been selected
    */

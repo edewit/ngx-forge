@@ -1,4 +1,4 @@
-import { Component, Host, Input, OnChanges, OnDestroy, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { Component, Host, Input, OnChanges, OnDestroy, SimpleChanges, ViewEncapsulation, OnInit } from '@angular/core';
 
 import { map } from 'rxjs/operators';
 import { Progress } from '../../model/progress.model';
@@ -8,6 +8,7 @@ import { ProjectSummaryService } from '../../service/project-summary.service';
 import { Broadcaster } from 'ngx-base';
 import { WorkSpacesService } from '../../service/workSpaces.service';
 import { CheService } from '../../service/che.service';
+import { Router } from '@angular/router';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -15,10 +16,12 @@ import { CheService } from '../../service/che.service';
   templateUrl: './project-progress-createapp-nextstep.component.html',
   styleUrls: ['./project-progress-createapp-nextstep.component.less']
 })
-export class ProjectProgressCreateappNextstepComponent implements OnChanges, OnDestroy {
+export class ProjectProgressCreateappNextstepComponent implements OnChanges, OnDestroy, OnInit {
   @Input() statusLink: string;
   errorMessage: string;
   codeBaseCreated: boolean = false;
+  userName: string;
+  spaceName: string;
   codebaseId: string;
   private _progress: Progress[];
   private socket: WebSocket;
@@ -28,11 +31,18 @@ export class ProjectProgressCreateappNextstepComponent implements OnChanges, OnD
     private projectSummaryService: ProjectSummaryService,
     private broadcaster: Broadcaster,
     private workSpaceService: WorkSpacesService,
-    private cheService: CheService) {
+    private cheService: CheService,
+    private router: Router) {
       this.broadcaster.on('progressEvents').subscribe((events: Progress[]) => {
         console.log('got the event list', events);
         this._progress = events;
       });
+  }
+
+  ngOnInit() {
+    const currentUrl = this.router.url.split('/');
+    this.userName = currentUrl[1];
+    this.spaceName = currentUrl[2];
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -109,6 +119,13 @@ export class ProjectProgressCreateappNextstepComponent implements OnChanges, OnD
           }));
       }
     });
+  }
+
+  addQuery() {
+    const query = '{\"application\":[\"' + this.launcherComponent.currentSelection.projectName + '\"]}';
+    return {
+      q: query
+    };
   }
 
   // Accessors
