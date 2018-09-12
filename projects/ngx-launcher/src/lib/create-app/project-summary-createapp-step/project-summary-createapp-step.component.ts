@@ -24,9 +24,9 @@ import { Summary } from '../../model/summary.model';
 import { broadcast } from '../../shared/telemetry.decorator';
 import { Broadcaster } from 'ngx-base';
 import { NgForm } from '@angular/forms';
-import {ReviewDirective} from './review.directive';
-import {ReviewComponent} from "../../review.component";
-import {GitproviderCreateappReviewComponent} from "../gitprovider-createapp-step/gitprovider-createapp-review.component";
+import { ReviewDirective } from './review.directive';
+import { ReviewComponent } from '../../review.component';
+import { GitproviderCreateappReviewComponent } from '../gitprovider-createapp-step/gitprovider-createapp-review.component';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -75,15 +75,17 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
   }
 
   private loadComponents() {
-    // TODO when adding a "step" it should register it's review component as well
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(GitproviderCreateappReviewComponent);
-
     const viewContainerRef = this.reviewHost.viewContainerRef;
     viewContainerRef.clear();
 
-    const componentRef = viewContainerRef.createComponent(componentFactory);
-    // TODO refactor summary to get the github details more dynamic then this.
-    (<ReviewComponent>componentRef.instance).data = this.launcherComponent.summary.gitHubDetails;
+    this.launcherComponent.steps.forEach(step => {
+      if (step.reviewComponentType) {
+        const componentFactory = this.componentFactoryResolver.resolveComponentFactory(step.reviewComponentType);
+
+        const componentRef = viewContainerRef.createComponent(componentFactory);
+        (<ReviewComponent>componentRef.instance).data = this.launcherComponent.summary.getDetails(step.id);
+      }
+    });
   }
 
   // Accessors

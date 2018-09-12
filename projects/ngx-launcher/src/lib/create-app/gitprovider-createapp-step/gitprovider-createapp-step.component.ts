@@ -11,12 +11,13 @@ import {
 import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
-import { DependencyCheckService } from '../../service/dependency-check.service';
 import { GitProviderService } from '../../service/git-provider.service';
 import { Selection } from '../../model/selection.model';
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
 import { broadcast } from '../../shared/telemetry.decorator';
+import { GitproviderCreateappReviewComponent } from './gitprovider-createapp-review.component';
+import { GitHubDetails } from 'ngx-launcher/public_api';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -29,15 +30,17 @@ export class GitproviderCreateappStepComponent extends LauncherStep implements A
   @ViewChild('versionSelect') versionSelect: ElementRef;
 
   private subscriptions: Subscription[] = [];
+  private gitHubDetails: GitHubDetails = {};
 
   constructor(@Host() public launcherComponent: LauncherComponent,
-              private dependencyCheckService: DependencyCheckService,
               private gitProviderService: GitProviderService) {
-    super(launcherComponent);
+    super(GitproviderCreateappReviewComponent);
+    // this.gitHubDetails = launcherComponent.summary.gitHubDetails;
+    launcherComponent.summary.setDetails(this.id, this.gitHubDetails);
   }
 
   ngAfterViewInit() {
-    if (this.launcherComponent.summary.gitHubDetails.login) {
+    if (this.gitHubDetails.login) {
       setTimeout(() => {
         if (this.versionSelect) {
           this.versionSelect.nativeElement.focus();
@@ -51,7 +54,7 @@ export class GitproviderCreateappStepComponent extends LauncherStep implements A
 
     this.subscriptions.push(this.gitProviderService.getGitHubDetails().subscribe((val) => {
       if (val !== undefined) {
-        this.launcherComponent.summary.gitHubDetails = val;
+        this.gitHubDetails = val;
         this.getGitHubRepos();
       }
     }));
@@ -93,10 +96,8 @@ export class GitproviderCreateappStepComponent extends LauncherStep implements A
 
   /**
    * Authorize GitHub account
-   *
-   * @param {MouseEvent} $event
    */
-  connectAccount($event: MouseEvent): void {
+  connectAccount(): void {
     const url = window.location.href + this.getParams(this.launcherComponent.currentSelection);
     this.gitProviderService.connectGitHubAccount(url);
   }
@@ -106,8 +107,8 @@ export class GitproviderCreateappStepComponent extends LauncherStep implements A
    */
   getGitHubRepos(): void {
     if (this.launcherComponent && this.launcherComponent.summary &&
-      this.launcherComponent.summary.gitHubDetails) {
-      this.launcherComponent.summary.gitHubDetails.repository =
+      this.gitHubDetails) {
+      this.gitHubDetails.repository =
         this.launcherComponent.summary.dependencyCheck ?
           this.launcherComponent.summary.dependencyCheck.projectName : '';
     }

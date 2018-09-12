@@ -7,6 +7,7 @@ import { Pipeline } from './pipeline.model';
 import { DependencyEditor } from './dependency-editor/dependency-editor.model';
 
 export class Summary {
+  private _details = {};
   cluster?: Cluster;
   dependencyCheck: DependencyCheck;
   dependencyEditor?: DependencyEditor;
@@ -16,4 +17,12 @@ export class Summary {
   pipeline: Pipeline;
   runtime: Runtime;
   targetEnvironment: string;
+
+  getDetails(stepId: string) {
+    return this._details[stepId];
+  }
+
+  setDetails(stepId: string, data: any) {
+    this._details[stepId] = data;
+  }
 }

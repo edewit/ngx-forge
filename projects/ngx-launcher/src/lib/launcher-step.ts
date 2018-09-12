@@ -1,5 +1,6 @@
-import { Input, ViewChild, ElementRef, OnDestroy } from '@angular/core';
+import { Input, ViewChild, ElementRef, OnDestroy, Type } from '@angular/core';
 import { LauncherComponent } from './launcher.component';
+import { ReviewComponent } from './review.component';
 import { fromEvent, Observable, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
@@ -40,8 +41,12 @@ export abstract class LauncherStep implements OnDestroy {
 
   private scrollEvents: Subscription = fromEvent(window, 'scroll').pipe(debounceTime(100)).subscribe(() => this.isInView());
 
-  constructor(launcherComponent: LauncherComponent) {
+  constructor(private _reviewComponentType: Type<ReviewComponent>, launcherComponent: LauncherComponent) {
     this._launcherComponent = launcherComponent;
+  }
+
+  get reviewComponentType(): Type<ReviewComponent> {
+    return this._reviewComponentType;
   }
 
   ngOnDestroy(): void {

@@ -35,6 +35,8 @@ export { HelperService } from './lib/service/helper.service';
 export { TokenProvider } from './lib/service/token-provider';
 export { Config } from './lib/service/config.component';
 export { StaticInjector } from './lib/shared/telemetry.decorator';
+export { LauncherStep } from './lib/launcher-step';
+export { ReviewComponent } from './lib/review.component';
 
 // Imported from Dependency Editor
 export { URLProvider, DependencyEditorTokenProvider } from './lib/launcher.module';

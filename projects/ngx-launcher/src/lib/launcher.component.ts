@@ -6,7 +6,8 @@ import {
   OnInit,
   Output,
   ViewChild,
-  ViewEncapsulation
+  ViewEncapsulation,
+  Type
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -15,6 +16,7 @@ import { Summary } from './model/summary.model';
 import { StepIndicatorComponent } from './step-indicator/step-indicator.component';
 import { LauncherStep } from './launcher-step';
 import { broadcast } from './shared/telemetry.decorator';
+import { ReviewComponent } from './review.component';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -70,13 +72,13 @@ export class LauncherComponent implements AfterViewInit, OnInit {
 
   ngOnInit() {
     const projectName = this.route.snapshot.params['projectName'];
-    this._summary = {
+    this._summary = Object.assign(new Summary(), {
       targetEnvironment: this.flow === 'osio' ? 'os' : undefined,
       dependencyCheck: {
         projectName: (projectName !== undefined && projectName.length > 0) ? projectName : undefined
       },
       gitHubDetails: {}
-    } as Summary;
+    });
   }
 
   onInViewportChange(id: string) {

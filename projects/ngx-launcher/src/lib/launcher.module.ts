@@ -55,8 +55,9 @@ import { ToastNotificationComponent } from './toast-notification/toast-notificat
 import { MissionRuntimeService } from './service/mission-runtime.service';
 import { ProjectProgressService } from './service/project-progress.service';
 
-import {GitproviderCreateappReviewComponent} from './create-app/gitprovider-createapp-step/gitprovider-createapp-review.component';
-import {ReviewDirective} from './create-app/project-summary-createapp-step/review.directive';
+import { GitproviderCreateappReviewComponent } from './create-app/gitprovider-createapp-step/gitprovider-createapp-review.component';
+import { MissionRuntimeCreateappReviewComponent } from './create-app/mission-runtime-createapp-step/mission-runtime-createapp-review.component';
+import { ReviewDirective } from './create-app/project-summary-createapp-step/review.directive';
 
 import { LauncherComponent } from './launcher.component';
 import { Broadcaster } from 'ngx-base';
@@ -88,6 +89,7 @@ import { Broadcaster } from 'ngx-base';
     ExistingRepositoryValidatorDirective,
     GitproviderImportappStepComponent,
     GitproviderCreateappReviewComponent,
+    MissionRuntimeCreateappReviewComponent,
     MissionRuntimeCreateappStepComponent,
     ProjectProgressCreateappNextstepComponent,
     ProjectProgressImportappNextstepComponent,
@@ -103,7 +105,8 @@ import { Broadcaster } from 'ngx-base';
     LauncherComponent
   ],
   entryComponents: [
-    GitproviderCreateappReviewComponent
+    GitproviderCreateappReviewComponent,
+    MissionRuntimeCreateappReviewComponent
   ],
   providers: [
     BsDropdownConfig,
