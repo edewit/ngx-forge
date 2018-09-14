@@ -61,6 +61,8 @@ import { ReviewDirective } from './create-app/project-summary-createapp-step/rev
 
 import { LauncherComponent } from './launcher.component';
 import { Broadcaster } from 'ngx-base';
+import { Projectile } from './model/summary.model';
+import { DependencyEditorReviewComponent } from './create-app/dependency-editor-step/dependency-editor-review.component';
 
 @NgModule({
   imports: [
@@ -82,6 +84,7 @@ import { Broadcaster } from 'ngx-base';
     ActivateBoosterCreateappNextstepComponent,
     CancelOverlayComponent,
     DependencyEditorCreateappStepComponent,
+    DependencyEditorReviewComponent,
     GitproviderCreateappStepComponent,
     LowerCaseDirective,
     ProjectNameValidatorDirective,
@@ -106,11 +109,13 @@ import { Broadcaster } from 'ngx-base';
   ],
   entryComponents: [
     GitproviderCreateappReviewComponent,
+    DependencyEditorReviewComponent,
     MissionRuntimeCreateappReviewComponent
   ],
   providers: [
     BsDropdownConfig,
-    Broadcaster
+    Broadcaster,
+    Projectile
   ]
 })
 export class LauncherModule {
@@ -125,7 +130,7 @@ export { Mission } from './model/mission.model';
 export { Pipeline } from './model/pipeline.model';
 export { Progress } from './model/progress.model';
 export { Runtime } from './model/runtime.model';
-export { Summary } from './model/summary.model';
+export { Projectile } from './model/summary.model';
 export { TargetEnvironment } from './model/target-environment.model';
 
 // Services

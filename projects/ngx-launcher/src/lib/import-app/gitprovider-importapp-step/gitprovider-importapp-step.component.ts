@@ -17,6 +17,8 @@ import { Selection } from '../../model/selection.model';
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
 import { broadcast } from '../../shared/telemetry.decorator';
+import { Projectile } from '../../model/summary.model';
+import { GitHubDetails } from '../../model/github-details.model';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -30,15 +32,17 @@ export class GitproviderImportappStepComponent extends LauncherStep implements A
 
   private subscriptions: Subscription[] = [];
   private gitHubReposSubscription: Subscription;
+  gitHubDetails: GitHubDetails;
 
   constructor(@Host() public launcherComponent: LauncherComponent,
               private dependencyCheckService: DependencyCheckService,
+              private projectile: Projectile,
               private gitProviderService: GitProviderService) {
-    super(launcherComponent);
+    super(null, projectile);
   }
 
   ngAfterViewInit() {
-    if (this.launcherComponent.summary.gitHubDetails.login) {
+    if (this.gitHubDetails.login) {
       setTimeout(() => {
         if (this.versionSelect) {
           this.versionSelect.nativeElement.focus();
@@ -52,7 +56,7 @@ export class GitproviderImportappStepComponent extends LauncherStep implements A
 
     this.subscriptions.push(this.gitProviderService.getGitHubDetails().subscribe((val) => {
       if (val !== undefined) {
-        this.launcherComponent.summary.gitHubDetails = val;
+        this.gitHubDetails = val;
         this.getGitHubRepos();
       }
     }));
@@ -100,55 +104,38 @@ export class GitproviderImportappStepComponent extends LauncherStep implements A
    * @param {MouseEvent} $event
    */
   connectAccount($event: MouseEvent): void {
-    let url = window.location.href + this.getParams(this.launcherComponent.currentSelection);
-    this.gitProviderService.connectGitHubAccount(url);
+    this.gitProviderService.connectGitHubAccount(this.projectile.redirectUrl);
   }
 
   /**
    * Ensure repo name is available for the selected organization
    */
   getGitHubRepos(): void {
-    let org = '';
-    if (this.launcherComponent && this.launcherComponent.summary &&
-       this.launcherComponent.summary.gitHubDetails) {
-      org = this.launcherComponent.summary.gitHubDetails.organization;
-      this.launcherComponent.summary.gitHubDetails.repository = '';
-      this.launcherComponent.summary.gitHubDetails.repositoryList = [];
-    }
+    // let org = '';
+    // if (this.launcherComponent && this.launcherComponent.summary &&
+    //    this.launcherComponent.summary.gitHubDetails) {
+    //   org = this.launcherComponent.summary.gitHubDetails.organization;
+    //   this.launcherComponent.summary.gitHubDetails.repository = '';
+    //   this.launcherComponent.summary.gitHubDetails.repositoryList = [];
+    // }
 
-    if (this.gitHubReposSubscription !== undefined) {
-      this.gitHubReposSubscription.unsubscribe();
-    }
-    this.gitHubReposSubscription = this.gitProviderService.getGitHubRepoList(org).subscribe((val) => {
-      if (val !== undefined && this.launcherComponent && this.launcherComponent.summary &&
-        this.launcherComponent.summary.gitHubDetails) {
-        this.launcherComponent.summary.gitHubDetails.repositoryList = val;
-      }
-    });
+    // if (this.gitHubReposSubscription !== undefined) {
+    //   this.gitHubReposSubscription.unsubscribe();
+    // }
+    // this.gitHubReposSubscription = this.gitProviderService.getGitHubRepoList(org).subscribe((val) => {
+    //   if (val !== undefined && this.launcherComponent && this.launcherComponent.summary &&
+    //     this.launcherComponent.summary.gitHubDetails) {
+    //     this.launcherComponent.summary.gitHubDetails.repositoryList = val;
+    //   }
+    // });
   }
 
-  // Private
-
-  private getParams(selection: Selection) {
-    if (selection === undefined) {
-      return '';
-    }
-    return '?selection=' + JSON.stringify(selection);
+  restoreModel(model: any): void {
+    this.gitHubDetails.organization = model.organization;
+    this.gitHubDetails.repository = model.repository;
   }
 
-  /**
-   * Helper to retrieve request parameters
-   *
-   * @param name The request parameter to retrieve
-   * @returns {any} The request parameter value or null
-   */
-  private getRequestParam(name: string): string {
-    const search = (window.location.search !== undefined && window.location.search.length > 0)
-      ? window.location.search : window.location.href;
-    const param = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(search);
-    if (param !== null) {
-      return decodeURIComponent(param[1]);
-    }
-    return null;
+  saveModel(): any {
+    return { organization: this.gitHubDetails.organization, repository: this.gitHubDetails.repository };
   }
 }

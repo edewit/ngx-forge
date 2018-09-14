@@ -9,13 +9,13 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { Broadcaster } from 'ngx-base';
 
-import { Selection } from '../../model/selection.model';
 import { TargetEnvironment } from '../../model/target-environment.model';
 import { TargetEnvironmentService } from '../../service/target-environment.service';
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
 import { Cluster } from '../../model/cluster.model';
 import { TokenService } from '../../service/token.service';
+import { Projectile } from '../../model/summary.model';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -28,14 +28,17 @@ export class TargetEnvironmentCreateappStepComponent extends LauncherStep implem
 
   private subscriptions: Subscription[] = [];
   private _targetEnvironments: TargetEnvironment[];
+  targetEnvironment: string;
   private _clusters: Cluster[] = [];
+  public cluster: Cluster;
 
   constructor(@Host() public launcherComponent: LauncherComponent,
               private targetEnvironmentService: TargetEnvironmentService,
               @Optional() private tokenService: TokenService,
               private broadcaster: Broadcaster,
+              private projectile: Projectile,
               public _DomSanitizer: DomSanitizer) {
-    super(launcherComponent);
+    super(null, projectile);
   }
 
   ngOnDestroy() {
@@ -47,7 +50,7 @@ export class TargetEnvironmentCreateappStepComponent extends LauncherStep implem
   ngOnInit() {
     this.launcherComponent.addStep(this);
     setTimeout(() => {
-      this.restoreSummary();
+      this.restore();
     }, 10); // Avoids ExpressionChangedAfterItHasBeenCheckedError
     if (this.tokenService) {
       this.subscriptions.push(this.tokenService.clusters.subscribe(clusters => {
@@ -69,8 +72,8 @@ export class TargetEnvironmentCreateappStepComponent extends LauncherStep implem
    * @returns {boolean} True if step is completed
    */
   get completed(): boolean {
-    return this.launcherComponent.summary.targetEnvironment
-      && (this.launcherComponent.summary.targetEnvironment === 'zip' || !!this.launcherComponent.summary.cluster);
+    return this.targetEnvironment
+      && (this.targetEnvironment === 'zip' || !!this.cluster);
   }
 
   /**
@@ -98,7 +101,7 @@ export class TargetEnvironmentCreateappStepComponent extends LauncherStep implem
   }
 
   selectCluster(cluster?: Cluster): void {
-    this.launcherComponent.summary.cluster = cluster;
+    this.cluster = cluster;
     this.broadcaster.broadcast('cluster', cluster);
   }
 
@@ -109,14 +112,13 @@ export class TargetEnvironmentCreateappStepComponent extends LauncherStep implem
   }
 
   // Private
+  restoreModel(model: any): void {
+    this.targetEnvironment = model.targetenvironment;
+    this.cluster = model.cluster;
+  }
 
-  // Restore mission & runtime summary
-  private restoreSummary(): void {
-    const selection: Selection = this.launcherComponent.selectionParams;
-    if (selection !== undefined) {
-      this.launcherComponent.summary.targetEnvironment = selection.targetEnvironment;
-      this.launcherComponent.summary.cluster = selection.cluster;
-    }
+  saveModel(): any {
+    return { targetenvironment: this.targetEnvironment, cluster: this.cluster };
   }
 
   private clusterSortFn(a: Cluster, b: Cluster): number {

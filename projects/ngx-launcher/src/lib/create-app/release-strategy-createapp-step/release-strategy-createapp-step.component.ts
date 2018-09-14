@@ -8,13 +8,13 @@ import {
 
 import { PipelineService } from '../../service/pipeline.service';
 import { Pipeline } from '../../model/pipeline.model';
-import { Selection } from '../../model/selection.model';
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
 import { broadcast } from '../../shared/telemetry.decorator';
 import { Broadcaster} from 'ngx-base';
 import { Runtime } from '../../model/runtime.model';
 import { Subscription } from 'rxjs';
+import { Projectile } from '../../model/summary.model';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -28,24 +28,26 @@ export class ReleaseStrategyCreateappStepComponent extends LauncherStep implemen
   private _pipelines: Pipeline[] = [];
   private _allPipelines: Pipeline[] = [];
   private _pipelineId: string;
+  public pipeline: Pipeline = new Pipeline();
 
   private subscriptions: Subscription[] = [];
 
   constructor(@Host() public launcherComponent: LauncherComponent,
               private pipelineService: PipelineService,
+              private projectile: Projectile,
               private broadcaster: Broadcaster) {
-    super(launcherComponent);
+    super(null, projectile);
   }
 
   ngOnInit() {
     this.launcherComponent.addStep(this);
     this.subscriptions.push(this.pipelineService.getPipelines().subscribe((result: Array<Pipeline>) => {
       this._allPipelines = result;
-      this.restoreSummary();
+      this.restore();
     }));
     this.subscriptions.push(this.broadcaster.on('runtime-changed').subscribe((runtime: Runtime) => {
       this._pipelines = this._allPipelines.filter(({platform}) => platform === runtime.pipelinePlatform);
-      if ((this.launcherComponent.summary.pipeline || {} as Pipeline).platform !== runtime.pipelinePlatform) {
+      if ((this.pipeline || {} as Pipeline).platform !== runtime.pipelinePlatform) {
         this.updatePipelineSelection(undefined);
       }
     }));
@@ -92,12 +94,12 @@ export class ReleaseStrategyCreateappStepComponent extends LauncherStep implemen
    * @returns {boolean} True if step is completed
    */
   get completed(): boolean {
-    return (this.launcherComponent.summary.pipeline !== undefined);
+    return (this.pipeline !== undefined);
   }
 
   // Steps
   @broadcast('completePipelineStep_Create', {
-    'launcherComponent.summary.pipeline': {
+    'pipeline': {
       pipeline: 'name'
     }
   })
@@ -106,23 +108,15 @@ export class ReleaseStrategyCreateappStepComponent extends LauncherStep implemen
   }
 
   updatePipelineSelection(pipeline: Pipeline): void {
-    this.launcherComponent.summary.pipeline = pipeline;
+    this.pipeline = pipeline;
   }
 
-  // Private
+  restoreModel(model: any): void {
+    this.pipeline = this.pipelines.find(p => p.id === model.pipelineId);
+  }
 
-  // Restore mission & runtime summary
-  private restoreSummary(): void {
-    const selection: Selection = this.launcherComponent.selectionParams;
-    if (selection === undefined) {
-      return;
-    }
-    this.pipelineId = selection.pipelineId;
-    for (let i = 0; i < this.pipelines.length; i++) {
-      if (this.pipelineId === this.pipelines[i].id) {
-        this.launcherComponent.summary.pipeline = this.pipelines[i];
-      }
-    }
+  saveModel(): any {
+    return { pipelineId: this.pipeline.id };
   }
 
   toggleExpanded(pipeline: Pipeline) {

@@ -11,7 +11,7 @@ import { LauncherStep } from '../../launcher-step';
 import { PipelineService } from '../../service/pipeline.service';
 import { ReleaseStrategyCreateappStepComponent } from './release-strategy-createapp-step.component';
 import { Selection } from '../../model/selection.model';
-import { Summary } from '../../model/summary.model';
+import { Projectile } from '../../model/summary.model';
 
 import { BroadcasterTestProvider } from '../targetenvironment-createapp-step/target-environment-createapp-step.component.spec';
 import { Broadcaster } from 'ngx-base';
@@ -45,7 +45,7 @@ const mockWizardComponent: TypeWizardComponent = {
     this.steps.push(step);
   },
   get currentSelection(): any {
-    const summaryVar = new Summary();
+    const summaryVar = new Projectile();
     return {
       groupId: (summaryVar.dependencyCheck !== undefined) ? summaryVar.dependencyCheck.groupId : undefined,
       missionId: (summaryVar.mission !== undefined) ? summaryVar.mission.id : undefined,

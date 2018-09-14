@@ -15,7 +15,7 @@ import { ProjectSummaryImportappStepComponent } from './project-summary-importap
 import { ProjectSummaryService } from '../../service/project-summary.service';
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
-import { Summary } from '../../launcher.module';
+import { Projectile } from '../../launcher.module';
 import { Broadcaster } from 'ngx-base';
 import { BroadcasterTestProvider } from '../../create-app/targetenvironment-createapp-step/target-environment-createapp-step.component.spec';
 
@@ -28,10 +28,10 @@ export class FakeToastNotificationComponent {
 }
 
 const mockProjectSummaryService = {
-  setup(summary: Summary): Observable<boolean> {
+  setup(summary: Projectile): Observable<boolean> {
     return of(true);
   },
-  verify(summary: Summary): Observable<boolean> {
+  verify(summary: Projectile): Observable<boolean> {
     return of(true);
   },
   getCurrentContext(): Observable<any> {

@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { ProjectSummaryService } from '../../../projects/ngx-launcher/src/lib/service/project-summary.service';
-import { Summary } from '../../../projects/ngx-launcher/src/lib/model/summary.model';
+import { Projectile } from '../../../projects/ngx-launcher/src/lib/model/summary.model';
 
 @Injectable()
 export class DemoProjectSummaryService implements ProjectSummaryService {
 
-  setup(summary: Summary, retry?: number): Observable<any> {
+  setup(summary: Projectile, retry?: number): Observable<any> {
     if (window.location.href.indexOf('import') !== -1) {
       return of({
         'uuid_link': 'http://import-link.com/',

@@ -31,17 +31,17 @@
             <div class="form-group">
               <label for="ghAccount" class="col-sm-2 control-label">Username</label>
               <div class="col-sm-10 f8launcher-provider-card-information-authorize">
-                  <img height="30px" width="30px" [src]="launcherComponent?.summary?.gitHubDetails?.avatar"
-                       *ngIf="launcherComponent?.summary?.gitHubDetails?.avatar !== undefined">
-                  <span class="f8launcher-username-login" *ngIf="launcherComponent?.summary?.gitHubDetails?.login !== undefined">
-                    {{launcherComponent?.summary?.gitHubDetails?.login}}
+                  <img height="30px" width="30px" [src]="gitHubDetails?.avatar"
+                       *ngIf="gitHubDetails?.avatar !== undefined">
+                  <span class="f8launcher-username-login" *ngIf="gitHubDetails?.login !== undefined">
+                    {{gitHubDetails?.login}}
                   </span>
-                  <i class="fa fa-ban fa-2x" *ngIf="launcherComponent?.summary?.gitHubDetails?.avatar === undefined"></i>
+                  <i class="fa fa-ban fa-2x" *ngIf="gitHubDetails?.avatar === undefined"></i>
                   <span class="f8launcher-username"
-                        *ngIf="launcherComponent?.summary?.gitHubDetails?.login === undefined"> None
+                        *ngIf="gitHubDetails?.login === undefined"> None
                   </span>
                   <button class="btn btn-primary btn-lg f8launcher-authorize-account"
-                          [disabled]="launcherComponent?.summary?.gitHubDetails?.login"
+                          [disabled]="gitHubDetails?.login"
                           (click)="connectAccount($event)">Log In &amp; Authorize Account</button>
               </div>
             </div>
@@ -50,11 +50,11 @@
                 <label for="ghOrg" class="col-sm-2 control-label">Location</label>
                 <div class="col-sm-10">
                   <select id="ghOrg" class="form-control" name="ghOrg" placeholder="Select organization"
-                          [disabled]="launcherComponent?.summary?.gitHubDetails?.organizations === undefined"
-                          [(ngModel)]="launcherComponent.summary.gitHubDetails.organization" required
+                          [disabled]="gitHubDetails?.organizations === undefined"
+                          [(ngModel)]="gitHubDetails.organization" required
                           (ngModelChange)="getGitHubRepos()">
                     <option [ngValue]="org"
-                            *ngFor="let org of launcherComponent?.summary?.gitHubDetails?.organizations">
+                            *ngFor="let org of gitHubDetails?.organizations">
                       {{org}}
                     </option>
                   </select>
@@ -66,13 +66,13 @@
                     [class.has-error]="ghRepo.invalid && (ghRepo.dirty || ghRepo.touched)">
                   <input id="ghRepo" class="form-control" name="ghRepo" type="text" #ghRepo="ngModel" lowercase validateRepository required
                         placeholder="Enter a unique name for your repository"
-                        [disabled]="!launcherComponent.summary.gitHubDetails.organization"
-                        [(ngModel)]="launcherComponent.summary.gitHubDetails.repository">
+                        [disabled]="!gitHubDetails.organization"
+                        [(ngModel)]="gitHubDetails.repository">
                   <span class="help-block"
                     *ngIf="ghRepo.invalid && (ghRepo.dirty || ghRepo.touched)">
                     <span *ngIf="ghRepo.errors.duplicate">
                       Duplicate Name: '{{ghRepo.value}}' is already in use
-                      as {{launcherComponent.summary.gitHubDetails.organization}}/{{ghRepo.value}}.
+                      as {{gitHubDetails.organization}}/{{ghRepo.value}}.
                     </span>
                     <span *ngIf="ghRepo.errors.pattern">
                       '{{ghRepo.value}}' is not a valid name, only alphanumeric characters are allowed with "-", "_" or "."

@@ -29,6 +29,7 @@ import { Selection } from '../../model/selection.model';
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
 import { broadcast } from '../../shared/telemetry.decorator';
+import { Projectile } from '../../model/summary.model';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -51,10 +52,12 @@ export class ReleaseStrategyImportappStepComponent extends LauncherStep implemen
   private currentSortField: SortField;
 
   private subscriptions: Subscription[] = [];
+  pipeline: Pipeline;
 
   constructor(@Host() public launcherComponent: LauncherComponent,
+              private projectile: Projectile,
               private pipelineService: PipelineService) {
-    super(launcherComponent);
+    super(null, projectile);
   }
 
   ngOnInit() {
@@ -86,7 +89,7 @@ export class ReleaseStrategyImportappStepComponent extends LauncherStep implemen
 
     this.subscriptions.push(this.pipelineService.getPipelines().subscribe((result: Array<Pipeline>) => {
       this._pipelines = result;
-      this.restoreSummary();
+      this.restore();
     }));
   }
 
@@ -131,7 +134,7 @@ export class ReleaseStrategyImportappStepComponent extends LauncherStep implemen
    * @returns {boolean} True if step is completed
    */
   get completed(): boolean {
-    return (this.launcherComponent.summary.pipeline !== undefined);
+    return (this.pipeline !== undefined);
   }
 
   // Filter
@@ -204,23 +207,17 @@ export class ReleaseStrategyImportappStepComponent extends LauncherStep implemen
   }
 
   updatePipelineSelection(pipeline: Pipeline): void {
-    this.launcherComponent.summary.pipeline = pipeline;
+    this.pipeline = pipeline;
   }
 
   // Private
 
-  // Restore mission & runtime summary
-  private restoreSummary(): void {
-    const selection: Selection = this.launcherComponent.selectionParams;
-    if (selection === undefined) {
-      return;
-    }
-    this.pipelineId = selection.pipelineId;
-    for (let i = 0; i < this.pipelines.length; i++) {
-      if (this.pipelineId === this.pipelines[i].id) {
-        this.launcherComponent.summary.pipeline = this.pipelines[i];
-      }
-    }
+  restoreModel(model: any): void {
+    this.pipeline = this.pipelines.find(p => p.id === model.pipelineId);
+  }
+
+  saveModel(): any {
+    return { pipelineId: this.pipeline.id };
   }
 
   toggleExpanded(pipeline: Pipeline) {

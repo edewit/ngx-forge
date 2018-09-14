@@ -12,7 +12,7 @@ export { DependencyEditor } from './lib/model/dependency-editor/dependency-edito
 export { GitHubDetails } from './lib/model/github-details.model';
 export { Pipeline } from './lib/model/pipeline.model';
 export { Progress } from './lib/model/progress.model';
-export { Summary } from './lib/model/summary.model';
+export { Projectile } from './lib/model/summary.model';
 export { Catalog, CatalogMission, CatalogRuntime, CatalogBooster } from './lib/model/catalog.model';
 export { Booster, BoosterVersion, BoosterMission, BoosterRuntime } from './lib/model/booster.model';
 export { TargetEnvironment } from './lib/model/target-environment.model';

@@ -6,13 +6,12 @@ import {
   OnInit,
   Output,
   ViewChild,
-  ViewEncapsulation,
-  Type
+  ViewEncapsulation
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Selection } from './model/selection.model';
-import { Summary } from './model/summary.model';
+import { Projectile } from './model/summary.model';
 import { StepIndicatorComponent } from './step-indicator/step-indicator.component';
 import { LauncherStep } from './launcher-step';
 import { broadcast } from './shared/telemetry.decorator';
@@ -57,28 +56,28 @@ export class LauncherComponent implements AfterViewInit, OnInit {
   private _selectedSection: string;
   private _showCancelOverlay = false;
   private _steps: LauncherStep[] = [];
-  private _summary: Summary;
   private summaryCompleted = false;
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute, private _projectile: Projectile) {
   }
 
   ngAfterViewInit() {
     setTimeout(() => {
-      const id = (this.selectionParams !== undefined) ? 'GitProvider' : this.firstNonHiddenStep.id;
-      this.stepIndicator.navToStep(id);
+      // TODO move the selected step
+      // const id = (this.selectionParams !== undefined) ? 'GitProvider' : this.firstNonHiddenStep.id;
+      // this.stepIndicator.navToStep(id);
     }, 300);
   }
 
   ngOnInit() {
-    const projectName = this.route.snapshot.params['projectName'];
-    this._summary = Object.assign(new Summary(), {
-      targetEnvironment: this.flow === 'osio' ? 'os' : undefined,
-      dependencyCheck: {
-        projectName: (projectName !== undefined && projectName.length > 0) ? projectName : undefined
-      },
-      gitHubDetails: {}
-    });
+    // const projectName = this.route.snapshot.params['projectName'];
+    // this._summary = Object.assign(new Projectile(), {
+    //   targetEnvironment: this.flow === 'osio' ? 'os' : undefined,
+    //   dependencyCheck: {
+    //     projectName: (projectName !== undefined && projectName.length > 0) ? projectName : undefined
+    //   },
+    //   gitHubDetails: {}
+    // });
   }
 
   onInViewportChange(id: string) {
@@ -95,44 +94,6 @@ export class LauncherComponent implements AfterViewInit, OnInit {
    */
   get selectedSection(): string {
     return this._selectedSection;
-  }
-
-  /**
-   * Returns current selection needed to restore upon a redirect
-   *
-   * @returns {Selection} The current selection
-   */
-  get currentSelection(): Selection {
-    const selection = {
-      groupId: (this._summary.dependencyCheck !== undefined) ? this._summary.dependencyCheck.groupId : undefined,
-      missionId: (this._summary.mission !== undefined) ? this._summary.mission.id : undefined,
-      pipelineId: (this._summary.pipeline !== undefined) ? this._summary.pipeline.id : undefined,
-      projectName: (this._summary.dependencyCheck !== undefined)
-        ? this._summary.dependencyCheck.projectName : undefined,
-      projectVersion: (this._summary.dependencyCheck !== undefined)
-        ? this._summary.dependencyCheck.projectVersion : undefined,
-      runtimeId: (this._summary.runtime !== undefined) ? this._summary.runtime.id : undefined,
-      runtimeVersion: (this._summary.runtime !== undefined) ? this._summary.runtime.version : undefined,
-      spacePath: (this._summary.dependencyCheck !== undefined) ? this._summary.dependencyCheck.spacePath : undefined,
-      targetEnvironment: this._summary.targetEnvironment,
-      cluster: this._summary.cluster,
-      dependencyEditor: this._summary.dependencyEditor
-    } as Selection;
-    return selection;
-  }
-
-  /**
-   * Returns current selection parameters, if any
-   *
-   * @returns {Selection} Current selection parameters or undefined
-   */
-  get selectionParams(): Selection {
-    let userSelection: Selection;
-    const selection = this.getRequestParam('selection');
-    if (selection !== null) {
-      userSelection = JSON.parse(selection);
-    }
-    return userSelection;
   }
 
   /**
@@ -160,24 +121,6 @@ export class LauncherComponent implements AfterViewInit, OnInit {
    */
   get steps(): LauncherStep[] {
     return this._steps;
-  }
-
-  /**
-   * Returns summary, including full Mission and Runtime objects
-   *
-   * @returns {Summary} The current user summary
-   */
-  get summary(): Summary {
-    return this._summary;
-  }
-
-  /**
-   * Set user summary
-   *
-   * @param {Summary} val The current user summary
-   */
-  set summary(summary: Summary) {
-    this._summary = summary;
   }
 
   // Steps
@@ -259,21 +202,5 @@ export class LauncherComponent implements AfterViewInit, OnInit {
   // Private
   private get firstNonHiddenStep(): LauncherStep {
     return this._steps.find(step => !step.hidden);
-  }
-
-  /**
-   * Helper to retrieve request parameters
-   *
-   * @param name The request parameter to retrieve
-   * @returns {any} The request parameter value or null
-   */
-  private getRequestParam(name: string): string {
-    const search = (window.location.search !== undefined && window.location.search.length > 0)
-      ? window.location.search : window.location.href;
-    const param = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(search);
-    if (param !== null) {
-      return decodeURIComponent(param[1]);
-    }
-    return null;
   }
 }

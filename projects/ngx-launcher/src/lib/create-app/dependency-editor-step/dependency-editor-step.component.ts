@@ -19,6 +19,9 @@ import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
 import { DependencyEditor } from '../../model/dependency-editor/dependency-editor.model';
 import { broadcast } from '../../shared/telemetry.decorator';
+import { Projectile } from '../../model/summary.model';
+import { DependencyEditorReviewComponent } from './dependency-editor-review.component';
+import { DependencyCheck } from '../../model/dependency-check.model';
 
 @Component({
     encapsulation: ViewEncapsulation.None,
@@ -39,6 +42,8 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
 
     private cacheInfo: any = {};
     private changes: any = {};
+    dependencyEditor = new DependencyEditor();
+    dependencyCheck = new DependencyCheck();
 
     private subscriptions: Subscription[] = [];
     constructor(
@@ -46,12 +51,10 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
         public broadcaster: Broadcaster,
         @Optional() private depEditorService: DependencyEditorService,
         private dependencyCheckService: DependencyCheckService,
+        private projectile: Projectile,
         private keyValueDiffers: KeyValueDiffers
     ) {
-        super(launcherComponent);
-        if (this.launcherComponent.summary) {
-            this.launcherComponent.summary['dependencyEditor'] = new DependencyEditor();
-        }
+        super(DependencyEditorReviewComponent, projectile);
     }
 
     ngOnDestroy() {
@@ -62,16 +65,17 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
 
 
     ngOnInit() {
-        this.changes = this.keyValueDiffers.find(this.launcherComponent.summary).create();
+        this.changes = this.keyValueDiffers.find(this.projectile).create();
         this.launcherComponent.addStep(this);
         this.dependencyCheckService.getDependencyCheck()
         .subscribe((val) => {
             this.metadataInfo = val;
+            this.restore();
         });
     }
 
     ngDoCheck() {
-        const updates: any = this.changes.diff(this.launcherComponent.summary);
+        const updates: any = this.changes.diff(this.projectile);
         if (updates) {
             updates.forEachChangedItem((r: any) => {
                 this.listenForChanges(r);
@@ -92,7 +96,7 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
      * @returns {boolean} True if step is completed
      */
     get completed(): boolean {
-        return (this.launcherComponent.summary.dependencyEditor !== undefined);
+        return (this.dependencyEditor !== undefined);
     }
 
     /**
@@ -102,7 +106,7 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
      */
     // Steps
     @broadcast('completeDependencyEditorStep', {
-        'launcherComponent.summary.dependencyEditor': {
+        'dependencyEditor': {
             dependencySnapshot: 'dependencySnapshot'
         }
     })
@@ -121,20 +125,20 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
 
     public pickDependencies(event: any) {
         if (event) {
-            this.launcherComponent.summary.dependencyEditor['dependencySnapshot'] = event;
+            this.dependencyEditor['dependencySnapshot'] = event;
         }
     }
 
     public pickMetadata(event: any) {
         if (event) {
-            this.launcherComponent.summary.dependencyCheck.mavenArtifact = event.artifactId;
-            this.launcherComponent.summary.dependencyCheck.groupId = event.groupId;
-            this.launcherComponent.summary.dependencyCheck.projectVersion = event.version;
+            // this.launcherComponent.summary.dependencyCheck.mavenArtifact = event.artifactId;
+            // this.launcherComponent.summary.dependencyCheck.groupId = event.groupId;
+            // this.launcherComponent.summary.dependencyCheck.projectVersion = event.version;
 
-            // Update the dependency editor model
-            this.launcherComponent.summary.dependencyEditor['mavenArtifact'] = event.artifactId;
-            this.launcherComponent.summary.dependencyEditor['groupId'] = event.groupId;
-            this.launcherComponent.summary.dependencyEditor['projectVersion'] = event.version;
+            // // Update the dependency editor model
+            // this.launcherComponent.summary.dependencyEditor['mavenArtifact'] = event.artifactId;
+            // this.launcherComponent.summary.dependencyEditor['groupId'] = event.groupId;
+            // this.launcherComponent.summary.dependencyEditor['projectVersion'] = event.version;
         }
     }
 
@@ -189,7 +193,7 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
                 const mission: string = this.cacheInfo['mission'].id;
                 const runtime: string = this.cacheInfo['runtime'].id;
                 this.boosterInfo = this.cacheInfo;
-                const missionObj = <any>this.launcherComponent.summary.mission;
+                const missionObj = {}; // <any>this.launcherComponent.summary.mission;
                 if (missionObj && missionObj['boosters'] && missionObj['boosters'].length) {
                     missionObj['boosters'].forEach((booster: any) => {
                         if (mission === booster.mission.id && runtime === booster.runtime.id) {
@@ -217,11 +221,20 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
 
     // Restore mission & runtime summary
     private restoreSummary(): void {
-        const selection: Selection = this.launcherComponent.selectionParams;
-        if (selection !== undefined) {
-            this.launcherComponent.summary.targetEnvironment = selection.targetEnvironment;
-            this.launcherComponent.summary.dependencyCheck = selection.dependencyCheck;
-            this.launcherComponent.summary.dependencyEditor = selection.dependencyEditor;
-        }
+        // const selection: Selection = this.launcherComponent.selectionParams;
+        // if (selection !== undefined) {
+        //     this.launcherComponent.summary.targetEnvironment = selection.targetEnvironment;
+        //     this.launcherComponent.summary.dependencyCheck = selection.dependencyCheck;
+        //     this.launcherComponent.summary.dependencyEditor = selection.dependencyEditor;
+        // }
+    }
+
+    restoreModel(model: any): void {
+      this.dependencyEditor = model.dependencyEditor;
+      this.dependencyCheck = model.dependencyCheck;
+    }
+
+    saveModel(): any {
+      return { dependencyEditor: this.dependencyEditor, dependencyCheck: this.dependencyCheck };
     }
 }

@@ -31,17 +31,17 @@
             <div class="form-group">
               <label for="ghAccount" class="col-sm-2 control-label">Username</label>
               <div class="col-sm-10 f8launcher-provider-card-information-authorize">
-                  <img height="30px" width="30px" [src]="launcherComponent?.summary?.gitHubDetails?.avatar"
-                       *ngIf="launcherComponent?.summary?.gitHubDetails?.avatar !== undefined">
-                  <span class="f8launcher-username-login" *ngIf="launcherComponent?.summary?.gitHubDetails?.login !== undefined">
-                    {{launcherComponent?.summary?.gitHubDetails?.login}}
+                  <img height="30px" width="30px" [src]="gitHubDetails?.avatar"
+                       *ngIf="gitHubDetails?.avatar !== undefined">
+                  <span class="f8launcher-username-login" *ngIf="gitHubDetails?.login !== undefined">
+                    {{gitHubDetails?.login}}
                   </span>
-                  <i class="fa fa-ban fa-2x" *ngIf="launcherComponent?.summary?.gitHubDetails?.avatar === undefined"></i>
+                  <i class="fa fa-ban fa-2x" *ngIf="gitHubDetails?.avatar === undefined"></i>
                   <span class="f8launcher-username"
-                        *ngIf="launcherComponent?.summary?.gitHubDetails?.login === undefined"> None
+                        *ngIf="gitHubDetails?.login === undefined"> None
                   </span>
                   <button class="btn btn-primary btn-lg f8launcher-authorize-account"
-                          [disabled]="launcherComponent?.summary?.gitHubDetails?.login"
+                          [disabled]="gitHubDetails?.login"
                           (click)="connectAccount($event)">Log In &amp; Authorize Account</button>
               </div>
             </div>
@@ -49,11 +49,11 @@
               <label for="ghOrg" class="col-sm-2 control-label">Location</label>
               <div class="col-sm-10">
                 <select id="ghOrg" class="form-control" name="ghOrg" placeholder="Select organization" required
-                        [disabled]="launcherComponent?.summary?.gitHubDetails?.organizations === undefined"
-                        [(ngModel)]="launcherComponent.summary.gitHubDetails.organization"
+                        [disabled]="gitHubDetails?.organizations === undefined"
+                        [(ngModel)]="gitHubDetails.organization"
                         (ngModelChange)="getGitHubRepos()">
                   <option [ngValue]="org"
-                          *ngFor="let org of launcherComponent?.summary?.gitHubDetails?.organizations">
+                          *ngFor="let org of gitHubDetails?.organizations">
                     {{org}}
                   </option>
                 </select>
@@ -62,17 +62,17 @@
             <div class="form-group">
               <label for="ghRepo" class="col-sm-2 control-label">Repository</label>
               <div class="col-sm-10" [class.has-error]="ghRepo.invalid && (ghRepo.dirty || ghRepo.touched)">
-                <input id="ghRepo" name="ghRepo" [(ngModel)]="launcherComponent.summary.gitHubDetails.repository" placeholder="Select Repository"
+                <input id="ghRepo" name="ghRepo" [(ngModel)]="gitHubDetails.repository" placeholder="Select Repository"
                   autocomplete="off"
                   [typeahead]="launcherComponent?.summary.gitHubDetails.repositoryList"
                   [typeaheadMinLength]="0"
                   [typeaheadOptionsLimit]="launcherComponent?.summary.gitHubDetails.repositoryList?.length"
-                  [disabled]="launcherComponent?.summary?.gitHubDetails?.organization === undefined || launcherComponent?.summary?.gitHubDetails?.repositoryList?.length === 0"
-                  [existingRepository]="launcherComponent?.summary?.gitHubDetails?.repositoryList" #ghRepo="ngModel" required
+                  [disabled]="gitHubDetails?.organization === undefined || gitHubDetails?.repositoryList?.length === 0"
+                  [existingRepository]="gitHubDetails?.repositoryList" #ghRepo="ngModel" required
                   class="form-control">
                   <span class="help-block"
                     *ngIf="ghRepo.invalid && (ghRepo.dirty || ghRepo.touched)">
-                    '{{ghRepo.value}}' does not exist as {{launcherComponent.summary.gitHubDetails.organization}}/{{ghRepo.value}}.
+                    '{{ghRepo.value}}' does not exist as {{gitHubDetails.organization}}/{{ghRepo.value}}.
                   </span>
               </div>
             </div>

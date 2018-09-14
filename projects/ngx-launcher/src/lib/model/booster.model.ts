@@ -1,3 +1,6 @@
+import { Mission } from './mission.model';
+import { Runtime } from './runtime.model';
+
 export class BoosterVersion {
   id: string;
   name: string;
@@ -26,4 +29,9 @@ export class Booster {
   mission: BoosterMission;
   runtime: BoosterRuntime;
   version: BoosterVersion;
+}
+
+export class BoosterState {
+  mission: Mission;
+  runtime: Runtime;
 }

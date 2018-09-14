@@ -5,6 +5,7 @@ import { ProjectProgressService } from '../../service/project-progress.service';
 import { LauncherComponent } from '../../launcher.component';
 import { ProjectSummaryService } from '../../service/project-summary.service';
 import { Broadcaster } from 'ngx-base';
+import { Projectile } from '../../model/summary.model';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -21,6 +22,7 @@ export class ProjectProgressCreateappNextstepComponent implements OnChanges, OnD
   constructor(@Host() public launcherComponent: LauncherComponent,
     private projectProgressService: ProjectProgressService,
     private projectSummaryService: ProjectSummaryService,
+    private projectile: Projectile,
     private broadcaster: Broadcaster) {
       this.broadcaster.on('progressEvents').subscribe((events: Progress[]) => {
         console.log('got the event list', events);
@@ -77,7 +79,7 @@ export class ProjectProgressCreateappNextstepComponent implements OnChanges, OnD
   retry() {
     const failedStep = this.lastCompleted;
     this.projectSummaryService.setup(
-      this.launcherComponent.summary, failedStep).subscribe(val => {
+      this.projectile, failedStep).subscribe(val => {
         this.errorMessage = null;
         if (!val || !val['uuid_link']) {
           this.errorMessage = 'Invalid response from server!';

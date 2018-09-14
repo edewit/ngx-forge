@@ -20,13 +20,12 @@ import { Selection } from '../../model/selection.model';
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
 import { DependencyCheck } from '../../model/dependency-check.model';
-import { Summary } from '../../model/summary.model';
+import { Projectile } from '../../model/summary.model';
 import { broadcast } from '../../shared/telemetry.decorator';
 import { Broadcaster } from 'ngx-base';
 import { NgForm } from '@angular/forms';
 import { ReviewDirective } from './review.directive';
 import { ReviewComponent } from '../../review.component';
-import { GitproviderCreateappReviewComponent } from '../gitprovider-createapp-step/gitprovider-createapp-review.component';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -50,8 +49,9 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
               private projectSummaryService: ProjectSummaryService,
               private broadcaster: Broadcaster,
               public _DomSanitizer: DomSanitizer,
+              private projectile: Projectile,
               private componentFactoryResolver: ComponentFactoryResolver) {
-    super(launcherComponent);
+    super(null, projectile);
   }
 
   ngOnInit() {
@@ -62,7 +62,7 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
       this.dependencyCheckService.getDependencyCheck()
         .subscribe((val) => {
           // Don't override user's application name
-          _.defaults(this.launcherComponent.summary.dependencyCheck, val);
+          // _.defaults(this.launcherComponent.summary.dependencyCheck, val);
         }));
 
     this.loadComponents();
@@ -83,7 +83,7 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
         const componentFactory = this.componentFactoryResolver.resolveComponentFactory(step.reviewComponentType);
 
         const componentRef = viewContainerRef.createComponent(componentFactory);
-        (<ReviewComponent>componentRef.instance).data = this.launcherComponent.summary.getDetails(step.id);
+        (<ReviewComponent>componentRef.instance).data = this._projectile.getDetails(step.id);
       }
     });
   }
@@ -145,7 +145,7 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
     this.setupInProgress = true;
     this.subscriptions.push(
       this.projectSummaryService
-      .setup(this.launcherComponent.summary)
+      .setup(this._projectile)
       .subscribe((val: any) => {
         if (!val || !val['uuid_link']) {
           this.displaySetUpErrorResponse('Invalid response from server!');
@@ -165,26 +165,33 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
   }
 
   get dependencyCheck(): DependencyCheck {
-    return this.launcherComponent.summary.dependencyCheck;
+    return this._projectile.dependencyCheck;
   }
 
-  get summary(): Summary {
-    return this.launcherComponent.summary;
+  get summary(): Projectile {
+    return this._projectile;
   }
 
   // Private
 
   // Restore mission & runtime summary
   private restoreSummary(): void {
-    const selection: Selection = this.launcherComponent.selectionParams;
-    if (selection === undefined) {
-      return;
-    }
-    this.launcherComponent.summary.dependencyCheck.groupId = selection.groupId;
-    this.launcherComponent.summary.dependencyCheck.projectName = selection.projectName;
-    this.launcherComponent.summary.dependencyCheck.projectVersion = selection.projectVersion;
-    this.launcherComponent.summary.dependencyCheck.spacePath = selection.spacePath;
+    // const selection: Selection = this.launcherComponent.selectionParams;
+    // if (selection === undefined) {
+    //   return;
+    // }
+    // this.launcherComponent.summary.dependencyCheck.groupId = selection.groupId;
+    // this.launcherComponent.summary.dependencyCheck.projectName = selection.projectName;
+    // this.launcherComponent.summary.dependencyCheck.projectVersion = selection.projectVersion;
+    // this.launcherComponent.summary.dependencyCheck.spacePath = selection.spacePath;
   }
+
+  restoreModel(): void {
+  }
+
+  saveModel(): any {
+  }
+
 
   toggleExpanded(pipeline: Pipeline) {
     pipeline.expanded = (pipeline.expanded !== undefined) ? !pipeline.expanded : true;

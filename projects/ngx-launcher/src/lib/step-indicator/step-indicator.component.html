@@ -1,7 +1,7 @@
 <div class="f8launcher-vertical-bar_application-name f8launcher-application-text-field">
   <input class="f8launcher-application-text-field_input" #projectName="ngModel"
          name="applicationTitle" placeholder="New Application" type="text" lowercase validateProjectName
-         [(ngModel)]="launcherComponent.summary.dependencyCheck.projectName"
+         [(ngModel)]="name"
          (keyup.enter)="$event.target.blur();"
          (click)="broadcastEvent()">
 </div>

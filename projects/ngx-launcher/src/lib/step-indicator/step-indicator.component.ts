@@ -25,6 +25,8 @@ export class StepIndicatorComponent implements OnInit {
    */
   @Input() inProgress = false;
 
+  name: string;
+
   constructor(
     @Host() public launcherComponent: LauncherComponent,
     private dependencyCheckService: DependencyCheckService) {
@@ -63,10 +65,11 @@ export class StepIndicatorComponent implements OnInit {
   broadcastEvent(): void { }
   // Restore mission & runtime summary
   private restoreSummary(): void {
-    const selection: Selection = this.launcherComponent.selectionParams;
-    if (selection === undefined) {
-      return;
-    }
-    this.launcherComponent.summary.dependencyCheck.projectName = selection.projectName;
+    // TODO what is this needed here as well
+    // const selection: Selection = this.launcherComponent.selectionParams;
+    // if (selection === undefined) {
+    //   return;
+    // }
+    // this.launcherComponent.summary.dependencyCheck.projectName = selection.projectName;
   }
 }

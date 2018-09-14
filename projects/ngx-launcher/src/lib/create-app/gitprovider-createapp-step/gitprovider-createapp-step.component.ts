@@ -18,6 +18,7 @@ import { LauncherStep } from '../../launcher-step';
 import { broadcast } from '../../shared/telemetry.decorator';
 import { GitproviderCreateappReviewComponent } from './gitprovider-createapp-review.component';
 import { GitHubDetails } from 'ngx-launcher/public_api';
+import { Projectile } from '../../model/summary.model';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -33,10 +34,9 @@ export class GitproviderCreateappStepComponent extends LauncherStep implements A
   private gitHubDetails: GitHubDetails = {};
 
   constructor(@Host() public launcherComponent: LauncherComponent,
+              private projectile: Projectile,
               private gitProviderService: GitProviderService) {
-    super(GitproviderCreateappReviewComponent);
-    // this.gitHubDetails = launcherComponent.summary.gitHubDetails;
-    launcherComponent.summary.setDetails(this.id, this.gitHubDetails);
+    super(GitproviderCreateappReviewComponent, projectile);
   }
 
   ngAfterViewInit() {
@@ -55,7 +55,7 @@ export class GitproviderCreateappStepComponent extends LauncherStep implements A
     this.subscriptions.push(this.gitProviderService.getGitHubDetails().subscribe((val) => {
       if (val !== undefined) {
         this.gitHubDetails = val;
-        this.getGitHubRepos();
+        this.restore();
       }
     }));
   }
@@ -64,6 +64,15 @@ export class GitproviderCreateappStepComponent extends LauncherStep implements A
     this.subscriptions.forEach((sub) => {
       sub.unsubscribe();
     });
+  }
+
+  restoreModel(model: any): void {
+    this.gitHubDetails.organization = model.organization;
+    this.gitHubDetails.repository = model.repository;
+  }
+
+  saveModel(): any {
+    return { organization: this.gitHubDetails.organization, repository: this.gitHubDetails.repository };
   }
 
   // Accessors
@@ -91,35 +100,12 @@ export class GitproviderCreateappStepComponent extends LauncherStep implements A
   })
   navToNextStep(): void {
     this.launcherComponent.navToNextStep('GitProvider');
-    const summary = this.launcherComponent.summary;
   }
 
   /**
    * Authorize GitHub account
    */
   connectAccount(): void {
-    const url = window.location.href + this.getParams(this.launcherComponent.currentSelection);
-    this.gitProviderService.connectGitHubAccount(url);
-  }
-
-  /**
-   * get all repos List for the selected organization
-   */
-  getGitHubRepos(): void {
-    if (this.launcherComponent && this.launcherComponent.summary &&
-      this.gitHubDetails) {
-      this.gitHubDetails.repository =
-        this.launcherComponent.summary.dependencyCheck ?
-          this.launcherComponent.summary.dependencyCheck.projectName : '';
-    }
-  }
-
-  // Private
-
-  private getParams(selection: Selection) {
-    if (selection === undefined) {
-      return '';
-    }
-    return '?selection=' + encodeURI(JSON.stringify(selection));
+    this.gitProviderService.connectGitHubAccount(this._projectile.redirectUrl);
   }
 }

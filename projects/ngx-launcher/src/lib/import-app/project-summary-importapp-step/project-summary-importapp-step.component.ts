@@ -14,11 +14,10 @@ import { defaults } from 'lodash';
 import { Pipeline } from '../../model/pipeline.model';
 import { DependencyCheckService } from '../../service/dependency-check.service';
 import { ProjectSummaryService } from '../../service/project-summary.service';
-import { Selection } from '../../model/selection.model';
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
 import { DependencyCheck } from '../../model/dependency-check.model';
-import { Summary } from '../../model/summary.model';
+import { Projectile } from '../../model/summary.model';
 import { broadcast } from '../../shared/telemetry.decorator';
 import { Broadcaster } from 'ngx-base';
 import { NgForm } from '@angular/forms';
@@ -43,19 +42,21 @@ export class ProjectSummaryImportappStepComponent extends LauncherStep implement
               private dependencyCheckService: DependencyCheckService,
               private projectSummaryService: ProjectSummaryService,
               private broadcaster: Broadcaster,
+              private projectile: Projectile,
               public _DomSanitizer: DomSanitizer) {
-    super(launcherComponent);
+    super(null, projectile);
   }
 
   ngOnInit() {
     this.launcherComponent.addStep(this);
-    this.restoreSummary();
+    this.restore();
 
     this.subscriptions.push(
       this.dependencyCheckService.getDependencyCheck()
         .subscribe((val) => {
           // Don't override user's application name
-          defaults(this.launcherComponent.summary.dependencyCheck, val);
+          // TODO
+          // defaults(this.launcherComponent.summary.dependencyCheck, val);
         })
     );
   }
@@ -121,7 +122,7 @@ export class ProjectSummaryImportappStepComponent extends LauncherStep implement
     this.setupInProgress = true;
     this.subscriptions.push(
       this.projectSummaryService
-        .setup(this.launcherComponent.summary)
+        .setup(this.projectile)
         .subscribe((val: any) => {
           if (!val || !val['uuid_link']) {
             this.displaySetUpErrorResponse('Invalid response from server!');
@@ -141,25 +142,31 @@ export class ProjectSummaryImportappStepComponent extends LauncherStep implement
   }
 
   get dependencyCheck(): DependencyCheck {
-    return this.launcherComponent.summary.dependencyCheck;
+    return this.projectile.dependencyCheck;
   }
 
-  get summary(): Summary {
-    return this.launcherComponent.summary;
+  get summary(): Projectile {
+    return this.projectile;
   }
 
   // Private
 
   // Restore mission & runtime summary
   private restoreSummary(): void {
-    const selection: Selection = this.launcherComponent.selectionParams;
-    if (selection === undefined) {
-      return;
-    }
-    this.launcherComponent.summary.dependencyCheck.groupId = selection.groupId;
-    this.launcherComponent.summary.dependencyCheck.projectName = selection.projectName;
-    this.launcherComponent.summary.dependencyCheck.projectVersion = selection.projectVersion;
-    this.launcherComponent.summary.dependencyCheck.spacePath = selection.spacePath;
+    // const selection: Selection = this.launcherComponent.selectionParams;
+    // if (selection === undefined) {
+    //   return;
+    // }
+    // this.launcherComponent.summary.dependencyCheck.groupId = selection.groupId;
+    // this.launcherComponent.summary.dependencyCheck.projectName = selection.projectName;
+    // this.launcherComponent.summary.dependencyCheck.projectVersion = selection.projectVersion;
+    // this.launcherComponent.summary.dependencyCheck.spacePath = selection.spacePath;
+  }
+
+  restoreModel(): void {
+  }
+
+  saveModel(): any {
   }
 
   toggleExpanded(pipeline: Pipeline) {

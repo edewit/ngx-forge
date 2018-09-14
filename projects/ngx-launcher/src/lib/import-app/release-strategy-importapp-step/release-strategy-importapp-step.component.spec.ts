@@ -21,7 +21,7 @@ import { PipelineService } from '../../service/pipeline.service';
 import { Pipeline, Stage } from '../../model/pipeline.model';
 import { ReleaseStrategyImportappStepComponent } from './release-strategy-importapp-step.component';
 import { Selection } from '../../model/selection.model';
-import { Summary } from '../../model/summary.model';
+import { Projectile } from '../../model/summary.model';
 
 // @ts-ignore
 @Component({
@@ -79,7 +79,7 @@ const mockWizardComponent: TypeWizardComponent = {
     this.steps.push(step);
   },
   get currentSelection(): any {
-    const summaryVar = new Summary();
+    const summaryVar = new Projectile();
     return {
       groupId: (summaryVar.dependencyCheck !== undefined) ? summaryVar.dependencyCheck.groupId : undefined,
       missionId: (summaryVar.mission !== undefined) ? summaryVar.mission.id : undefined,

@@ -2,6 +2,7 @@ import { Input, ViewChild, ElementRef, OnDestroy, Type } from '@angular/core';
 import { LauncherComponent } from './launcher.component';
 import { ReviewComponent } from './review.component';
 import { fromEvent, Observable, Subscription } from 'rxjs';
+import { Projectile } from './model/summary.model';
 import { debounceTime } from 'rxjs/operators';
 
 export abstract class LauncherStep implements OnDestroy {
@@ -18,12 +19,12 @@ export abstract class LauncherStep implements OnDestroy {
   /**
    * Flag indicating step is hidden
    */
-  @Input() hidden: boolean = false;
+  @Input() hidden: boolean;
 
   /**
    * Flag indicating step is optional
    */
-  @Input() optional: boolean = false;
+  @Input() optional: boolean;
 
   /**
    * Style class for the step container
@@ -67,4 +68,18 @@ export abstract class LauncherStep implements OnDestroy {
       }
     }
   }
+
+  restore(): void {
+    const state = this._projectile.getSavedState(this.id);
+    if (state) {
+      this.restoreModel(this._projectile.getSavedState(this.id));
+    }
+  }
+
+  save(): void {
+    this._projectile.setDetails(this.id, this.saveModel());
+  }
+
+  abstract restoreModel(model: any): void;
+  abstract saveModel(): any;
 }
