@@ -74,7 +74,7 @@ export class ProjectSummaryImportappStepComponent extends LauncherStep implement
    * @returns {boolean} True if step is completed
    */
   get completed(): boolean {
-    if (this.launcherComponent.selectedSection !== 'ProjectSummary' || this.form.invalid) {
+    if (this.form.invalid) {
       return false;
     }
     for (let i = 0; i < this.launcherComponent.steps.length - 1; i++) {
