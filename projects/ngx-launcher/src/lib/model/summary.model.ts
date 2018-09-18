@@ -7,9 +7,12 @@ import { Runtime } from './runtime.model';
 import { Pipeline } from './pipeline.model';
 import { DependencyEditor } from './dependency-editor/dependency-editor.model';
 
+import * as _ from 'lodash';
+
 @Injectable()
-export class Projectile {
-  private _details = {};
+export class Projectile<T> {
+  private _state = {};
+
   cluster?: Cluster;
   dependencyCheck: DependencyCheck;
   dependencyEditor?: DependencyEditor;
@@ -20,14 +23,12 @@ export class Projectile {
   runtime: Runtime;
   targetEnvironment: string;
 
-  constructor() {}
-
-  getDetails(stepId: string) {
-    return this._details[stepId];
+  setState(stepId: string, state: StepState<T>) {
+    this._state[stepId] = state;
   }
 
-  setDetails(stepId: string, data: any) {
-    this._details[stepId] = data;
+  getState(stepId: string): StepState<T> {
+    return this._state[stepId];
   }
 
   getSavedState(stepId: string): any {
@@ -36,11 +37,36 @@ export class Projectile {
   }
 
   get redirectUrl(): string {
-    return new URL(this.toString(), window.location.href).toString();
+    const url = new URL(this.toUrl(), window.location.href);
+    url.hash = window.location.hash;
+    return url.toString();
   }
 
-  toString(): string {
-    return '?' + Object.keys(this._details)
-      .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(JSON.stringify(this._details[key]))}`).join('&');
+  toUrl(): string {
+    return '?' + Object.keys(this._state).map(k => {
+      this._state[k].save();
+      return `${encodeURIComponent(k)}=${encodeURIComponent('{' +
+        this._state[k].filters.map(f => `"${f.name}":"${_.get(this._state[k].state, f.value, '')}"`) + '}')}`;
+    }).join('&');
   }
+}
+
+export class StepState<T> {
+  constructor(private _state: T, private _filters: Filter[]) {}
+
+  save(): any {
+    return this.filters.map(f => ({ name: f.name, value: _.get(this.state, f.value) }));
+  }
+
+  get state(): T {
+    return this._state;
+  }
+
+  get filters(): Filter[] {
+    return this._filters;
+  }
+}
+
+export class Filter {
+  constructor(public name: string, public value: string) {}
 }

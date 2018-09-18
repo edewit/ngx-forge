@@ -37,7 +37,7 @@
             [title]="'Select Pipeline'">
           </f8launcher-releasestrategy-createapp-step>
           <f8launcher-gitprovider-createapp-step
-            [hidden]="flow === 'launch' && !(summary?.targetEnvironment === 'os' && targetEnvStep.completed)"
+            [hidden]="flow === 'launch' && !(targetEnvStep.selection.targetEnvironment === 'os' && targetEnvStep.completed)"
             [id]="'GitProvider'"
             [styleClass]="'git-provider'"
             [title]="'Authorize Git Provider'">
@@ -56,10 +56,10 @@
         </div>
       </ng-template>
       <!-- Create application next steps -->
-      <f8launcher-activatebooster-createapp-nextstep *ngIf="summary?.targetEnvironment === 'zip' && showNextSteps">
+      <f8launcher-activatebooster-createapp-nextstep *ngIf="_projectile.getState('TargetEnvironment')?.state.targetEnvironment === 'zip' && showNextSteps">
       </f8launcher-activatebooster-createapp-nextstep>
       <f8launcher-projectprogress-createapp-nextstep
-        *ngIf="summary?.targetEnvironment === 'os'" [hidden]="!showNextSteps"
+        *ngIf="_projectile.getState('TargetEnvironment')?.state.targetEnvironment === 'os'" [hidden]="!showNextSteps"
         [statusLink]="statusLink">
       </f8launcher-projectprogress-createapp-nextstep>
     </ng-template>

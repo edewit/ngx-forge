@@ -58,7 +58,7 @@ export class LauncherComponent implements AfterViewInit, OnInit {
   private _steps: LauncherStep[] = [];
   private summaryCompleted = false;
 
-  constructor(private route: ActivatedRoute, private _projectile: Projectile) {
+  constructor(private route: ActivatedRoute, private _projectile: Projectile<any>) {
   }
 
   ngAfterViewInit() {

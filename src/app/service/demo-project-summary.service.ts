@@ -6,7 +6,7 @@ import { Projectile } from '../../../projects/ngx-launcher/src/lib/model/summary
 @Injectable()
 export class DemoProjectSummaryService implements ProjectSummaryService {
 
-  setup(summary: Projectile, retry?: number): Observable<any> {
+  setup(summary: Projectile<any>, retry?: number): Observable<any> {
     if (window.location.href.indexOf('import') !== -1) {
       return of({
         'uuid_link': 'http://import-link.com/',

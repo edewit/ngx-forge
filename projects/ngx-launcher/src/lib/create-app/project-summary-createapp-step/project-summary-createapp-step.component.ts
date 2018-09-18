@@ -49,7 +49,7 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
               private projectSummaryService: ProjectSummaryService,
               private broadcaster: Broadcaster,
               public _DomSanitizer: DomSanitizer,
-              private projectile: Projectile,
+              private projectile: Projectile<any>,
               private componentFactoryResolver: ComponentFactoryResolver) {
     super(null, projectile);
   }
@@ -83,7 +83,10 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
         const componentFactory = this.componentFactoryResolver.resolveComponentFactory(step.reviewComponentType);
 
         const componentRef = viewContainerRef.createComponent(componentFactory);
-        (<ReviewComponent>componentRef.instance).data = this._projectile.getDetails(step.id);
+        const stepState = this._projectile.getState(step.id);
+        if (stepState) {
+          (<ReviewComponent>componentRef.instance).data = stepState.state;
+        }
       }
     });
   }
@@ -168,7 +171,7 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
     return this._projectile.dependencyCheck;
   }
 
-  get summary(): Projectile {
+  get summary(): Projectile<any> {
     return this._projectile;
   }
 

@@ -14,13 +14,13 @@
     <div class="container-fluid container-cards-pf">
       <div class="row row-cards-pf">
         <div class="col-xs-12 col-md-6" *ngFor="let targetEnv of targetEnvironments"
-             (click)="targetEnvironment = targetEnv.id; updateTargetEnvSelection(targetEnv)">
+             (click)="selection.targetEnvironment = targetEnv.id; updateTargetEnvSelection(targetEnv)">
           <div class="card-pf card-pf-view card-pf-view-select card-pf-view-single-select"
                [class.card-pf--medium]="launcherComponent.flow === 'osio'" [class.card-pf--small]="launcherComponent.flow ==='launch'"
-               [class.selected-card]="targetEnv.id === launcherComponent?.summary?.targetEnvironment">
+               [class.selected-card]="targetEnv.id === selection.targetEnvironment">
             <div class="card-title">
               <input name="target-environment" type="radio"
-                     [(ngModel)]="targetEnvironment"
+                     [(ngModel)]="selection.targetEnvironment"
                      [value]="targetEnv.id"
                      (ngModelChange)="updateTargetEnvSelection(targetEnv)">
               <h2 class="card-pf-title--title">{{targetEnv.header}}</h2>
@@ -32,7 +32,7 @@
                 </li>
               </ul>
             </div>
-            <div *ngIf="targetEnv.id === 'os' && launcherComponent?.summary?.targetEnvironment === 'os'">
+            <div *ngIf="targetEnv.id === 'os' && selection.targetEnvironment === 'os'">
               <f8launcher-link-accounts-createapp-step
                 [clusters]="clusters"
                 (select)="selectCluster($event)">

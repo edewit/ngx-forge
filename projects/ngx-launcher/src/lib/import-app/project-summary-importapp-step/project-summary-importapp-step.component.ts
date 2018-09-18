@@ -42,7 +42,7 @@ export class ProjectSummaryImportappStepComponent extends LauncherStep implement
               private dependencyCheckService: DependencyCheckService,
               private projectSummaryService: ProjectSummaryService,
               private broadcaster: Broadcaster,
-              private projectile: Projectile,
+              private projectile: Projectile<any>,
               public _DomSanitizer: DomSanitizer) {
     super(null, projectile);
   }
@@ -145,7 +145,7 @@ export class ProjectSummaryImportappStepComponent extends LauncherStep implement
     return this.projectile.dependencyCheck;
   }
 
-  get summary(): Projectile {
+  get summary(): Projectile<any> {
     return this.projectile;
   }
 

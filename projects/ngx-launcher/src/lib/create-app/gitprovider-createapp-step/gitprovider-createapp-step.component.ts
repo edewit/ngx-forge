@@ -17,8 +17,8 @@ import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
 import { broadcast } from '../../shared/telemetry.decorator';
 import { GitproviderCreateappReviewComponent } from './gitprovider-createapp-review.component';
-import { GitHubDetails } from 'ngx-launcher/public_api';
-import { Projectile } from '../../model/summary.model';
+import { GitHubDetails } from '../../model/github-details.model';
+import { Projectile, StepState } from '../../model/summary.model';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -34,7 +34,7 @@ export class GitproviderCreateappStepComponent extends LauncherStep implements A
   private gitHubDetails: GitHubDetails = {};
 
   constructor(@Host() public launcherComponent: LauncherComponent,
-              private projectile: Projectile,
+              private projectile: Projectile<GitHubDetails>,
               private gitProviderService: GitProviderService) {
     super(GitproviderCreateappReviewComponent, projectile);
   }
@@ -50,6 +50,12 @@ export class GitproviderCreateappStepComponent extends LauncherStep implements A
   }
 
   ngOnInit() {
+    const state = new StepState(this.gitHubDetails, [
+      { name: 'repository', value: 'repository' },
+      { name: 'organization', value: 'organization' }
+    ]);
+    this.projectile.setState(this.id, state);
+
     this.launcherComponent.addStep(this);
 
     this.subscriptions.push(this.gitProviderService.getGitHubDetails().subscribe((val) => {
@@ -69,10 +75,6 @@ export class GitproviderCreateappStepComponent extends LauncherStep implements A
   restoreModel(model: any): void {
     this.gitHubDetails.organization = model.organization;
     this.gitHubDetails.repository = model.repository;
-  }
-
-  saveModel(): any {
-    return { organization: this.gitHubDetails.organization, repository: this.gitHubDetails.repository };
   }
 
   // Accessors

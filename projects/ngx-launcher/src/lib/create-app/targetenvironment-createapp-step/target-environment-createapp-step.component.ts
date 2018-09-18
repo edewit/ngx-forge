@@ -9,13 +9,13 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { Broadcaster } from 'ngx-base';
 
-import { TargetEnvironment } from '../../model/target-environment.model';
+import { TargetEnvironment, TargetEnvironmentSelection } from '../../model/target-environment.model';
 import { TargetEnvironmentService } from '../../service/target-environment.service';
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
 import { Cluster } from '../../model/cluster.model';
 import { TokenService } from '../../service/token.service';
-import { Projectile } from '../../model/summary.model';
+import { Projectile, StepState } from '../../model/summary.model';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -28,15 +28,14 @@ export class TargetEnvironmentCreateappStepComponent extends LauncherStep implem
 
   private subscriptions: Subscription[] = [];
   private _targetEnvironments: TargetEnvironment[];
-  targetEnvironment: string;
   private _clusters: Cluster[] = [];
-  public cluster: Cluster;
 
+  private selection: TargetEnvironmentSelection = new TargetEnvironmentSelection();
   constructor(@Host() public launcherComponent: LauncherComponent,
               private targetEnvironmentService: TargetEnvironmentService,
               @Optional() private tokenService: TokenService,
               private broadcaster: Broadcaster,
-              private projectile: Projectile,
+              private projectile: Projectile<any>,
               public _DomSanitizer: DomSanitizer) {
     super(null, projectile);
   }
@@ -48,12 +47,15 @@ export class TargetEnvironmentCreateappStepComponent extends LauncherStep implem
   }
 
   ngOnInit() {
+    const state = new StepState(this.selection, [
+      { name: 'targetEnvironment', value: 'targetEnvironment' },
+      { name: 'clusterId', value: 'cluster.id' }
+    ]);
+    this.projectile.setState(this.id, state);
     this.launcherComponent.addStep(this);
-    setTimeout(() => {
-      this.restore();
-    }, 10); // Avoids ExpressionChangedAfterItHasBeenCheckedError
     if (this.tokenService) {
       this.subscriptions.push(this.tokenService.clusters.subscribe(clusters => {
+        this.restore();
         this._clusters = clusters.sort(this.clusterSortFn);
       }));
     }
@@ -72,8 +74,8 @@ export class TargetEnvironmentCreateappStepComponent extends LauncherStep implem
    * @returns {boolean} True if step is completed
    */
   get completed(): boolean {
-    return this.targetEnvironment
-      && (this.targetEnvironment === 'zip' || !!this.cluster);
+    return this.selection.targetEnvironment
+      && (this.selection.targetEnvironment === 'zip' || !!this.selection.cluster);
   }
 
   /**
@@ -101,7 +103,7 @@ export class TargetEnvironmentCreateappStepComponent extends LauncherStep implem
   }
 
   selectCluster(cluster?: Cluster): void {
-    this.cluster = cluster;
+    this.selection.cluster = cluster;
     this.broadcaster.broadcast('cluster', cluster);
   }
 
@@ -113,12 +115,8 @@ export class TargetEnvironmentCreateappStepComponent extends LauncherStep implem
 
   // Private
   restoreModel(model: any): void {
-    this.targetEnvironment = model.targetenvironment;
-    this.cluster = model.cluster;
-  }
-
-  saveModel(): any {
-    return { targetenvironment: this.targetEnvironment, cluster: this.cluster };
+    this.selection.targetEnvironment = model.targetEnvironment;
+    this.selection.cluster = this._clusters.find(c => c.id === model.clusterId);
   }
 
   private clusterSortFn(a: Cluster, b: Cluster): number {

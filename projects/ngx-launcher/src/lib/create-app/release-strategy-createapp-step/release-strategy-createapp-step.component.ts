@@ -34,7 +34,7 @@ export class ReleaseStrategyCreateappStepComponent extends LauncherStep implemen
 
   constructor(@Host() public launcherComponent: LauncherComponent,
               private pipelineService: PipelineService,
-              private projectile: Projectile,
+              private projectile: Projectile<Pipeline>,
               private broadcaster: Broadcaster) {
     super(null, projectile);
   }

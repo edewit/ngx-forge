@@ -92,7 +92,7 @@
                   <div class="list-view-pf-checkbox">
                     <input type="radio" name="mission"
                            [disabled]="mission.disabled"
-                           [(ngModel)]="missionId"
+                           [(ngModel)]="booster.mission.id"
                            [value]="mission.id"
                            (ngModelChange)="selectBooster(mission)">
                   </div>
@@ -185,7 +185,7 @@
                   <div class="list-view-pf-checkbox">
                     <input name="runtime" type="radio"
                            [disabled]="runtime.disabled"
-                           [(ngModel)]="runtimeId"
+                           [(ngModel)]="booster.runtime.id"
                            [value]="runtime.id"
                            (ngModelChange)="selectBooster(null, runtime)">
                   </div>

@@ -18,7 +18,8 @@ import {
 } from './mission-runtime-createapp-step.model';
 import { broadcast } from '../../shared/telemetry.decorator';
 import { MissionRuntimeCreateappReviewComponent } from './mission-runtime-createapp-review.component';
-import { Projectile } from '../../model/summary.model';
+import { Projectile, StepState, Filter } from '../../model/summary.model';
+import { Cluster } from '../../model/cluster.model';
 
 
 @Component({
@@ -28,7 +29,7 @@ import { Projectile } from '../../model/summary.model';
   styleUrls: ['./mission-runtime-createapp-step.component.less']
 })
 export class MissionRuntimeCreateappStepComponent extends LauncherStep implements OnInit, OnDestroy {
-  public booster: BoosterState = new BoosterState();
+  private booster: BoosterState = { mission: new Mission(), runtime: new Runtime() };
   public canChangeVersion: boolean;
 
   versionId: string;
@@ -37,21 +38,27 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
   private _missions: ViewMission[] = [];
   private _runtimes: ViewRuntime[] = [];
   private _boosters: Booster[] = null;
-  private _cluster: string;
+  private _cluster: Cluster;
 
   private subscriptions: Subscription[] = [];
 
   constructor(@Host() public launcherComponent: LauncherComponent,
               private missionRuntimeService: MissionRuntimeService,
               public _DomSanitizer: DomSanitizer,
-              private projectile: Projectile,
+              private projectile: Projectile<BoosterState>,
               private broadcaster: Broadcaster) {
     super(MissionRuntimeCreateappReviewComponent, projectile);
     this.canChangeVersion = this.launcherComponent.flow === 'launch';
   }
 
   ngOnInit() {
-    this.projectile.setDetails(this.id, this.booster);
+    const state = new StepState<BoosterState>(this.booster,
+      [
+        {name: 'missionId', value: 'mission.id'} as Filter,
+        {name: 'runtimeId', value: 'runtime.id'} as Filter
+      ]
+    );
+    this.projectile.setState(this.id, state);
     this.launcherComponent.addStep(this);
     this.subscriptions.push(this.missionRuntimeService.getBoosters()
       .subscribe(boosters => {
@@ -59,7 +66,10 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
         this.initBoosters();
         this.restore();
       }));
-    this.subscriptions.push(this.broadcaster.on('cluster').subscribe(() => this.initBoosters()));
+    this.subscriptions.push(this.broadcaster.on<Cluster>('cluster').subscribe(cluster => {
+      this._cluster = cluster;
+      this.initBoosters();
+    }));
   }
 
   ngOnDestroy() {
@@ -95,7 +105,7 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
   }
 
   get cluster(): string {
-    return this._cluster;
+    return this._cluster ? this._cluster.type : '';
   }
 
   /**
@@ -149,7 +159,7 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
     }
     if (runtime && !runtime.disabled) {
       this.booster.runtime = runtime;
-      const newVersion =  version ? version : runtime.selectedVersion;
+      const newVersion = version ? version : runtime.selectedVersion;
       this.versionId = newVersion.id;
       this.booster.runtime.version = newVersion;
       // FIXME: use a booster change event listener to do this
@@ -185,43 +195,23 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
   }
 
   restoreModel(model: any): void {
-    if (!model) {
-      return;
-    }
     const mission = this.missions.find(m => m.id === model.missionId);
     const runtime = this.runtimes.find(r => r.id === model.runtimeId);
     this.booster.mission = mission;
     this.booster.runtime = runtime;
     this.selectBooster(mission, runtime, model.runtimeVersion);
-    // this.booster = model;
-  }
-
-  saveModel(): any {
-    return {
-      missionId: this.booster.mission ? this.booster.mission.id : undefined,
-      runtimeId: this.booster.runtime ? this.booster.runtime.id : undefined,
-      // runtimeVersion: this.runtime
-    };
-    return this.booster;
-  }
-
-  private getSelectedCluster(): string {
-    // if (this.launcherComponent.summary.targetEnvironment === 'os') {
-    //   return _.get(this.launcherComponent.summary, 'cluster.type');
-    // }
-    return null;
   }
 
   private updateBoosterViewStatus(): void {
-    this._cluster = this.getSelectedCluster();
+    const cluster = this.cluster;
     this._missions.forEach(mission => {
       let availableBoosters = MissionRuntimeService.getAvailableBoosters(mission.boosters,
-        this._cluster, mission.id);
+        cluster, mission.id);
       if (availableBoosters.empty) {
         mission.shrinked = true;
       } else {
         availableBoosters = MissionRuntimeService.getAvailableBoosters(mission.boosters,
-          this._cluster, mission.id, this.booster.runtime ? this.booster.runtime.id : undefined);
+          cluster, mission.id, this.booster.runtime ? this.booster.runtime.id : undefined);
       }
       mission.disabled = availableBoosters.empty;
       mission.disabledReason = availableBoosters.emptyReason;
@@ -232,7 +222,7 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
     });
     this._runtimes.forEach(runtime => {
       const availableBoosters = MissionRuntimeService.getAvailableBoosters(runtime.boosters,
-        this._cluster, this.booster.mission ? this.booster.mission.id : undefined, runtime.id);
+        cluster, this.booster.mission ? this.booster.mission.id : undefined, runtime.id);
       const versions = _.chain(availableBoosters.boosters)
         .map(b => b.version)
         .uniq()

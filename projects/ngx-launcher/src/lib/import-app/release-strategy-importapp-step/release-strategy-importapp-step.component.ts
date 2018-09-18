@@ -55,7 +55,7 @@ export class ReleaseStrategyImportappStepComponent extends LauncherStep implemen
   pipeline: Pipeline;
 
   constructor(@Host() public launcherComponent: LauncherComponent,
-              private projectile: Projectile,
+              private projectile: Projectile<any>,
               private pipelineService: PipelineService) {
     super(null, projectile);
   }

@@ -72,14 +72,9 @@ export abstract class LauncherStep implements OnDestroy {
   restore(): void {
     const state = this._projectile.getSavedState(this.id);
     if (state) {
-      this.restoreModel(this._projectile.getSavedState(this.id));
+      this.restoreModel(state);
     }
   }
 
-  save(): void {
-    this._projectile.setDetails(this.id, this.saveModel());
-  }
-
   abstract restoreModel(model: any): void;
-  abstract saveModel(): any;
 }

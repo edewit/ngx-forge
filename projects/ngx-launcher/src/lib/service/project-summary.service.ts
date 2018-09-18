@@ -12,5 +12,5 @@ export abstract class ProjectSummaryService {
    * @param {Projectile} summary The project summary
    * @returns {Observable<boolean>}
    */
-  abstract setup(summary: Projectile, retry?: number): Observable<any>;
+  abstract setup(summary: Projectile<any>, retry?: number): Observable<any>;
 }

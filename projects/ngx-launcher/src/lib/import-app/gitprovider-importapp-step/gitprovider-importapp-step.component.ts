@@ -36,7 +36,7 @@ export class GitproviderImportappStepComponent extends LauncherStep implements A
 
   constructor(@Host() public launcherComponent: LauncherComponent,
               private dependencyCheckService: DependencyCheckService,
-              private projectile: Projectile,
+              private projectile: Projectile<GitHubDetails>,
               private gitProviderService: GitProviderService) {
     super(null, projectile);
   }

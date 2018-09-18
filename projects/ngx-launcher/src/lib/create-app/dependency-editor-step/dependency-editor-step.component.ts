@@ -51,7 +51,7 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
         public broadcaster: Broadcaster,
         @Optional() private depEditorService: DependencyEditorService,
         private dependencyCheckService: DependencyCheckService,
-        private projectile: Projectile,
+        private projectile: Projectile<DependencyCheck>,
         private keyValueDiffers: KeyValueDiffers
     ) {
         super(DependencyEditorReviewComponent, projectile);

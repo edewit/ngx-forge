@@ -64,22 +64,10 @@ export class DemoGitProviderService implements GitProviderService {
   // Private
 
   private isPageRedirect(): boolean {
-    const result = this.getRequestParam('selection'); // simulate Github auth redirect
-    return (result !== null);
-  }
-
-  private getRequestParam(name: string): string {
-    const search = (window.location.search !== undefined && window.location.search.length > 0)
-      ? window.location.search : window.location.href;
-    const param = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(search);
-    if (param !== null) {
-      return decodeURIComponent(param[1]);
-    }
-    return null;
+    return window.location.search.indexOf('MissionRuntime') !== -1;
   }
 
   private redirectToAuth(url: string) {
-    window.location.href = url;
-    window.location.reload(true);
+    window.location.replace(url);
   }
 }

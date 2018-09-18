@@ -22,7 +22,7 @@ export class ProjectProgressCreateappNextstepComponent implements OnChanges, OnD
   constructor(@Host() public launcherComponent: LauncherComponent,
     private projectProgressService: ProjectProgressService,
     private projectSummaryService: ProjectSummaryService,
-    private projectile: Projectile,
+    private projectile: Projectile<any>,
     private broadcaster: Broadcaster) {
       this.broadcaster.on('progressEvents').subscribe((events: Progress[]) => {
         console.log('got the event list', events);
