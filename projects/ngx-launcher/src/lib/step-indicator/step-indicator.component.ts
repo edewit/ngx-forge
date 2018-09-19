@@ -6,10 +6,9 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 
-import { Selection } from '../model/selection.model';
 import { LauncherComponent } from '../launcher.component';
-import { DependencyCheckService } from '../service/dependency-check.service';
 import { broadcast } from '../shared/telemetry.decorator';
+import { Broadcaster } from 'ngx-base';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -17,7 +16,7 @@ import { broadcast } from '../shared/telemetry.decorator';
   templateUrl: './step-indicator.component.html',
   styleUrls: ['./step-indicator.component.less']
 })
-export class StepIndicatorComponent implements OnInit {
+export class StepIndicatorComponent {
   /**
    * Show appropriate style while steps are in progress of being shown
    *
@@ -29,11 +28,8 @@ export class StepIndicatorComponent implements OnInit {
 
   constructor(
     @Host() public launcherComponent: LauncherComponent,
-    private dependencyCheckService: DependencyCheckService) {
-  }
-
-  ngOnInit() {
-    this.restoreSummary();
+    private broadcaster: Broadcaster) {
+      broadcaster.on<string>('navigation').subscribe(id => this.navToStep(id));
   }
 
   // Steps
@@ -60,16 +56,10 @@ export class StepIndicatorComponent implements OnInit {
     }
   }
 
-
   @broadcast('stepIndicatorProjectInputClicked', {})
-  broadcastEvent(): void { }
-  // Restore mission & runtime summary
-  private restoreSummary(): void {
-    // TODO what is this needed here as well
-    // const selection: Selection = this.launcherComponent.selectionParams;
-    // if (selection === undefined) {
-    //   return;
-    // }
-    // this.launcherComponent.summary.dependencyCheck.projectName = selection.projectName;
+  broadcastEvent() {}
+
+  applicationTitleChanged(): void {
+    this.broadcaster.broadcast('applicationTitleChanged', this.name);
   }
 }

@@ -3,6 +3,7 @@
          name="applicationTitle" placeholder="New Application" type="text" lowercase validateProjectName
          [(ngModel)]="name"
          (keyup.enter)="$event.target.blur();"
+         (ngModelChange)="applicationTitleChanged()"
          (click)="broadcastEvent()">
 </div>
 <div *ngIf="projectName.invalid && (projectName.dirty || projectName.touched)" class="has-error">
