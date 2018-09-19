@@ -2,7 +2,7 @@
   <div class="row row-cards-pf">
     <div class="col-xs-12 col-md-6">
       <div class="card-pf card-pf--xsmall">
-        <div *ngIf="data?.mission === undefined;
+        <div *ngIf="!data?.mission.id;
                     then showNoMissionTemplate else showMissionTemplate"></div>
         <ng-template #showNoMissionTemplate>
           <div class="card-pf-heading">
@@ -36,7 +36,7 @@
     </div>
     <div class="col-xs-12 col-md-6">
       <div class="card-pf card-pf--xsmall">
-        <div *ngIf="data?.runtime === undefined;
+        <div *ngIf="!data?.runtime.id;
                     then showNoRuntimeTemplate else showRuntimeTemplate"></div>
         <ng-template #showNoRuntimeTemplate>
           <div class="card-pf-heading">

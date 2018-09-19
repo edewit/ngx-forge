@@ -5,7 +5,6 @@ import { Subscription } from 'rxjs';
 import { Broadcaster } from 'ngx-base';
 
 import { Mission } from '../../model/mission.model';
-import { Runtime } from '../../model/runtime.model';
 import { EmptyReason, MissionRuntimeService } from '../../service/mission-runtime.service';
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
@@ -29,10 +28,9 @@ import { Cluster } from '../../model/cluster.model';
   styleUrls: ['./mission-runtime-createapp-step.component.less']
 })
 export class MissionRuntimeCreateappStepComponent extends LauncherStep implements OnInit, OnDestroy {
-  private booster: BoosterState = { mission: new Mission(), runtime: new Runtime() };
+  private booster: BoosterState = { mission: new Mission(), runtime: { id: undefined, name: undefined,
+    version: {id: undefined, name: undefined} } };
   public canChangeVersion: boolean;
-
-  versionId: string;
 
   disabledReason = EmptyReason;
   private _missions: ViewMission[] = [];
@@ -55,7 +53,8 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
     const state = new StepState<BoosterState>(this.booster,
       [
         {name: 'missionId', value: 'mission.id'} as Filter,
-        {name: 'runtimeId', value: 'runtime.id'} as Filter
+        {name: 'runtimeId', value: 'runtime.id'} as Filter,
+        {name: 'versionId', value: 'runtime.version.id'} as Filter
       ]
     );
     this.projectile.setState(this.id, state);
@@ -124,9 +123,9 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
    * @returns {boolean} True if step is completed
    */
   get completed(): boolean {
-    return (this.booster.mission !== undefined
-      && this.booster.runtime !== undefined
-      && this.booster.runtime.version !== undefined);
+    return (this.booster.mission.id !== undefined
+      && this.booster.runtime.id !== undefined
+      && this.booster.runtime.version.id !== undefined);
   }
 
   // Steps
@@ -160,7 +159,6 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
     if (runtime && !runtime.disabled) {
       this.booster.runtime = runtime;
       const newVersion = version ? version : runtime.selectedVersion;
-      this.versionId = newVersion.id;
       this.booster.runtime.version = newVersion;
       // FIXME: use a booster change event listener to do this
       // set maven artifact
@@ -199,7 +197,7 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
     const runtime = this.runtimes.find(r => r.id === model.runtimeId);
     this.booster.mission = mission;
     this.booster.runtime = runtime;
-    this.selectBooster(mission, runtime, model.runtimeVersion);
+    this.selectBooster(mission, runtime, model.versionId);
   }
 
   private updateBoosterViewStatus(): void {
@@ -215,7 +213,7 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
       }
       mission.disabled = availableBoosters.empty;
       mission.disabledReason = availableBoosters.emptyReason;
-      mission.community = this.launcherComponent.flow === 'osio' && !mission.disabled && this.versionId === 'community';
+      mission.community = this.launcherComponent.flow === 'osio' && !mission.disabled && this.booster.runtime.version.id === 'community';
       if (this.booster.mission && this.booster.mission.id === mission.id && availableBoosters.empty) {
         this.clearMission();
       }
@@ -239,25 +237,25 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
   }
 
   private getRuntimeSelectedVersion(runtimeId: string, versions: BoosterVersion[]): BoosterVersion {
-    if (this.booster.runtime && this.booster.runtime.id === runtimeId && this.versionId) {
-      const selectedVersion = versions.find(v => v.id === this.versionId);
+    if (this.booster.runtime && this.booster.runtime.id === runtimeId && this.booster.runtime.version.id) {
+      const selectedVersion = versions.find(v => v.id === this.booster.runtime.version.id);
       if (selectedVersion) {
         return selectedVersion;
       }
       // If the current selected version is not compatible, auto select the first available version
       const autoSelectedVersion = _.first(versions);
-      this.versionId = autoSelectedVersion.id;
+      this.booster.runtime.version.id = autoSelectedVersion.id;
       return autoSelectedVersion;
     }
     return _.first(versions);
   }
 
   private clearRuntime(): void {
-    this.booster.runtime = undefined;
-    this.versionId = undefined;
+    this.booster.runtime = { id: undefined, name: undefined,
+      version: {id: undefined, name: undefined} };
   }
 
   private clearMission(): void {
-    this.booster.mission = undefined;
+    this.booster.mission = new Mission();
   }
 }
