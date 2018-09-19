@@ -14,9 +14,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import * as _ from 'lodash';
 
 import { Pipeline } from '../../model/pipeline.model';
-import { DependencyCheckService } from '../../service/dependency-check.service';
 import { ProjectSummaryService } from '../../service/project-summary.service';
-import { Selection } from '../../model/selection.model';
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
 import { DependencyCheck } from '../../model/dependency-check.model';
@@ -45,7 +43,6 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
   private subscriptions: Subscription[] = [];
 
   constructor(@Host() public launcherComponent: LauncherComponent,
-              private dependencyCheckService: DependencyCheckService,
               private projectSummaryService: ProjectSummaryService,
               private broadcaster: Broadcaster,
               public _DomSanitizer: DomSanitizer,
@@ -56,15 +53,6 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
 
   ngOnInit() {
     this.launcherComponent.addStep(this);
-    this.restoreSummary();
-
-    this.subscriptions.push(
-      this.dependencyCheckService.getDependencyCheck()
-        .subscribe((val) => {
-          // Don't override user's application name
-          // _.defaults(this.launcherComponent.summary.dependencyCheck, val);
-        }));
-
     this.loadComponents();
   }
 
@@ -78,12 +66,14 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
     const viewContainerRef = this.reviewHost.viewContainerRef;
     viewContainerRef.clear();
 
-    this.launcherComponent.steps.forEach(step => {
+    const steps = this.launcherComponent.steps.slice(0);
+    // TODO this sort makes mission runtime to be the first in order to have the right style
+    steps.sort((x, y) => x.id === 'MissionRuntime' ? -1 : (y.id === 'MissionRuntime' ? 1 : 0)).forEach(step => {
       if (step.reviewComponentType) {
         const componentFactory = this.componentFactoryResolver.resolveComponentFactory(step.reviewComponentType);
 
         const componentRef = viewContainerRef.createComponent(componentFactory);
-        const stepState = this._projectile.getState(step.id);
+        const stepState = this.projectile.getState(step.id);
         if (stepState) {
           (<ReviewComponent>componentRef.instance).data = stepState.state;
         }
@@ -175,26 +165,8 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
     return this._projectile;
   }
 
-  // Private
-
-  // Restore mission & runtime summary
-  private restoreSummary(): void {
-    // const selection: Selection = this.launcherComponent.selectionParams;
-    // if (selection === undefined) {
-    //   return;
-    // }
-    // this.launcherComponent.summary.dependencyCheck.groupId = selection.groupId;
-    // this.launcherComponent.summary.dependencyCheck.projectName = selection.projectName;
-    // this.launcherComponent.summary.dependencyCheck.projectVersion = selection.projectVersion;
-    // this.launcherComponent.summary.dependencyCheck.spacePath = selection.spacePath;
-  }
-
   restoreModel(): void {
   }
-
-  saveModel(): any {
-  }
-
 
   toggleExpanded(pipeline: Pipeline) {
     pipeline.expanded = (pipeline.expanded !== undefined) ? !pipeline.expanded : true;

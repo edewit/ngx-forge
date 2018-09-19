@@ -60,7 +60,7 @@ export class GitproviderCreateappStepComponent extends LauncherStep implements A
 
     this.subscriptions.push(this.gitProviderService.getGitHubDetails().subscribe((val) => {
       if (val !== undefined) {
-        this.gitHubDetails = val;
+        Object.assign(this.gitHubDetails, val);
         this.restore();
       }
     }));

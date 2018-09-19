@@ -72,6 +72,12 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
             this.metadataInfo = val;
             this.restore();
         });
+        this.broadcaster.on('booster-changed').subscribe((booster: any) => {
+            const artifactTS: number = Date.now();
+            const artifactRuntime = booster.runtime.id.replace(/[.\-_]/g, '');
+            const artifactMission = booster.mission.id.replace(/[.\-_]/g, '');
+            this.dependencyCheck.mavenArtifact = `booster-${artifactMission}-${artifactRuntime}-${artifactTS}`;
+        });
     }
 
     ngDoCheck() {
@@ -232,9 +238,5 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
     restoreModel(model: any): void {
       this.dependencyEditor = model.dependencyEditor;
       this.dependencyCheck = model.dependencyCheck;
-    }
-
-    saveModel(): any {
-      return { dependencyEditor: this.dependencyEditor, dependencyCheck: this.dependencyCheck };
     }
 }

@@ -160,10 +160,8 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
       this.booster.runtime = runtime;
       const newVersion = version ? version : runtime.selectedVersion;
       this.booster.runtime.version = newVersion;
-      // FIXME: use a booster change event listener to do this
-      // set maven artifact
-      if (this.launcherComponent.flow === 'osio' && this.completed) {
-        // this.launcherComponent.summary.dependencyCheck.mavenArtifact = this.createMavenArtifact();
+      if (this.completed) {
+        this.broadcaster.broadcast('booster-changed', this.booster);
       }
       this.broadcaster.broadcast('runtime-changed', runtime);
     }
@@ -183,21 +181,11 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
     }
   }
 
-  // Private
-
-  private createMavenArtifact(): string {
-    const artifactTS: number = Date.now();
-    const artifactRuntime = this.booster.runtime.id.replace(/[.\-_]/g, '');
-    const artifactMission = this.booster.mission.id.replace(/[.\-_]/g, '');
-    return `booster-${artifactMission}-${artifactRuntime}-${artifactTS}`;
-  }
-
   restoreModel(model: any): void {
     const mission = this.missions.find(m => m.id === model.missionId);
     const runtime = this.runtimes.find(r => r.id === model.runtimeId);
-    this.booster.mission = mission;
-    this.booster.runtime = runtime;
-    this.selectBooster(mission, runtime, model.versionId);
+    const version = runtime.versions.find(v => v.id === model.versionId);
+    this.selectBooster(mission, runtime, version);
   }
 
   private updateBoosterViewStatus(): void {

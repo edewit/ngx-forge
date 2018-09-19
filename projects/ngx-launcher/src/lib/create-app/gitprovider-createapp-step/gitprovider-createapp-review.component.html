@@ -1,7 +1,6 @@
 <div class="col-xs-12 col-md-6">
   <div class="card-pf card-pf--small">
-    <div *ngIf="data?.organization === undefined
-                      || data?.repository === undefined
+    <div *ngIf="!data.organization || !data.repository
                       then showNoGitHubTemplate else showGitHubTemplate"></div>
     <ng-template #showNoGitHubTemplate>
       <div class="card-pf-heading">
@@ -31,12 +30,12 @@
             <div class="col-xs-6 f8launcher-project-summary-data-field">
               <div class="f8launcher-project-summary-data-field-account">
                 <img class="card-column_user-profile-icon"
-                     [src]="data?.avatar"
-                     *ngIf="data?.avatar">
+                     [src]="data.avatar"
+                     *ngIf="data.avatar">
                 <i class="fa fa-ban fa-2x"
-                   *ngIf="!data?.avatar"></i>
+                   *ngIf="!data.avatar"></i>
                 <span class="f8launcher-project-summary-data-field-account-username">
-                        {{data?.login}}
+                        {{data.login}}
                       </span>
               </div>
             </div>
@@ -44,13 +43,13 @@
           <div class="form-group f8launcher-project-summary-data-form-group">
             <label class="col-xs-5 control-label">Location</label>
             <div class="col-xs-6 f8launcher-project-summary-data-field">
-              <span>{{data?.organization}}</span>
+              <span>{{data.organization}}</span>
             </div>
           </div>
           <div class="form-group f8launcher-project-summary-data-form-group">
             <label class="col-xs-5 control-label">Repository</label>
             <div class="col-xs-6 f8launcher-project-summary-data-field">
-              <span>{{data?.repository}}</span>
+              <span>{{data.repository}}</span>
             </div>
           </div>
         </div>

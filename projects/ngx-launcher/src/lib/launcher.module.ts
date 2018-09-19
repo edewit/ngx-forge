@@ -52,8 +52,6 @@ import { ReleaseStrategyImportappStepComponent }
   from './import-app/release-strategy-importapp-step/release-strategy-importapp-step.component';
 import { ToastNotificationComponent } from './toast-notification/toast-notification.component';
 
-import { MissionRuntimeService } from './service/mission-runtime.service';
-import { ProjectProgressService } from './service/project-progress.service';
 
 import { GitproviderCreateappReviewComponent } from './create-app/gitprovider-createapp-step/gitprovider-createapp-review.component';
 import { MissionRuntimeCreateappReviewComponent } from './create-app/mission-runtime-createapp-step/mission-runtime-createapp-review.component';
@@ -63,6 +61,7 @@ import { LauncherComponent } from './launcher.component';
 import { Broadcaster } from 'ngx-base';
 import { Projectile } from './model/summary.model';
 import { DependencyEditorReviewComponent } from './create-app/dependency-editor-step/dependency-editor-review.component';
+import { TargetEnvironmentCreateappReviewComponent } from './create-app/targetenvironment-createapp-step/target-environment-createapp-review.component';
 
 @NgModule({
   imports: [
@@ -102,12 +101,14 @@ import { DependencyEditorReviewComponent } from './create-app/dependency-editor-
     ReleaseStrategyCreateappStepComponent,
     ReleaseStrategyImportappStepComponent,
     TargetEnvironmentCreateappStepComponent,
+    TargetEnvironmentCreateappReviewComponent,
     LinkAccountsCreateappStepComponent,
     StepIndicatorComponent,
     ToastNotificationComponent,
     LauncherComponent
   ],
   entryComponents: [
+    TargetEnvironmentCreateappReviewComponent,
     GitproviderCreateappReviewComponent,
     DependencyEditorReviewComponent,
     MissionRuntimeCreateappReviewComponent

@@ -5,6 +5,7 @@ import {
   OnDestroy, OnInit, Optional,
   ViewEncapsulation
 } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { Broadcaster } from 'ngx-base';
@@ -16,6 +17,7 @@ import { LauncherStep } from '../../launcher-step';
 import { Cluster } from '../../model/cluster.model';
 import { TokenService } from '../../service/token.service';
 import { Projectile, StepState } from '../../model/summary.model';
+import { TargetEnvironmentCreateappReviewComponent } from './target-environment-createapp-review.component';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -36,8 +38,10 @@ export class TargetEnvironmentCreateappStepComponent extends LauncherStep implem
               @Optional() private tokenService: TokenService,
               private broadcaster: Broadcaster,
               private projectile: Projectile<any>,
+              private route: ActivatedRoute,
               public _DomSanitizer: DomSanitizer) {
-    super(null, projectile);
+    super(TargetEnvironmentCreateappReviewComponent, projectile);
+    this.selection.dependencyCheck.projectName = this.route.snapshot.params['projectName'];
   }
 
   ngOnDestroy() {
@@ -49,7 +53,8 @@ export class TargetEnvironmentCreateappStepComponent extends LauncherStep implem
   ngOnInit() {
     const state = new StepState(this.selection, [
       { name: 'targetEnvironment', value: 'targetEnvironment' },
-      { name: 'clusterId', value: 'cluster.id' }
+      { name: 'clusterId', value: 'cluster.id' },
+      { name: 'dependencyCheck', value: 'dependencyCheck' }
     ]);
     this.projectile.setState(this.id, state);
     this.launcherComponent.addStep(this);
@@ -63,6 +68,14 @@ export class TargetEnvironmentCreateappStepComponent extends LauncherStep implem
       if (val !== undefined) {
         this._targetEnvironments = val;
       }
+    }));
+    this.subscriptions.push(this.broadcaster.on<any>('booster-changed').subscribe(booster => {
+      const artifactRuntime = booster.runtime.id.replace(/[.\-_]/g, '');
+      const artifactMission = booster.mission.id.replace(/[.\-_]/g, '');
+      this.selection.dependencyCheck.mavenArtifact = `booster-${artifactMission}-${artifactRuntime}`;
+    }));
+    this.subscriptions.push(this.broadcaster.on<string>('name-changed').subscribe(projectName => {
+      this.selection.dependencyCheck.projectName = projectName;
     }));
   }
 
@@ -117,6 +130,8 @@ export class TargetEnvironmentCreateappStepComponent extends LauncherStep implem
   restoreModel(model: any): void {
     this.selection.targetEnvironment = model.targetEnvironment;
     this.selection.cluster = this._clusters.find(c => c.id === model.clusterId);
+    this.selection.dependencyCheck = model.dependencyCheck;
+    this.broadcaster.broadcast('name-changed', model.dependencyCheck.projectName);
   }
 
   private clusterSortFn(a: Cluster, b: Cluster): number {

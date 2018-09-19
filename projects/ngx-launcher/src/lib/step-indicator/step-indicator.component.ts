@@ -2,9 +2,9 @@ import {
   Component,
   Host,
   Input,
-  OnInit,
   ViewEncapsulation
 } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { LauncherComponent } from '../launcher.component';
 import { broadcast } from '../shared/telemetry.decorator';
@@ -28,8 +28,11 @@ export class StepIndicatorComponent {
 
   constructor(
     @Host() public launcherComponent: LauncherComponent,
+    private route: ActivatedRoute,
     private broadcaster: Broadcaster) {
       broadcaster.on<string>('navigation').subscribe(id => this.navToStep(id));
+      this.name = this.route.snapshot.params['projectName'];
+      this.broadcaster.on<string>('name-changed').subscribe(projectName => this.name = projectName);
   }
 
   // Steps
@@ -60,6 +63,6 @@ export class StepIndicatorComponent {
   broadcastEvent() {}
 
   applicationTitleChanged(): void {
-    this.broadcaster.broadcast('applicationTitleChanged', this.name);
+    this.broadcaster.broadcast('name-changed', this.name);
   }
 }

@@ -46,7 +46,7 @@ export class Projectile<T> {
     return '?' + Object.keys(this._state).map(k => {
       this._state[k].save();
       return `${encodeURIComponent(k)}=${encodeURIComponent('{' +
-        this._state[k].filters.map(f => `"${f.name}":"${_.get(this._state[k].state, f.value, '')}"`) + '}')}`;
+        this._state[k].filters.map(f => `"${f.name}":${JSON.stringify(_.get(this._state[k].state, f.value, ''))}`) + '}')}`;
     }).join('&');
   }
 }
