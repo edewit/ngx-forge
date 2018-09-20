@@ -45,7 +45,7 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
               public _DomSanitizer: DomSanitizer,
               private projectile: Projectile<BoosterState>,
               private broadcaster: Broadcaster) {
-    super(MissionRuntimeCreateappReviewComponent, projectile);
+    super(launcherComponent, MissionRuntimeCreateappReviewComponent, projectile);
     this.canChangeVersion = this.launcherComponent.flow === 'launch';
   }
 

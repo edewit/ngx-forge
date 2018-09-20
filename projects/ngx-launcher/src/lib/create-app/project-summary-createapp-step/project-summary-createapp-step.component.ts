@@ -48,7 +48,7 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
               public _DomSanitizer: DomSanitizer,
               private projectile: Projectile<any>,
               private componentFactoryResolver: ComponentFactoryResolver) {
-    super(null, projectile);
+    super(launcherComponent, null, projectile);
   }
 
   ngOnInit() {
@@ -138,7 +138,7 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
     this.setupInProgress = true;
     this.subscriptions.push(
       this.projectSummaryService
-      .setup(this._projectile)
+      .setup(this.projectile)
       .subscribe((val: any) => {
         if (!val || !val['uuid_link']) {
           this.displaySetUpErrorResponse('Invalid response from server!');
@@ -158,11 +158,11 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
   }
 
   get dependencyCheck(): DependencyCheck {
-    return this._projectile.dependencyCheck;
+    return this.projectile.dependencyCheck;
   }
 
   get summary(): Projectile<any> {
-    return this._projectile;
+    return this.projectile;
   }
 
   restoreModel(): void {

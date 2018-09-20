@@ -54,7 +54,7 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
         private projectile: Projectile<DependencyCheck>,
         private keyValueDiffers: KeyValueDiffers
     ) {
-        super(DependencyEditorReviewComponent, projectile);
+        super(launcherComponent, DependencyEditorReviewComponent, projectile);
     }
 
     ngOnDestroy() {

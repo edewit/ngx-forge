@@ -38,13 +38,11 @@ export abstract class LauncherStep implements OnDestroy {
 
   @ViewChild('section') element: ElementRef;
 
-  protected _launcherComponent: LauncherComponent;
-
   private scrollEvents: Subscription = fromEvent(window, 'scroll').pipe(debounceTime(100)).subscribe(() => this.isInView());
 
-  constructor(private _reviewComponentType: Type<ReviewComponent>, launcherComponent: LauncherComponent) {
-    this._launcherComponent = launcherComponent;
-  }
+  constructor(private _launcherComponent: LauncherComponent,
+    private _reviewComponentType: Type<ReviewComponent>,
+    private _projectile: Projectile<any>) {}
 
   get reviewComponentType(): Type<ReviewComponent> {
     return this._reviewComponentType;

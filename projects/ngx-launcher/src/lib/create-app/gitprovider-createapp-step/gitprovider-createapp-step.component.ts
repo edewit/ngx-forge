@@ -36,7 +36,7 @@ export class GitproviderCreateappStepComponent extends LauncherStep implements A
   constructor(@Host() public launcherComponent: LauncherComponent,
               private projectile: Projectile<GitHubDetails>,
               private gitProviderService: GitProviderService) {
-    super(GitproviderCreateappReviewComponent, projectile);
+    super(launcherComponent, GitproviderCreateappReviewComponent, projectile);
   }
 
   ngAfterViewInit() {
@@ -108,6 +108,6 @@ export class GitproviderCreateappStepComponent extends LauncherStep implements A
    * Authorize GitHub account
    */
   connectAccount(): void {
-    this.gitProviderService.connectGitHubAccount(this._projectile.redirectUrl);
+    this.gitProviderService.connectGitHubAccount(this.projectile.redirectUrl);
   }
 }

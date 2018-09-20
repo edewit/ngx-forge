@@ -40,7 +40,7 @@ export class TargetEnvironmentCreateappStepComponent extends LauncherStep implem
               private projectile: Projectile<any>,
               private route: ActivatedRoute,
               public _DomSanitizer: DomSanitizer) {
-    super(TargetEnvironmentCreateappReviewComponent, projectile);
+    super(launcherComponent, TargetEnvironmentCreateappReviewComponent, projectile);
     this.selection.dependencyCheck.projectName = this.route.snapshot.params['projectName'];
   }
 
