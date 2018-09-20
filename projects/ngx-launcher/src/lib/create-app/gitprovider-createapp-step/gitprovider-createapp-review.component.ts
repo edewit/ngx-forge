@@ -1,5 +1,5 @@
-import {ReviewComponent} from '../../review.component';
-import {Component} from '@angular/core';
+import { ReviewComponent } from '../../review.component';
+import { Component } from '@angular/core';
 import { Broadcaster } from 'ngx-base';
 
 @Component({
@@ -8,7 +8,7 @@ import { Broadcaster } from 'ngx-base';
 export class GitproviderCreateappReviewComponent implements ReviewComponent {
   data: any;
 
-  constructor(private broadcaster: Broadcaster) {}
+  constructor(private broadcaster: Broadcaster) { }
 
   navToStep(id: string) {
     this.broadcaster.broadcast('navigation', id);
