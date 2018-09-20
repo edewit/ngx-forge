@@ -62,6 +62,7 @@ import { Broadcaster } from 'ngx-base';
 import { Projectile } from './model/summary.model';
 import { DependencyEditorReviewComponent } from './create-app/dependency-editor-step/dependency-editor-review.component';
 import { TargetEnvironmentCreateappReviewComponent } from './create-app/targetenvironment-createapp-step/target-environment-createapp-review.component';
+import { ReleaseStrategyCreateappReviewComponent } from './create-app/release-strategy-createapp-step/release-strategy-createapp-review.component';
 
 @NgModule({
   imports: [
@@ -99,6 +100,7 @@ import { TargetEnvironmentCreateappReviewComponent } from './create-app/targeten
     ProjectSummaryImportappStepComponent,
     ReviewDirective,
     ReleaseStrategyCreateappStepComponent,
+    ReleaseStrategyCreateappReviewComponent,
     ReleaseStrategyImportappStepComponent,
     TargetEnvironmentCreateappStepComponent,
     TargetEnvironmentCreateappReviewComponent,
@@ -110,6 +112,7 @@ import { TargetEnvironmentCreateappReviewComponent } from './create-app/targeten
   entryComponents: [
     TargetEnvironmentCreateappReviewComponent,
     GitproviderCreateappReviewComponent,
+    ReleaseStrategyCreateappReviewComponent,
     DependencyEditorReviewComponent,
     MissionRuntimeCreateappReviewComponent
   ],

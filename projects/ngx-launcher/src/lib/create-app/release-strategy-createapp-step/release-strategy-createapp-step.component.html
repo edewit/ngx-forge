@@ -4,7 +4,7 @@
     <div class="container-fluid">
       <h1>Select Pipeline</h1>
       <p>
-        Pipelines define how your application is deployed.  Each pipeline has multiple stages with a varying set of capabilities.
+        Pipelines define how your application is deployed. Each pipeline has multiple stages with a varying set of capabilities.
       </p>
     </div>
   </div>
@@ -21,50 +21,50 @@
             <div class="card-pf-body">
               <div class="list-group list-view-pf list-view-pf-view">
                 <div class="list-group-item"
-                     [ngClass]="{'suggested': pipeline.suggested || pipeline.techPreview}"
-                     *ngFor="let pipeline of (pipelines | sortArray: 'suggested': true)">
-                     <div class="group" [ngClass]="{'with-tag': pipeline.suggested || pipeline.techPreview}">
+                     [ngClass]="{'suggested': pipe.suggested || pipe.techPreview}"
+                     *ngFor="let pipe of (pipelines | sortArray: 'suggested': true)">
+                     <div class="group" [ngClass]="{'with-tag': pipe.suggested || pipe.techPreview}">
                         <div class="list-view-pf-expand">
                               <span class="fa"
-                                    [ngClass]="{'fa-angle-down': pipeline.expanded,
-                                                'fa-angle-right': pipeline.expanded !== true}"
-                                    (click)="toggleExpanded(pipeline)">
+                                    [ngClass]="{'fa-angle-down': pipe.expanded,
+                                                'fa-angle-right': pipe.expanded !== true}"
+                                    (click)="toggleExpanded(pipe)">
                               </span>
                         </div>
                         <div class="list-view-pf-checkbox">
                           <input name="pipelineId" type="radio"
-                                [(ngModel)]="pipelineId"
-                                [value]="pipeline.id"
-                                (ngModelChange)="updatePipelineSelection(pipeline)">
+                                [(ngModel)]="pipeline.id"
+                                [value]="pipe.id"
+                                (ngModelChange)="updatePipelineSelection(pipe)">
                         </div>
                         <div class="list-view-pf-main-info"
-                            (click)="pipelineId = pipeline.id; updatePipelineSelection(pipeline)">
+                            (click)="updatePipelineSelection(pipe)">
                           <div class="list-view-pf-body">
                             <div class="list-view-pf-description">
-                              <ng-container *ngFor="let stage of pipeline.stages; let i = index">
+                              <ng-container *ngFor="let stage of pipe.stages; let i = index">
                                   <span class="f8launcher-pipeline-stages--line">
                                     <span class="f8launcher-pipeline-stages--name">
                                       {{stage.name || stage}}
                                     </span>
                                   </span>
                                 <span class="f8launcher-pipeline-stages--arrow"
-                                      *ngIf="i !== pipeline.stages.length - 1"></span>
+                                      *ngIf="i !== pipe.stages.length - 1"></span>
                               </ng-container>
                             </div>
                           </div>
                         </div>
-                        <div class="f8launcher-tags" [ngClass]="{'suggested-feature-tag': pipeline.suggested}"
-                              *ngIf="pipeline.suggested || pipeline.techPreview">
+                        <div class="f8launcher-tags" [ngClass]="{'suggested-feature-tag': pipe.suggested}"
+                              *ngIf="pipe.suggested || pipe.techPreview">
                             <span class="f8launcher-tags-label suggested" container="body" triggers="click"
                                   outsideClick="true"
                                   popover="This pipeline provides an end-to-end process that moves your application from source code to production, with stages to build and test new versions, rollout to staging, review changes, await approval, and promote to production."
-                                  *ngIf="pipeline.suggested">
+                                  *ngIf="pipe.suggested">
                               Red Hat Suggests <i class="pficon pficon-info tag-icon"></i>
                             </span>
                             <span class="f8launcher-tags-label techpreview" container="body" triggers="click"
                                   outsideClick="true"
                                   popover="Technology Preview"
-                                  *ngIf="pipeline.techPreview">
+                                  *ngIf="pipe.techPreview">
                               Tech Preview <i class="pficon pficon-info"></i>
                             </span>
                           </div>
@@ -73,11 +73,11 @@
 
 
                   <div class="list-group-item-container container-fluid"
-                       (click)="pipelineId = pipeline.id; updatePipelineSelection(pipeline)"
-                       *ngIf="pipeline.expanded">
+                       (click)="updatePipelineSelection(pipe)"
+                       *ngIf="pipe.expanded">
                     <div class="row">
                       <div class="form-horizontal">
-                        <div class="form-group col-sm-12" *ngFor="let stage of pipeline.stages">
+                        <div class="form-group col-sm-12" *ngFor="let stage of pipe.stages">
                           <label class="col-sm-2 control-label">
                             {{stage.name}}
                           </label>

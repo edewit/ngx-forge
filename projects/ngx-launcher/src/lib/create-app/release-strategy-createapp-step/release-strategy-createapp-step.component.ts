@@ -1,7 +1,6 @@
 import {
   Component,
   Host,
-  Input,
   OnDestroy,
   OnInit,
   ViewEncapsulation } from '@angular/core';
@@ -14,7 +13,8 @@ import { broadcast } from '../../shared/telemetry.decorator';
 import { Broadcaster} from 'ngx-base';
 import { Runtime } from '../../model/runtime.model';
 import { Subscription } from 'rxjs';
-import { Projectile } from '../../model/summary.model';
+import { Projectile, StepState } from '../../model/summary.model';
+import { ReleaseStrategyCreateappReviewComponent } from './release-strategy-createapp-review.component';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -23,11 +23,8 @@ import { Projectile } from '../../model/summary.model';
   styleUrls: ['./release-strategy-createapp-step.component.less']
 })
 export class ReleaseStrategyCreateappStepComponent extends LauncherStep implements OnInit, OnDestroy {
-  @Input() id: string;
-
   private _pipelines: Pipeline[] = [];
   private _allPipelines: Pipeline[] = [];
-  private _pipelineId: string;
   public pipeline: Pipeline = new Pipeline();
 
   private subscriptions: Subscription[] = [];
@@ -36,19 +33,24 @@ export class ReleaseStrategyCreateappStepComponent extends LauncherStep implemen
               private pipelineService: PipelineService,
               private projectile: Projectile<Pipeline>,
               private broadcaster: Broadcaster) {
-    super(null, projectile);
+    super(ReleaseStrategyCreateappReviewComponent, projectile);
   }
 
   ngOnInit() {
+    const state = new StepState(this.pipeline, [
+      { name: 'pipelineId', value: 'id' }
+    ]);
+    this.projectile.setState(this.id, state);
+
     this.launcherComponent.addStep(this);
     this.subscriptions.push(this.pipelineService.getPipelines().subscribe((result: Array<Pipeline>) => {
       this._allPipelines = result;
       this.restore();
     }));
-    this.subscriptions.push(this.broadcaster.on('runtime-changed').subscribe((runtime: Runtime) => {
-      this._pipelines = this._allPipelines.filter(({platform}) => platform === runtime.pipelinePlatform);
-      if ((this.pipeline || {} as Pipeline).platform !== runtime.pipelinePlatform) {
-        this.updatePipelineSelection(undefined);
+    this.subscriptions.push(this.broadcaster.on<Runtime>('runtime-changed').subscribe(runtime => {
+      this.filterPipelines(runtime.pipelinePlatform);
+      if (this.pipeline.platform !== runtime.pipelinePlatform) {
+        this.updatePipelineSelection(new Pipeline());
       }
     }));
   }
@@ -71,30 +73,12 @@ export class ReleaseStrategyCreateappStepComponent extends LauncherStep implemen
   }
 
   /**
-   * Returns pipeline ID
-   *
-   * @returns {string} The pipeline ID
-   */
-  get pipelineId(): string {
-    return this._pipelineId;
-  }
-
-  /**
-   * Set the pipeline ID
-   *
-   * @param {string} val The pipeline ID
-   */
-  set pipelineId(val: string) {
-    this._pipelineId = val;
-  }
-
-  /**
    * Returns indicator that step is completed
    *
    * @returns {boolean} True if step is completed
    */
   get completed(): boolean {
-    return (this.pipeline !== undefined);
+    return this.pipeline.id !== undefined;
   }
 
   // Steps
@@ -108,18 +92,19 @@ export class ReleaseStrategyCreateappStepComponent extends LauncherStep implemen
   }
 
   updatePipelineSelection(pipeline: Pipeline): void {
-    this.pipeline = pipeline;
+    Object.assign(this.pipeline, pipeline);
   }
 
   restoreModel(model: any): void {
-    this.pipeline = this.pipelines.find(p => p.id === model.pipelineId);
-  }
-
-  saveModel(): any {
-    return { pipelineId: this.pipeline.id };
+    this.updatePipelineSelection(this._allPipelines.find(p => p.id === model.pipelineId));
+    this.filterPipelines(this.pipeline.platform);
   }
 
   toggleExpanded(pipeline: Pipeline) {
-    pipeline.expanded = (pipeline.expanded !== undefined) ? !pipeline.expanded : true;
+    pipeline.expanded = !pipeline.expanded;
+  }
+
+  private filterPipelines(selectedPlatform: string) {
+    this._pipelines = this._allPipelines.filter(({ platform }) => platform === selectedPlatform);
   }
 }

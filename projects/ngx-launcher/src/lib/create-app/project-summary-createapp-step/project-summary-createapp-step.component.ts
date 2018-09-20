@@ -69,7 +69,7 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
     const steps = this.launcherComponent.steps.slice(0);
     // TODO this sort makes mission runtime to be the first in order to have the right style
     steps.sort((x, y) => x.id === 'MissionRuntime' ? -1 : (y.id === 'MissionRuntime' ? 1 : 0)).forEach(step => {
-      if (step.reviewComponentType) {
+      if (step.reviewComponentType && !step.hidden) {
         const componentFactory = this.componentFactoryResolver.resolveComponentFactory(step.reviewComponentType);
 
         const componentRef = viewContainerRef.createComponent(componentFactory);
