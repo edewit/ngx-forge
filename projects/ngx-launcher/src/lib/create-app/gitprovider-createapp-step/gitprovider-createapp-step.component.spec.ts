@@ -16,6 +16,7 @@ import { GitproviderCreateappStepComponent } from './gitprovider-createapp-step.
 import { GitProviderService } from '../../service/git-provider.service';
 
 import { GitHubDetails } from '../../model/github-details.model';
+import { Projectile } from '../../model/summary.model';
 
 const mockDependencyCheckService = {
   getDependencyCheck(): Observable<DependencyCheck> {
@@ -53,21 +54,13 @@ const mockGitProviderService = {
 };
 
 export interface TypeWizardComponent {
-  selectedSection: string;
   steps: LauncherStep[];
-  summary: any;
   summaryCompleted: boolean;
   addStep(step: LauncherStep): void;
-  onInViewportChange($event: any, id: string): any;
 }
 
 const mockWizardComponent: TypeWizardComponent = {
-  selectedSection: '',
   steps: [],
-  summary: {
-    dependencyCheck: {},
-    gitHubDetails: {}
-  },
   summaryCompleted: false,
   addStep(step: LauncherStep) {
     for (let i = 0; i < this.steps.length; i++) {
@@ -76,13 +69,6 @@ const mockWizardComponent: TypeWizardComponent = {
       }
     }
     this.steps.push(step);
-  },
-  onInViewportChange($event: any, id: string) {
-    if ($event) {
-      setTimeout(() => {
-        this.selectedSection = id;
-      }, 10); // Avoids ExpressionChangedAfterItHasBeenCheckedError
-    }
   }
 };
 
@@ -103,6 +89,7 @@ describe('GitProviderStepComponent', () => {
         GitproviderCreateappStepComponent
       ],
       providers: [
+        Projectile,
         {
           provide: DependencyCheckService, useValue: mockDependencyCheckService
         },

@@ -1,12 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { ActivateBoosterCreateappNextstepComponent } from './activate-booster-createapp-nextstep.component';
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
+import { Projectile, StepState } from '../../model/summary.model';
+import { TargetEnvironmentSelection } from '../../model/target-environment.model';
 
 export interface TypeWizardComponent {
   selectedSection: string;
@@ -39,6 +39,8 @@ describe('ActivateBoosterComponent', () => {
   let fixture: ComponentFixture<ActivateBoosterCreateappNextstepComponent>;
 
   beforeEach(async(() => {
+    const projectile = new Projectile<any>();
+    projectile.setState('TargetEnvironment', new StepState(new TargetEnvironmentSelection(), []));
     TestBed.configureTestingModule({
       imports: [
         CommonModule,
@@ -48,9 +50,8 @@ describe('ActivateBoosterComponent', () => {
         ActivateBoosterCreateappNextstepComponent
       ],
       providers: [
-        {
-          provide: LauncherComponent, useValue: mockWizardComponent
-        }
+        { provide: Projectile, useValue: projectile },
+        { provide: LauncherComponent, useValue: mockWizardComponent }
       ]
     }).compileComponents();
   }));

@@ -28,10 +28,10 @@ export class FakeToastNotificationComponent {
 }
 
 const mockProjectSummaryService = {
-  setup(summary: Projectile): Observable<boolean> {
+  setup(summary: Projectile<any>): Observable<boolean> {
     return of(true);
   },
-  verify(summary: Projectile): Observable<boolean> {
+  verify(summary: Projectile<any>): Observable<boolean> {
     return of(true);
   },
   getCurrentContext(): Observable<any> {

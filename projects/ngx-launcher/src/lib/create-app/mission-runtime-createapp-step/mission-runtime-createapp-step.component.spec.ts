@@ -18,6 +18,7 @@ import { createBooster, createMission, createRuntime } from '../../service/missi
 import { BroadcasterTestProvider } from '../targetenvironment-createapp-step/target-environment-createapp-step.component.spec';
 import { Observable, of } from 'rxjs';
 import { Catalog } from '../../model/catalog.model';
+import { Projectile } from '../../model/summary.model';
 
 
 const longDescription = `An innovative approach to packaging and running Java EE applications,
@@ -49,21 +50,13 @@ class TestMissionRuntimeService extends MissionRuntimeService {
 
 
 export interface TypeWizardComponent {
-  selectedSection: string;
   steps: LauncherStep[];
-  summary: any;
   summaryCompleted: boolean;
   addStep(step: LauncherStep): void;
-  onInViewportChange($event: any, id: string): any;
 }
 
 const mockWizardComponent: TypeWizardComponent = {
-  selectedSection: '',
   steps: [],
-  summary: {
-    dependencyCheck: {},
-    gitHubDetails: {}
-  },
   summaryCompleted: false,
   addStep(step: LauncherStep) {
       for (let i = 0; i < this.steps.length; i++) {
@@ -72,13 +65,6 @@ const mockWizardComponent: TypeWizardComponent = {
         }
       }
       this.steps.push(step);
-  },
-  onInViewportChange($event: any, id: string) {
-    if ($event) {
-      setTimeout(() => {
-        this.selectedSection = id;
-      }, 10); // Avoids ExpressionChangedAfterItHasBeenCheckedError
-    }
   }
 };
 
@@ -130,6 +116,7 @@ describe('MissionRuntimeStepComponent', () => {
         MissionRuntimeCreateappStepComponent
       ],
       providers: [
+        Projectile,
         {
           provide: MissionRuntimeService, useClass: TestMissionRuntimeService
         },
@@ -144,7 +131,6 @@ describe('MissionRuntimeStepComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(MissionRuntimeCreateappStepComponent);
     component = fixture.componentInstance;
-    // component.ngOnInit();
     fixture.detectChanges();
     element = fixture.nativeElement;
   });
@@ -174,10 +160,10 @@ describe('MissionRuntimeStepComponent', () => {
   it('should select the mission in launcher component summary', fakeAsync(() => {
     fixture.detectChanges();
     selectItem(getMissionItem(0));
-    expect(component.launcherComponent.summary.mission).toBe(component.missions[0] as Mission);
+    expect(component.booster.mission).toBe(component.missions[0] as Mission);
 
     selectItem(getMissionItem(1));
-    expect(component.launcherComponent.summary.mission).toBe(component.missions[1] as Mission);
+    expect(component.booster.mission).toBe(component.missions[1] as Mission);
   }));
 
   it('should have the suggested missions tag when mission.suggested field is true', () => {
@@ -274,10 +260,10 @@ describe('MissionRuntimeStepComponent', () => {
   it('should select the runtime in launcher component summary', fakeAsync(() => {
     fixture.detectChanges();
     selectItem(getRuntimeItem(0));
-    expect(component.launcherComponent.summary.runtime).toBe(component.runtimes[0] as Runtime);
+    expect(component.booster.runtime).toBe(component.runtimes[0] as Runtime);
 
     selectItem(getRuntimeItem(1));
-    expect(component.launcherComponent.summary.runtime).toBe(component.runtimes[1] as Runtime);
+    expect(component.booster.runtime).toBe(component.runtimes[1] as Runtime);
   }));
 
 
@@ -403,11 +389,11 @@ describe('MissionRuntimeStepComponent', () => {
   it(`should select version when clicking on versions dropdown`, fakeAsync(() => {
     component.canChangeVersion = true;
     fixture.detectChanges();
-    expect(component.versionId).toBeFalsy();
+    expect(component.booster.runtime.version.id).toBeFalsy();
     selectItem(getMissionItem(0));
-    expect(component.versionId).toBeFalsy();
+    expect(component.booster.runtime.version.id).toBeFalsy();
     selectItem(getRuntimeItem(0));
-    expect(component.versionId).toBe('community');
+    expect(component.booster.runtime.version.id).toBe('community');
     const item1 = getRuntimeItem(0);
     const versionDropdownButton = <HTMLButtonElement>item1.querySelector('.dropdown button.dropdown-toggle');
     expect(versionDropdownButton).toBeTruthy();
@@ -419,10 +405,10 @@ describe('MissionRuntimeStepComponent', () => {
     redhatVersion.click();
     tick();
     fixture.detectChanges();
-    expect(component.versionId).toBe('redhat');
+    expect(component.booster.runtime.version.id).toBe('redhat');
 
     // Should auto rest to compatible version
     selectItem(getMissionItem(1));
-    expect(component.versionId).toBe('community');
+    expect(component.booster.runtime.version.id).toBe('community');
   }));
 });

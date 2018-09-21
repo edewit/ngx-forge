@@ -16,6 +16,7 @@ import { TokenService } from '../../service/token.service';
 import { LinkAccountsCreateappStepComponent } from '../link-accounts-createapp-step/link-accounts-createapp-step.component';
 import { MissionRuntimeService } from '../../service/mission-runtime.service';
 import { Catalog } from '../../model/catalog.model';
+import { Projectile } from '../../model/summary.model';
 
 export class BroadcasterTestProvider {
   static broadcaster = new Broadcaster();
@@ -44,21 +45,13 @@ const mockTargetEnvironmentService = {
   }
 };
 export interface TypeWizardComponent {
-  selectedSection: string;
   steps: LauncherStep[];
-  summary: any;
   summaryCompleted: boolean;
   addStep(step: LauncherStep): void;
-  onInViewportChange($event: any, id: string): any;
 }
 
 const mockWizardComponent: TypeWizardComponent = {
-  selectedSection: '',
   steps: [],
-  summary: {
-    dependencyCheck: {},
-    gitHubDetails: {}
-  },
   summaryCompleted: false,
   addStep(step: LauncherStep) {
     for (let i = 0; i < this.steps.length; i++) {
@@ -67,13 +60,6 @@ const mockWizardComponent: TypeWizardComponent = {
       }
     }
     this.steps.push(step);
-  },
-  onInViewportChange($event: any, id: string) {
-    if ($event) {
-      setTimeout(() => {
-        this.selectedSection = id;
-      }, 10); // Avoids ExpressionChangedAfterItHasBeenCheckedError
-    }
   }
 };
 
@@ -104,6 +90,7 @@ describe('TargetEnvironmentStepComponent', () => {
         LinkAccountsCreateappStepComponent
       ],
       providers: [
+        Projectile,
         {
           provide: TargetEnvironmentService, useValue: mockTargetEnvironmentService
         },

@@ -24,8 +24,6 @@ export interface TypeWizardComponent {
   summary: any;
   summaryCompleted: boolean;
   addStep(step: LauncherStep): void;
-  currentSelection(): any;
-  onInViewportChange($event: any, id: string): any;
 }
 
 const mockWizardComponent: TypeWizardComponent = {
@@ -43,33 +41,6 @@ const mockWizardComponent: TypeWizardComponent = {
       }
     }
     this.steps.push(step);
-  },
-  get currentSelection(): any {
-    const summaryVar = new Projectile();
-    return {
-      groupId: (summaryVar.dependencyCheck !== undefined) ? summaryVar.dependencyCheck.groupId : undefined,
-      missionId: (summaryVar.mission !== undefined) ? summaryVar.mission.id : undefined,
-      pipelineId: (summaryVar.pipeline !== undefined) ? this.summaryVar.pipeline.id : undefined,
-      projectName: (summaryVar.dependencyCheck !== undefined)
-        ? summaryVar.dependencyCheck.projectName : undefined,
-      projectVersion: (summaryVar.dependencyCheck !== undefined)
-        ? summaryVar.dependencyCheck.projectVersion : undefined,
-      runtimeId: (summaryVar.runtime !== undefined) ? summaryVar.runtime.id : undefined,
-      runtimeVersion: (summaryVar.runtime !== undefined) ? summaryVar.runtime.version : undefined,
-      platform: (summaryVar.runtime !== undefined) ? summaryVar.runtime.pipelinePlatform : 'maven',
-      spacePath: (summaryVar.dependencyCheck !== undefined)
-        ? summaryVar.dependencyCheck.spacePath : undefined,
-      targetEnvironment: summaryVar.targetEnvironment,
-      dependencyCheck: (summaryVar.dependencyCheck !== undefined) ? summaryVar.dependencyCheck : undefined,
-      dependencyEditor: (summaryVar.dependencyEditor !== undefined) ? summaryVar.dependencyEditor : undefined
-    } as Selection;
-  },
-  onInViewportChange($event: any, id: string) {
-    if ($event) {
-      setTimeout(() => {
-        this.selectedSection = id;
-      }, 10); // Avoids ExpressionChangedAfterItHasBeenCheckedError
-    }
   }
 };
 
