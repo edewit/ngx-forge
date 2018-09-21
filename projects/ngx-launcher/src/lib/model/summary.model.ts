@@ -1,28 +1,22 @@
 import { Injectable } from '@angular/core';
-import { Cluster } from './cluster.model';
-import { DependencyCheck } from './dependency-check.model';
-import { GitHubDetails } from './github-details.model';
-import { Mission } from './mission.model';
-import { Runtime } from './runtime.model';
-import { Pipeline } from './pipeline.model';
-import { DependencyEditor } from './dependency-editor/dependency-editor.model';
 
 import * as _ from 'lodash';
 
 @Injectable()
 export class Projectile<T> {
   private _state = {};
-  selectedSection: string;
+  private _selectedSection: string;
 
-  cluster?: Cluster;
-  dependencyCheck: DependencyCheck;
-  dependencyEditor?: DependencyEditor;
-  gitHubDetails?: GitHubDetails;
-  mission: Mission;
-  organization: string;
-  pipeline: Pipeline;
-  runtime: Runtime;
-  targetEnvironment: string;
+  get selectedSection(): string {
+    if (!this._selectedSection) {
+      this._selectedSection = this.searchParams.get('selectedSection');
+    }
+    return this._selectedSection;
+  }
+
+  set selectedSection(selectedSection: string) {
+    this._selectedSection = selectedSection;
+  }
 
   setState(stepId: string, state: StepState<T>) {
     this._state[stepId] = state;
@@ -33,7 +27,7 @@ export class Projectile<T> {
   }
 
   getSavedState(stepId: string): any {
-    const state = new URL(window.location.href).searchParams.get(stepId);
+    const state = this.searchParams.get(stepId);
     return JSON.parse(state);
   }
 
@@ -44,11 +38,19 @@ export class Projectile<T> {
   }
 
   toUrl(): string {
-    return '?' + Object.keys(this._state).map(k => {
+    return '?selectedSection=' + this._selectedSection + '&' + Object.keys(this._state).map(k => {
       this._state[k].save();
       return `${encodeURIComponent(k)}=${encodeURIComponent('{' +
-        this._state[k].filters.map(f => `"${f.name}":${JSON.stringify(_.get(this._state[k].state, f.value, ''))}`) + '}')}`;
+        this._state[k].filters.map((f: Filter) => this.stateToJsonPart(f, this._state[k].state)) + '}')}`;
     }).join('&');
+  }
+
+  private stateToJsonPart(f: Filter, state: any) {
+    return `"${f.name}":${JSON.stringify(_.get(state, f.value, ''))}`;
+  }
+
+  private get searchParams() {
+    return new URL(window.location.href).searchParams;
   }
 }
 

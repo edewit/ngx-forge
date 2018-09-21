@@ -3,19 +3,15 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnInit,
   Output,
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 
-import { Selection } from './model/selection.model';
 import { Projectile } from './model/summary.model';
 import { StepIndicatorComponent } from './step-indicator/step-indicator.component';
 import { LauncherStep } from './launcher-step';
 import { broadcast } from './shared/telemetry.decorator';
-import { ReviewComponent } from './review.component';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -23,7 +19,7 @@ import { ReviewComponent } from './review.component';
   templateUrl: './launcher.component.html',
   styleUrls: ['./launcher.component.less']
 })
-export class LauncherComponent implements AfterViewInit, OnInit {
+export class LauncherComponent implements AfterViewInit {
   /**
    * Flag indicating to show the import application work flow. Defaults to the create new application work flow.
    *
@@ -57,15 +53,14 @@ export class LauncherComponent implements AfterViewInit, OnInit {
   private _steps: LauncherStep[] = [];
   private summaryCompleted = false;
 
-  constructor(private route: ActivatedRoute, private _projectile: Projectile<any>) {
+  constructor(private _projectile: Projectile<any>) {
   }
 
   ngAfterViewInit() {
     setTimeout(() => {
-      // TODO move the selected step
-      // const id = (this.selectionParams !== undefined) ? 'GitProvider' : this.firstNonHiddenStep.id;
-      // this.stepIndicator.navToStep(id);
-    }, 300);
+      const id = this._projectile.selectedSection || this.firstNonHiddenStep.id;
+      this.stepIndicator.navToStep(id);
+    }, 2000);
   }
 
   /**

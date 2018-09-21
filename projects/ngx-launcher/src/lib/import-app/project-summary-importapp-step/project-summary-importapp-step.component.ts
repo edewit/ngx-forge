@@ -142,7 +142,7 @@ export class ProjectSummaryImportappStepComponent extends LauncherStep implement
   }
 
   get dependencyCheck(): DependencyCheck {
-    return this.projectile.dependencyCheck;
+    return new DependencyCheck(); // this.projectile.dependencyCheck;
   }
 
   get summary(): Projectile<any> {
