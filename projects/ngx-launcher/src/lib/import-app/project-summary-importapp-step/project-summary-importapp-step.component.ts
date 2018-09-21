@@ -141,32 +141,8 @@ export class ProjectSummaryImportappStepComponent extends LauncherStep implement
     );
   }
 
-  get dependencyCheck(): DependencyCheck {
-    return new DependencyCheck(); // this.projectile.dependencyCheck;
-  }
-
-  get summary(): Projectile<any> {
-    return this.projectile;
-  }
-
-  // Private
-
   // Restore mission & runtime summary
-  private restoreSummary(): void {
-    // const selection: Selection = this.launcherComponent.selectionParams;
-    // if (selection === undefined) {
-    //   return;
-    // }
-    // this.launcherComponent.summary.dependencyCheck.groupId = selection.groupId;
-    // this.launcherComponent.summary.dependencyCheck.projectName = selection.projectName;
-    // this.launcherComponent.summary.dependencyCheck.projectVersion = selection.projectVersion;
-    // this.launcherComponent.summary.dependencyCheck.spacePath = selection.spacePath;
-  }
-
   restoreModel(): void {
-  }
-
-  saveModel(): any {
   }
 
   toggleExpanded(pipeline: Pipeline) {

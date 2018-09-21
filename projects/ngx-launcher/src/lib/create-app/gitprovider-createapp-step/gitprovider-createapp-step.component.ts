@@ -31,7 +31,7 @@ export class GitproviderCreateappStepComponent extends LauncherStep implements A
   @ViewChild('versionSelect') versionSelect: ElementRef;
 
   private subscriptions: Subscription[] = [];
-  private gitHubDetails: GitHubDetails = {};
+  gitHubDetails: GitHubDetails = {};
 
   constructor(@Host() public launcherComponent: LauncherComponent,
               private projectile: Projectile<GitHubDetails>,

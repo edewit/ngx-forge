@@ -53,12 +53,12 @@ export class LauncherComponent implements AfterViewInit {
   private _steps: LauncherStep[] = [];
   private summaryCompleted = false;
 
-  constructor(private _projectile: Projectile<any>) {
+  constructor(public projectile: Projectile<any>) {
   }
 
   ngAfterViewInit() {
     setTimeout(() => {
-      const id = this._projectile.selectedSection || this.firstNonHiddenStep.id;
+      const id = this.projectile.selectedSection || this.firstNonHiddenStep.id;
       this.stepIndicator.navToStep(id);
     }, 2000);
   }

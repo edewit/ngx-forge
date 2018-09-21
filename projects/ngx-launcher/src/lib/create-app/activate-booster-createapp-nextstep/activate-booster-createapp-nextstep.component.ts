@@ -7,6 +7,7 @@ import {
 import { LauncherComponent } from '../../launcher.component';
 import { Projectile } from '../../model/summary.model';
 import { DependencyCheck } from '../../model/dependency-check.model';
+import { TargetEnvironmentSelection } from '../../model/target-environment.model';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -17,10 +18,10 @@ import { DependencyCheck } from '../../model/dependency-check.model';
 export class ActivateBoosterCreateappNextstepComponent {
 
   constructor(@Host() public launcherComponent: LauncherComponent,
-      private projectile: Projectile<DependencyCheck>) {
+      private projectile: Projectile<TargetEnvironmentSelection>) {
   }
 
-  get data(): DependencyCheck {
-    return this.projectile.getState('TargetEnvironment').state;
+  get dependencyCheck(): DependencyCheck {
+    return this.projectile.getState('TargetEnvironment').state.dependencyCheck;
   }
 }

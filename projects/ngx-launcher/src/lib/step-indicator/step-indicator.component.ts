@@ -29,7 +29,7 @@ export class StepIndicatorComponent {
 
   constructor(
     @Host() public launcherComponent: LauncherComponent,
-    private projectile: Projectile<any>,
+    public projectile: Projectile<any>,
     private route: ActivatedRoute,
     private broadcaster: Broadcaster) {
       broadcaster.on<string>('navigation').subscribe(id => this.navToStep(id));

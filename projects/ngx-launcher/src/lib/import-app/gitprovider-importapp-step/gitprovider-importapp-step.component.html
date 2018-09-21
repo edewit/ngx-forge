@@ -64,9 +64,9 @@
               <div class="col-sm-10" [class.has-error]="ghRepo.invalid && (ghRepo.dirty || ghRepo.touched)">
                 <input id="ghRepo" name="ghRepo" [(ngModel)]="gitHubDetails.repository" placeholder="Select Repository"
                   autocomplete="off"
-                  [typeahead]="launcherComponent?.summary.gitHubDetails.repositoryList"
+                  [typeahead]="gitHubDetails.repositoryList"
                   [typeaheadMinLength]="0"
-                  [typeaheadOptionsLimit]="launcherComponent?.summary.gitHubDetails.repositoryList?.length"
+                  [typeaheadOptionsLimit]="gitHubDetails.repositoryList?.length"
                   [disabled]="gitHubDetails?.organization === undefined || gitHubDetails?.repositoryList?.length === 0"
                   [existingRepository]="gitHubDetails?.repositoryList" #ghRepo="ngModel" required
                   class="form-control">

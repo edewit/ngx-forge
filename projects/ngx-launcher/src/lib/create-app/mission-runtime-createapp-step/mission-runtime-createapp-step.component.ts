@@ -28,7 +28,7 @@ import { Cluster } from '../../model/cluster.model';
   styleUrls: ['./mission-runtime-createapp-step.component.less']
 })
 export class MissionRuntimeCreateappStepComponent extends LauncherStep implements OnInit, OnDestroy {
-  private booster: BoosterState = { mission: new Mission(), runtime: { id: undefined, name: undefined,
+  booster: BoosterState = { mission: new Mission(), runtime: { id: undefined, name: undefined,
     version: {id: undefined, name: undefined} } };
   public canChangeVersion: boolean;
 

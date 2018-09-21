@@ -56,10 +56,10 @@
         </div>
       </ng-template>
       <!-- Create application next steps -->
-      <f8launcher-activatebooster-createapp-nextstep *ngIf="_projectile.getState('TargetEnvironment')?.state.targetEnvironment === 'zip' && showNextSteps">
+      <f8launcher-activatebooster-createapp-nextstep *ngIf="projectile.getState('TargetEnvironment')?.state.targetEnvironment === 'zip' && showNextSteps">
       </f8launcher-activatebooster-createapp-nextstep>
       <f8launcher-projectprogress-createapp-nextstep
-        *ngIf="_projectile.getState('TargetEnvironment')?.state.targetEnvironment === 'os'" [hidden]="!showNextSteps"
+        *ngIf="projectile.getState('TargetEnvironment')?.state.targetEnvironment === 'os'" [hidden]="!showNextSteps"
         [statusLink]="statusLink">
       </f8launcher-projectprogress-createapp-nextstep>
     </ng-template>
