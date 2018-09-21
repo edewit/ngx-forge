@@ -44,7 +44,7 @@ export class ProjectSummaryImportappStepComponent extends LauncherStep implement
               private broadcaster: Broadcaster,
               private projectile: Projectile<any>,
               public _DomSanitizer: DomSanitizer) {
-    super(launcherComponent, null, projectile);
+    super(null, projectile);
   }
 
   ngOnInit() {

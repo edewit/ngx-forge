@@ -12,6 +12,7 @@ import * as _ from 'lodash';
 @Injectable()
 export class Projectile<T> {
   private _state = {};
+  selectedSection: string;
 
   cluster?: Cluster;
   dependencyCheck: DependencyCheck;

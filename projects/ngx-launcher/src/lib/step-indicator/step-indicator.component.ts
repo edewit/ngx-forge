@@ -9,6 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 import { LauncherComponent } from '../launcher.component';
 import { broadcast } from '../shared/telemetry.decorator';
 import { Broadcaster } from 'ngx-base';
+import { Projectile } from '../model/summary.model';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -28,6 +29,7 @@ export class StepIndicatorComponent {
 
   constructor(
     @Host() public launcherComponent: LauncherComponent,
+    private projectile: Projectile<any>,
     private route: ActivatedRoute,
     private broadcaster: Broadcaster) {
       broadcaster.on<string>('navigation').subscribe(id => this.navToStep(id));
@@ -41,6 +43,7 @@ export class StepIndicatorComponent {
    * Navigate to next step
    */
   navToNextStep(fromStepId?: string): void {
+    this.projectile.selectedSection = fromStepId;
     const steps = this.launcherComponent.steps.filter(step => !step.hidden);
     const index = steps.findIndex(step => step.id === fromStepId);
     this.navToStep(steps[index + 1].id);

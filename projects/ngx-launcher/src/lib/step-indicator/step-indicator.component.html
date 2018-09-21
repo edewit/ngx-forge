@@ -17,7 +17,7 @@
 <div class="f8launcher-vertical-bar"
      [ngClass]="{'in-progress': inProgress}">
   <a class="f8launcher-vertical-bar_steps--item {{step.styleClass}}" href="javascript:void(0)"
-     [class.active]="launcherComponent.selectedSection === step.id"
+     [class.active]="projectile.selectedSection === step.id"
      [ngClass]="{'hide': step.hidden}"
      (click)="navToStep(step.id)"
      *ngFor="let step of launcherComponent.steps">

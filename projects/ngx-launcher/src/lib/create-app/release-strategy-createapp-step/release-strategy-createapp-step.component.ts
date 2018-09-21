@@ -33,7 +33,7 @@ export class ReleaseStrategyCreateappStepComponent extends LauncherStep implemen
               private pipelineService: PipelineService,
               private projectile: Projectile<Pipeline>,
               private broadcaster: Broadcaster) {
-    super(launcherComponent, ReleaseStrategyCreateappReviewComponent, projectile);
+    super(ReleaseStrategyCreateappReviewComponent, projectile);
   }
 
   ngOnInit() {

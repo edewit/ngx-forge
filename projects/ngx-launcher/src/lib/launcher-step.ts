@@ -40,8 +40,7 @@ export abstract class LauncherStep implements OnDestroy {
 
   private scrollEvents: Subscription = fromEvent(window, 'scroll').pipe(debounceTime(100)).subscribe(() => this.isInView());
 
-  constructor(private _launcherComponent: LauncherComponent,
-    private _reviewComponentType: Type<ReviewComponent>,
+  constructor(private _reviewComponentType: Type<ReviewComponent>,
     private _projectile: Projectile<any>) {}
 
   get reviewComponentType(): Type<ReviewComponent> {
@@ -62,7 +61,7 @@ export abstract class LauncherStep implements OnDestroy {
 
       const inView = elementBottom !== 0 && elementTop <= viewportTop;
       if (inView) {
-        this._launcherComponent.onInViewportChange(this.id);
+        this._projectile.selectedSection = this.id;
       }
     }
   }

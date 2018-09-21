@@ -45,7 +45,7 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
               public _DomSanitizer: DomSanitizer,
               private projectile: Projectile<BoosterState>,
               private broadcaster: Broadcaster) {
-    super(launcherComponent, MissionRuntimeCreateappReviewComponent, projectile);
+    super(MissionRuntimeCreateappReviewComponent, projectile);
     this.canChangeVersion = this.launcherComponent.flow === 'launch';
   }
 
@@ -184,7 +184,7 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
   restoreModel(model: any): void {
     const mission = this.missions.find(m => m.id === model.missionId);
     const runtime = this.runtimes.find(r => r.id === model.runtimeId);
-    const version = runtime.versions.find(v => v.id === model.versionId);
+    const version = runtime ? runtime.versions.find(v => v.id === model.versionId) : undefined;
     this.selectBooster(mission, runtime, version);
   }
 

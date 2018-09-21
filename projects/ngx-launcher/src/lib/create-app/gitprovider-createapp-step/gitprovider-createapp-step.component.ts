@@ -36,7 +36,7 @@ export class GitproviderCreateappStepComponent extends LauncherStep implements A
   constructor(@Host() public launcherComponent: LauncherComponent,
               private projectile: Projectile<GitHubDetails>,
               private gitProviderService: GitProviderService) {
-    super(launcherComponent, GitproviderCreateappReviewComponent, projectile);
+    super(GitproviderCreateappReviewComponent, projectile);
   }
 
   ngAfterViewInit() {

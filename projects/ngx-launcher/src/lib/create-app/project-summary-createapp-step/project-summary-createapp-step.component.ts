@@ -48,7 +48,7 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
               public _DomSanitizer: DomSanitizer,
               private projectile: Projectile<any>,
               private componentFactoryResolver: ComponentFactoryResolver) {
-    super(launcherComponent, null, projectile);
+    super(null, projectile);
   }
 
   ngOnInit() {
