@@ -6,60 +6,7 @@
       <h1>Confirm Application Summary & Setup</h1>
     </div>
   </div>
-  <div class="container-fluid container-cards-pf" *ngIf="depEditorFlag && summary?.targetEnvironment === 'os' && launcherComponent.flow !== 'launch'">
-    <div class="row row-cards-pf">
-      <div class="col-xs-12">
-        <div id="dep-editor" class="card-pf card-pf--small">
-          <div *ngIf="launcherComponent.summary?.dependencyEditor?.dependencySnapshot === undefined;
-                      then showNoDependencyTemplate else showDependencyTemplate"></div>
-          <ng-template #showNoDependencyTemplate>
-            <div class="card-pf-heading">
-              <h2 class="card-pf-title">
-                Selected Dependencies
-              </h2>
-            </div>
-            <div class="card-pf-body f8launcher-project-summary-data-unavailable dependency noData-label">
-              <h2>
-                <b>You haven't selected any additional dependencies</b>
-              </h2>
-              <p>To add additional dependencies, complete this section. Required dependencies are added for you automatically based on your mission and runtime.</p>
-              <button class="btn btn-default btn-lg f8launcher-authorize-account"
-                      (click)="navToStep('SelectDependencies')">Complete Section</button>
-            </div>
-          </ng-template>
-          <ng-template #showDependencyTemplate>
-            <div class="card-pf-heading">
-              <h2 class="card-pf-title">
-                Selected Dependencies
-              </h2>
-            </div>
-            <div class="card-pf-body">
-              <div class="list-group-item"
-                   [ngClass]="{'suggested': launcherComponent.summary?.pipeline?.suggested || launcherComponent.summary?.pipeline?.techPreview}">
-                <div class="list-view-pf-main-info">
-                  <div class="list-view-pf-body">
-                    <div class="list-view-pf-description f8launcher-project-summary-data-unavailable dependency">
-                      <ng-container>
-                        <span class="dependencies-added" *ngFor="let snapshot of launcherComponent?.summary?.dependencyEditor?.dependencySnapshot">
-                          {{snapshot.package}}
-                        </span>
-                      </ng-container>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </ng-template>
-        </div>
-      </div>
-    </div>
-  </div>
   <form class="form-horizontal" #form="ngForm">
-  <div class="container-fluid container-cards-pf" *ngIf="launcherComponent.summary?.targetEnvironment === 'os' && launcherComponent.flow !== 'launch'">
-    <div class="row row-cards-pf">
-
-    </div>
-  </div>
   <div class="container-fluid container-cards-pf">
     <div class="row row-cards-pf">
       <ng-template review-host></ng-template>

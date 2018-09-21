@@ -14,12 +14,11 @@ import { Broadcaster } from 'ngx-base';
 
 import { DependencyCheckService } from '../../service/dependency-check.service';
 import { DependencyEditorService } from '../../service/dependency-editor.service';
-import { Selection } from '../../model/selection.model';
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
 import { DependencyEditor } from '../../model/dependency-editor/dependency-editor.model';
 import { broadcast } from '../../shared/telemetry.decorator';
-import { Projectile } from '../../model/summary.model';
+import { Projectile, StepState } from '../../model/summary.model';
 import { DependencyEditorReviewComponent } from './dependency-editor-review.component';
 import { DependencyCheck } from '../../model/dependency-check.model';
 
@@ -51,7 +50,7 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
         public broadcaster: Broadcaster,
         @Optional() private depEditorService: DependencyEditorService,
         private dependencyCheckService: DependencyCheckService,
-        private projectile: Projectile<DependencyCheck>,
+        private projectile: Projectile<{ dep: DependencyCheck }>,
         private keyValueDiffers: KeyValueDiffers
     ) {
         super(DependencyEditorReviewComponent, projectile);
@@ -63,9 +62,13 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
         });
     }
 
-
     ngOnInit() {
-        this.changes = this.keyValueDiffers.find(this.projectile).create();
+        const state = new StepState({ dep: this.dependencyEditor }, [
+          { name: 'dependencyEditor', value: 'dep' }
+        ]);
+        this.projectile.setState(this.id, state);
+
+        this.changes = this.keyValueDiffers.find(this.projectile.getState('MissionRuntime').state).create();
         this.launcherComponent.addStep(this);
         this.dependencyCheckService.getDependencyCheck()
         .subscribe((val) => {
@@ -76,12 +79,13 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
             const artifactTS: number = Date.now();
             const artifactRuntime = booster.runtime.id.replace(/[.\-_]/g, '');
             const artifactMission = booster.mission.id.replace(/[.\-_]/g, '');
+            (<any>this.dependencyCheck).mission = booster.mission;
             this.dependencyCheck.mavenArtifact = `booster-${artifactMission}-${artifactRuntime}-${artifactTS}`;
         });
     }
 
     ngDoCheck() {
-        const updates: any = this.changes.diff(this.projectile);
+        const updates: any = this.changes.diff(this.projectile.getState('MissionRuntime').state);
         if (updates) {
             updates.forEachChangedItem((r: any) => {
                 this.listenForChanges(r);
@@ -137,14 +141,14 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
 
     public pickMetadata(event: any) {
         if (event) {
-            // this.launcherComponent.summary.dependencyCheck.mavenArtifact = event.artifactId;
-            // this.launcherComponent.summary.dependencyCheck.groupId = event.groupId;
-            // this.launcherComponent.summary.dependencyCheck.projectVersion = event.version;
+            this.dependencyCheck.mavenArtifact = event.artifactId;
+            this.dependencyCheck.groupId = event.groupId;
+            this.dependencyCheck.projectVersion = event.version;
 
             // // Update the dependency editor model
-            // this.launcherComponent.summary.dependencyEditor['mavenArtifact'] = event.artifactId;
-            // this.launcherComponent.summary.dependencyEditor['groupId'] = event.groupId;
-            // this.launcherComponent.summary.dependencyEditor['projectVersion'] = event.version;
+            this.dependencyEditor['mavenArtifact'] = event.artifactId;
+            this.dependencyEditor['groupId'] = event.groupId;
+            this.dependencyEditor['projectVersion'] = event.version;
         }
     }
 
@@ -199,7 +203,7 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
                 const mission: string = this.cacheInfo['mission'].id;
                 const runtime: string = this.cacheInfo['runtime'].id;
                 this.boosterInfo = this.cacheInfo;
-                const missionObj = {}; // <any>this.launcherComponent.summary.mission;
+                const missionObj = (<any>this.dependencyCheck).mission;
                 if (missionObj && missionObj['boosters'] && missionObj['boosters'].length) {
                     missionObj['boosters'].forEach((booster: any) => {
                         if (mission === booster.mission.id && runtime === booster.runtime.id) {
@@ -223,16 +227,6 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
                 });
             }
         }
-    }
-
-    // Restore mission & runtime summary
-    private restoreSummary(): void {
-        // const selection: Selection = this.launcherComponent.selectionParams;
-        // if (selection !== undefined) {
-        //     this.launcherComponent.summary.targetEnvironment = selection.targetEnvironment;
-        //     this.launcherComponent.summary.dependencyCheck = selection.dependencyCheck;
-        //     this.launcherComponent.summary.dependencyEditor = selection.dependencyEditor;
-        // }
     }
 
     restoreModel(model: any): void {

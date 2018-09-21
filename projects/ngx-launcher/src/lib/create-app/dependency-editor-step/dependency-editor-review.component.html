@@ -1,88 +1,43 @@
-{{data| json}}
-<!-- <div class="card-pf-body card-column">
-  <div class="card-column-single">
-    <div class="form-horizontal">
-      <div class="form-group f8launcher-project-summary-data-form-group">
-        <label class="col-xs-4 control-label">Application Name</label>
-        <div class="col-xs-8 f8launcher-project-summary-data-field f8launcher-application-text-field">
-          <input class="f8launcher-project-summary-data-field_input f8launcher-application-text-field_input"
-                 name="applicationTitle" placeholder="New Application" type="text" #projectName="ngModel"
-                 [(ngModel)]="data.dependencyCheck.projectName" lowercase validateProjectName required
-                 (keyup.enter)="$event.target.blur();">
-        </div>
-        <div *ngIf="projectName.invalid && (projectName.dirty || projectName.touched)" class="col-xs-8 col-xs-offset-4 has-error">
-          <span *ngIf="projectName.errors.pattern" class="help-block f8launcher-vertical-bar_application-name-help-text">
-            Please enter a valid Application Name.
-          </span>
-          <span *ngIf="projectName.errors.duplicate" class="help-block f8launcher-vertical-bar_application-name-help-text">
-            Application name is already used. Please enter a new one.
-          </span>
-        </div>
+<div class="col-xs-12">
+  <div id="dep-editor" class="card-pf card-pf--small">
+    <div *ngIf="data.dep.dependencySnapshot === undefined;
+                then showNoDependencyTemplate else showDependencyTemplate"></div>
+    <ng-template #showNoDependencyTemplate>
+      <div class="card-pf-heading">
+        <h2 class="card-pf-title">
+          Selected Dependencies
+        </h2>
       </div>
-      <div class="form-group f8launcher-project-summary-data-form-group"
-        *ngIf="launcherComponent.flow !== 'osio' && runtime?.id !== 'nodejs'">
-        <label class="col-xs-4 control-label">Maven Artifact</label>
-        <div class="col-xs-8 f8launcher-project-summary-data-field f8launcher-application-text-field">
-          <input class="f8launcher-project-summary-data-field_input f8launcher-application-text-field_input"
-                 name="artifact" placeholder="Maven Artifact" type="text" pattern="[a-z][a-z0-9-]{3,63}"
-                 [(ngModel)]="data.dependencyCheck.mavenArtifact" #mavenArtifact="ngModel"
-                 (keyup.enter)="$event.target.blur();">
-        </div>
-        <div *ngIf="mavenArtifact.invalid && (mavenArtifact.dirty || mavenArtifact.touched)" class="col-xs-8 col-xs-offset-4 has-error">
-          <span class="help-block">
-            Please enter a valid Maven Artifact.
-          </span>
-        </div>
+      <div class="card-pf-body f8launcher-project-summary-data-unavailable dependency noData-label">
+        <h2>
+          <b>You haven't selected any additional dependencies</b>
+        </h2>
+        <p>To add additional dependencies, complete this section. Required dependencies are added for you automatically based on your mission and runtime.</p>
+        <button class="btn btn-default btn-lg f8launcher-authorize-account"
+                (click)="navToStep('SelectDependencies')">Complete Section</button>
       </div>
-      <div class="form-group f8launcher-project-summary-data-form-group">
-        <label class="col-xs-4 control-label">Version</label>
-        <div class="col-xs-8 f8launcher-project-summary-data-field f8launcher-application-text-field">
-          <input class="f8launcher-project-summary-data-field_input f8launcher-application-text-field_input"
-                 name="version" placeholder="Version Number" type="text" pattern="[a-zA-Z0-9-.]{3,63}"
-                 [(ngModel)]="data.dependencyCheck.projectVersion" #projectVersion="ngModel" required
-                 (keyup.enter)="$event.target.blur();">
-        </div>
-        <div *ngIf="projectVersion.invalid && (projectVersion.dirty || projectVersion.touched)" class="col-xs-8 col-xs-offset-4 has-error">
-          <span class="help-block">
-            Please enter a valid Version.
-          </span>
-        </div>
+    </ng-template>
+    <ng-template #showDependencyTemplate>
+      <div class="card-pf-heading">
+        <h2 class="card-pf-title">
+          Selected Dependencies
+        </h2>
       </div>
-      <div class="form-group f8launcher-project-summary-data-form-group" *ngIf="runtime?.id !== 'nodejs'">
-        <label class="col-xs-4 control-label">Group ID</label>
-        <div class="col-xs-8 f8launcher-project-summary-data-field f8launcher-application-text-field">
-          <input class="f8launcher-project-summary-data-field_input f8launcher-application-text-field_input"
-                 name="groupId" placeholder="Group ID" type="text" pattern="[a-z][a-z0-9.]{3,63}" required
-                 [(ngModel)]="data.dependencyCheck.groupId" #groupId="ngModel">
-        </div>
-        <div *ngIf="groupId.invalid && (groupId.dirty || groupId.touched)" class="col-xs-8 col-xs-offset-4 has-error">
-          <span class="help-block">
-            Please enter a valid Group ID.
-          </span>
-        </div>
-      </div>
-      <div class="form-group f8launcher-project-summary-data-form-group" *ngIf="launcherComponent.flow === 'osio'">
-        <label class="col-xs-4 control-label">Space Path</label>
-        <div class="col-xs-8 f8launcher-project-summary-data-field">
-          <span>{{data.dependencyCheck?.spacePath}}</span>
-        </div>
-      </div>
-      <div class="form-group f8launcher-project-summary-data-form-group">
-        <label class="col-xs-4 control-label">Target Environment</label>
-        <div *ngIf="targetEnvironment === undefined;
-              then showNoTargetTemplate else showTargetTemplate"></div>
-        <ng-template #showNoTargetTemplate>
-          <div class="col-xs-8 f8launcher-project-summary-data-field">
-            <button class="btn btn-default"
-                    (click)="navToStep('TargetEnvironment')">Complete Section</button>
+      <div class="card-pf-body">
+        <div class="list-group-item">
+          <div class="list-view-pf-main-info">
+            <div class="list-view-pf-body">
+              <div class="list-view-pf-description f8launcher-project-summary-data-unavailable dependency">
+                <ng-container>
+                  <span class="dependencies-added" *ngFor="let snapshot of data.dep.dependencySnapshot">
+                    {{snapshot.package}}
+                  </span>
+                </ng-container>
+              </div>
+            </div>
           </div>
-        </ng-template>
-        <ng-template #showTargetTemplate>
-          <div class="col-xs-8 f8launcher-project-summary-data-field">
-            <span>{{targetEnvironment === 'os' ? 'OpenShift' : '.Zip File'}}</span>
-          </div>
-        </ng-template>
+        </div>
       </div>
-    </div>
+    </ng-template>
   </div>
-</div> -->
+</div>
