@@ -231,6 +231,5 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
 
     restoreModel(model: any): void {
       this.dependencyEditor = model.dependencyEditor;
-      this.dependencyCheck = model.dependencyCheck;
     }
 }

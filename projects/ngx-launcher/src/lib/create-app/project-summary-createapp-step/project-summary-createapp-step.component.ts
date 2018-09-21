@@ -157,19 +157,7 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
     );
   }
 
-  get dependencyCheck(): DependencyCheck {
-    return new DependencyCheck(); // this.projectile.dependencyCheck;
-  }
-
-  get summary(): Projectile<any> {
-    return this.projectile;
-  }
-
   restoreModel(): void {
-  }
-
-  toggleExpanded(pipeline: Pipeline) {
-    pipeline.expanded = (pipeline.expanded !== undefined) ? !pipeline.expanded : true;
   }
 
     /**
