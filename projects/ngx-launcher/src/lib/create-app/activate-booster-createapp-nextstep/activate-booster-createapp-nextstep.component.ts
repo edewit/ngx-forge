@@ -5,6 +5,8 @@ import {
 } from '@angular/core';
 
 import { LauncherComponent } from '../../launcher.component';
+import { Projectile } from '../../model/summary.model';
+import { DependencyCheck } from '../../model/dependency-check.model';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -14,6 +16,11 @@ import { LauncherComponent } from '../../launcher.component';
 })
 export class ActivateBoosterCreateappNextstepComponent {
 
-  constructor(@Host() public launcherComponent: LauncherComponent) {
+  constructor(@Host() public launcherComponent: LauncherComponent,
+      private projectile: Projectile<DependencyCheck>) {
+  }
+
+  get data(): DependencyCheck {
+    return this.projectile.getState('TargetEnvironment').state;
   }
 }
