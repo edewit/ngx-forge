@@ -1,0 +1,25 @@
+# Test config for running e2e tests against remote osio
+export DEBUG="false"
+# openshift.io credentials
+export OSIO_USERNAME="${OSIO_USERNAME:-}"
+export OSIO_PASSWORD="${OSIO_PASSWORD:-}"
+export OSIO_URL="${OSIO_URL:-https://openshift.io}"
+
+# openshift credentials
+export OSO_USERNAME="${OSO_USERNAME:-$OSIO_USERNAME}"
+
+# github
+export GITHUB_USERNAME="${GITHUB_USERNAME:-}"
+export GITHUB_PASSWORD="${GITHUB_PASSWORD:-}"
+#export GITHUB_REPO="${$GITHUB_REPO:-testmay-to-be-imported}"
+
+# test params
+# see protractor.config.ts for valid test suites
+export TEST_SUITE="${TEST_SUITE:-smoketest}"
+export RELEASE_STRATEGY="${RELEASE_STRATEGY:-releaseStageApproveAndPromote}"
+export QUICKSTART_NAME="${QUICKSTART_NAME:-'vertxHttp'}"
+export NGX_LAUNCHER_ENABLED="${NGX_LAUNCHER_ENABLED:-true}"
+export RESET_ENVIRONMENT="${RESET_ENVIRONMENT:-true}"
+# Expected user setting for feature levels - internal, experimental, beta, released
+export FEATURE_LEVEL="${FEATURE_LEVEL:-internal}"
+export CHE_LOCAL_REPOSITORY="${CHE_LOCAL_REPOSITORY:-../../che-functional-tests}"
