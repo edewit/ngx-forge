@@ -38,6 +38,8 @@ Thumbs.db
 projects/ngx-launcher/node_modules/
 /bower_components
 npm-debug.log
+/tests/node_modules
+
 
 # Coverage #
 /coverage/
