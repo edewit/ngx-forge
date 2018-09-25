@@ -160,10 +160,10 @@ describe('MissionRuntimeStepComponent', () => {
   it('should select the mission in launcher component summary', fakeAsync(() => {
     fixture.detectChanges();
     selectItem(getMissionItem(0));
-    expect(component.booster.mission).toBe(component.missions[0] as Mission);
+    expect(component.booster.mission.id).toBe((component.missions[0] as Mission).id);
 
     selectItem(getMissionItem(1));
-    expect(component.booster.mission).toBe(component.missions[1] as Mission);
+    expect(component.booster.mission.id).toBe((component.missions[1] as Mission).id);
   }));
 
   it('should have the suggested missions tag when mission.suggested field is true', () => {
@@ -260,10 +260,10 @@ describe('MissionRuntimeStepComponent', () => {
   it('should select the runtime in launcher component summary', fakeAsync(() => {
     fixture.detectChanges();
     selectItem(getRuntimeItem(0));
-    expect(component.booster.runtime).toBe(component.runtimes[0] as Runtime);
+    expect(component.booster.runtime.id).toBe((component.runtimes[0] as Runtime).id);
 
     selectItem(getRuntimeItem(1));
-    expect(component.booster.runtime).toBe(component.runtimes[1] as Runtime);
+    expect(component.booster.runtime.id).toBe((component.runtimes[1] as Runtime).id);
   }));
 
 

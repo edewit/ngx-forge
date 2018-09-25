@@ -154,12 +154,12 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
 
   selectBooster(mission?: ViewMission, runtime?: ViewRuntime, version?: BoosterVersion): void {
     if (mission && !mission.disabled) {
-      this.booster.mission = mission;
+      Object.assign(this.booster.mission, mission);
     }
     if (runtime && !runtime.disabled) {
-      this.booster.runtime = runtime;
+      Object.assign(this.booster.runtime, runtime);
       const newVersion = version ? version : runtime.selectedVersion;
-      this.booster.runtime.version = newVersion;
+      Object.assign(this.booster.runtime.version, newVersion);
       if (this.completed) {
         this.broadcaster.broadcast('booster-changed', this.booster);
       }
