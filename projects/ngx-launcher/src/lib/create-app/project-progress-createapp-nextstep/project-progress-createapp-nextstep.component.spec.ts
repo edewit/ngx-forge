@@ -9,6 +9,7 @@ import { LauncherComponent } from '../../launcher.component';
 import { ProjectSummaryService } from '../../service/project-summary.service';
 import { Broadcaster } from 'ngx-base';
 import { BroadcasterTestProvider } from '../targetenvironment-createapp-step/target-environment-createapp-step.component.spec';
+import { Projectile } from '../../model/summary.model';
 
 const progressSubject: Subject<Progress[]> = new Subject();
 const mockProjectProgressService = {
@@ -46,6 +47,7 @@ describe('ProjectProgressComponent', () => {
         ProjectProgressCreateappNextstepComponent
       ],
       providers: [
+        Projectile,
         { provide: Broadcaster, useValue: BroadcasterTestProvider.broadcaster },
         {
           provide: LauncherComponent, useValue: mockWizardComponent

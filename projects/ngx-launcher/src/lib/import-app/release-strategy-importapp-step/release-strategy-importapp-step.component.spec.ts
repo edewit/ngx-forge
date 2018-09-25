@@ -20,6 +20,7 @@ import { LauncherStep } from '../../launcher-step';
 import { PipelineService } from '../../service/pipeline.service';
 import { Pipeline, Stage } from '../../model/pipeline.model';
 import { ReleaseStrategyImportappStepComponent } from './release-strategy-importapp-step.component';
+import { Projectile } from '../../model/summary.model';
 
 // @ts-ignore
 @Component({
@@ -93,6 +94,7 @@ describe('Import ReleaseStrategyStepComponent', () => {
           FakePfngToolbarComponent
         ],
         providers : [
+          Projectile,
           {
             provide: PipelineService, useValue: mockPipelineService
           },

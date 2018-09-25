@@ -31,6 +31,7 @@ import { DemoDependencyCheckService } from '../../../../src/app/service/demo-dep
 import { ProjectSummaryService } from './service/project-summary.service';
 import { DemoProjectSummaryService } from '../../../../src/app/service/demo-project-summary.service';
 import { DependencyEditorModule } from 'fabric8-analytics-dependency-editor';
+import { Projectile } from './model/summary.model';
 
 // @ts-ignore
 @Component({
@@ -198,6 +199,7 @@ describe('LauncherComponent', () => {
         ProjectProgressImportappNextstepComponent
       ],
       providers: [
+        Projectile,
         TokenProvider,
         { provide: DependencyCheckService, useClass: DemoDependencyCheckService },
         { provide: HelperService, useValue: mockHelperService },

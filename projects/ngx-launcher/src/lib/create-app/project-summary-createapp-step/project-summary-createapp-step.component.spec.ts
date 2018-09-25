@@ -16,6 +16,8 @@ import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
 import { Broadcaster } from 'ngx-base';
 import { BroadcasterTestProvider } from '../targetenvironment-createapp-step/target-environment-createapp-step.component.spec';
+import { Projectile } from '../../model/summary.model';
+import { ReviewDirective } from './review.directive';
 
 @Component({
   selector: 'fab-toast-notification',
@@ -52,34 +54,16 @@ const mockDependencyCheckService = {
 export interface TypeWizardComponent {
   selectedSection: string;
   steps: LauncherStep[];
-  summary: any;
   summaryCompleted: boolean;
   addStep(step: LauncherStep): void;
-  onInViewportChange($event: any, id: string): any;
 }
 
 const mockWizardComponent: TypeWizardComponent = {
   selectedSection: '',
   steps: [],
-  summary: {
-    dependencyCheck: {},
-    gitHubDetails: {}
-  },
   summaryCompleted: false,
   addStep(step: LauncherStep) {
-    for (let i = 0; i < this.steps.length; i++) {
-      if (step.id === this.steps[i].id) {
-        return;
-      }
-    }
     this.steps.push(step);
-  },
-  onInViewportChange($event: any, id: string) {
-    if ($event) {
-      setTimeout(() => {
-        this.selectedSection = id;
-      }, 10); // Avoids ExpressionChangedAfterItHasBeenCheckedError
-    }
   }
 };
 
@@ -95,10 +79,12 @@ describe('ProjectSummaryStepComponent', () => {
         RouterTestingModule
       ],
       declarations: [
+        ReviewDirective,
         ProjectSummaryCreateappStepComponent,
         FakeToastNotificationComponent
       ],
       providers : [
+        Projectile,
         { provide: Broadcaster, useValue: BroadcasterTestProvider.broadcaster },
         {
           provide: ProjectSummaryService, useValue: mockProjectSummaryService

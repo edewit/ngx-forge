@@ -19,27 +19,15 @@ import { mavenReleasePipeline, StubbedPipelineService } from './pipelines.fixtur
 import { ViewRuntime } from '../mission-runtime-createapp-step/mission-runtime-createapp-step.model';
 
 export interface TypeWizardComponent {
-  selectedSection: string;
   steps: LauncherStep[];
-  summary: any;
   summaryCompleted: boolean;
   addStep(step: LauncherStep): void;
 }
 
 const mockWizardComponent: TypeWizardComponent = {
-  selectedSection: '',
   steps: [],
-  summary: {
-    dependencyCheck: {},
-    gitHubDetails: {}
-  },
   summaryCompleted: false,
   addStep(step: LauncherStep) {
-    for (let i = 0; i < this.steps.length; i++) {
-      if (step.id === this.steps[i].id) {
-        return;
-      }
-    }
     this.steps.push(step);
   }
 };
@@ -61,6 +49,7 @@ describe('ReleaseStrategyStepComponent', () => {
         ReleaseStrategyCreateappStepComponent
       ],
       providers : [
+        Projectile,
         { provide: PipelineService, useClass: StubbedPipelineService },
         { provide: LauncherComponent, useValue: mockWizardComponent },
         { provide: Broadcaster, useValue: BroadcasterTestProvider.broadcaster }
