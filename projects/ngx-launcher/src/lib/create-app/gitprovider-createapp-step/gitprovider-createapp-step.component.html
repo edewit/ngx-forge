@@ -63,13 +63,13 @@
               <div class="form-group">
                 <label for="ghRepo" class="col-sm-2 control-label">Repository</label>
                 <div class="col-sm-10"
-                    [class.has-error]="ghRepo.invalid && (ghRepo.dirty || ghRepo.touched)">
+                    [class.has-error]="ghRepo.invalid">
                   <input id="ghRepo" class="form-control" name="ghRepo" type="text" #ghRepo="ngModel" lowercase validateRepository required
                         placeholder="Enter a unique name for your repository"
                         [disabled]="!launcherComponent.summary.gitHubDetails.organization"
                         [(ngModel)]="launcherComponent.summary.gitHubDetails.repository">
                   <span class="help-block"
-                    *ngIf="ghRepo.invalid && (ghRepo.dirty || ghRepo.touched)">
+                    *ngIf="ghRepo.invalid">
                     <span *ngIf="ghRepo.errors.duplicate">
                       Duplicate Name: '{{ghRepo.value}}' is already in use
                       as {{launcherComponent.summary.gitHubDetails.organization}}/{{ghRepo.value}}.
