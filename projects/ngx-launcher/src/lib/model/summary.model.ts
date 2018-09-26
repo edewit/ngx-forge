@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
+import { HttpParams } from '@angular/common/http';
 
 import * as _ from 'lodash';
 
 @Injectable()
 export class Projectile<T> {
   private _state = {};
-  private _selectedSection: string;
+  private _selectedSection = '';
 
   get selectedSection(): string {
     if (!this._selectedSection) {
-      this._selectedSection = this.searchParams.get('selectedSection');
+      this._selectedSection = this.searchParams().get('selectedSection');
     }
     return this._selectedSection;
   }
@@ -27,7 +28,7 @@ export class Projectile<T> {
   }
 
   getSavedState(stepId: string): any {
-    const state = this.searchParams.get(stepId);
+    const state = this.searchParams().get(stepId);
     return JSON.parse(state);
   }
 
@@ -38,18 +39,29 @@ export class Projectile<T> {
   }
 
   toUrl(): string {
-    return '?selectedSection=' + this._selectedSection + '&' + Object.keys(this._state).map(k => {
+    return `?selectedSection=${encodeURIComponent(this._selectedSection)}&`
+      + Object.keys(this._state).map(k => {
+        this._state[k].save();
+        return `${encodeURIComponent(k)}=${encodeURIComponent('{' +
+          this._state[k].filters.map((f: Filter) => this.stateToJsonPart(f, this._state[k].state)) + '}')}`;
+      }).join('&');
+  }
+
+  toHttpPayload(): HttpParams {
+    const params = new HttpParams();
+    Object.keys(this._state).map(k => {
       this._state[k].save();
-      return `${encodeURIComponent(k)}=${encodeURIComponent('{' +
-        this._state[k].filters.map((f: Filter) => this.stateToJsonPart(f, this._state[k].state)) + '}')}`;
-    }).join('&');
+      Object.keys(this._state[k].state)
+        .map(e => params.append(e, this._state[k].state[e]));
+    });
+    return params;
   }
 
   private stateToJsonPart(f: Filter, state: any) {
     return `"${f.name}":${JSON.stringify(_.get(state, f.value, ''))}`;
   }
 
-  private get searchParams() {
+  protected searchParams(): URLSearchParams {
     return new URL(window.location.href).searchParams;
   }
 }
