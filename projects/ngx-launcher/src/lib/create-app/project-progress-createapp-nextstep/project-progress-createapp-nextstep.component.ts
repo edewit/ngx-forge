@@ -1,6 +1,6 @@
-import { Component, Host, Input, OnChanges, OnDestroy, SimpleChanges, ViewEncapsulation, OnInit } from '@angular/core';
+import { Component, Host, Input, OnChanges, OnDestroy, SimpleChanges, ViewEncapsulation } from '@angular/core';
 
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { Progress } from '../../model/progress.model';
 import { ProjectProgressService } from '../../service/project-progress.service';
 import { LauncherComponent } from '../../launcher.component';
@@ -16,12 +16,10 @@ import { Router } from '@angular/router';
   templateUrl: './project-progress-createapp-nextstep.component.html',
   styleUrls: ['./project-progress-createapp-nextstep.component.less']
 })
-export class ProjectProgressCreateappNextstepComponent implements OnChanges, OnDestroy, OnInit {
+export class ProjectProgressCreateappNextstepComponent implements OnChanges, OnDestroy {
   @Input() statusLink: string;
   errorMessage: string;
-  codeBaseCreated: boolean = false;
-  userName: string;
-  spaceName: string;
+  codeBaseCreated = false;
   codebaseId: string;
   private _progress: Progress[];
   private socket: WebSocket;
@@ -37,12 +35,6 @@ export class ProjectProgressCreateappNextstepComponent implements OnChanges, OnD
         console.log('got the event list', events);
         this._progress = events;
       });
-  }
-
-  ngOnInit() {
-    const currentUrl = this.router.url.split('/');
-    this.userName = currentUrl[1];
-    this.spaceName = currentUrl[2];
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -111,14 +103,14 @@ export class ProjectProgressCreateappNextstepComponent implements OnChanges, OnD
   }
 
   createWorkSpace() {
-    this.cheService.getState().subscribe(che => {
+    this.cheService.getState().pipe(switchMap(che => {
       if (!che.clusterFull) {
         return this.workSpaceService.createWorkSpace(this.codebaseId)
           .pipe(map(workSpaceLinks => {
-            console.log(workSpaceLinks, '####-99');
+            window.open(workSpaceLinks.links.open, '_blank');
           }));
       }
-    });
+    })).subscribe();
   }
 
   addQuery() {

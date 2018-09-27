@@ -1,4 +1,4 @@
-import { Component, Host, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { Component, Host, Input, OnChanges, OnDestroy, SimpleChanges, ViewEncapsulation } from '@angular/core';
 
 import { Progress } from '../../model/progress.model';
 import { ProjectProgressService } from '../../service/project-progress.service';
@@ -12,11 +12,9 @@ import { Router } from '@angular/router';
   templateUrl: './project-progress-importapp-nextstep.component.html',
   styleUrls: ['./project-progress-importapp-nextstep.component.less']
 })
-export class ProjectProgressImportappNextstepComponent implements OnChanges, OnDestroy, OnInit {
+export class ProjectProgressImportappNextstepComponent implements OnChanges, OnDestroy {
   @Input() statusLink: string;
   errorMessage = '';
-  userName: string;
-  spaceName: string;
   private _progress: Progress[];
   private socket: WebSocket;
 
@@ -25,12 +23,6 @@ export class ProjectProgressImportappNextstepComponent implements OnChanges, OnD
               private projectProgressService: ProjectProgressService,
               private router: Router) {
     this.broadcaster.on('progressEvents').subscribe((events: Progress[]) => this._progress = events);
-  }
-
-  ngOnInit() {
-    const currentUrl = this.router.url.split('/');
-    this.userName = currentUrl[1];
-    this.spaceName = currentUrl[2];
   }
 
   ngOnChanges(changes: SimpleChanges) {

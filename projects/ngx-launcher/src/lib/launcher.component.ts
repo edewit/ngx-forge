@@ -43,10 +43,9 @@ export class LauncherComponent implements AfterViewInit, OnInit {
   @Input() depEditorFlag = false;
 
   /**
-   * Setting the flag appType for demo app or real app.
-   * Value should be 'realApp' or 'demoApp'
+   * Setting the flag to show or hide the View pipeline and Open IDE button
    */
-  @Input() appType = 'realApp';
+  @Input() nextButtons = false;
 
   /**
    * The event emitted when an cancel has been selected
