@@ -5,6 +5,7 @@ import { ProjectProgressService } from '../../service/project-progress.service';
 import { LauncherComponent } from '../../launcher.component';
 import { Broadcaster } from 'ngx-base';
 import { Router } from '@angular/router';
+import { broadcast } from '../../shared/telemetry.decorator';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -71,6 +72,9 @@ export class ProjectProgressImportappNextstepComponent implements OnChanges, OnD
       q: query
     };
   }
+
+  @broadcast('ImportFlowViewPipelineButtonClicked', {})
+  viewPipeline() {}
 
   // Accessors
 

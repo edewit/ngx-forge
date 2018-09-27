@@ -9,6 +9,7 @@ import { Broadcaster } from 'ngx-base';
 import { WorkSpacesService } from '../../service/workSpaces.service';
 import { CheService } from '../../service/che.service';
 import { Router } from '@angular/router';
+import { broadcast } from '../../shared/telemetry.decorator';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -102,6 +103,7 @@ export class ProjectProgressCreateappNextstepComponent implements OnChanges, OnD
       });
   }
 
+  @broadcast('CreateFlowOpenInIDEButtonClicked', {})
   createWorkSpace() {
     this.cheService.getState().pipe(switchMap(che => {
       if (!che.clusterFull) {
@@ -119,6 +121,9 @@ export class ProjectProgressCreateappNextstepComponent implements OnChanges, OnD
       q: query
     };
   }
+
+  @broadcast('CreateFlowViewPipelineButtonClicked', {})
+  viewPipeline() {}
 
   // Accessors
 

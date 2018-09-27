@@ -84,7 +84,8 @@
           <a class="btn btn-primary btn-lg margin-left-10"
             *ngIf="launcherComponent.flow === 'osio'"
             [routerLink]="['../../../', 'create', 'pipelines']"
-            [queryParams]="addQuery()">View Pipeline</a>
+            [queryParams]="addQuery()"
+            (click)="viewPipeline()">View Pipeline</a>
         </span>
       </div>
     </div>
