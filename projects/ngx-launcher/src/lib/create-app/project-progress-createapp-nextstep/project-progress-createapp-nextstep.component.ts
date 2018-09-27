@@ -1,4 +1,4 @@
-import { Component, Host, Input, OnChanges, OnDestroy, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { Component, Host, Input, OnChanges, OnDestroy, SimpleChanges, ViewEncapsulation, Optional } from '@angular/core';
 
 import { map, switchMap } from 'rxjs/operators';
 import { Progress } from '../../model/progress.model';
@@ -29,8 +29,8 @@ export class ProjectProgressCreateappNextstepComponent implements OnChanges, OnD
     private projectProgressService: ProjectProgressService,
     private projectSummaryService: ProjectSummaryService,
     private broadcaster: Broadcaster,
-    private workSpaceService: WorkSpacesService,
-    private cheService: CheService,
+    @Optional() private workSpaceService: WorkSpacesService,
+    @Optional() private cheService: CheService,
     private router: Router) {
       this.broadcaster.on('progressEvents').subscribe((events: Progress[]) => {
         console.log('got the event list', events);
