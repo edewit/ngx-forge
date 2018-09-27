@@ -11,10 +11,29 @@ import { ProjectSummaryService } from '../../service/project-summary.service';
 import { Broadcaster } from 'ngx-base';
 import { BroadcasterTestProvider } from '../targetenvironment-createapp-step/target-environment-createapp-step.component.spec';
 
+import { CheService } from '../../service/che.service';
+import { WorkSpacesService } from '../../service/workSpaces.service';
+import { Che } from './../../model/che.model';
+import { WorkspaceLinks } from './../../model/workspace.model';
+
 const progressSubject: Subject<Progress[]> = new Subject();
 const mockProjectProgressService = {
   getProgress(): Observable<Progress[]> {
     return progressSubject.asObservable();
+  }
+};
+
+const workSpaceSubject: Subject<WorkspaceLinks> = new Subject();
+const mockWorkSpacesService = {
+  createWorkSpace(): Observable<WorkspaceLinks> {
+    return workSpaceSubject.asObservable();
+  }
+};
+
+const cheSubject: Subject<Che> = new Subject();
+const mockCheService = {
+  createWorkSpace(): Observable<Che> {
+    return cheSubject.asObservable();
   }
 };
 
@@ -57,6 +76,12 @@ describe('ProjectProgressComponent', () => {
         },
         {
           provide: ProjectProgressService, useValue: mockProjectProgressService
+        },
+        {
+          provide: CheService, useValue: mockCheService
+        },
+        {
+          provide: WorkSpacesService, useValue: mockWorkSpacesService
         }
       ]
     }).compileComponents();

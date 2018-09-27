@@ -31,6 +31,10 @@ import { DemoDependencyCheckService } from '../../../../src/app/service/demo-dep
 import { ProjectSummaryService } from './service/project-summary.service';
 import { DemoProjectSummaryService } from '../../../../src/app/service/demo-project-summary.service';
 import { DependencyEditorModule } from 'fabric8-analytics-dependency-editor';
+import { CheService } from './service/che.service';
+import { WorkSpacesService } from './service/workSpaces.service';
+import { Che } from './model/che.model';
+import { WorkspaceLinks } from './model/workspace.model';
 
 // @ts-ignore
 @Component({
@@ -168,6 +172,20 @@ const mockProjectProgressService = {
   }
 };
 
+const workSpaceSubject: Subject<WorkspaceLinks> = new Subject();
+const mockWorkSpacesService = {
+  createWorkSpace(): Observable<WorkspaceLinks> {
+    return workSpaceSubject.asObservable();
+  }
+};
+
+const cheSubject: Subject<Che> = new Subject();
+const mockCheService = {
+  createWorkSpace(): Observable<Che> {
+    return cheSubject.asObservable();
+  }
+};
+
 describe('LauncherComponent', () => {
   let component: LauncherComponent;
   let fixture: ComponentFixture<LauncherComponent>;
@@ -203,7 +221,9 @@ describe('LauncherComponent', () => {
         { provide: HelperService, useValue: mockHelperService },
         { provide: ProjectProgressService, useValue: mockProjectProgressService },
         { provide: Broadcaster, useValue: BroadcasterTestProvider.broadcaster },
-        { provide: ProjectSummaryService, useClass: DemoProjectSummaryService }
+        { provide: ProjectSummaryService, useClass: DemoProjectSummaryService },
+        { provide: CheService, useValue: mockCheService },
+        { provide: WorkSpacesService, useValue: mockWorkSpacesService }
       ]
     }).compileComponents();
   }));

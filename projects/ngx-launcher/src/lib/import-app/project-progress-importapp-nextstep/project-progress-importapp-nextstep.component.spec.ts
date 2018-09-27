@@ -1,5 +1,3 @@
-import { Che } from './../../model/che.model';
-import { WorkspaceLinks } from './../../model/workspace.model';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
 import { Observable, Subject } from 'rxjs';
@@ -7,8 +5,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { ProjectProgressImportappNextstepComponent } from './project-progress-importapp-nextstep.component';
 import { ProjectProgressService } from '../../service/project-progress.service';
-import { CheService } from '../../service/che.service';
-import { WorkSpacesService } from '../../service/workSpaces.service';
 
 import { Progress } from '../../model/progress.model';
 import { LauncherComponent } from '../../launcher.component';
@@ -22,20 +18,6 @@ const mockProjectProgressService = {
     return progressSubject.asObservable();
   }
 };
-
-const workSpaceSubject: Subject<WorkspaceLinks> = new Subject();
-const mockWorkSpacesService = {
-  createWorkSpace(): Observable<WorkspaceLinks> {
-    return workSpaceSubject.asObservable();
-  }
-};
-
-const cheSubject: Subject<Che> = new Subject();
-const mockCheService = {
-  createWorkSpace(): Observable<Che> {
-    return cheSubject.asObservable();
-  }
-}
 
 export interface TypeWizardComponent {
   completed(): any;
@@ -67,12 +49,6 @@ describe('Import ProjectProgressComponent', () => {
         },
         {
           provide: ProjectProgressService, useValue: mockProjectProgressService
-        },
-        {
-          provide: CheService, useValue: mockCheService
-        },
-        {
-          provide: WorkSpacesService, useValue: mockWorkSpacesService
         }
       ]
     }).compileComponents();
