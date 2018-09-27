@@ -74,4 +74,10 @@ describe('Import ProjectProgressComponent', () => {
     component.ngOnChanges(input);
     expect(component.ngOnChanges).toHaveBeenCalledWith(input);
   });
+
+  it('View pipeline button should not be visible if nextbuttons value is false', () => {
+    fixture.detectChanges();
+    const viewPipelineButton: HTMLElement = fixture.nativeElement.querySelector('.f8launcher-viewpipeline');
+    expect(viewPipelineButton).toBeFalsy();
+  });
 });

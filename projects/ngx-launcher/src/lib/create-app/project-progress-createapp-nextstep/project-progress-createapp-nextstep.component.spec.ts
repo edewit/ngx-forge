@@ -56,6 +56,7 @@ const mockProjectSummaryService = {
 describe('ProjectProgressComponent', () => {
   let component: ProjectProgressCreateappNextstepComponent;
   let fixture: ComponentFixture<ProjectProgressCreateappNextstepComponent>;
+  let launcherComponent: LauncherComponent;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -106,5 +107,17 @@ describe('ProjectProgressComponent', () => {
     spyOn(component, 'ngOnChanges');
     component.ngOnChanges(input);
     expect(component.ngOnChanges).toHaveBeenCalledWith(input);
+  });
+
+  it('View pipeline button should not be visible if nextbuttons value is false', () => {
+    fixture.detectChanges();
+    const viewPipelineButton: HTMLElement = fixture.nativeElement.querySelector('.f8launcher-viewpipeline');
+    expect(viewPipelineButton).toBeFalsy();
+  });
+
+  it('Edit Application in Web IDE button should not be visible if nextbuttons value is false', () => {
+    fixture.detectChanges();
+    const openIDEButton: HTMLElement = fixture.nativeElement.querySelector('.f8launcher-openIDE');
+    expect(openIDEButton).toBeFalsy();
   });
 });

@@ -81,7 +81,7 @@
       <div class="f8launcher-continue">
         <button class="btn btn-primary btn-lg" (click)="launcherComponent.completed()">Return to your dashboard</button>
         <span *ngIf="launcherComponent.nextButtons">
-          <a class="btn btn-primary btn-lg margin-left-10"
+          <a class="btn btn-primary btn-lg margin-left-10 f8launcher-viewpipeline"
             *ngIf="launcherComponent.flow === 'osio'"
             [routerLink]="['../../../', 'create', 'pipelines']"
             [queryParams]="addQuery()"

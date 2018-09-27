@@ -157,12 +157,12 @@
       <div class="f8launcher-continue">
         <button class="btn btn-primary btn-lg" (click)="launcherComponent.completed()">{{ launcherComponent.flow === 'osio' ? 'Return to your dashboard' : 'Start a new project' }}</button>
         <span *ngIf="launcherComponent.nextButtons">
-          <a class="btn btn-primary btn-lg margin-left-10"
+          <a class="btn btn-primary btn-lg margin-left-10 f8launcher-viewpipeline"
             *ngIf="launcherComponent.flow === 'osio'"
             [routerLink]="['../../../', 'create', 'pipelines']"
             [queryParams]="addQuery()"
             (click)="viewPipeline()">View Pipeline</a>
-          <button class="btn btn-primary btn-lg margin-left-10"
+          <button class="btn btn-primary btn-lg margin-left-10 f8launcher-openIDE"
             *ngIf="launcherComponent.flow === 'osio'"
             [disabled]="!codeBaseCreated"
             (click)="createWorkSpace()">
