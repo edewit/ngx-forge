@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
 import { Observable, of, Subject} from 'rxjs';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { ProjectProgressCreateappNextstepComponent } from './project-progress-createapp-nextstep.component';
 import { ProjectProgressService } from '../../service/project-progress.service';
@@ -40,7 +41,8 @@ describe('ProjectProgressComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        CommonModule
+        CommonModule,
+        RouterTestingModule
       ],
       declarations: [
         ProjectProgressCreateappNextstepComponent
