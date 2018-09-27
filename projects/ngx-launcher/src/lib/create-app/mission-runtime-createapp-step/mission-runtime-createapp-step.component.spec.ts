@@ -144,7 +144,7 @@ describe('MissionRuntimeStepComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(MissionRuntimeCreateappStepComponent);
     component = fixture.componentInstance;
-    // component.ngOnInit();
+    component.ngAfterViewInit();
     fixture.detectChanges();
     element = fixture.nativeElement;
   });

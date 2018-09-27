@@ -41,10 +41,10 @@ export class ReleaseStrategyCreateappStepComponent extends LauncherStep implemen
     this.launcherComponent.addStep(this);
     this.subscriptions.push(this.pipelineService.getPipelines().subscribe((result: Array<Pipeline>) => {
       this._allPipelines = result;
-      this.restoreSummary();
     }));
     this.subscriptions.push(this.broadcaster.on('runtime-changed').subscribe((runtime: Runtime) => {
       this._pipelines = this._allPipelines.filter(({platform}) => platform === runtime.pipelinePlatform);
+      this.restoreSummary();
       if ((this.launcherComponent.summary.pipeline || {} as Pipeline).platform !== runtime.pipelinePlatform) {
         this.updatePipelineSelection(undefined);
       }
