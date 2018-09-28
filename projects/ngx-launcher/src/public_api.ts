@@ -28,6 +28,8 @@ export { ProjectProgressService } from './lib/service/project-progress.service';
 export { ProjectSummaryService } from './lib/service/project-summary.service';
 export { TargetEnvironmentService } from './lib/service/target-environment.service';
 export { TokenService } from './lib/service/token.service';
+export { CheService } from './lib/service/che.service';
+export { WorkSpacesService } from './lib/service/workSpaces.service';
 
 // Utility Service
 export { AuthHelperService } from './lib/service/auth-provider.service';
