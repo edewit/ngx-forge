@@ -4,7 +4,8 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  ViewEncapsulation } from '@angular/core';
+  ViewEncapsulation,
+  Optional} from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import {
@@ -54,8 +55,8 @@ export class ReleaseStrategyImportappStepComponent extends LauncherStep implemen
   private subscriptions: Subscription[] = [];
   pipeline: Pipeline;
 
-  constructor(@Host() public launcherComponent: LauncherComponent,
-              private projectile: Projectile<any>,
+  constructor(@Host() @Optional() public launcherComponent: LauncherComponent,
+              projectile: Projectile<any>,
               private pipelineService: PipelineService) {
     super(projectile);
   }

@@ -46,7 +46,7 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
 
     private subscriptions: Subscription[] = [];
     constructor(
-        @Host() public launcherComponent: LauncherComponent,
+        @Host() @Optional() public launcherComponent: LauncherComponent,
         public broadcaster: Broadcaster,
         @Optional() private depEditorService: DependencyEditorService,
         private dependencyCheckService: DependencyCheckService,

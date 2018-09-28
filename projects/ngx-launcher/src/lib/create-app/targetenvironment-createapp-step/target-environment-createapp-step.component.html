@@ -49,19 +49,7 @@
       </div>
     </div>
   </div>
-  <div>
-    <div class="container-fluid">
-      <div class="f8launcher-continue">
-        <button class="btn btn-link"
-          class.animate-continue="completed"
-          [disabled]="!completed"
-          (click)="navToNextStep()">
-          <span class="fa-stack fa-2x">
-            <i class="fa fa-circle fa-stack-2x"></i>
-            <i class="fa fa-angle-double-down fa-stack-1x fa-inverse"></i>
-          </span>
-        </button>
-      </div>
-    </div>
+  <div *ngIf="launcherComponent">
+    <f8launcher-button-next-step [disabled]="!completed" [navFromId]="id"></f8launcher-button-next-step>
   </div>
 </section>

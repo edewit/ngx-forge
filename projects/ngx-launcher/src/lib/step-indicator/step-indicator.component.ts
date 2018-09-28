@@ -32,7 +32,8 @@ export class StepIndicatorComponent implements OnInit {
     public projectile: Projectile<any>,
     private route: ActivatedRoute,
     broadcaster: Broadcaster) {
-      broadcaster.on<string>('navigation').subscribe(id => this.navToStep(id));
+      broadcaster.on<string>('navigate-to').subscribe(id => this.navToStep(id));
+      broadcaster.on<string>('navigate-from').subscribe(id => this.navToNextStep(id));
   }
 
   ngOnInit(): void {

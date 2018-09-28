@@ -12,6 +12,7 @@ import { Projectile } from './model/summary.model';
 import { StepIndicatorComponent } from './step-indicator/step-indicator.component';
 import { LauncherStep } from './launcher-step';
 import { broadcast } from './shared/telemetry.decorator';
+import { Broadcaster } from 'ngx-base';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -53,16 +54,14 @@ export class LauncherComponent implements AfterViewInit {
   private _steps: LauncherStep[] = [];
   private summaryCompleted = false;
 
-  constructor(public projectile: Projectile<any>) {
+  constructor(private broadcaster: Broadcaster, public projectile: Projectile<any>) {
   }
 
   ngAfterViewInit() {
-    if (this.stepIndicator) {
-      setTimeout(() => {
-        const id = this.projectile.selectedSection || this.firstNonHiddenStep.id;
-        this.stepIndicator.navToStep(id);
-      }, 2000);
-    }
+    const id = this.projectile.selectedSection || this.firstNonHiddenStep.id;
+    setTimeout(() => {
+      this.broadcaster.broadcast('navigate-to', id);
+    }, 2000);
   }
 
   /**

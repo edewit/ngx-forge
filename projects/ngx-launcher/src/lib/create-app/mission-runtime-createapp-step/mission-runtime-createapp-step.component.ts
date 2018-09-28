@@ -1,4 +1,4 @@
-import { Component, Host, OnDestroy, OnInit, ViewEncapsulation, Input } from '@angular/core';
+import { Component, Host, OnDestroy, OnInit, ViewEncapsulation, Input, Optional } from '@angular/core';
 import * as _ from 'lodash';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
@@ -42,7 +42,7 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
 
   private subscriptions: Subscription[] = [];
 
-  constructor(@Host() private launcherComponent: LauncherComponent,
+  constructor(@Host() @Optional() private launcherComponent: LauncherComponent,
               private missionRuntimeService: MissionRuntimeService,
               public _DomSanitizer: DomSanitizer,
               private projectile: Projectile<BoosterState>,

@@ -6,7 +6,8 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
-  ViewEncapsulation
+  ViewEncapsulation,
+  Optional
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -15,7 +16,6 @@ import { GitProviderService } from '../../service/git-provider.service';
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
 import { broadcast } from '../../shared/telemetry.decorator';
-import { GitproviderCreateappReviewComponent } from './gitprovider-createapp-review.component';
 import { GitHubDetails } from '../../model/github-details.model';
 import { Projectile, StepState } from '../../model/summary.model';
 
@@ -32,7 +32,7 @@ export class GitproviderCreateappStepComponent extends LauncherStep implements A
   private subscriptions: Subscription[] = [];
   gitHubDetails: GitHubDetails = {};
 
-  constructor(@Host() public launcherComponent: LauncherComponent,
+  constructor(@Host() @Optional() public launcherComponent: LauncherComponent,
               private projectile: Projectile<GitHubDetails>,
               private gitProviderService: GitProviderService) {
     super(projectile);

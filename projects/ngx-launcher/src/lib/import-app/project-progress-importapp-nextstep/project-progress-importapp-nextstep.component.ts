@@ -1,4 +1,4 @@
-import { Component, Host, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { Component, Host, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewEncapsulation, Optional } from '@angular/core';
 
 import { Progress } from '../../model/progress.model';
 import { ProjectProgressService } from '../../service/project-progress.service';
@@ -17,7 +17,7 @@ export class ProjectProgressImportappNextstepComponent implements OnChanges, OnD
   private _progress: Progress[];
   private socket: WebSocket;
 
-  constructor(@Host() public launcherComponent: LauncherComponent,
+  constructor(@Host() @Optional() public launcherComponent: LauncherComponent,
               private broadcaster: Broadcaster,
               private projectProgressService: ProjectProgressService) {
     this.broadcaster.on('progressEvents').subscribe((events: Progress[]) => this._progress = events);

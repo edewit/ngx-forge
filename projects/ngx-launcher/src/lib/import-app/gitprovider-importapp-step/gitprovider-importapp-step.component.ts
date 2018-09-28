@@ -6,7 +6,8 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
-  ViewEncapsulation
+  ViewEncapsulation,
+  Optional
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -34,7 +35,7 @@ export class GitproviderImportappStepComponent extends LauncherStep implements A
   private gitHubReposSubscription: Subscription;
   gitHubDetails: GitHubDetails;
 
-  constructor(@Host() public launcherComponent: LauncherComponent,
+  constructor(@Host() @Optional() public launcherComponent: LauncherComponent,
               private dependencyCheckService: DependencyCheckService,
               private projectile: Projectile<GitHubDetails>,
               private gitProviderService: GitProviderService) {

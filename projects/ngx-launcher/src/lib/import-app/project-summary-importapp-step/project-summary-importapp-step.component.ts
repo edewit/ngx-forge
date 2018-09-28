@@ -5,7 +5,8 @@ import {
   OnDestroy,
   OnInit,
   ViewEncapsulation,
-  ViewChild
+  ViewChild,
+  Optional
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -38,7 +39,7 @@ export class ProjectSummaryImportappStepComponent extends LauncherStep implement
   private spaceId: string;
   private spaceName: string;
 
-  constructor(@Host() public launcherComponent: LauncherComponent,
+  constructor(@Host() @Optional() public launcherComponent: LauncherComponent,
               private dependencyCheckService: DependencyCheckService,
               private projectSummaryService: ProjectSummaryService,
               private broadcaster: Broadcaster,
@@ -48,7 +49,9 @@ export class ProjectSummaryImportappStepComponent extends LauncherStep implement
   }
 
   ngOnInit() {
-    this.launcherComponent.addStep(this);
+    if (this.launcherComponent) {
+      this.launcherComponent.addStep(this);
+    }
     this.restore();
 
     this.subscriptions.push(

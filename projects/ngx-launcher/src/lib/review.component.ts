@@ -14,6 +14,6 @@ export class ReviewComponent implements OnInit {
   }
 
   navToStep(id: string) {
-    this.broadcaster.broadcast('navigation', id);
+    this.broadcaster.broadcast('navigate-to', id);
   }
 }

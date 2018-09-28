@@ -62,6 +62,7 @@ import { Projectile } from './model/summary.model';
 import { DependencyEditorReviewComponent } from './create-app/dependency-editor-step/dependency-editor-review.component';
 import { TargetEnvironmentCreateappReviewComponent } from './create-app/targetenvironment-createapp-step/target-environment-createapp-review.component';
 import { ReleaseStrategyCreateappReviewComponent } from './create-app/release-strategy-createapp-step/release-strategy-createapp-review.component';
+import { ButtonNextStepComponent } from './shared/button-next-step.component';
 
 @NgModule({
   imports: [
@@ -90,6 +91,7 @@ import { ReleaseStrategyCreateappReviewComponent } from './create-app/release-st
     MissionRuntimeCreateappReviewComponent
   ],
   declarations: [
+    ButtonNextStepComponent,
     ActivateBoosterCreateappNextstepComponent,
     CancelOverlayComponent,
     DependencyEditorCreateappStepComponent,

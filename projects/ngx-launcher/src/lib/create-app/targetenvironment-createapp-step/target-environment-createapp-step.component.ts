@@ -31,7 +31,7 @@ export class TargetEnvironmentCreateappStepComponent extends LauncherStep implem
   private _clusters: Cluster[] = [];
 
   selection: TargetEnvironmentSelection = new TargetEnvironmentSelection();
-  constructor(@Host() public launcherComponent: LauncherComponent,
+  constructor(@Host() @Optional() public launcherComponent: LauncherComponent,
               private targetEnvironmentService: TargetEnvironmentService,
               @Optional() private tokenService: TokenService,
               private broadcaster: Broadcaster,

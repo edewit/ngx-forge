@@ -3,7 +3,8 @@ import {
   Host,
   OnDestroy,
   OnInit,
-  ViewEncapsulation } from '@angular/core';
+  ViewEncapsulation,
+  Optional} from '@angular/core';
 
 import { PipelineService } from '../../service/pipeline.service';
 import { Pipeline } from '../../model/pipeline.model';
@@ -28,7 +29,7 @@ export class ReleaseStrategyCreateappStepComponent extends LauncherStep implemen
 
   private subscriptions: Subscription[] = [];
 
-  constructor(@Host() public launcherComponent: LauncherComponent,
+  constructor(@Host() @Optional() public launcherComponent: LauncherComponent,
               private pipelineService: PipelineService,
               private projectile: Projectile<Pipeline>,
               private broadcaster: Broadcaster) {

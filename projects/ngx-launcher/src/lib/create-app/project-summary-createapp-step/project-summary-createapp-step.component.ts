@@ -1,4 +1,4 @@
-import { Component, Host, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, Host, OnDestroy, OnInit, ViewChild, ViewEncapsulation, Optional } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Broadcaster } from 'ngx-base';
@@ -23,7 +23,7 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
   public setupInProgress = false;
   private subscriptions: Subscription[] = [];
 
-  constructor(@Host() private launcherComponent: LauncherComponent,
+  constructor(@Host() @Optional() private launcherComponent: LauncherComponent,
               private projectSummaryService: ProjectSummaryService,
               private broadcaster: Broadcaster,
               public _DomSanitizer: DomSanitizer,
