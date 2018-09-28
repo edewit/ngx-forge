@@ -1,18 +1,16 @@
 import { ReviewComponent } from '../../review.component';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Broadcaster } from 'ngx-base';
+import { Projectile } from '../../model/summary.model';
 
 @Component({
+  selector: 'f8launcher-mission-runtime-createapp-review',
   templateUrl: './mission-runtime-createapp-review.component.html'
 })
-export class MissionRuntimeCreateappReviewComponent implements ReviewComponent {
-  data: any;
+export class MissionRuntimeCreateappReviewComponent extends ReviewComponent {
 
-  constructor(public _DomSanitizer: DomSanitizer, private broadcaster: Broadcaster) {}
-
-  navToStep(id: string) {
-    this.broadcaster.broadcast('navigation', id);
+  constructor(public _DomSanitizer: DomSanitizer, broadcaster: Broadcaster, projectile: Projectile<any>) {
+    super(broadcaster, projectile);
   }
-
 }

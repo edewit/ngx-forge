@@ -12,7 +12,6 @@ import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 import { GitProviderService } from '../../service/git-provider.service';
-import { Selection } from '../../model/selection.model';
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
 import { broadcast } from '../../shared/telemetry.decorator';
@@ -36,7 +35,7 @@ export class GitproviderCreateappStepComponent extends LauncherStep implements A
   constructor(@Host() public launcherComponent: LauncherComponent,
               private projectile: Projectile<GitHubDetails>,
               private gitProviderService: GitProviderService) {
-    super(GitproviderCreateappReviewComponent, projectile);
+    super(projectile);
   }
 
   ngAfterViewInit() {
@@ -50,13 +49,15 @@ export class GitproviderCreateappStepComponent extends LauncherStep implements A
   }
 
   ngOnInit() {
+    this.gitHubDetails.repository = this.projectile.sharedState.state.projectName || '';
     const state = new StepState(this.gitHubDetails, [
       { name: 'repository', value: 'repository' },
       { name: 'organization', value: 'organization' }
     ]);
     this.projectile.setState(this.id, state);
-
-    this.launcherComponent.addStep(this);
+    if (this.launcherComponent) {
+      this.launcherComponent.addStep(this);
+    }
 
     this.subscriptions.push(this.gitProviderService.getGitHubDetails().subscribe((val) => {
       if (val !== undefined) {
@@ -94,7 +95,7 @@ export class GitproviderCreateappStepComponent extends LauncherStep implements A
    * Navigate to next step
    */
   @broadcast('completeGitProviderStep_Create', {
-    'launcherComponent.summary.gitHubDetails': {
+    'gitHubDetails': {
       location: 'organization',
       repository: 'repository',
       username: 'login'

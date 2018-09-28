@@ -3,6 +3,8 @@ import { HttpParams } from '@angular/common/http';
 
 import * as _ from 'lodash';
 
+import { DependencyCheck } from '../model/dependency-check.model';
+
 @Injectable()
 export class Projectile<T> {
   private _state = {};
@@ -17,6 +19,23 @@ export class Projectile<T> {
 
   set selectedSection(selectedSection: string) {
     this._selectedSection = selectedSection;
+  }
+
+  get sharedState(): StepState<DependencyCheck> {
+    let state = this._state['shared'];
+    if (!state) {
+      const dependencyCheck = this.getSavedState('shared') || new DependencyCheck();
+      state = new StepState<DependencyCheck>(dependencyCheck, [
+        { name: 'projectName', value: 'projectName' },
+        { name: 'projectVersion', value: 'projectVersion' },
+        { name: 'groupId', value: 'groupId' },
+        { name: 'artifactId', value: 'artifactId' },
+        { name: 'spacePath', value: 'spacePath' },
+        { name: 'targetEnvironment', value: 'targetEnvironment' }
+      ]);
+      this.setState('shared', state);
+    }
+    return state;
   }
 
   setState(stepId: string, state: StepState<T>) {

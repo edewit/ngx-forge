@@ -38,7 +38,7 @@ export class GitproviderImportappStepComponent extends LauncherStep implements A
               private dependencyCheckService: DependencyCheckService,
               private projectile: Projectile<GitHubDetails>,
               private gitProviderService: GitProviderService) {
-    super(null, projectile);
+    super(projectile);
   }
 
   ngAfterViewInit() {
@@ -52,7 +52,9 @@ export class GitproviderImportappStepComponent extends LauncherStep implements A
   }
 
   ngOnInit() {
-    this.launcherComponent.addStep(this);
+    if (this.launcherComponent) {
+      this.launcherComponent.addStep(this);
+    }
 
     this.subscriptions.push(this.gitProviderService.getGitHubDetails().subscribe((val) => {
       if (val !== undefined) {

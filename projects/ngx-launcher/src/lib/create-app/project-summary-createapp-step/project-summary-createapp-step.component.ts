@@ -1,29 +1,14 @@
-import {
-  Component,
-  Host,
-  Input,
-  OnDestroy,
-  OnInit,
-  ViewEncapsulation,
-  ViewChild,
-  ComponentFactoryResolver
-} from '@angular/core';
-import { Subscription } from 'rxjs';
-import { DomSanitizer } from '@angular/platform-browser';
-
-import * as _ from 'lodash';
-
-import { Pipeline } from '../../model/pipeline.model';
-import { ProjectSummaryService } from '../../service/project-summary.service';
-import { LauncherComponent } from '../../launcher.component';
-import { LauncherStep } from '../../launcher-step';
-import { DependencyCheck } from '../../model/dependency-check.model';
-import { Projectile } from '../../model/summary.model';
-import { broadcast } from '../../shared/telemetry.decorator';
-import { Broadcaster } from 'ngx-base';
+import { Component, Host, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ReviewDirective } from './review.directive';
-import { ReviewComponent } from '../../review.component';
+import { DomSanitizer } from '@angular/platform-browser';
+import { Broadcaster } from 'ngx-base';
+import { Subscription } from 'rxjs';
+
+import { LauncherStep } from '../../launcher-step';
+import { LauncherComponent } from '../../launcher.component';
+import { Projectile } from '../../model/summary.model';
+import { ProjectSummaryService } from '../../service/project-summary.service';
+import { broadcast } from '../../shared/telemetry.decorator';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -33,51 +18,28 @@ import { ReviewComponent } from '../../review.component';
 })
 export class ProjectSummaryCreateappStepComponent extends LauncherStep implements OnDestroy, OnInit {
   @ViewChild('form') form: NgForm;
-  @Input() id: string;
-  @Input() depEditorFlag: boolean;
-
-  @ViewChild(ReviewDirective) reviewHost: ReviewDirective;
 
   public setUpErrResponse: Array<any> = [];
   public setupInProgress = false;
   private subscriptions: Subscription[] = [];
 
-  constructor(@Host() public launcherComponent: LauncherComponent,
+  constructor(@Host() private launcherComponent: LauncherComponent,
               private projectSummaryService: ProjectSummaryService,
               private broadcaster: Broadcaster,
               public _DomSanitizer: DomSanitizer,
-              private projectile: Projectile<any>,
-              private componentFactoryResolver: ComponentFactoryResolver) {
-    super(null, projectile);
+              private projectile: Projectile<any>) {
+    super(projectile);
   }
 
   ngOnInit() {
-    this.launcherComponent.addStep(this);
-    this.loadComponents();
+    if (this.launcherComponent) {
+      this.launcherComponent.addStep(this);
+    }
   }
 
   ngOnDestroy() {
     this.subscriptions.forEach((sub) => {
       sub.unsubscribe();
-    });
-  }
-
-  private loadComponents() {
-    const viewContainerRef = this.reviewHost.viewContainerRef;
-    viewContainerRef.clear();
-
-    const steps = this.launcherComponent.steps.slice(0);
-    // TODO this sort makes mission runtime to be the first in order to have the right style
-    steps.sort((x, y) => x.id === 'MissionRuntime' ? -1 : (y.id === 'MissionRuntime' ? 1 : 0)).forEach(step => {
-      if (step.reviewComponentType && !step.hidden) {
-        const componentFactory = this.componentFactoryResolver.resolveComponentFactory(step.reviewComponentType);
-
-        const componentRef = viewContainerRef.createComponent(componentFactory);
-        const stepState = this.projectile.getState(step.id);
-        if (stepState) {
-          (<ReviewComponent>componentRef.instance).data = stepState.state;
-        }
-      }
     });
   }
 

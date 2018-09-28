@@ -3,8 +3,6 @@
  */
 
 // Launcher models
-import { CatalogMission } from './lib/model/catalog.model';
-
 export { LauncherModule } from './lib/launcher.module';
 export { Cluster } from './lib/model/cluster.model';
 export { DependencyCheck } from './lib/model/dependency-check.model';

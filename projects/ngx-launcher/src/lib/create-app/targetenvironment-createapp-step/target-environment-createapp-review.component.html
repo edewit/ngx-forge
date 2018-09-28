@@ -13,7 +13,7 @@
             <label class="col-xs-4 control-label">Application Name</label>
             <div class="col-xs-8 f8launcher-project-summary-data-field f8launcher-application-text-field">
               <input class="f8launcher-project-summary-data-field_input f8launcher-application-text-field_input" name="applicationTitle"
-                placeholder="New Application" type="text" #projectName="ngModel" [(ngModel)]="data.dependencyCheck.projectName"
+                placeholder="New Application" type="text" #projectName="ngModel" [(ngModel)]="data.projectName"
                 lowercase validateProjectName required (keyup.enter)="$event.target.blur();">
             </div>
             <div *ngIf="projectName.invalid && (projectName.dirty || projectName.touched)" class="col-xs-8 col-xs-offset-4 has-error">
@@ -25,11 +25,11 @@
               </span>
             </div>
           </div>
-          <div class="form-group f8launcher-project-summary-data-form-group" *ngIf="data.runtime?.id !== 'nodejs'">
+          <div class="form-group f8launcher-project-summary-data-form-group" *ngIf="data.mavenArtifact">
             <label class="col-xs-4 control-label">Maven Artifact</label>
             <div class="col-xs-8 f8launcher-project-summary-data-field f8launcher-application-text-field">
               <input class="f8launcher-project-summary-data-field_input f8launcher-application-text-field_input" name="artifact"
-                placeholder="Maven Artifact" type="text" pattern="[a-z][a-z0-9-]{3,63}" [(ngModel)]="data.dependencyCheck.mavenArtifact"
+                placeholder="Maven Artifact" type="text" pattern="[a-z][a-z0-9-]{3,63}" [(ngModel)]="data.mavenArtifact"
                 #mavenArtifact="ngModel" (keyup.enter)="$event.target.blur();">
             </div>
             <div *ngIf="mavenArtifact.invalid && (mavenArtifact.dirty || mavenArtifact.touched)" class="col-xs-8 col-xs-offset-4 has-error">
@@ -42,7 +42,7 @@
             <label class="col-xs-4 control-label">Version</label>
             <div class="col-xs-8 f8launcher-project-summary-data-field f8launcher-application-text-field">
               <input class="f8launcher-project-summary-data-field_input f8launcher-application-text-field_input" name="version"
-                placeholder="Version Number" type="text" pattern="[a-zA-Z0-9-.]{3,63}" [(ngModel)]="data.dependencyCheck.projectVersion"
+                placeholder="Version Number" type="text" pattern="[a-zA-Z0-9-.]{3,63}" [(ngModel)]="data.projectVersion"
                 #projectVersion="ngModel" required (keyup.enter)="$event.target.blur();">
             </div>
             <div *ngIf="projectVersion.invalid && (projectVersion.dirty || projectVersion.touched)" class="col-xs-8 col-xs-offset-4 has-error">
@@ -51,11 +51,11 @@
               </span>
             </div>
           </div>
-          <div class="form-group f8launcher-project-summary-data-form-group" *ngIf="data.runtime?.id !== 'nodejs'">
+          <div class="form-group f8launcher-project-summary-data-form-group" *ngIf="data.groupId">
             <label class="col-xs-4 control-label">Group ID</label>
             <div class="col-xs-8 f8launcher-project-summary-data-field f8launcher-application-text-field">
               <input class="f8launcher-project-summary-data-field_input f8launcher-application-text-field_input" name="groupId"
-                placeholder="Group ID" type="text" pattern="[a-z][a-z0-9.]{3,63}" required [(ngModel)]="data.dependencyCheck.groupId"
+                placeholder="Group ID" type="text" pattern="[a-z][a-z0-9.]{3,63}" required [(ngModel)]="data.groupId"
                 #groupId="ngModel">
             </div>
             <div *ngIf="groupId.invalid && (groupId.dirty || groupId.touched)" class="col-xs-8 col-xs-offset-4 has-error">
@@ -64,10 +64,10 @@
               </span>
             </div>
           </div>
-          <div class="form-group f8launcher-project-summary-data-form-group" *ngIf="data.dependencyCheck?.spacePath">
+          <div class="form-group f8launcher-project-summary-data-form-group" *ngIf="data.spacePath">
             <label class="col-xs-4 control-label">Space Path</label>
             <div class="col-xs-8 f8launcher-project-summary-data-field">
-              <span>{{data.dependencyCheck?.spacePath}}</span>
+              <span>{{data.spacePath}}</span>
             </div>
           </div>
           <div class="form-group f8launcher-project-summary-data-form-group">

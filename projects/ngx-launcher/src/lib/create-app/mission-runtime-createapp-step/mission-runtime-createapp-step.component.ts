@@ -1,4 +1,4 @@
-import { Component, Host, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Host, OnDestroy, OnInit, ViewEncapsulation, Input } from '@angular/core';
 import * as _ from 'lodash';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
@@ -17,7 +17,7 @@ import {
 } from './mission-runtime-createapp-step.model';
 import { broadcast } from '../../shared/telemetry.decorator';
 import { MissionRuntimeCreateappReviewComponent } from './mission-runtime-createapp-review.component';
-import { Projectile, StepState, Filter } from '../../model/summary.model';
+import { Projectile, StepState } from '../../model/summary.model';
 import { Cluster } from '../../model/cluster.model';
 
 
@@ -30,6 +30,8 @@ import { Cluster } from '../../model/cluster.model';
 export class MissionRuntimeCreateappStepComponent extends LauncherStep implements OnInit, OnDestroy {
   booster: BoosterState = { mission: new Mission(), runtime: { id: undefined, name: undefined,
     version: {id: undefined, name: undefined} } };
+
+  @Input()
   public canChangeVersion: boolean;
 
   disabledReason = EmptyReason;
@@ -40,25 +42,26 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
 
   private subscriptions: Subscription[] = [];
 
-  constructor(@Host() public launcherComponent: LauncherComponent,
+  constructor(@Host() private launcherComponent: LauncherComponent,
               private missionRuntimeService: MissionRuntimeService,
               public _DomSanitizer: DomSanitizer,
               private projectile: Projectile<BoosterState>,
               private broadcaster: Broadcaster) {
-    super(MissionRuntimeCreateappReviewComponent, projectile);
-    this.canChangeVersion = this.launcherComponent.flow === 'launch';
+    super(projectile);
   }
 
   ngOnInit() {
     const state = new StepState<BoosterState>(this.booster,
       [
-        {name: 'missionId', value: 'mission.id'} as Filter,
-        {name: 'runtimeId', value: 'runtime.id'} as Filter,
-        {name: 'versionId', value: 'runtime.version.id'} as Filter
+        {name: 'mission', value: 'mission.id'},
+        {name: 'runtime', value: 'runtime.id'},
+        {name: 'runtimeVersion', value: 'runtime.version.id'}
       ]
     );
     this.projectile.setState(this.id, state);
-    this.launcherComponent.addStep(this);
+    if (this.launcherComponent) {
+      this.launcherComponent.addStep(this);
+    }
     this.subscriptions.push(this.missionRuntimeService.getBoosters()
       .subscribe(boosters => {
         this._boosters = boosters;
@@ -134,7 +137,7 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
    * Navigate to next step
    */
   @broadcast('completeMissionRuntimeStep', {
-    'launcherComponent.summary': {
+    'booster': {
       mission: 'mission.name',
       runtime: 'runtime.name'
     }
@@ -182,9 +185,9 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
   }
 
   restoreModel(model: any): void {
-    const mission = this.missions.find(m => m.id === model.missionId);
-    const runtime = this.runtimes.find(r => r.id === model.runtimeId);
-    const version = runtime ? runtime.versions.find(v => v.id === model.versionId) : undefined;
+    const mission = this.missions.find(m => m.id === model.mission);
+    const runtime = this.runtimes.find(r => r.id === model.runtime);
+    const version = runtime ? runtime.versions.find(v => v.id === model.runtimeVersion) : undefined;
     this.selectBooster(mission, runtime, version);
   }
 

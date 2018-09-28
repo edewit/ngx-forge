@@ -20,7 +20,8 @@ export class DemoDependencyCheckService implements DependencyCheckService {
       projectName: 'app-test-1',
       projectVersion: '1.0.0-SNAPSHOT',
       spacePath: '/myspace',
-      dependencySnapshot: null
+      dependencySnapshot: null,
+      targetEnvironment: undefined
     });
   }
 

@@ -1,7 +1,6 @@
 import {
   Component,
   Host,
-  Input,
   OnDestroy, OnInit, Optional,
   ViewEncapsulation
 } from '@angular/core';
@@ -17,7 +16,8 @@ import { LauncherStep } from '../../launcher-step';
 import { Cluster } from '../../model/cluster.model';
 import { TokenService } from '../../service/token.service';
 import { Projectile, StepState } from '../../model/summary.model';
-import { TargetEnvironmentCreateappReviewComponent } from './target-environment-createapp-review.component';
+
+import * as _ from 'lodash';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -26,8 +26,6 @@ import { TargetEnvironmentCreateappReviewComponent } from './target-environment-
   styleUrls: ['./target-environment-createapp-step.component.less']
 })
 export class TargetEnvironmentCreateappStepComponent extends LauncherStep implements OnDestroy, OnInit {
-  @Input() id: string;
-
   private subscriptions: Subscription[] = [];
   private _targetEnvironments: TargetEnvironment[];
   private _clusters: Cluster[] = [];
@@ -38,10 +36,8 @@ export class TargetEnvironmentCreateappStepComponent extends LauncherStep implem
               @Optional() private tokenService: TokenService,
               private broadcaster: Broadcaster,
               private projectile: Projectile<any>,
-              private route: ActivatedRoute,
               public _DomSanitizer: DomSanitizer) {
-    super(TargetEnvironmentCreateappReviewComponent, projectile);
-    this.selection.dependencyCheck.projectName = this.route.snapshot.params['projectName'];
+    super(projectile);
   }
 
   ngOnDestroy() {
@@ -51,13 +47,19 @@ export class TargetEnvironmentCreateappStepComponent extends LauncherStep implem
   }
 
   ngOnInit() {
+    this.selection.dependencyCheck = this.projectile.sharedState.state;
+    _.merge(this.projectile.sharedState.state, {
+      mavenArtifact: 'booster',
+      groupId: 'io.openshift.booster',
+      projectVersion: '1.0.0-SNAPSHOT'
+    });
     const state = new StepState(this.selection, [
-      { name: 'targetEnvironment', value: 'targetEnvironment' },
-      { name: 'clusterId', value: 'cluster.id' },
-      { name: 'dependencyCheck', value: 'dependencyCheck' }
+      { name: 'clusterId', value: 'cluster.id' }
     ]);
     this.projectile.setState(this.id, state);
-    this.launcherComponent.addStep(this);
+    if (this.launcherComponent) {
+      this.launcherComponent.addStep(this);
+    }
     if (this.tokenService) {
       this.subscriptions.push(this.tokenService.clusters.subscribe(clusters => {
         this.restore();
@@ -70,12 +72,14 @@ export class TargetEnvironmentCreateappStepComponent extends LauncherStep implem
       }
     }));
     this.subscriptions.push(this.broadcaster.on<any>('booster-changed').subscribe(booster => {
-      const artifactRuntime = booster.runtime.id.replace(/[.\-_]/g, '');
-      const artifactMission = booster.mission.id.replace(/[.\-_]/g, '');
-      this.selection.dependencyCheck.mavenArtifact = `booster-${artifactMission}-${artifactRuntime}`;
-    }));
-    this.subscriptions.push(this.broadcaster.on<string>('name-changed').subscribe(projectName => {
-      this.selection.dependencyCheck.projectName = projectName;
+      if (booster.runtime.id !== 'nodejs') {
+        const artifactRuntime = booster.runtime.id.replace(/[.\-_]/g, '');
+        const artifactMission = booster.mission.id.replace(/[.\-_]/g, '');
+        this.selection.dependencyCheck.mavenArtifact = `booster-${artifactMission}-${artifactRuntime}`;
+      } else {
+        this.selection.dependencyCheck.mavenArtifact = undefined;
+        this.selection.dependencyCheck.groupId = undefined;
+      }
     }));
   }
 
@@ -87,8 +91,8 @@ export class TargetEnvironmentCreateappStepComponent extends LauncherStep implem
    * @returns {boolean} True if step is completed
    */
   get completed(): boolean {
-    return this.selection.targetEnvironment
-      && (this.selection.targetEnvironment === 'zip' || !!this.selection.cluster);
+    return this.selection.dependencyCheck.targetEnvironment
+      && (this.selection.dependencyCheck.targetEnvironment === 'zip' || !!this.selection.cluster);
   }
 
   /**
@@ -126,12 +130,9 @@ export class TargetEnvironmentCreateappStepComponent extends LauncherStep implem
     }
   }
 
-  // Private
   restoreModel(model: any): void {
-    this.selection.targetEnvironment = model.targetEnvironment;
     this.selection.cluster = this._clusters.find(c => c.id === model.clusterId);
-    this.selection.dependencyCheck = model.dependencyCheck;
-    this.broadcaster.broadcast('name-changed', model.dependencyCheck.projectName);
+    this.selection.dependencyCheck = this.projectile.sharedState.state;
   }
 
   private clusterSortFn(a: Cluster, b: Cluster): number {

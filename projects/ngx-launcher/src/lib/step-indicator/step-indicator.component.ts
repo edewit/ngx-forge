@@ -2,7 +2,8 @@ import {
   Component,
   Host,
   Input,
-  ViewEncapsulation
+  ViewEncapsulation,
+  OnInit
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
@@ -10,6 +11,7 @@ import { LauncherComponent } from '../launcher.component';
 import { broadcast } from '../shared/telemetry.decorator';
 import { Broadcaster } from 'ngx-base';
 import { Projectile } from '../model/summary.model';
+import { DependencyCheck } from '../model/dependency-check.model';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -17,24 +19,26 @@ import { Projectile } from '../model/summary.model';
   templateUrl: './step-indicator.component.html',
   styleUrls: ['./step-indicator.component.less']
 })
-export class StepIndicatorComponent {
+export class StepIndicatorComponent implements OnInit {
   /**
    * Show appropriate style while steps are in progress of being shown
    *
    * @type {boolean}
    */
   @Input() inProgress = false;
+  dependencyCheck: DependencyCheck = new DependencyCheck();
 
-  name: string;
-
-  constructor(
-    @Host() public launcherComponent: LauncherComponent,
+  constructor(public launcherComponent: LauncherComponent,
     public projectile: Projectile<any>,
     private route: ActivatedRoute,
-    private broadcaster: Broadcaster) {
+    broadcaster: Broadcaster) {
       broadcaster.on<string>('navigation').subscribe(id => this.navToStep(id));
-      this.name = this.route.snapshot.params['projectName'];
-      this.broadcaster.on<string>('name-changed').subscribe(projectName => this.name = projectName);
+  }
+
+  ngOnInit(): void {
+    this.dependencyCheck = this.projectile.sharedState.state;
+    this.dependencyCheck.projectName = this.dependencyCheck.projectName
+      || this.route.snapshot.params['projectName'];
   }
 
   // Steps
@@ -64,8 +68,4 @@ export class StepIndicatorComponent {
 
   @broadcast('stepIndicatorProjectInputClicked', {})
   broadcastEvent() {}
-
-  applicationTitleChanged(): void {
-    this.broadcaster.broadcast('name-changed', this.name);
-  }
 }

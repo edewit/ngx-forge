@@ -1,16 +1,14 @@
 import { ReviewComponent } from '../../review.component';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Broadcaster } from 'ngx-base';
+import { Projectile } from '../../model/summary.model';
 
 @Component({
-  templateUrl: './gitprovider-createapp-review.component.html'
+  selector: 'f8launcher-gitprovider-createapp-review',
+  templateUrl: './gitprovider-createapp-review.component.html',
 })
-export class GitproviderCreateappReviewComponent implements ReviewComponent {
-  data: any;
-
-  constructor(private broadcaster: Broadcaster) { }
-
-  navToStep(id: string) {
-    this.broadcaster.broadcast('navigation', id);
+export class GitproviderCreateappReviewComponent extends ReviewComponent {
+  constructor(broadcaster: Broadcaster, projectile: Projectile<any>) {
+    super(broadcaster, projectile);
   }
 }

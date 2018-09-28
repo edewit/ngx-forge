@@ -57,7 +57,7 @@ export class ReleaseStrategyImportappStepComponent extends LauncherStep implemen
   constructor(@Host() public launcherComponent: LauncherComponent,
               private projectile: Projectile<any>,
               private pipelineService: PipelineService) {
-    super(null, projectile);
+    super(projectile);
   }
 
   ngOnInit() {
@@ -85,7 +85,9 @@ export class ReleaseStrategyImportappStepComponent extends LauncherStep implemen
       sortConfig: this.sortConfig
     } as ToolbarConfig;
 
-    this.launcherComponent.addStep(this);
+    if (this.launcherComponent) {
+      this.launcherComponent.addStep(this);
+    }
 
     this.subscriptions.push(this.pipelineService.getPipelines().subscribe((result: Array<Pipeline>) => {
       this._pipelines = result;

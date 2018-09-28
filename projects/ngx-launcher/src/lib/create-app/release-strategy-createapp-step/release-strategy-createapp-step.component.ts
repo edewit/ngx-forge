@@ -14,7 +14,6 @@ import { Broadcaster} from 'ngx-base';
 import { Runtime } from '../../model/runtime.model';
 import { Subscription } from 'rxjs';
 import { Projectile, StepState } from '../../model/summary.model';
-import { ReleaseStrategyCreateappReviewComponent } from './release-strategy-createapp-review.component';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -33,7 +32,7 @@ export class ReleaseStrategyCreateappStepComponent extends LauncherStep implemen
               private pipelineService: PipelineService,
               private projectile: Projectile<Pipeline>,
               private broadcaster: Broadcaster) {
-    super(ReleaseStrategyCreateappReviewComponent, projectile);
+    super(projectile);
   }
 
   ngOnInit() {

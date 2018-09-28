@@ -1,9 +1,7 @@
-import { Input, ViewChild, ElementRef, OnDestroy, Type } from '@angular/core';
-import { LauncherComponent } from './launcher.component';
-import { ReviewComponent } from './review.component';
-import { fromEvent, Observable, Subscription } from 'rxjs';
-import { Projectile } from './model/summary.model';
+import { ElementRef, Input, OnDestroy, Type, ViewChild } from '@angular/core';
+import { fromEvent, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { Projectile } from './model/summary.model';
 
 export abstract class LauncherStep implements OnDestroy {
   /**
@@ -40,12 +38,7 @@ export abstract class LauncherStep implements OnDestroy {
 
   private scrollEvents: Subscription = fromEvent(window, 'scroll').pipe(debounceTime(100)).subscribe(() => this.isInView());
 
-  constructor(private _reviewComponentType: Type<ReviewComponent>,
-    private _projectile: Projectile<any>) {}
-
-  get reviewComponentType(): Type<ReviewComponent> {
-    return this._reviewComponentType;
-  }
+  constructor(private _projectile: Projectile<any>) {}
 
   ngOnDestroy(): void {
     this.scrollEvents.unsubscribe();

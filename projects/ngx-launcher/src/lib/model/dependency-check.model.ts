@@ -4,4 +4,5 @@ export class DependencyCheck {
   projectName: string;
   projectVersion: string;
   spacePath: string;
+  targetEnvironment: string;
 }

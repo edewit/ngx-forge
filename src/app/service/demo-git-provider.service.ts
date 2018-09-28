@@ -64,7 +64,7 @@ export class DemoGitProviderService implements GitProviderService {
   // Private
 
   private isPageRedirect(): boolean {
-    return window.location.search.indexOf('MissionRuntime') !== -1;
+    return window.location.search.indexOf('selectedSection') !== -1;
   }
 
   private redirectToAuth(url: string) {
