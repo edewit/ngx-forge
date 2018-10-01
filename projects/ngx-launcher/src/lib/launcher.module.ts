@@ -86,7 +86,9 @@ import { ButtonNextStepComponent } from './shared/button-next-step.component';
     ProjectSummaryCreateappStepComponent,
     TargetEnvironmentCreateappReviewComponent,
     GitproviderCreateappReviewComponent,
+    ReleaseStrategyCreateappStepComponent,
     ReleaseStrategyCreateappReviewComponent,
+    DependencyEditorCreateappStepComponent,
     DependencyEditorReviewComponent,
     MissionRuntimeCreateappReviewComponent
   ],

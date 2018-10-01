@@ -1,9 +1,7 @@
 import {
   Component,
-  DoCheck,
   Host,
   Input,
-  KeyValueDiffers,
   OnDestroy,
   OnInit,
   Optional,
@@ -19,8 +17,10 @@ import { LauncherStep } from '../../launcher-step';
 import { DependencyEditor } from '../../model/dependency-editor/dependency-editor.model';
 import { broadcast } from '../../shared/telemetry.decorator';
 import { Projectile, StepState } from '../../model/summary.model';
-import { DependencyEditorReviewComponent } from './dependency-editor-review.component';
 import { DependencyCheck } from '../../model/dependency-check.model';
+
+import * as _ from 'lodash';
+import { BoosterState } from '../../model/booster.model';
 
 @Component({
     encapsulation: ViewEncapsulation.None,
@@ -28,7 +28,7 @@ import { DependencyCheck } from '../../model/dependency-check.model';
     templateUrl: './dependency-editor-step.component.html',
     styleUrls: ['./dependency-editor-step.component.less']
 })
-export class DependencyEditorCreateappStepComponent extends LauncherStep implements OnInit, OnDestroy, DoCheck {
+export class DependencyEditorCreateappStepComponent extends LauncherStep implements OnInit, OnDestroy {
     @Input() id: string;
     @Input() depEditorFlag: boolean;
 
@@ -39,8 +39,6 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
 
     public blankResponse: any = null;
 
-    private cacheInfo: any = {};
-    private changes: any = {};
     dependencyEditor = new DependencyEditor();
     dependencyCheck = new DependencyCheck();
 
@@ -50,10 +48,29 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
         public broadcaster: Broadcaster,
         @Optional() private depEditorService: DependencyEditorService,
         private dependencyCheckService: DependencyCheckService,
-        private projectile: Projectile<{ dep: DependencyEditor }>,
-        private keyValueDiffers: KeyValueDiffers
+        private projectile: Projectile<{ dep: DependencyEditor }>
     ) {
         super(projectile);
+        this.broadcaster.on<BoosterState>('booster-changed').subscribe(booster => {
+          const artifactTS: number = Date.now();
+          const artifactRuntime = booster.runtime.id.replace(/[.\-_]/g, '');
+          const artifactMission = booster.mission.id.replace(/[.\-_]/g, '');
+          (<any>this.dependencyCheck).mission = booster.mission;
+          this.dependencyCheck.mavenArtifact = `booster-${artifactMission}-${artifactRuntime}-${artifactTS}`;
+
+          this.boosterInfo = _.cloneDeep(booster);
+          if (booster.mission.id === 'blank-mission') {
+            this.handleBlankMissionFlow(booster.runtime.id);
+          } else {
+            booster.mission['boosters'].forEach((b: any) => {
+              if (booster.mission.id === b.mission.id && booster.runtime.id === b.runtime.id) {
+                  this.github = b.source.git.url;
+                  this.gitref = b.source.git.ref;
+              }
+            });
+          }
+          this.boosterInfo.runtime.version = booster.runtime.version.id;
+      });
     }
 
     ngOnDestroy() {
@@ -68,36 +85,15 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
         ]);
         this.projectile.setState(this.id, state);
 
-        this.changes = this.keyValueDiffers.find(this.projectile.getState('MissionRuntime').state).create();
+        if (this.launcherComponent) {
         this.launcherComponent.addStep(this);
+        }
         this.dependencyCheckService.getDependencyCheck()
         .subscribe((val) => {
             this.metadataInfo = val;
             this.restore();
         });
-        this.broadcaster.on('booster-changed').subscribe((booster: any) => {
-            const artifactTS: number = Date.now();
-            const artifactRuntime = booster.runtime.id.replace(/[.\-_]/g, '');
-            const artifactMission = booster.mission.id.replace(/[.\-_]/g, '');
-            (<any>this.dependencyCheck).mission = booster.mission;
-            this.dependencyCheck.mavenArtifact = `booster-${artifactMission}-${artifactRuntime}-${artifactTS}`;
-        });
-    }
-
-    ngDoCheck() {
-        const updates: any = this.changes.diff(this.projectile.getState('MissionRuntime').state);
-        if (updates) {
-            updates.forEachChangedItem((r: any) => {
-                this.listenForChanges(r);
-            });
-            updates.forEachAddedItem((r: any) => {
-                this.listenForChanges(r);
-            });
-            updates.forEachRemovedItem((r: any) => {
-                this.listenForChanges(r);
-            });
         }
-    }
 
     // Accessors
     /**
@@ -130,7 +126,7 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
      * @param {string} id The step ID
      */
     navToStep(event: string) {
-        this.launcherComponent.stepIndicator.navToStep(event);
+        this.broadcaster.broadcast('navigate-to', event);
     }
 
     public pickDependencies(event: any) {
@@ -149,70 +145,6 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
             this.dependencyEditor['mavenArtifact'] = event.artifactId;
             this.dependencyEditor['groupId'] = event.groupId;
             this.dependencyEditor['projectVersion'] = event.version;
-        }
-    }
-
-    private listenForChanges(change: any): void {
-        let flag = false;
-        const current = change.currentValue;
-        if (!current) {
-            return;
-        }
-        if (change && change.key === 'runtime') {
-            if (
-                !this.cacheInfo ||
-                (
-                    this.cacheInfo && this.cacheInfo.id !== current.id
-                )
-            ) {
-                // Changes in any of them: name or version.id or version.name
-                this.cacheInfo['runtime'] = {
-                    name: current.name,
-                    id: current.id,
-                    missions: current.missions,
-                    version: current.version ? current.version.id : null
-                };
-                flag = true;
-            }
-        } else if (change && change.key === 'mission') {
-            this.cacheInfo['mission'] = {
-                id: current.id
-            };
-
-            // If runtime is selected first, version of runtime will be null. This updates that.
-            const missionsArrFromRuntime: Array<any> = this.cacheInfo['runtime'] && this.cacheInfo['runtime']['missions'];
-            if (missionsArrFromRuntime && missionsArrFromRuntime.length) {
-                const filteredMission =
-                    missionsArrFromRuntime.filter((mission) => mission.id === this.cacheInfo['mission']['id'])[0];
-                this.cacheInfo['runtime']['version'] =
-                    filteredMission && filteredMission.versions && filteredMission.versions[0]
-                        && filteredMission.versions[0].id || null;
-            }
-            flag = true;
-        }
-
-        if (flag) {
-            if (this.cacheInfo['mission'] && this.cacheInfo['runtime']) {
-                // this.cacheInfo = JSON.parse(this.cacheInfo);
-                this.boosterInfo = this.cacheInfo;
-                if (this.cacheInfo['mission'].id === 'blank-mission') {
-                    this.handleBlankMissionFlow(this.cacheInfo['runtime'].id);
-                    return;
-                }
-                this.blankResponse = null;
-                const mission: string = this.cacheInfo['mission'].id;
-                const runtime: string = this.cacheInfo['runtime'].id;
-                this.boosterInfo = this.cacheInfo;
-                const missionObj = (<any>this.dependencyCheck).mission;
-                if (missionObj && missionObj['boosters'] && missionObj['boosters'].length) {
-                    missionObj['boosters'].forEach((booster: any) => {
-                        if (mission === booster.mission.id && runtime === booster.runtime.id) {
-                            this.github = booster.source.git.url;
-                            this.gitref = booster.source.git.ref;
-                        }
-                    });
-                }
-            }
         }
     }
 
