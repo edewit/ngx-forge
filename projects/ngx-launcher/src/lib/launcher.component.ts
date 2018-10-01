@@ -162,9 +162,6 @@ export class LauncherComponent implements AfterViewInit {
       this.summaryCompleted = true;
       return;
     }
-    setTimeout(() => {
-      this.stepIndicator.navToNextStep(fromStepId);
-    }, 10);
   }
 
   // Private
