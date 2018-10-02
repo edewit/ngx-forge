@@ -9,6 +9,9 @@ import { LauncherComponent } from '../../launcher.component';
 import { Projectile } from '../../model/summary.model';
 import { ProjectSummaryService } from '../../service/project-summary.service';
 import { broadcast } from '../../shared/telemetry.decorator';
+import { DependencyCheckService } from '../../service/dependency-check.service';
+
+import * as _ from 'lodash';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -25,6 +28,7 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
 
   constructor(@Host() @Optional() private launcherComponent: LauncherComponent,
               private projectSummaryService: ProjectSummaryService,
+              private dependencyCheckService: DependencyCheckService,
               private broadcaster: Broadcaster,
               public _DomSanitizer: DomSanitizer,
               private projectile: Projectile<any>) {
@@ -35,6 +39,12 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
     if (this.launcherComponent) {
       this.launcherComponent.addStep(this);
     }
+    this.subscriptions.push(
+      this.dependencyCheckService.getDependencyCheck()
+        .subscribe((val) => {
+          _.defaults(this.projectile.sharedState.state, val);
+        })
+    );
   }
 
   ngOnDestroy() {
