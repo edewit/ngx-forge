@@ -4,8 +4,7 @@ import {
   OnDestroy,
   OnInit,
   ViewEncapsulation,
-  Optional} from '@angular/core';
-
+  Optional } from '@angular/core';
 import { PipelineService } from '../../service/pipeline.service';
 import { Pipeline } from '../../model/pipeline.model';
 import { LauncherComponent } from '../../launcher.component';
@@ -42,7 +41,9 @@ export class ReleaseStrategyCreateappStepComponent extends LauncherStep implemen
     ]);
     this.projectile.setState(this.id, state);
 
-    this.launcherComponent.addStep(this);
+    if (this.launcherComponent) {
+      this.launcherComponent.addStep(this);
+    }
     this.subscriptions.push(this.pipelineService.getPipelines().subscribe((result: Array<Pipeline>) => {
       this._allPipelines = result;
       this.restore();
@@ -105,6 +106,6 @@ export class ReleaseStrategyCreateappStepComponent extends LauncherStep implemen
   }
 
   private filterPipelines(selectedPlatform: string) {
-    this._pipelines = this._allPipelines.filter(({ platform }) => platform === selectedPlatform);
+    this._pipelines = this._allPipelines.filter(({ platform }) => selectedPlatform ? platform === selectedPlatform : true);
   }
 }

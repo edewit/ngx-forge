@@ -1,4 +1,4 @@
-import { Component, Host, OnDestroy, OnInit, ViewChild, ViewEncapsulation, Optional } from '@angular/core';
+import { Component, Host, OnDestroy, OnInit, ViewChild, ViewEncapsulation, Optional, Input } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Broadcaster } from 'ngx-base';
@@ -20,6 +20,7 @@ import * as _ from 'lodash';
   styleUrls: ['./project-summary-createapp-step.component.less']
 })
 export class ProjectSummaryCreateappStepComponent extends LauncherStep implements OnDestroy, OnInit {
+  @Input() submitButtonText = 'Set Up Application';
   @ViewChild('form') form: NgForm;
 
   public setUpErrResponse: Array<any> = [];
