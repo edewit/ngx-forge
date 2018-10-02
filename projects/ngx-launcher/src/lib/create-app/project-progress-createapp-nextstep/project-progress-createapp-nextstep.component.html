@@ -42,7 +42,7 @@
                 </span>
               </h2>
             </div>
-            <div class="card-pf-body" *ngIf="allCompleted !== true">
+            <div class="card-pf-body" *ngIf="!gettingStartedInfo || !allCompleted">
               <div class="list-pf">
                 <div class="list-pf-item" *ngFor="let item of progress">
                   <div class="list-pf-container">
