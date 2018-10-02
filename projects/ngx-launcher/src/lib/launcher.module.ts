@@ -26,7 +26,6 @@ import { GitproviderCreateappStepComponent }
   from './create-app/gitprovider-createapp-step/gitprovider-createapp-step.component';
 import { GitProviderRepositoryValidatorDirective }
   from './create-app/gitprovider-createapp-step/gitprovider-repository.validator';
-import { ExistingRepositoryValidatorDirective } from './import-app/gitprovider-importapp-step/repository.validator';
 import { LowerCaseDirective } from './shared/lowercase.directive';
 import { ProjectNameValidatorDirective } from './shared/project-name.validator';
 import { MissionRuntimeCreateappStepComponent }
@@ -42,14 +41,6 @@ import { TargetEnvironmentCreateappStepComponent }
 import { LinkAccountsCreateappStepComponent }
   from './create-app/link-accounts-createapp-step/link-accounts-createapp-step.component';
 
-import { GitproviderImportappStepComponent }
-  from './import-app/gitprovider-importapp-step/gitprovider-importapp-step.component';
-import { ProjectProgressImportappNextstepComponent }
-  from './import-app/project-progress-importapp-nextstep/project-progress-importapp-nextstep.component';
-import { ProjectSummaryImportappStepComponent }
-  from './import-app/project-summary-importapp-step/project-summary-importapp-step.component';
-import { ReleaseStrategyImportappStepComponent }
-  from './import-app/release-strategy-importapp-step/release-strategy-importapp-step.component';
 import { ToastNotificationComponent } from './toast-notification/toast-notification.component';
 
 
@@ -102,18 +93,13 @@ import { ButtonNextStepComponent } from './shared/button-next-step.component';
     LowerCaseDirective,
     ProjectNameValidatorDirective,
     GitProviderRepositoryValidatorDirective,
-    ExistingRepositoryValidatorDirective,
-    GitproviderImportappStepComponent,
     GitproviderCreateappReviewComponent,
     MissionRuntimeCreateappReviewComponent,
     MissionRuntimeCreateappStepComponent,
     ProjectProgressCreateappNextstepComponent,
-    ProjectProgressImportappNextstepComponent,
     ProjectSummaryCreateappStepComponent,
-    ProjectSummaryImportappStepComponent,
     ReleaseStrategyCreateappStepComponent,
     ReleaseStrategyCreateappReviewComponent,
-    ReleaseStrategyImportappStepComponent,
     TargetEnvironmentCreateappStepComponent,
     TargetEnvironmentCreateappReviewComponent,
     LinkAccountsCreateappStepComponent,
