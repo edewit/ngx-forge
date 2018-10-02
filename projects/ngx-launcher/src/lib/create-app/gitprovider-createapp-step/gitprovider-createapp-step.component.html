@@ -51,6 +51,7 @@
                 <div class="col-sm-10">
                   <select id="ghOrg" class="form-control" name="ghOrg" placeholder="Select organization"
                           [disabled]="gitHubDetails?.organizations === undefined"
+                          (ngModelChange)="getGitHubRepos()"
                           [(ngModel)]="gitHubDetails.organization" required>
                     <option [ngValue]="org"
                             *ngFor="let org of gitHubDetails?.organizations">
@@ -63,12 +64,20 @@
                 <label for="ghRepo" class="col-sm-2 control-label">Repository</label>
                 <div class="col-sm-10"
                     [class.has-error]="ghRepo.invalid && (ghRepo.dirty || ghRepo.touched)">
-                  <input id="ghRepo" class="form-control" name="ghRepo" type="text" #ghRepo="ngModel" lowercase validateRepository required
-                        placeholder="Enter a unique name for your repository"
+                  <input id="ghRepo" class="form-control" name="ghRepo" type="text" #ghRepo="ngModel" lowercase required
+                        [placeholder]="import ? 'Select Repository' : 'Enter a unique name for your repository'"
                         [disabled]="!gitHubDetails.organization"
-                        [(ngModel)]="gitHubDetails.repository">
+                        [(ngModel)]="gitHubDetails.repository"
+                        [autocomplete]="import ? 'off' : 'on'"
+                        [typeahead]="import ? gitHubDetails.repositoryList : []"
+                        [typeaheadMinLength]="0"
+                        [typeaheadOptionsLimit]="gitHubDetails.repositoryList.length"
+                        [validateRepository]="import">
                   <span class="help-block"
                     *ngIf="ghRepo.invalid && (ghRepo.dirty || ghRepo.touched)">
+                    <span *ngIf="ghRepo.errors.notExist">
+                      '{{ghRepo.value}}' does not exist as {{gitHubDetails.organization}}/{{ghRepo.value}}.
+                    </span>
                     <span *ngIf="ghRepo.errors.duplicate">
                       Duplicate Name: '{{ghRepo.value}}' is already in use
                       as {{gitHubDetails.organization}}/{{ghRepo.value}}.

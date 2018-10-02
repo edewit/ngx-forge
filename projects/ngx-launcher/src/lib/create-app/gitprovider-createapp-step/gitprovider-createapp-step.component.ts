@@ -7,7 +7,8 @@ import {
   OnInit,
   ViewChild,
   ViewEncapsulation,
-  Optional
+  Optional,
+  Input
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -26,11 +27,13 @@ import { Projectile, StepState } from '../../model/summary.model';
   styleUrls: ['./gitprovider-createapp-step.component.less']
 })
 export class GitproviderCreateappStepComponent extends LauncherStep implements AfterViewInit, OnDestroy, OnInit {
+  @Input() import: boolean;
   @ViewChild('form') form: NgForm;
   @ViewChild('versionSelect') versionSelect: ElementRef;
 
   private subscriptions: Subscription[] = [];
   gitHubDetails: GitHubDetails = {};
+  gitHubReposSubscription: Subscription;
 
   constructor(@Host() @Optional() public launcherComponent: LauncherComponent,
               private projectile: Projectile<GitHubDetails>,
@@ -49,7 +52,8 @@ export class GitproviderCreateappStepComponent extends LauncherStep implements A
   }
 
   ngOnInit() {
-    this.gitHubDetails.repository = this.projectile.sharedState.state.projectName || '';
+    this.gitHubDetails.repository = this.import ? '' : this.projectile.sharedState.state.projectName;
+    this.gitHubDetails.repositoryList = [];
     const state = new StepState(this.gitHubDetails, [
       { name: 'repository', value: 'repository' },
       { name: 'organization', value: 'organization' }
@@ -110,5 +114,15 @@ export class GitproviderCreateappStepComponent extends LauncherStep implements A
    */
   connectAccount(): void {
     this.gitProviderService.connectGitHubAccount(this.projectile.redirectUrl);
+  }
+
+  getGitHubRepos(): void {
+    if (this.import) {
+      if (this.gitHubReposSubscription) {
+        this.gitHubReposSubscription.unsubscribe();
+      }
+      this.gitHubReposSubscription = this.gitProviderService.getGitHubRepoList(this.gitHubDetails.organization)
+        .subscribe(list => this.gitHubDetails.repositoryList = list);
+    }
   }
 }

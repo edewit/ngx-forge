@@ -1,4 +1,4 @@
-import { Directive, forwardRef } from '@angular/core';
+import { Directive, forwardRef, Input } from '@angular/core';
 import { NG_ASYNC_VALIDATORS, Validator, AbstractControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 
@@ -12,6 +12,8 @@ import { debounceTime, distinctUntilChanged, first } from 'rxjs/operators';
 })
 export class GitProviderRepositoryValidatorDirective implements Validator {
   private pattern = /^[a-zA-Z0-9][a-zA-Z0-9-._]{1,63}$/;
+
+  @Input('validateRepository') missing: boolean;
 
   constructor(private gitProvider: GitProviderService) { }
 
@@ -27,7 +29,15 @@ export class GitProviderRepositoryValidatorDirective implements Validator {
         resolve.next(this.createError('pattern', control.value));
       } else if (org) {
         this.gitProvider.isGitHubRepo(org, control.value).subscribe(
-          duplicate => resolve.next(duplicate ? this.createError('duplicate', control.value) : {})
+          duplicate => {
+            if (duplicate && !this.missing) {
+              resolve.next(this.createError('duplicate', control.value));
+            } else if (!duplicate && this.missing) {
+              resolve.next(this.createError('notExist', control.value));
+            } else {
+              resolve.next({});
+            }
+          }
         );
       }
     });
