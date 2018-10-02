@@ -21,7 +21,7 @@ export class DemoDependencyCheckService implements DependencyCheckService {
       projectVersion: '1.0.0-SNAPSHOT',
       spacePath: '/myspace',
       dependencySnapshot: null,
-      targetEnvironment: undefined
+      targetEnvironment: location.href.indexOf('launcher') !== -1 ? undefined : 'os'
     });
   }
 

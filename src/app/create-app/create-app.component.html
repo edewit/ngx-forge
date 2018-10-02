@@ -1,9 +1,27 @@
 <div class="padding-15">
-  <div>
-    <div>
-      <f8launcher
-          (onCancel)="cancel()"
-          (onComplete)="complete()"></f8launcher>
+  <f8launcher (onCancel)="cancel()" (onComplete)="complete()">
+    <div class="f8launcher-container_nav">
+      <f8launcher-step-indicator #stepIndicator></f8launcher-step-indicator>
     </div>
-  </div>
+    <div class="f8launcher-container_main">
+      <f8launcher-missionruntime-createapp-step #missionRuntimeStep id="MissionRuntime" styleClass="mission-runtime"
+        title="Select Mission & Runtime" [canChangeVersion]="false">
+      </f8launcher-missionruntime-createapp-step>
+      <f8launcher-dependencychecker-createapp-step #dependencychecker [hidden]="!depEditorFlag" id="SelectDependencies"
+        [depEditorFlag]="depEditorFlag" styleClass="select-dependencies" title="Select Dependencies">
+      </f8launcher-dependencychecker-createapp-step>
+      <f8launcher-releasestrategy-createapp-step #releasestrategy id="ReleaseStrategy" styleClass="release-strategy"
+        title="Select Pipeline">
+      </f8launcher-releasestrategy-createapp-step>
+      <f8launcher-gitprovider-createapp-step #gitProvider id="GitProvider" styleClass="git-provider" title="Authorize Git Provider">
+      </f8launcher-gitprovider-createapp-step>
+      <f8launcher-projectsummary-createapp-step id="ProjectSummary" styleClass="project-summary" title="Confirm Application Summary & Setup">
+        <f8launcher-mission-runtime-createapp-review [stepId]="missionRuntimeStep.id"></f8launcher-mission-runtime-createapp-review>
+        <f8launcher-dependency-editor-review [stepId]="dependencychecker.id" *ngIf="depEditorFlag"></f8launcher-dependency-editor-review>
+        <f8launcher-release-strategy-createapp-review [stepId]="releasestrategy.id"></f8launcher-release-strategy-createapp-review>
+        <f8launcher-target-environment-createapp-review stepId="shared"></f8launcher-target-environment-createapp-review>
+        <f8launcher-gitprovider-createapp-review [stepId]="gitProvider.id"></f8launcher-gitprovider-createapp-review>
+      </f8launcher-projectsummary-createapp-step>
+    </div>
+  </f8launcher>
 </div>

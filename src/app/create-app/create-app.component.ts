@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
   templateUrl: './create-app.component.html'
 })
 export class CreateAppComponent implements OnInit {
+  depEditorFlag = true;
   constructor(private router: Router) {
   }
 

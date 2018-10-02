@@ -14,6 +14,7 @@ import { Projectile } from '../../model/summary.model';
   styleUrls: ['./project-progress-createapp-nextstep.component.less']
 })
 export class ProjectProgressCreateappNextstepComponent implements OnChanges, OnDestroy {
+  @Input() gettingStartedInfo: boolean;
   @Input() statusLink: string;
   errorMessage: string;
   private _progress: Progress[];
@@ -23,8 +24,8 @@ export class ProjectProgressCreateappNextstepComponent implements OnChanges, OnD
     private projectProgressService: ProjectProgressService,
     private projectSummaryService: ProjectSummaryService,
     private projectile: Projectile<any>,
-    private broadcaster: Broadcaster) {
-      this.broadcaster.on('progressEvents').subscribe((events: Progress[]) => {
+    broadcaster: Broadcaster) {
+      broadcaster.on<Progress[]>('progressEvents').subscribe(events => {
         console.log('got the event list', events);
         this._progress = events;
       });

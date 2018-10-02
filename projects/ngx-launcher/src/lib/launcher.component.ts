@@ -22,21 +22,12 @@ import { Broadcaster } from 'ngx-base';
 })
 export class LauncherComponent implements AfterViewInit {
   /**
-   * Flag indicating to show the import application work flow. Defaults to the create new application work flow.
+   * Flag indicating to show the getting started info after the process is completed.
    *
    * @type {boolean}
    */
-  @Input() importApp = false;
+  @Input() gettingStartedInfo = false;
 
-  /**
-   * Setting the flow to 'launch' will skip the pipeline step and show a cluster dropdown. Defaults to 'osio'.
-   */
-  @Input() flow = 'osio';
-
-  /**
-   * Setting the flag to show dependency editor as internal feature
-   */
-  @Input() depEditorFlag = false;
   /**
    * The event emitted when an cancel has been selected
    */

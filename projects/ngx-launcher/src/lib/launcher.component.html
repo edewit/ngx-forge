@@ -7,7 +7,7 @@
     </ng-template>
     <f8launcher-activatebooster-createapp-nextstep *ngIf="projectile.sharedState.state.targetEnvironment === 'zip' && showNextSteps">
       </f8launcher-activatebooster-createapp-nextstep>
-      <f8launcher-projectprogress-createapp-nextstep
+      <f8launcher-projectprogress-createapp-nextstep [gettingStartedInfo]="gettingStartedInfo"
         *ngIf="projectile.sharedState.state.targetEnvironment === 'os'" [hidden]="!showNextSteps"
         [statusLink]="statusLink">
     </f8launcher-projectprogress-createapp-nextstep>

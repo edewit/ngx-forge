@@ -16,7 +16,6 @@ import {
   ViewRuntime
 } from './mission-runtime-createapp-step.model';
 import { broadcast } from '../../shared/telemetry.decorator';
-import { MissionRuntimeCreateappReviewComponent } from './mission-runtime-createapp-review.component';
 import { Projectile, StepState } from '../../model/summary.model';
 import { Cluster } from '../../model/cluster.model';
 
@@ -204,7 +203,7 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
       }
       mission.disabled = availableBoosters.empty;
       mission.disabledReason = availableBoosters.emptyReason;
-      mission.community = this.launcherComponent.flow === 'osio' && !mission.disabled && this.booster.runtime.version.id === 'community';
+      mission.community = this.canChangeVersion && !mission.disabled && this.booster.runtime.version.id === 'community';
       if (this.booster.mission && this.booster.mission.id === mission.id && availableBoosters.empty) {
         this.clearMission();
       }
