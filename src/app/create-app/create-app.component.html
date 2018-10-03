@@ -1,5 +1,5 @@
 <div class="padding-15">
-  <f8launcher (onCancel)="cancel()" (onComplete)="complete()">
+  <f8launcher (onCancel)="cancel()">
     <div class="f8launcher-container_nav">
       <f8launcher-step-indicator #stepIndicator></f8launcher-step-indicator>
     </div>
@@ -22,6 +22,11 @@
         <f8launcher-target-environment-createapp-review stepId="shared"></f8launcher-target-environment-createapp-review>
         <f8launcher-gitprovider-createapp-review [stepId]="gitProvider.id"></f8launcher-gitprovider-createapp-review>
       </f8launcher-projectsummary-createapp-step>
+    </div>
+    <div class="f8launcher-container_completed-footer">
+      <button class="btn btn-primary btn-lg" (click)="complete()">
+          Start a new project
+      </button>
     </div>
   </f8launcher>
 </div>

@@ -4,14 +4,11 @@ import {
   EventEmitter,
   Input,
   Output,
-  ViewChild,
   ViewEncapsulation
 } from '@angular/core';
 
 import { Projectile } from './model/summary.model';
-import { StepIndicatorComponent } from './step-indicator/step-indicator.component';
 import { LauncherStep } from './launcher-step';
-import { broadcast } from './shared/telemetry.decorator';
 import { Broadcaster } from 'ngx-base';
 
 @Component({
@@ -32,13 +29,6 @@ export class LauncherComponent implements AfterViewInit {
    * The event emitted when an cancel has been selected
    */
   @Output('onCancel') onCancel = new EventEmitter();
-
-  /**
-   * The event emitted after setup has completed
-   */
-  @Output('onComplete') onComplete = new EventEmitter();
-
-  @ViewChild('stepIndicator') stepIndicator: StepIndicatorComponent;
 
   public statusLink: string;
   private _showCancelOverlay = false;
@@ -117,14 +107,6 @@ export class LauncherComponent implements AfterViewInit {
   cancelConfirmed() {
     this._showCancelOverlay = false;
     this.onCancel.emit();
-  }
-
-  /**
-   * Setup has completed
-   */
-  @broadcast('viewApplicationButtonClicked', {})
-  completed() {
-    this.onComplete.emit();
   }
 
   /**

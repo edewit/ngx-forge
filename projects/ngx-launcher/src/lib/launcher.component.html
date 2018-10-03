@@ -10,6 +10,7 @@
       <f8launcher-projectprogress-createapp-nextstep [gettingStartedInfo]="gettingStartedInfo"
         *ngIf="projectile.sharedState.state.targetEnvironment === 'os'" [hidden]="!showNextSteps"
         [statusLink]="statusLink">
+        <ng-content select=".f8launcher-container_completed-footer"></ng-content>
     </f8launcher-projectprogress-createapp-nextstep>
     <div class="f8launcher-container_close">
       <div class="sticky close">

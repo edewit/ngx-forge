@@ -74,22 +74,8 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
     return true;
   }
 
-  // Steps
-
-  /**
-   * Navigate to next step
-   */
-  navToNextStep(): void {
-    this.launcherComponent.navToNextStep('ProjectSummary');
-  }
-
-  /**
-   * Navigate to step
-   *
-   * @param {string} id The step ID
-   */
-  navToStep(id: string) {
-    this.launcherComponent.stepIndicator.navToStep(id);
+  private navToNextStep(): void {
+    this.launcherComponent.navToNextStep(this.id);
   }
 
   /**

@@ -152,10 +152,10 @@
       </div>
     </div>
   </div>
-  <div>
+  <div *ngIf="allCompleted">
     <div class="container-fluid">
       <div class="f8launcher-continue">
-        <button class="btn btn-primary btn-lg" (click)="launcherComponent.completed()">{{ gettingStartedInfo ? 'View New Application' : 'Start a new project' }}</button>
+        <ng-content></ng-content>
       </div>
     </div>
   </div>

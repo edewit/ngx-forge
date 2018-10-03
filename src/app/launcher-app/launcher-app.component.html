@@ -1,5 +1,5 @@
 <div class="padding-15">
-  <f8launcher (onCancel)="cancel()" (onComplete)="complete()" [gettingStartedInfo]="true">
+  <f8launcher (onCancel)="cancel()" [gettingStartedInfo]="true">
     <div class="f8launcher-container_nav">
       <f8launcher-step-indicator #stepIndicator></f8launcher-step-indicator>
     </div>
@@ -18,6 +18,11 @@
         <f8launcher-target-environment-createapp-review stepId="shared"></f8launcher-target-environment-createapp-review>
         <f8launcher-gitprovider-createapp-review [stepId]="gitProvider.id" *ngIf="targetEnvStep.selection.dependencyCheck.targetEnvironment === 'os' && targetEnvStep.completed"></f8launcher-gitprovider-createapp-review>
       </f8launcher-projectsummary-createapp-step>
+    </div>
+    <div class="f8launcher-container_completed-footer">
+      <button class="btn btn-primary btn-lg" (click)="complete()">
+        View New Application
+      </button>
     </div>
   </f8launcher>
 </div>
