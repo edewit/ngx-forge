@@ -133,19 +133,6 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
   // Steps
 
   /**
-   * Navigate to next step
-   */
-  @broadcast('completeMissionRuntimeStep', {
-    'booster': {
-      mission: 'mission.name',
-      runtime: 'runtime.name'
-    }
-  })
-  navToNextStep(): void {
-    this.launcherComponent.navToNextStep('MissionRuntime');
-  }
-
-  /**
    * Reset current selections
    */
   resetSelections(): void {

@@ -82,16 +82,6 @@ export class ReleaseStrategyCreateappStepComponent extends LauncherStep implemen
     return this.pipeline.id !== undefined;
   }
 
-  // Steps
-  @broadcast('completePipelineStep_Create', {
-    'pipeline': {
-      pipeline: 'name'
-    }
-  })
-  navToNextStep(): void {
-    this.launcherComponent.navToNextStep('ReleaseStrategy');
-  }
-
   updatePipelineSelection(pipeline: Pipeline): void {
     Object.assign(this.pipeline, pipeline);
   }

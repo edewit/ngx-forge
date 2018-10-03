@@ -106,21 +106,6 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
     }
 
     /**
-     * Returns target environments to display
-     *
-     * @returns {TargetEnvironment[]} The target environments to display
-     */
-    // Steps
-    @broadcast('completeDependencyEditorStep', {
-        'dependencyEditor': {
-            dependencySnapshot: 'dependencySnapshot'
-        }
-    })
-    navToNextStep(): void {
-        this.launcherComponent.navToNextStep('SelectDependencies');
-    }
-
-    /**
      * Navigate to step
      *
      * @param {string} id The step ID

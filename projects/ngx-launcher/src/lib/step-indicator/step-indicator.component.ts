@@ -47,6 +47,9 @@ export class StepIndicatorComponent implements OnInit {
   /**
    * Navigate to next step
    */
+  @broadcast('stepIndicatorClicked', {
+    'state': 'projectile'
+  })
   navToNextStep(fromStepId?: string): void {
     this.projectile.selectedSection = fromStepId;
     const steps = this.launcherComponent.steps.filter(step => !step.hidden);

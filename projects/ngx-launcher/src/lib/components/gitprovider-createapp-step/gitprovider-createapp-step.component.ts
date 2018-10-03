@@ -96,20 +96,6 @@ export class GitproviderCreateappStepComponent extends LauncherStep implements A
   // Steps
 
   /**
-   * Navigate to next step
-   */
-  @broadcast('completeGitProviderStep_Create', {
-    'gitHubDetails': {
-      location: 'organization',
-      repository: 'repository',
-      username: 'login'
-    }
-  })
-  navToNextStep(): void {
-    this.launcherComponent.navToNextStep('GitProvider');
-  }
-
-  /**
    * Authorize GitHub account
    */
   connectAccount(): void {

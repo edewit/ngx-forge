@@ -130,11 +130,8 @@ export class LauncherComponent implements AfterViewInit {
   /**
    * Navigate to next step
    */
-  navToNextStep(fromStepId: string): void {
-    if (fromStepId === 'ProjectSummary') {
-      this.summaryCompleted = true;
-      return;
-    }
+  completed(): void {
+    this.summaryCompleted = true;
   }
 
   // Private

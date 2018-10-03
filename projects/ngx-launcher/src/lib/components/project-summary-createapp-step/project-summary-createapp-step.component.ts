@@ -74,10 +74,6 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
     return true;
   }
 
-  private navToNextStep(): void {
-    this.launcherComponent.navToNextStep(this.id);
-  }
-
   /**
    * Set up this application
    */
@@ -105,7 +101,7 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
 
         this.launcherComponent.statusLink = val['uuid_link'];
         this.broadcaster.broadcast('progressEvents', val.events);
-        this.navToNextStep();
+        this.launcherComponent.completed();
       }, (error) => {
         this.setupInProgress = false;
         if (error) {
