@@ -19,40 +19,40 @@ import { StepIndicatorComponent } from './step-indicator/step-indicator.componen
 import { CancelOverlayComponent } from './cancel-overlay/cancel-overlay.component';
 
 import { ActivateBoosterCreateappNextstepComponent }
-  from './create-app/activate-booster-createapp-nextstep/activate-booster-createapp-nextstep.component';
+  from './components/activate-booster-createapp-nextstep/activate-booster-createapp-nextstep.component';
 import { DependencyEditorCreateappStepComponent }
-  from './create-app/dependency-editor-step/dependency-editor-step.component';
+  from './components/dependency-editor-step/dependency-editor-step.component';
 import { GitproviderCreateappStepComponent }
-  from './create-app/gitprovider-createapp-step/gitprovider-createapp-step.component';
+  from './components/gitprovider-createapp-step/gitprovider-createapp-step.component';
 import { GitProviderRepositoryValidatorDirective }
-  from './create-app/gitprovider-createapp-step/gitprovider-repository.validator';
+  from './components/gitprovider-createapp-step/gitprovider-repository.validator';
 import { LowerCaseDirective } from './shared/lowercase.directive';
 import { ProjectNameValidatorDirective } from './shared/project-name.validator';
 import { MissionRuntimeCreateappStepComponent }
-  from './create-app/mission-runtime-createapp-step/mission-runtime-createapp-step.component';
+  from './components/mission-runtime-createapp-step/mission-runtime-createapp-step.component';
 import { ProjectProgressCreateappNextstepComponent }
-  from './create-app/project-progress-createapp-nextstep/project-progress-createapp-nextstep.component';
+  from './components/project-progress-createapp-nextstep/project-progress-createapp-nextstep.component';
 import { ProjectSummaryCreateappStepComponent }
-  from './create-app/project-summary-createapp-step/project-summary-createapp-step.component';
+  from './components/project-summary-createapp-step/project-summary-createapp-step.component';
 import { ReleaseStrategyCreateappStepComponent }
-  from './create-app/release-strategy-createapp-step/release-strategy-createapp-step.component';
+  from './components/release-strategy-createapp-step/release-strategy-createapp-step.component';
 import { TargetEnvironmentCreateappStepComponent }
-  from './create-app/targetenvironment-createapp-step/target-environment-createapp-step.component';
+  from './components/targetenvironment-createapp-step/target-environment-createapp-step.component';
 import { LinkAccountsCreateappStepComponent }
-  from './create-app/link-accounts-createapp-step/link-accounts-createapp-step.component';
+  from './components/link-accounts-createapp-step/link-accounts-createapp-step.component';
 
 import { ToastNotificationComponent } from './toast-notification/toast-notification.component';
 
 
-import { GitproviderCreateappReviewComponent } from './create-app/gitprovider-createapp-step/gitprovider-createapp-review.component';
-import { MissionRuntimeCreateappReviewComponent } from './create-app/mission-runtime-createapp-step/mission-runtime-createapp-review.component';
+import { GitproviderCreateappReviewComponent } from './components/gitprovider-createapp-step/gitprovider-createapp-review.component';
+import { MissionRuntimeCreateappReviewComponent } from './components/mission-runtime-createapp-step/mission-runtime-createapp-review.component';
 
 import { LauncherComponent } from './launcher.component';
 import { Broadcaster } from 'ngx-base';
 import { Projectile } from './model/summary.model';
-import { DependencyEditorReviewComponent } from './create-app/dependency-editor-step/dependency-editor-review.component';
-import { TargetEnvironmentCreateappReviewComponent } from './create-app/targetenvironment-createapp-step/target-environment-createapp-review.component';
-import { ReleaseStrategyCreateappReviewComponent } from './create-app/release-strategy-createapp-step/release-strategy-createapp-review.component';
+import { DependencyEditorReviewComponent } from './components/dependency-editor-step/dependency-editor-review.component';
+import { TargetEnvironmentCreateappReviewComponent } from './components/targetenvironment-createapp-step/target-environment-createapp-review.component';
+import { ReleaseStrategyCreateappReviewComponent } from './components/release-strategy-createapp-step/release-strategy-createapp-review.component';
 import { ButtonNextStepComponent } from './shared/button-next-step.component';
 
 @NgModule({

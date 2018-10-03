@@ -13,9 +13,9 @@ import { LauncherComponent } from './launcher.component';
 
 
 import { ActivateBoosterCreateappNextstepComponent }
-  from './create-app/activate-booster-createapp-nextstep/activate-booster-createapp-nextstep.component';
+  from './components/activate-booster-createapp-nextstep/activate-booster-createapp-nextstep.component';
 import { ProjectProgressCreateappNextstepComponent }
-  from './create-app/project-progress-createapp-nextstep/project-progress-createapp-nextstep.component';
+  from './components/project-progress-createapp-nextstep/project-progress-createapp-nextstep.component';
 import { ProjectProgressImportappNextstepComponent }
   from './import-app/project-progress-importapp-nextstep/project-progress-importapp-nextstep.component';
 
@@ -25,7 +25,7 @@ import { Subject, Observable } from 'rxjs';
 import { Progress } from './model/progress.model';
 import { ProjectProgressService } from './service/project-progress.service';
 import { Broadcaster } from 'ngx-base';
-import { BroadcasterTestProvider } from './create-app/targetenvironment-createapp-step/target-environment-createapp-step.component.spec';
+import { BroadcasterTestProvider } from './components/targetenvironment-createapp-step/target-environment-createapp-step.component.spec';
 import { DependencyCheckService } from './service/dependency-check.service';
 import { DemoDependencyCheckService } from '../../../../src/app/service/demo-dependency-check.service';
 import { ProjectSummaryService } from './service/project-summary.service';
