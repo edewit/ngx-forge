@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 
 import { LauncherStep } from '../../launcher-step';
 import { LauncherComponent } from '../../launcher.component';
-import { Projectile } from '../../model/summary.model';
+import { Projectile } from '../../model/projectile.model';
 import { ProjectSummaryService } from '../../service/project-summary.service';
 import { broadcast } from '../../shared/telemetry.decorator';
 import { DependencyCheckService } from '../../service/dependency-check.service';
@@ -65,10 +65,12 @@ export class ProjectSummaryCreateappStepComponent extends LauncherStep implement
     if (this.form.invalid) {
       return false;
     }
-    for (let i = 0; i < this.launcherComponent.steps.length - 1; i++) {
-      const step = this.launcherComponent.steps[i];
-      if (!step.hidden && !(step.optional || step.completed)) {
-        return false;
+    if (this.launcherComponent) {
+      for (let i = 0; i < this.launcherComponent.steps.length - 1; i++) {
+        const step = this.launcherComponent.steps[i];
+        if (!step.hidden && !(step.optional || step.completed)) {
+          return false;
+        }
       }
     }
     return true;

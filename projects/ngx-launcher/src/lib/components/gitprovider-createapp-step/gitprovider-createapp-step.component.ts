@@ -18,7 +18,7 @@ import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
 import { broadcast } from '../../shared/telemetry.decorator';
 import { GitHubDetails } from '../../model/github-details.model';
-import { Projectile, StepState } from '../../model/summary.model';
+import { Projectile, StepState } from '../../model/projectile.model';
 
 @Component({
   encapsulation: ViewEncapsulation.None,

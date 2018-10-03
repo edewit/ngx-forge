@@ -7,8 +7,6 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Observable, of } from 'rxjs';
 import { Broadcaster } from 'ngx-base';
 
-import { LauncherComponent } from '../../launcher.component';
-import { LauncherStep } from '../../launcher-step';
 import { TargetEnvironmentCreateappStepComponent } from './target-environment-createapp-step.component';
 import { TargetEnvironment } from '../../model/target-environment.model';
 import { TargetEnvironmentService } from '../../service/target-environment.service';
@@ -16,7 +14,8 @@ import { TokenService } from '../../service/token.service';
 import { LinkAccountsCreateappStepComponent } from '../link-accounts-createapp-step/link-accounts-createapp-step.component';
 import { MissionRuntimeService } from '../../service/mission-runtime.service';
 import { Catalog } from '../../model/catalog.model';
-import { Projectile } from '../../model/summary.model';
+import { Projectile } from '../../model/projectile.model';
+import { ButtonNextStepComponent } from '../../shared/button-next-step.component';
 
 export class BroadcasterTestProvider {
   static broadcaster = new Broadcaster();
@@ -44,24 +43,6 @@ const mockTargetEnvironmentService = {
       return targetEnvironments;
   }
 };
-export interface TypeWizardComponent {
-  steps: LauncherStep[];
-  summaryCompleted: boolean;
-  addStep(step: LauncherStep): void;
-}
-
-const mockWizardComponent: TypeWizardComponent = {
-  steps: [],
-  summaryCompleted: false,
-  addStep(step: LauncherStep) {
-    for (let i = 0; i < this.steps.length; i++) {
-      if (step.id === this.steps[i].id) {
-        return;
-      }
-    }
-    this.steps.push(step);
-  }
-};
 
 const mockTokenService: TokenService = {
   clusters: of([]),
@@ -87,15 +68,13 @@ describe('TargetEnvironmentStepComponent', () => {
       ],
       declarations: [
         TargetEnvironmentCreateappStepComponent,
-        LinkAccountsCreateappStepComponent
+        LinkAccountsCreateappStepComponent,
+        ButtonNextStepComponent
       ],
       providers: [
         Projectile,
         {
           provide: TargetEnvironmentService, useValue: mockTargetEnvironmentService
-        },
-        {
-          provide: LauncherComponent, useValue: mockWizardComponent
         },
         { provide: Broadcaster, useValue: BroadcasterTestProvider.broadcaster },
         {

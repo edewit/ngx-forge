@@ -2,7 +2,7 @@ import { ReviewComponent } from '../../review.component';
 import { Component, Input } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Broadcaster } from 'ngx-base';
-import { Projectile } from '../../model/summary.model';
+import { Projectile } from '../../model/projectile.model';
 
 @Component({
   selector: 'f8launcher-mission-runtime-createapp-review',

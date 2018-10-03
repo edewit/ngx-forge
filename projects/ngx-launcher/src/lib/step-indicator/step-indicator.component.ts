@@ -10,7 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 import { LauncherComponent } from '../launcher.component';
 import { broadcast } from '../shared/telemetry.decorator';
 import { Broadcaster } from 'ngx-base';
-import { Projectile } from '../model/summary.model';
+import { Projectile } from '../model/projectile.model';
 import { DependencyCheck } from '../model/dependency-check.model';
 
 @Component({

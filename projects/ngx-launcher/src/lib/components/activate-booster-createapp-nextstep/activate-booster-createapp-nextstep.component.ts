@@ -5,7 +5,7 @@ import {
 } from '@angular/core';
 
 import { LauncherComponent } from '../../launcher.component';
-import { Projectile } from '../../model/summary.model';
+import { Projectile } from '../../model/projectile.model';
 import { DependencyCheck } from '../../model/dependency-check.model';
 import { TargetEnvironmentSelection } from '../../model/target-environment.model';
 
@@ -22,6 +22,6 @@ export class ActivateBoosterCreateappNextstepComponent {
   }
 
   get dependencyCheck(): DependencyCheck {
-    return this.projectile.getState('TargetEnvironment').state.dependencyCheck;
+    return this.projectile.sharedState.state;
   }
 }

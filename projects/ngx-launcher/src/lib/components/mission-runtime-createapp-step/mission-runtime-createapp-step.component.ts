@@ -16,7 +16,7 @@ import {
   ViewRuntime
 } from './mission-runtime-createapp-step.model';
 import { broadcast } from '../../shared/telemetry.decorator';
-import { Projectile, StepState } from '../../model/summary.model';
+import { Projectile, StepState } from '../../model/projectile.model';
 import { Cluster } from '../../model/cluster.model';
 
 
@@ -41,7 +41,7 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
 
   private subscriptions: Subscription[] = [];
 
-  constructor(@Host() @Optional() private launcherComponent: LauncherComponent,
+  constructor(@Host() @Optional() public launcherComponent: LauncherComponent,
               private missionRuntimeService: MissionRuntimeService,
               public _DomSanitizer: DomSanitizer,
               private projectile: Projectile<BoosterState>,

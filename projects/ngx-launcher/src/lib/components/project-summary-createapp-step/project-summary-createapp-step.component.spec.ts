@@ -8,16 +8,16 @@ import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Observable, of } from 'rxjs';
 
-import { DependencyCheck } from '../../launcher.module';
-import { DependencyCheckService } from '../../service/dependency-check.service';
 import { ProjectSummaryCreateappStepComponent } from './project-summary-createapp-step.component';
 import { ProjectSummaryService } from '../../service/project-summary.service';
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
 import { Broadcaster } from 'ngx-base';
 import { BroadcasterTestProvider } from '../targetenvironment-createapp-step/target-environment-createapp-step.component.spec';
-import { Projectile } from '../../model/summary.model';
-import { ReviewDirective } from './review.directive';
+import { Projectile } from '../../model/projectile.model';
+import { ButtonNextStepComponent } from '../../shared/button-next-step.component';
+import { DependencyCheckService } from '../../service/dependency-check.service';
+import { DependencyCheck } from '../../model/dependency-check.model';
 
 @Component({
   selector: 'fab-toast-notification',
@@ -46,24 +46,9 @@ const mockDependencyCheckService = {
       groupId: 'io.openshift.booster',
       projectName: 'App_test_1',
       projectVersion: '1.0.0-SNAPSHOT',
-      spacePath: '/myspace'
+      spacePath: '/myspace',
+      targetEnvironment: undefined
     });
-  }
-};
-
-export interface TypeWizardComponent {
-  selectedSection: string;
-  steps: LauncherStep[];
-  summaryCompleted: boolean;
-  addStep(step: LauncherStep): void;
-}
-
-const mockWizardComponent: TypeWizardComponent = {
-  selectedSection: '',
-  steps: [],
-  summaryCompleted: false,
-  addStep(step: LauncherStep) {
-    this.steps.push(step);
   }
 };
 
@@ -79,9 +64,9 @@ describe('ProjectSummaryStepComponent', () => {
         RouterTestingModule
       ],
       declarations: [
-        ReviewDirective,
         ProjectSummaryCreateappStepComponent,
-        FakeToastNotificationComponent
+        FakeToastNotificationComponent,
+        ButtonNextStepComponent
       ],
       providers : [
         Projectile,
@@ -91,9 +76,6 @@ describe('ProjectSummaryStepComponent', () => {
         },
         {
           provide: DependencyCheckService, useValue: mockDependencyCheckService
-        },
-        {
-          provide: LauncherComponent, useValue: mockWizardComponent
         }
       ]
     }).compileComponents();

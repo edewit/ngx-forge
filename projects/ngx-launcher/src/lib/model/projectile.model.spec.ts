@@ -1,4 +1,4 @@
-import { StepState, Projectile } from './summary.model';
+import { StepState, Projectile } from './projectile.model';
 import { GitHubDetails } from './github-details.model';
 import { HttpParams } from '@angular/common/http';
 

@@ -5,30 +5,15 @@ import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Observable, of } from 'rxjs';
 
-import { PopoverModule } from 'ngx-bootstrap';
+import { PopoverModule, TypeaheadModule } from 'ngx-bootstrap';
 
-import { LauncherComponent } from '../../launcher.component';
-import { LauncherStep } from '../../launcher-step';
-
-import { DependencyCheck } from '../../launcher.module';
-import { DependencyCheckService } from '../../service/dependency-check.service';
 import { GitproviderCreateappStepComponent } from './gitprovider-createapp-step.component';
 import { GitProviderService } from '../../service/git-provider.service';
 
 import { GitHubDetails } from '../../model/github-details.model';
-import { Projectile } from '../../model/summary.model';
-
-const mockDependencyCheckService = {
-  getDependencyCheck(): Observable<DependencyCheck> {
-    return of({
-      mavenArtifact: 'd4-345',
-      groupId: 'io.openshift.booster',
-      projectName: 'App_test_1',
-      projectVersion: '1.0.0-SNAPSHOT',
-      spacePath: '/myspace'
-    });
-  }
-};
+import { Projectile } from '../../model/projectile.model';
+import { ButtonNextStepComponent } from '../../shared/button-next-step.component';
+import { GitProviderRepositoryValidatorDirective } from './gitprovider-repository.validator';
 
 const mockGitProviderService = {
   connectGitHubAccount(redirectUrl: string): void {
@@ -53,25 +38,6 @@ const mockGitProviderService = {
   }
 };
 
-export interface TypeWizardComponent {
-  steps: LauncherStep[];
-  summaryCompleted: boolean;
-  addStep(step: LauncherStep): void;
-}
-
-const mockWizardComponent: TypeWizardComponent = {
-  steps: [],
-  summaryCompleted: false,
-  addStep(step: LauncherStep) {
-    for (let i = 0; i < this.steps.length; i++) {
-      if (step.id === this.steps[i].id) {
-        return;
-      }
-    }
-    this.steps.push(step);
-  }
-};
-
 describe('GitProviderStepComponent', () => {
   let component: GitproviderCreateappStepComponent;
   let fixture: ComponentFixture<GitproviderCreateappStepComponent>;
@@ -83,21 +49,18 @@ describe('GitProviderStepComponent', () => {
         CommonModule,
         FormsModule,
         PopoverModule.forRoot(),
-        RouterTestingModule
+        RouterTestingModule,
+        TypeaheadModule
       ],
       declarations: [
-        GitproviderCreateappStepComponent
+        GitproviderCreateappStepComponent,
+        ButtonNextStepComponent,
+        GitProviderRepositoryValidatorDirective
       ],
       providers: [
         Projectile,
         {
-          provide: DependencyCheckService, useValue: mockDependencyCheckService
-        },
-        {
           provide: GitProviderService, useValue: mockGitProviderService
-        },
-        {
-          provide: LauncherComponent, useValue: mockWizardComponent
         }
       ]
     }).compileComponents();

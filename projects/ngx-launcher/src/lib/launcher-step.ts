@@ -1,7 +1,7 @@
 import { ElementRef, Input, OnDestroy, Type, ViewChild } from '@angular/core';
 import { fromEvent, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { Projectile } from './model/summary.model';
+import { Projectile } from './model/projectile.model';
 
 export abstract class LauncherStep implements OnDestroy {
   /**

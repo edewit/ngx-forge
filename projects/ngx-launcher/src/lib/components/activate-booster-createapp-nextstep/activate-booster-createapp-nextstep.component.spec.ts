@@ -5,31 +5,21 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ActivateBoosterCreateappNextstepComponent } from './activate-booster-createapp-nextstep.component';
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
-import { Projectile, StepState } from '../../model/summary.model';
+import { Projectile, StepState } from '../../model/projectile.model';
 import { TargetEnvironmentSelection } from '../../model/target-environment.model';
 
 export interface TypeWizardComponent {
   selectedSection: string;
   steps: LauncherStep[];
-  summary: any;
   summaryCompleted: boolean;
   addStep(step: LauncherStep): void;
 }
 
-let mockWizardComponent: TypeWizardComponent = {
+const mockWizardComponent: TypeWizardComponent = {
   selectedSection: '',
   steps: [],
-  summary: {
-    dependencyCheck: {},
-    gitHubDetails: {}
-  },
   summaryCompleted: false,
   addStep(step: LauncherStep) {
-    for (let i = 0; i < this.steps.length; i++) {
-      if (step.id === this.steps[i].id) {
-        return;
-      }
-    }
     this.steps.push(step);
   }
 };
@@ -40,7 +30,6 @@ describe('ActivateBoosterComponent', () => {
 
   beforeEach(async(() => {
     const projectile = new Projectile<any>();
-    projectile.setState('TargetEnvironment', new StepState(new TargetEnvironmentSelection(), []));
     TestBed.configureTestingModule({
       imports: [
         CommonModule,

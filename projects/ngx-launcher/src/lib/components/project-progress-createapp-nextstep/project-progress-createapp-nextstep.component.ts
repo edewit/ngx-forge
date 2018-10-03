@@ -5,7 +5,7 @@ import { ProjectProgressService } from '../../service/project-progress.service';
 import { LauncherComponent } from '../../launcher.component';
 import { ProjectSummaryService } from '../../service/project-summary.service';
 import { Broadcaster } from 'ngx-base';
-import { Projectile } from '../../model/summary.model';
+import { Projectile } from '../../model/projectile.model';
 
 @Component({
   encapsulation: ViewEncapsulation.None,

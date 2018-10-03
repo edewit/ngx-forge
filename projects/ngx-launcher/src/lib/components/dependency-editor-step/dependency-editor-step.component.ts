@@ -15,8 +15,7 @@ import { DependencyEditorService } from '../../service/dependency-editor.service
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
 import { DependencyEditor } from '../../model/dependency-editor/dependency-editor.model';
-import { broadcast } from '../../shared/telemetry.decorator';
-import { Projectile, StepState } from '../../model/summary.model';
+import { Projectile, StepState } from '../../model/projectile.model';
 import { DependencyCheck } from '../../model/dependency-check.model';
 
 import * as _ from 'lodash';
@@ -64,8 +63,10 @@ export class DependencyEditorCreateappStepComponent extends LauncherStep impleme
           } else {
             booster.mission['boosters'].forEach((b: any) => {
               if (booster.mission.id === b.mission.id && booster.runtime.id === b.runtime.id) {
+                if (b.source && b.source.git) {
                   this.github = b.source.git.url;
                   this.gitref = b.source.git.ref;
+                }
               }
             });
           }

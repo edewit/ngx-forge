@@ -13,7 +13,7 @@ import { broadcast } from '../../shared/telemetry.decorator';
 import { Broadcaster} from 'ngx-base';
 import { Runtime } from '../../model/runtime.model';
 import { Subscription } from 'rxjs';
-import { Projectile, StepState } from '../../model/summary.model';
+import { Projectile, StepState } from '../../model/projectile.model';
 
 @Component({
   encapsulation: ViewEncapsulation.None,

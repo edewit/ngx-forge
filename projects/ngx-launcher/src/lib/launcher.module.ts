@@ -49,7 +49,7 @@ import { MissionRuntimeCreateappReviewComponent } from './components/mission-run
 
 import { LauncherComponent } from './launcher.component';
 import { Broadcaster } from 'ngx-base';
-import { Projectile } from './model/summary.model';
+import { Projectile } from './model/projectile.model';
 import { DependencyEditorReviewComponent } from './components/dependency-editor-step/dependency-editor-review.component';
 import { TargetEnvironmentCreateappReviewComponent } from './components/targetenvironment-createapp-step/target-environment-createapp-review.component';
 import { ReleaseStrategyCreateappReviewComponent } from './components/release-strategy-createapp-step/release-strategy-createapp-review.component';
@@ -126,7 +126,7 @@ export { Mission } from './model/mission.model';
 export { Pipeline } from './model/pipeline.model';
 export { Progress } from './model/progress.model';
 export { Runtime } from './model/runtime.model';
-export { Projectile } from './model/summary.model';
+export { Projectile } from './model/projectile.model';
 export { TargetEnvironment } from './model/target-environment.model';
 
 // Services

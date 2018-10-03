@@ -15,7 +15,7 @@ import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
 import { Cluster } from '../../model/cluster.model';
 import { TokenService } from '../../service/token.service';
-import { Projectile, StepState } from '../../model/summary.model';
+import { Projectile, StepState } from '../../model/projectile.model';
 
 import * as _ from 'lodash';
 

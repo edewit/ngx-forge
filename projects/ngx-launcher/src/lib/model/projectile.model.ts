@@ -3,7 +3,7 @@ import { HttpParams } from '@angular/common/http';
 
 import * as _ from 'lodash';
 
-import { DependencyCheck } from '../model/dependency-check.model';
+import { DependencyCheck } from './dependency-check.model';
 
 @Injectable()
 export class Projectile<T> {

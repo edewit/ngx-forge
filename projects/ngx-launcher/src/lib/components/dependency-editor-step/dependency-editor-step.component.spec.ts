@@ -10,13 +10,12 @@ import { DependencyCheck } from '../../launcher.module';
 import { DependencyCheckService } from '../../service/dependency-check.service';
 import { DependencyEditorService } from '../../service/dependency-editor.service';
 import { DependencyEditorCreateappStepComponent } from './dependency-editor-step.component';
-import { LauncherComponent } from '../../launcher.component';
-import { LauncherStep } from '../../launcher-step';
 import { HelperService } from '../../service/helper.service';
 import { TokenProvider } from '../../../lib/service/token-provider';
 import { BroadcasterTestProvider } from '../targetenvironment-createapp-step/target-environment-createapp-step.component.spec';
 import { DemoDependencyEditorService } from '../../../../../../src/app/service/demo-dependency-editor.service';
-import { Projectile, StepState } from '../../model/summary.model';
+import { Projectile, StepState } from '../../model/projectile.model';
+import { ButtonNextStepComponent } from '../../shared/button-next-step.component';
 
 const mockHelperService = {
   getBackendUrl(): string {
@@ -34,27 +33,9 @@ const mockDependencyCheckService = {
       groupId: 'io.openshift.booster',
       projectName: 'App_test_1',
       projectVersion: '1.0.0-SNAPSHOT',
-      spacePath: '/myspace'
+      spacePath: '/myspace',
+      targetEnvironment: undefined
     });
-  }
-};
-
-export interface TypeWizardComponent {
-  steps: LauncherStep[];
-  summaryCompleted: boolean;
-  addStep(step: LauncherStep): void;
-}
-
-const mockWizardComponent: TypeWizardComponent = {
-  steps: [],
-  summaryCompleted: false,
-  addStep(step: LauncherStep) {
-    for (let i = 0; i < this.steps.length; i++) {
-      if (step.id === this.steps[i].id) {
-        return;
-      }
-    }
-    this.steps.push(step);
   }
 };
 
@@ -73,7 +54,8 @@ describe('DependencyEditorCreateappStepComponent', () => {
         RouterTestingModule
       ],
       declarations: [
-        DependencyEditorCreateappStepComponent
+        DependencyEditorCreateappStepComponent,
+        ButtonNextStepComponent
       ],
       providers : [
         { provide: Projectile, useValue: projectile },
@@ -85,9 +67,6 @@ describe('DependencyEditorCreateappStepComponent', () => {
           provide: DependencyEditorService, useClass: DemoDependencyEditorService
         },
         { provide: HelperService, useValue: mockHelperService },
-        {
-          provide: LauncherComponent, useValue: mockWizardComponent
-        },
         { provide: Broadcaster, useValue: BroadcasterTestProvider.broadcaster }
       ]
     }).compileComponents();

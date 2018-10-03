@@ -10,27 +10,13 @@ import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
 import { PipelineService } from '../../service/pipeline.service';
 import { ReleaseStrategyCreateappStepComponent } from './release-strategy-createapp-step.component';
-import { Selection } from '../../model/selection.model';
-import { Projectile } from '../../model/summary.model';
+import { Projectile } from '../../model/projectile.model';
 
 import { BroadcasterTestProvider } from '../targetenvironment-createapp-step/target-environment-createapp-step.component.spec';
 import { Broadcaster } from 'ngx-base';
 import { mavenReleasePipeline, StubbedPipelineService } from './pipelines.fixture.spec';
 import { ViewRuntime } from '../mission-runtime-createapp-step/mission-runtime-createapp-step.model';
-
-export interface TypeWizardComponent {
-  steps: LauncherStep[];
-  summaryCompleted: boolean;
-  addStep(step: LauncherStep): void;
-}
-
-const mockWizardComponent: TypeWizardComponent = {
-  steps: [],
-  summaryCompleted: false,
-  addStep(step: LauncherStep) {
-    this.steps.push(step);
-  }
-};
+import { ButtonNextStepComponent } from '../../shared/button-next-step.component';
 
 describe('ReleaseStrategyStepComponent', () => {
   let releaseStrategyComponent: ReleaseStrategyCreateappStepComponent;
@@ -46,12 +32,12 @@ describe('ReleaseStrategyStepComponent', () => {
         SortArrayPipeModule
       ],
       declarations: [
-        ReleaseStrategyCreateappStepComponent
+        ReleaseStrategyCreateappStepComponent,
+        ButtonNextStepComponent
       ],
       providers : [
         Projectile,
         { provide: PipelineService, useClass: StubbedPipelineService },
-        { provide: LauncherComponent, useValue: mockWizardComponent },
         { provide: Broadcaster, useValue: BroadcasterTestProvider.broadcaster }
       ]
     }).compileComponents();

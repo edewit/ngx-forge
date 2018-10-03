@@ -8,8 +8,6 @@ import { Broadcaster } from 'ngx-base';
 import { BsDropdownModule, PopoverModule } from 'ngx-bootstrap';
 import { SortArrayPipeModule, TruncatePipeModule } from 'patternfly-ng/pipe';
 
-import { LauncherComponent } from '../../launcher.component';
-import { LauncherStep } from '../../launcher-step';
 import { MissionRuntimeCreateappStepComponent } from './mission-runtime-createapp-step.component';
 import { MissionRuntimeService } from '../../service/mission-runtime.service';
 import { Mission } from '../../model/mission.model';
@@ -18,7 +16,8 @@ import { createBooster, createMission, createRuntime } from '../../service/missi
 import { BroadcasterTestProvider } from '../targetenvironment-createapp-step/target-environment-createapp-step.component.spec';
 import { Observable, of } from 'rxjs';
 import { Catalog } from '../../model/catalog.model';
-import { Projectile } from '../../model/summary.model';
+import { Projectile } from '../../model/projectile.model';
+import { ButtonNextStepComponent } from '../../shared/button-next-step.component';
 
 
 const longDescription = `An innovative approach to packaging and running Java EE applications,
@@ -47,26 +46,6 @@ class TestMissionRuntimeService extends MissionRuntimeService {
     return of(this.catalog);
   }
 }
-
-
-export interface TypeWizardComponent {
-  steps: LauncherStep[];
-  summaryCompleted: boolean;
-  addStep(step: LauncherStep): void;
-}
-
-const mockWizardComponent: TypeWizardComponent = {
-  steps: [],
-  summaryCompleted: false,
-  addStep(step: LauncherStep) {
-      for (let i = 0; i < this.steps.length; i++) {
-        if (step.id === this.steps[i].id) {
-          return;
-        }
-      }
-      this.steps.push(step);
-  }
-};
 
 describe('MissionRuntimeStepComponent', () => {
   let component: MissionRuntimeCreateappStepComponent;
@@ -113,15 +92,13 @@ describe('MissionRuntimeStepComponent', () => {
         TruncatePipeModule
       ],
       declarations: [
-        MissionRuntimeCreateappStepComponent
+        MissionRuntimeCreateappStepComponent,
+        ButtonNextStepComponent
       ],
       providers: [
         Projectile,
         {
           provide: MissionRuntimeService, useClass: TestMissionRuntimeService
-        },
-        {
-          provide: LauncherComponent, useValue: mockWizardComponent
         },
         { provide: Broadcaster, useValue: BroadcasterTestProvider.broadcaster }
       ]

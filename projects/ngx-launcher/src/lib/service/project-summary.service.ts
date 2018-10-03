@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 
-import { Projectile } from '../model/summary.model';
+import { Projectile } from '../model/projectile.model';
 
 /**
  * Abstract project summary service provided to ensure consumer implements this pattern

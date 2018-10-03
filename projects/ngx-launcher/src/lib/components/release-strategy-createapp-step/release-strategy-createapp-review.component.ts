@@ -1,7 +1,7 @@
 import { ReviewComponent } from '../../review.component';
 import { Component } from '@angular/core';
 import { Broadcaster } from 'ngx-base';
-import { Projectile } from '../../model/summary.model';
+import { Projectile } from '../../model/projectile.model';
 
 @Component({
   selector: 'f8launcher-release-strategy-createapp-review',
