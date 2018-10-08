@@ -5,10 +5,10 @@ import { Broadcaster } from 'ngx-base';
 import { Projectile } from '../../model/projectile.model';
 
 @Component({
-  selector: 'f8launcher-mission-runtime-createapp-review',
-  templateUrl: './mission-runtime-createapp-review.component.html'
+  selector: 'f8launcher-mission-runtime-review',
+  templateUrl: './mission-runtime-review.component.html'
 })
-export class MissionRuntimeCreateappReviewComponent extends ReviewComponent {
+export class MissionRuntimeReviewComponent extends ReviewComponent {
 
   constructor(public _DomSanitizer: DomSanitizer, broadcaster: Broadcaster, projectile: Projectile<any>) {
     super(broadcaster, projectile);

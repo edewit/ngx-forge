@@ -14,7 +14,7 @@ import {
   createViewRuntimes,
   ViewMission,
   ViewRuntime
-} from './mission-runtime-createapp-step.model';
+} from './mission-runtime-step.model';
 import { broadcast } from '../../shared/telemetry.decorator';
 import { Projectile, StepState } from '../../model/projectile.model';
 import { Cluster } from '../../model/cluster.model';
@@ -22,11 +22,11 @@ import { Cluster } from '../../model/cluster.model';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
-  selector: 'f8launcher-missionruntime-createapp-step',
-  templateUrl: './mission-runtime-createapp-step.component.html',
-  styleUrls: ['./mission-runtime-createapp-step.component.less']
+  selector: 'f8launcher-missionruntime-step',
+  templateUrl: './mission-runtime-step.component.html',
+  styleUrls: ['./mission-runtime-step.component.less']
 })
-export class MissionRuntimeCreateappStepComponent extends LauncherStep implements OnInit, OnDestroy {
+export class MissionRuntimeStepComponent extends LauncherStep implements OnInit, OnDestroy {
   booster: BoosterState = { mission: new Mission(), runtime: { id: undefined, name: undefined,
     version: {id: undefined, name: undefined} } };
 

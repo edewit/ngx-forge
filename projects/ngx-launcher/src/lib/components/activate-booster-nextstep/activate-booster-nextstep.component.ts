@@ -11,11 +11,11 @@ import { TargetEnvironmentSelection } from '../../model/target-environment.model
 
 @Component({
   encapsulation: ViewEncapsulation.None,
-  selector: 'f8launcher-activatebooster-createapp-nextstep',
-  templateUrl: './activate-booster-createapp-nextstep.component.html',
-  styleUrls: ['./activate-booster-createapp-nextstep.component.less']
+  selector: 'f8launcher-activatebooster-nextstep',
+  templateUrl: './activate-booster-nextstep.component.html',
+  styleUrls: ['./activate-booster-nextstep.component.less']
 })
-export class ActivateBoosterCreateappNextstepComponent {
+export class ActivateBoosterNextstepComponent {
 
   constructor(@Host() public launcherComponent: LauncherComponent,
       private projectile: Projectile<TargetEnvironmentSelection>) {

@@ -23,11 +23,11 @@ import { BoosterState } from '../../model/booster.model';
 
 @Component({
     encapsulation: ViewEncapsulation.None,
-    selector: 'f8launcher-dependencychecker-createapp-step',
+    selector: 'f8launcher-dependencychecker-step',
     templateUrl: './dependency-editor-step.component.html',
     styleUrls: ['./dependency-editor-step.component.less']
 })
-export class DependencyEditorCreateappStepComponent extends LauncherStep implements OnInit, OnDestroy {
+export class DependencyEditorStepComponent extends LauncherStep implements OnInit, OnDestroy {
     @Input() id: string;
     @Input() depEditorFlag: boolean;
 

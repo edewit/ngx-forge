@@ -18,41 +18,30 @@ import { ToolbarModule } from 'patternfly-ng/toolbar';
 import { StepIndicatorComponent } from './step-indicator/step-indicator.component';
 import { CancelOverlayComponent } from './cancel-overlay/cancel-overlay.component';
 
-import { ActivateBoosterCreateappNextstepComponent }
-  from './components/activate-booster-createapp-nextstep/activate-booster-createapp-nextstep.component';
-import { DependencyEditorCreateappStepComponent }
-  from './components/dependency-editor-step/dependency-editor-step.component';
-import { GitproviderCreateappStepComponent }
-  from './components/gitprovider-createapp-step/gitprovider-createapp-step.component';
-import { GitProviderRepositoryValidatorDirective }
-  from './components/gitprovider-createapp-step/gitprovider-repository.validator';
+import { ActivateBoosterNextstepComponent } from './components/activate-booster-nextstep/activate-booster-nextstep.component';
+import { DependencyEditorStepComponent } from './components/dependency-editor-step/dependency-editor-step.component';
+import { GitproviderStepComponent } from './components/gitprovider-step/gitprovider-step.component';
+import { GitProviderRepositoryValidatorDirective } from './components/gitprovider-step/gitprovider-repository.validator';
 import { LowerCaseDirective } from './shared/lowercase.directive';
 import { ProjectNameValidatorDirective } from './shared/project-name.validator';
-import { MissionRuntimeCreateappStepComponent }
-  from './components/mission-runtime-createapp-step/mission-runtime-createapp-step.component';
-import { ProjectProgressCreateappNextstepComponent }
-  from './components/project-progress-createapp-nextstep/project-progress-createapp-nextstep.component';
-import { ProjectSummaryCreateappStepComponent }
-  from './components/project-summary-createapp-step/project-summary-createapp-step.component';
-import { ReleaseStrategyCreateappStepComponent }
-  from './components/release-strategy-createapp-step/release-strategy-createapp-step.component';
-import { TargetEnvironmentCreateappStepComponent }
-  from './components/targetenvironment-createapp-step/target-environment-createapp-step.component';
-import { LinkAccountsCreateappStepComponent }
-  from './components/link-accounts-createapp-step/link-accounts-createapp-step.component';
+import { MissionRuntimeStepComponent } from './components/mission-runtime-step/mission-runtime-step.component';
+import { ProjectProgressNextstepComponent } from './components/project-progress-nextstep/project-progress-nextstep.component';
+import { ProjectSummaryStepComponent } from './components/project-summary-step/project-summary-step.component';
+import { ReleaseStrategyStepComponent } from './components/release-strategy-step/release-strategy-step.component';
+import { TargetEnvironmentStepComponent } from './components/targetenvironment-step/target-environment-step.component';
+import { LinkAccountsStepComponent } from './components/link-accounts-step/link-accounts-step.component';
 
 import { ToastNotificationComponent } from './toast-notification/toast-notification.component';
 
-
-import { GitproviderCreateappReviewComponent } from './components/gitprovider-createapp-step/gitprovider-createapp-review.component';
-import { MissionRuntimeCreateappReviewComponent } from './components/mission-runtime-createapp-step/mission-runtime-createapp-review.component';
+import { GitproviderReviewComponent } from './components/gitprovider-step/gitprovider-review.component';
+import { MissionRuntimeReviewComponent } from './components/mission-runtime-step/mission-runtime-review.component';
 
 import { LauncherComponent } from './launcher.component';
 import { Broadcaster } from 'ngx-base';
 import { Projectile } from './model/projectile.model';
 import { DependencyEditorReviewComponent } from './components/dependency-editor-step/dependency-editor-review.component';
-import { TargetEnvironmentCreateappReviewComponent } from './components/targetenvironment-createapp-step/target-environment-createapp-review.component';
-import { ReleaseStrategyCreateappReviewComponent } from './components/release-strategy-createapp-step/release-strategy-createapp-review.component';
+import { TargetEnvironmentReviewComponent } from './components/targetenvironment-step/target-environment-review.component';
+import { ReleaseStrategyReviewComponent } from './components/release-strategy-step/release-strategy-review.component';
 import { ButtonNextStepComponent } from './shared/button-next-step.component';
 
 @NgModule({
@@ -71,38 +60,38 @@ import { ButtonNextStepComponent } from './shared/button-next-step.component';
   exports: [
     LauncherComponent,
     StepIndicatorComponent,
-    TargetEnvironmentCreateappStepComponent,
-    MissionRuntimeCreateappStepComponent,
-    GitproviderCreateappStepComponent,
-    ProjectSummaryCreateappStepComponent,
-    TargetEnvironmentCreateappReviewComponent,
-    GitproviderCreateappReviewComponent,
-    ReleaseStrategyCreateappStepComponent,
-    ReleaseStrategyCreateappReviewComponent,
-    DependencyEditorCreateappStepComponent,
+    TargetEnvironmentStepComponent,
+    MissionRuntimeStepComponent,
+    GitproviderStepComponent,
+    ProjectSummaryStepComponent,
+    TargetEnvironmentReviewComponent,
+    GitproviderReviewComponent,
+    ReleaseStrategyStepComponent,
+    ReleaseStrategyReviewComponent,
+    DependencyEditorStepComponent,
     DependencyEditorReviewComponent,
-    MissionRuntimeCreateappReviewComponent
+    MissionRuntimeReviewComponent
   ],
   declarations: [
     ButtonNextStepComponent,
-    ActivateBoosterCreateappNextstepComponent,
+    ActivateBoosterNextstepComponent,
     CancelOverlayComponent,
-    DependencyEditorCreateappStepComponent,
+    DependencyEditorStepComponent,
     DependencyEditorReviewComponent,
-    GitproviderCreateappStepComponent,
+    GitproviderStepComponent,
     LowerCaseDirective,
     ProjectNameValidatorDirective,
     GitProviderRepositoryValidatorDirective,
-    GitproviderCreateappReviewComponent,
-    MissionRuntimeCreateappReviewComponent,
-    MissionRuntimeCreateappStepComponent,
-    ProjectProgressCreateappNextstepComponent,
-    ProjectSummaryCreateappStepComponent,
-    ReleaseStrategyCreateappStepComponent,
-    ReleaseStrategyCreateappReviewComponent,
-    TargetEnvironmentCreateappStepComponent,
-    TargetEnvironmentCreateappReviewComponent,
-    LinkAccountsCreateappStepComponent,
+    GitproviderReviewComponent,
+    MissionRuntimeReviewComponent,
+    MissionRuntimeStepComponent,
+    ProjectProgressNextstepComponent,
+    ProjectSummaryStepComponent,
+    ReleaseStrategyStepComponent,
+    ReleaseStrategyReviewComponent,
+    TargetEnvironmentStepComponent,
+    TargetEnvironmentReviewComponent,
+    LinkAccountsStepComponent,
     StepIndicatorComponent,
     ToastNotificationComponent,
     LauncherComponent
@@ -115,7 +104,6 @@ import { ButtonNextStepComponent } from './shared/button-next-step.component';
   ]
 })
 export class LauncherModule {
-
 }
 
 // Models
@@ -144,4 +132,4 @@ export { TokenService } from './service/token.service';
 // Utility Service
 export { HelperService } from './service/helper.service';
 
-export { DependencyEditorModule,  URLProvider, DependencyEditorTokenProvider };
+export { DependencyEditorModule, URLProvider, DependencyEditorTokenProvider };

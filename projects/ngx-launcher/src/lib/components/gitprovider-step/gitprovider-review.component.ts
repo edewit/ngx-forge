@@ -1,13 +1,13 @@
 import { ReviewComponent } from '../../review.component';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Broadcaster } from 'ngx-base';
 import { Projectile } from '../../model/projectile.model';
 
 @Component({
-  selector: 'f8launcher-release-strategy-createapp-review',
-  templateUrl: './release-strategy-createapp-review.component.html'
+  selector: 'f8launcher-gitprovider-review',
+  templateUrl: './gitprovider-review.component.html',
 })
-export class ReleaseStrategyCreateappReviewComponent extends ReviewComponent {
+export class GitproviderReviewComponent extends ReviewComponent {
   constructor(broadcaster: Broadcaster, projectile: Projectile<any>) {
     super(broadcaster, projectile);
   }

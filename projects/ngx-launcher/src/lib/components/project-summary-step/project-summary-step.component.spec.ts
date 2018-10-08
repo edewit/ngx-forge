@@ -8,12 +8,12 @@ import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Observable, of } from 'rxjs';
 
-import { ProjectSummaryCreateappStepComponent } from './project-summary-createapp-step.component';
+import { ProjectSummaryStepComponent } from './project-summary-step.component';
 import { ProjectSummaryService } from '../../service/project-summary.service';
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
 import { Broadcaster } from 'ngx-base';
-import { BroadcasterTestProvider } from '../targetenvironment-createapp-step/target-environment-createapp-step.component.spec';
+import { BroadcasterTestProvider } from '../targetenvironment-step/target-environment-step.component.spec';
 import { Projectile } from '../../model/projectile.model';
 import { ButtonNextStepComponent } from '../../shared/button-next-step.component';
 import { DependencyCheckService } from '../../service/dependency-check.service';
@@ -53,8 +53,8 @@ const mockDependencyCheckService = {
 };
 
 describe('ProjectSummaryStepComponent', () => {
-  let component: ProjectSummaryCreateappStepComponent;
-  let fixture: ComponentFixture<ProjectSummaryCreateappStepComponent>;
+  let component: ProjectSummaryStepComponent;
+  let fixture: ComponentFixture<ProjectSummaryStepComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -64,7 +64,7 @@ describe('ProjectSummaryStepComponent', () => {
         RouterTestingModule
       ],
       declarations: [
-        ProjectSummaryCreateappStepComponent,
+        ProjectSummaryStepComponent,
         FakeToastNotificationComponent,
         ButtonNextStepComponent
       ],
@@ -82,7 +82,7 @@ describe('ProjectSummaryStepComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ProjectSummaryCreateappStepComponent);
+    fixture = TestBed.createComponent(ProjectSummaryStepComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

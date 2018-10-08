@@ -17,11 +17,11 @@ import { Projectile, StepState } from '../../model/projectile.model';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
-  selector: 'f8launcher-releasestrategy-createapp-step',
-  templateUrl: './release-strategy-createapp-step.component.html',
-  styleUrls: ['./release-strategy-createapp-step.component.less']
+  selector: 'f8launcher-releasestrategy-step',
+  templateUrl: './release-strategy-step.component.html',
+  styleUrls: ['./release-strategy-step.component.less']
 })
-export class ReleaseStrategyCreateappStepComponent extends LauncherStep implements OnInit, OnDestroy {
+export class ReleaseStrategyStepComponent extends LauncherStep implements OnInit, OnDestroy {
   private _pipelines: Pipeline[] = [];
   private _allPipelines: Pipeline[] = [];
   public pipeline: Pipeline = new Pipeline();

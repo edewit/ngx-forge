@@ -15,11 +15,11 @@ import * as _ from 'lodash';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
-  selector: 'f8launcher-projectsummary-createapp-step',
-  templateUrl: './project-summary-createapp-step.component.html',
-  styleUrls: ['./project-summary-createapp-step.component.less']
+  selector: 'f8launcher-projectsummary-step',
+  templateUrl: './project-summary-step.component.html',
+  styleUrls: ['./project-summary-step.component.less']
 })
-export class ProjectSummaryCreateappStepComponent extends LauncherStep implements OnDestroy, OnInit {
+export class ProjectSummaryStepComponent extends LauncherStep implements OnDestroy, OnInit {
   @Input() submitButtonText = 'Set Up Application';
   @ViewChild('form') form: NgForm;
 

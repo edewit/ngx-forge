@@ -9,11 +9,11 @@ import { Projectile } from '../../model/projectile.model';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
-  selector: 'f8launcher-projectprogress-createapp-nextstep',
-  templateUrl: './project-progress-createapp-nextstep.component.html',
-  styleUrls: ['./project-progress-createapp-nextstep.component.less']
+  selector: 'f8launcher-projectprogress-nextstep',
+  templateUrl: './project-progress-nextstep.component.html',
+  styleUrls: ['./project-progress-nextstep.component.less']
 })
-export class ProjectProgressCreateappNextstepComponent implements OnChanges, OnDestroy {
+export class ProjectProgressNextstepComponent implements OnChanges, OnDestroy {
   @Input() gettingStartedInfo: boolean;
   @Input() statusLink: string;
   errorMessage: string;

@@ -8,12 +8,12 @@ import { Broadcaster } from 'ngx-base';
 import { BsDropdownModule, PopoverModule } from 'ngx-bootstrap';
 import { SortArrayPipeModule, TruncatePipeModule } from 'patternfly-ng/pipe';
 
-import { MissionRuntimeCreateappStepComponent } from './mission-runtime-createapp-step.component';
+import { MissionRuntimeStepComponent } from './mission-runtime-step.component';
 import { MissionRuntimeService } from '../../service/mission-runtime.service';
 import { Mission } from '../../model/mission.model';
 import { Runtime } from '../../model/runtime.model';
 import { createBooster, createMission, createRuntime } from '../../service/mission-runtime.service.spec';
-import { BroadcasterTestProvider } from '../targetenvironment-createapp-step/target-environment-createapp-step.component.spec';
+import { BroadcasterTestProvider } from '../targetenvironment-step/target-environment-step.component.spec';
 import { Observable, of } from 'rxjs';
 import { Catalog } from '../../model/catalog.model';
 import { Projectile } from '../../model/projectile.model';
@@ -48,8 +48,8 @@ class TestMissionRuntimeService extends MissionRuntimeService {
 }
 
 describe('MissionRuntimeStepComponent', () => {
-  let component: MissionRuntimeCreateappStepComponent;
-  let fixture: ComponentFixture<MissionRuntimeCreateappStepComponent>;
+  let component: MissionRuntimeStepComponent;
+  let fixture: ComponentFixture<MissionRuntimeStepComponent>;
   let element: HTMLElement;
 
   function getMissionsSection(): Element {
@@ -92,7 +92,7 @@ describe('MissionRuntimeStepComponent', () => {
         TruncatePipeModule
       ],
       declarations: [
-        MissionRuntimeCreateappStepComponent,
+        MissionRuntimeStepComponent,
         ButtonNextStepComponent
       ],
       providers: [
@@ -106,7 +106,7 @@ describe('MissionRuntimeStepComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MissionRuntimeCreateappStepComponent);
+    fixture = TestBed.createComponent(MissionRuntimeStepComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
     element = fixture.nativeElement;

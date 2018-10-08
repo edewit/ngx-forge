@@ -22,11 +22,11 @@ import { Projectile, StepState } from '../../model/projectile.model';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
-  selector: 'f8launcher-gitprovider-createapp-step',
-  templateUrl: './gitprovider-createapp-step.component.html',
-  styleUrls: ['./gitprovider-createapp-step.component.less']
+  selector: 'f8launcher-gitprovider-step',
+  templateUrl: './gitprovider-step.component.html',
+  styleUrls: ['./gitprovider-step.component.less']
 })
-export class GitproviderCreateappStepComponent extends LauncherStep implements AfterViewInit, OnDestroy, OnInit {
+export class GitproviderStepComponent extends LauncherStep implements AfterViewInit, OnDestroy, OnInit {
   @Input() import: boolean;
   @ViewChild('form') form: NgForm;
   @ViewChild('versionSelect') versionSelect: ElementRef;

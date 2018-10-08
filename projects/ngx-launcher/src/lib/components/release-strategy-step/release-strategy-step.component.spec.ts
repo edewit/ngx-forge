@@ -6,21 +6,19 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { SortArrayPipeModule } from 'patternfly-ng/pipe';
 
-import { LauncherComponent } from '../../launcher.component';
-import { LauncherStep } from '../../launcher-step';
 import { PipelineService } from '../../service/pipeline.service';
-import { ReleaseStrategyCreateappStepComponent } from './release-strategy-createapp-step.component';
+import { ReleaseStrategyStepComponent } from './release-strategy-step.component';
 import { Projectile } from '../../model/projectile.model';
 
-import { BroadcasterTestProvider } from '../targetenvironment-createapp-step/target-environment-createapp-step.component.spec';
+import { BroadcasterTestProvider } from '../targetenvironment-step/target-environment-step.component.spec';
 import { Broadcaster } from 'ngx-base';
 import { mavenReleasePipeline, StubbedPipelineService } from './pipelines.fixture.spec';
-import { ViewRuntime } from '../mission-runtime-createapp-step/mission-runtime-createapp-step.model';
+import { ViewRuntime } from '../mission-runtime-step/mission-runtime-step.model';
 import { ButtonNextStepComponent } from '../../shared/button-next-step.component';
 
 describe('ReleaseStrategyStepComponent', () => {
-  let releaseStrategyComponent: ReleaseStrategyCreateappStepComponent;
-  let fixture: ComponentFixture<ReleaseStrategyCreateappStepComponent>;
+  let releaseStrategyComponent: ReleaseStrategyStepComponent;
+  let fixture: ComponentFixture<ReleaseStrategyStepComponent>;
   let element: HTMLElement;
 
   beforeEach(async(() => {
@@ -32,7 +30,7 @@ describe('ReleaseStrategyStepComponent', () => {
         SortArrayPipeModule
       ],
       declarations: [
-        ReleaseStrategyCreateappStepComponent,
+        ReleaseStrategyStepComponent,
         ButtonNextStepComponent
       ],
       providers : [
@@ -44,7 +42,7 @@ describe('ReleaseStrategyStepComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ReleaseStrategyCreateappStepComponent);
+    fixture = TestBed.createComponent(ReleaseStrategyStepComponent);
     releaseStrategyComponent = fixture.componentInstance;
     element = fixture.nativeElement;
     fixture.detectChanges();

@@ -21,11 +21,11 @@ import * as _ from 'lodash';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
-  selector: 'f8launcher-targetenvironment-createapp-step',
-  templateUrl: './target-environment-createapp-step.component.html',
-  styleUrls: ['./target-environment-createapp-step.component.less']
+  selector: 'f8launcher-targetenvironment-step',
+  templateUrl: './target-environment-step.component.html',
+  styleUrls: ['./target-environment-step.component.less']
 })
-export class TargetEnvironmentCreateappStepComponent extends LauncherStep implements OnDestroy, OnInit {
+export class TargetEnvironmentStepComponent extends LauncherStep implements OnDestroy, OnInit {
   private subscriptions: Subscription[] = [];
   private _targetEnvironments: TargetEnvironment[];
   private _clusters: Cluster[] = [];

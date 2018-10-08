@@ -9,10 +9,10 @@ import { Broadcaster } from 'ngx-base';
 import { DependencyCheck } from '../../launcher.module';
 import { DependencyCheckService } from '../../service/dependency-check.service';
 import { DependencyEditorService } from '../../service/dependency-editor.service';
-import { DependencyEditorCreateappStepComponent } from './dependency-editor-step.component';
+import { DependencyEditorStepComponent } from './dependency-editor-step.component';
 import { HelperService } from '../../service/helper.service';
 import { TokenProvider } from '../../../lib/service/token-provider';
-import { BroadcasterTestProvider } from '../targetenvironment-createapp-step/target-environment-createapp-step.component.spec';
+import { BroadcasterTestProvider } from '../targetenvironment-step/target-environment-step.component.spec';
 import { DemoDependencyEditorService } from '../../../../../../src/app/service/demo-dependency-editor.service';
 import { Projectile, StepState } from '../../model/projectile.model';
 import { ButtonNextStepComponent } from '../../shared/button-next-step.component';
@@ -40,8 +40,8 @@ const mockDependencyCheckService = {
 };
 
 describe('DependencyEditorCreateappStepComponent', () => {
-  let component: DependencyEditorCreateappStepComponent;
-  let fixture: ComponentFixture<DependencyEditorCreateappStepComponent>;
+  let component: DependencyEditorStepComponent;
+  let fixture: ComponentFixture<DependencyEditorStepComponent>;
 
   beforeEach(async(() => {
     const projectile = new Projectile<any>();
@@ -54,7 +54,7 @@ describe('DependencyEditorCreateappStepComponent', () => {
         RouterTestingModule
       ],
       declarations: [
-        DependencyEditorCreateappStepComponent,
+        DependencyEditorStepComponent,
         ButtonNextStepComponent
       ],
       providers : [
@@ -73,7 +73,7 @@ describe('DependencyEditorCreateappStepComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DependencyEditorCreateappStepComponent);
+    fixture = TestBed.createComponent(DependencyEditorStepComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

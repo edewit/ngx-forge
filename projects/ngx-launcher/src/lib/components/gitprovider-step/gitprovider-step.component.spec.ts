@@ -7,7 +7,7 @@ import { Observable, of } from 'rxjs';
 
 import { PopoverModule, TypeaheadModule } from 'ngx-bootstrap';
 
-import { GitproviderCreateappStepComponent } from './gitprovider-createapp-step.component';
+import { GitproviderStepComponent } from './gitprovider-step.component';
 import { GitProviderService } from '../../service/git-provider.service';
 
 import { GitHubDetails } from '../../model/github-details.model';
@@ -39,8 +39,8 @@ const mockGitProviderService = {
 };
 
 describe('GitProviderStepComponent', () => {
-  let component: GitproviderCreateappStepComponent;
-  let fixture: ComponentFixture<GitproviderCreateappStepComponent>;
+  let component: GitproviderStepComponent;
+  let fixture: ComponentFixture<GitproviderStepComponent>;
   let element: HTMLElement;
 
   beforeEach(async(() => {
@@ -53,7 +53,7 @@ describe('GitProviderStepComponent', () => {
         TypeaheadModule
       ],
       declarations: [
-        GitproviderCreateappStepComponent,
+        GitproviderStepComponent,
         ButtonNextStepComponent,
         GitProviderRepositoryValidatorDirective
       ],
@@ -67,7 +67,7 @@ describe('GitProviderStepComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GitproviderCreateappStepComponent);
+    fixture = TestBed.createComponent(GitproviderStepComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

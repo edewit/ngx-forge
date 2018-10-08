@@ -32,10 +32,10 @@
               </ul>
             </div>
             <div *ngIf="targetEnv.id === 'os' && selection.dependencyCheck.targetEnvironment === 'os'">
-              <f8launcher-link-accounts-createapp-step
+              <f8launcher-link-accounts-step
                 [clusters]="clusters"
                 (select)="selectCluster($event)">
-              </f8launcher-link-accounts-createapp-step>
+              </f8launcher-link-accounts-step>
             </div>
             <div class="card-pf-footer">
               <div class="card-pf-footer--logo">

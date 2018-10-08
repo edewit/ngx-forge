@@ -7,11 +7,11 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Observable, of } from 'rxjs';
 import { Broadcaster } from 'ngx-base';
 
-import { TargetEnvironmentCreateappStepComponent } from './target-environment-createapp-step.component';
+import { TargetEnvironmentStepComponent } from './target-environment-step.component';
 import { TargetEnvironment } from '../../model/target-environment.model';
 import { TargetEnvironmentService } from '../../service/target-environment.service';
 import { TokenService } from '../../service/token.service';
-import { LinkAccountsCreateappStepComponent } from '../link-accounts-createapp-step/link-accounts-createapp-step.component';
+import { LinkAccountsStepComponent } from '../link-accounts-step/link-accounts-step.component';
 import { MissionRuntimeService } from '../../service/mission-runtime.service';
 import { Catalog } from '../../model/catalog.model';
 import { Projectile } from '../../model/projectile.model';
@@ -55,8 +55,8 @@ class MockMissionRuntimeService extends MissionRuntimeService {
 }
 
 describe('TargetEnvironmentStepComponent', () => {
-  let component: TargetEnvironmentCreateappStepComponent;
-  let fixture: ComponentFixture<TargetEnvironmentCreateappStepComponent>;
+  let component: TargetEnvironmentStepComponent;
+  let fixture: ComponentFixture<TargetEnvironmentStepComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -67,8 +67,8 @@ describe('TargetEnvironmentStepComponent', () => {
         NoopAnimationsModule
       ],
       declarations: [
-        TargetEnvironmentCreateappStepComponent,
-        LinkAccountsCreateappStepComponent,
+        TargetEnvironmentStepComponent,
+        LinkAccountsStepComponent,
         ButtonNextStepComponent
       ],
       providers: [
@@ -86,7 +86,7 @@ describe('TargetEnvironmentStepComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TargetEnvironmentCreateappStepComponent);
+    fixture = TestBed.createComponent(TargetEnvironmentStepComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -17,13 +17,11 @@ import { Projectile } from './model/projectile.model';
 import { CancelOverlayComponent } from './cancel-overlay/cancel-overlay.component';
 import { LauncherStep } from './launcher-step';
 import {
-  ActivateBoosterCreateappNextstepComponent
-} from './components/activate-booster-createapp-nextstep/activate-booster-createapp-nextstep.component';
-import {
-  ProjectProgressCreateappNextstepComponent
-} from './components/project-progress-createapp-nextstep/project-progress-createapp-nextstep.component';
+  ActivateBoosterNextstepComponent
+} from './components/activate-booster-nextstep/activate-booster-nextstep.component';
+import { ProjectProgressNextstepComponent } from './components/project-progress-nextstep/project-progress-nextstep.component';
 import { Broadcaster } from 'ngx-base';
-import { BroadcasterTestProvider } from './components/targetenvironment-createapp-step/target-environment-createapp-step.component.spec';
+import { BroadcasterTestProvider } from './components/targetenvironment-step/target-environment-step.component.spec';
 
 @Component({
   template: `
@@ -66,8 +64,8 @@ describe('LauncherComponent', () => {
       ],
       declarations: [
         CancelOverlayComponent,
-        ActivateBoosterCreateappNextstepComponent,
-        ProjectProgressCreateappNextstepComponent,
+        ActivateBoosterNextstepComponent,
+        ProjectProgressNextstepComponent,
         Fakef8StepComponent,
         LauncherComponent,
         ParentComponent

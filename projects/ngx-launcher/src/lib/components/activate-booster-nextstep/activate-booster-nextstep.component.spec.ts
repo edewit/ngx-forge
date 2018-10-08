@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { ActivateBoosterCreateappNextstepComponent } from './activate-booster-createapp-nextstep.component';
+import { ActivateBoosterNextstepComponent } from './activate-booster-nextstep.component';
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
 import { Projectile, StepState } from '../../model/projectile.model';
@@ -25,8 +25,8 @@ const mockWizardComponent: TypeWizardComponent = {
 };
 
 describe('ActivateBoosterComponent', () => {
-  let component: ActivateBoosterCreateappNextstepComponent;
-  let fixture: ComponentFixture<ActivateBoosterCreateappNextstepComponent>;
+  let component: ActivateBoosterNextstepComponent;
+  let fixture: ComponentFixture<ActivateBoosterNextstepComponent>;
 
   beforeEach(async(() => {
     const projectile = new Projectile<any>();
@@ -36,7 +36,7 @@ describe('ActivateBoosterComponent', () => {
         RouterTestingModule
       ],
       declarations: [
-        ActivateBoosterCreateappNextstepComponent
+        ActivateBoosterNextstepComponent
       ],
       providers: [
         { provide: Projectile, useValue: projectile },
@@ -46,7 +46,7 @@ describe('ActivateBoosterComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ActivateBoosterCreateappNextstepComponent);
+    fixture = TestBed.createComponent(ActivateBoosterNextstepComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

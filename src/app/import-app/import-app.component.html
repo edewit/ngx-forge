@@ -5,18 +5,18 @@
     </div>
     <div class="f8launcher-container_main">
       <section class="f8launcher-container_main--spacer"></section>
-      <f8launcher-gitprovider-createapp-step #gitProvider [import]="true" id="GitProvider" styleClass="git-provider"
+      <f8launcher-gitprovider-step #gitProvider [import]="true" id="GitProvider" styleClass="git-provider"
         title="Authorize Git Provider">
-      </f8launcher-gitprovider-createapp-step>
-      <f8launcher-releasestrategy-createapp-step #releasestrategy id="ReleaseStrategy" styleClass="release-strategy"
+      </f8launcher-gitprovider-step>
+      <f8launcher-releasestrategy-step #releasestrategy id="ReleaseStrategy" styleClass="release-strategy"
         title="Select Pipeline">
-      </f8launcher-releasestrategy-createapp-step>
-      <f8launcher-projectsummary-createapp-step id="ProjectSummary" styleClass="project-summary" submitButtonText="Import Application"
+      </f8launcher-releasestrategy-step>
+      <f8launcher-projectsummary-step id="ProjectSummary" styleClass="project-summary" submitButtonText="Import Application"
         title="Confirm Application Summary & Setup">
-        <f8launcher-release-strategy-createapp-review [stepId]="releasestrategy.id"></f8launcher-release-strategy-createapp-review>
-        <f8launcher-target-environment-createapp-review stepId="shared"></f8launcher-target-environment-createapp-review>
-        <f8launcher-gitprovider-createapp-review [stepId]="gitProvider.id"></f8launcher-gitprovider-createapp-review>
-      </f8launcher-projectsummary-createapp-step>
+        <f8launcher-release-strategy-review [stepId]="releasestrategy.id"></f8launcher-release-strategy-review>
+        <f8launcher-target-environment-review stepId="shared"></f8launcher-target-environment-review>
+        <f8launcher-gitprovider-review [stepId]="gitProvider.id"></f8launcher-gitprovider-review>
+      </f8launcher-projectsummary-step>
     </div>
     <div class="f8launcher-container_close">
       <div class="sticky close">

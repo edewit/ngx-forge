@@ -4,11 +4,11 @@ import { Cluster } from '../../model/cluster.model';
 import { TokenService } from '../../service/token.service';
 
 @Component({
-  selector: 'f8launcher-link-accounts-createapp-step',
-  templateUrl: './link-accounts-createapp-step.component.html',
-  styleUrls: ['./link-accounts-createapp-step.component.less']
+  selector: 'f8launcher-link-accounts-step',
+  templateUrl: './link-accounts-step.component.html',
+  styleUrls: ['./link-accounts-step.component.less']
 })
-export class LinkAccountsCreateappStepComponent {
+export class LinkAccountsStepComponent {
   @Output() select = new EventEmitter(true);
 
   private _clusters: Cluster[] = [];

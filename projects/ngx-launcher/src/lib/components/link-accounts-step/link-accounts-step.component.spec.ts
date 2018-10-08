@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { LinkAccountsCreateappStepComponent } from './link-accounts-createapp-step.component';
+import { LinkAccountsStepComponent } from './link-accounts-step.component';
 import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
 import { TokenService } from '../../launcher.module';
@@ -41,8 +41,8 @@ const mockTokenService: TokenService = {
 };
 
 describe('ActivateBoosterComponent', () => {
-  let component: LinkAccountsCreateappStepComponent;
-  let fixture: ComponentFixture<LinkAccountsCreateappStepComponent>;
+  let component: LinkAccountsStepComponent;
+  let fixture: ComponentFixture<LinkAccountsStepComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -52,7 +52,7 @@ describe('ActivateBoosterComponent', () => {
         RouterTestingModule
       ],
       declarations: [
-        LinkAccountsCreateappStepComponent
+        LinkAccountsStepComponent
       ],
       providers: [
         { provide: LauncherComponent, useValue: mockWizardComponent },
@@ -62,7 +62,7 @@ describe('ActivateBoosterComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LinkAccountsCreateappStepComponent);
+    fixture = TestBed.createComponent(LinkAccountsStepComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -4,10 +4,10 @@ import { Projectile } from '../../model/projectile.model';
 import { ReviewComponent } from '../../review.component';
 
 @Component({
-  selector: 'f8launcher-target-environment-createapp-review',
-  templateUrl: './target-environment-createapp-review.component.html'
+  selector: 'f8launcher-target-environment-review',
+  templateUrl: './target-environment-review.component.html'
 })
-export class TargetEnvironmentCreateappReviewComponent extends ReviewComponent implements OnInit {
+export class TargetEnvironmentReviewComponent extends ReviewComponent implements OnInit {
   constructor(broadcaster: Broadcaster, projectile: Projectile<any>) {
     super(broadcaster, projectile);
   }
