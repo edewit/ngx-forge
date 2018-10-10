@@ -1,4 +1,4 @@
-import { Component, Host, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Host, OnDestroy, OnInit, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import * as _ from 'lodash';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
@@ -26,7 +26,7 @@ import { broadcast } from '../../shared/telemetry.decorator';
   templateUrl: './mission-runtime-createapp-step.component.html',
   styleUrls: ['./mission-runtime-createapp-step.component.less']
 })
-export class MissionRuntimeCreateappStepComponent extends LauncherStep implements OnInit, OnDestroy {
+export class MissionRuntimeCreateappStepComponent extends LauncherStep implements OnInit, OnDestroy, AfterViewInit {
   public missionId: string;
   public runtimeId: string;
   public canChangeVersion: boolean;
@@ -51,6 +51,9 @@ export class MissionRuntimeCreateappStepComponent extends LauncherStep implement
 
   ngOnInit() {
     this.launcherComponent.addStep(this);
+  }
+
+  ngAfterViewInit() {
     this.subscriptions.push(this.missionRuntimeService.getBoosters()
       .subscribe(boosters => {
         this._boosters = boosters;
