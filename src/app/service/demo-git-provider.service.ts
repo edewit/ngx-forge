@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { EMPTY, Observable, of } from 'rxjs';
-import { GitProviderService } from '../../../projects/ngx-launcher/src/lib/service/git-provider.service';
 import { GitHubDetails } from '../../../projects/ngx-launcher/src/lib/model/github-details.model';
+import { GitProviderService } from '../../../projects/ngx-launcher/src/lib/service/git-provider.service';
 
 const GitHubMock = require('../mock/demo-git-provider.json');
 

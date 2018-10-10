@@ -1,12 +1,12 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { ActivateBoosterNextstepComponent } from './activate-booster-nextstep.component';
-import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
+import { LauncherComponent } from '../../launcher.component';
 import { Projectile, StepState } from '../../model/projectile.model';
 import { TargetEnvironmentSelection } from '../../model/target-environment.model';
+import { ActivateBoosterNextstepComponent } from './activate-booster-nextstep.component';
 
 export interface TypeWizardComponent {
   selectedSection: string;

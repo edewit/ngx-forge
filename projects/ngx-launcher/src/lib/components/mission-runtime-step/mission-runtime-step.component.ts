@@ -1,23 +1,23 @@
-import { Component, Host, OnDestroy, OnInit, ViewEncapsulation, Input, Optional } from '@angular/core';
-import * as _ from 'lodash';
+import { Component, Host, Input, OnDestroy, OnInit, Optional, ViewEncapsulation } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Subscription } from 'rxjs';
+import * as _ from 'lodash';
 import { Broadcaster } from 'ngx-base';
+import { Subscription } from 'rxjs';
 
-import { Mission } from '../../model/mission.model';
-import { EmptyReason, MissionRuntimeService } from '../../service/mission-runtime.service';
-import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
-import { Booster, BoosterVersion, BoosterState } from '../../model/booster.model';
+import { LauncherComponent } from '../../launcher.component';
+import { Booster, BoosterState, BoosterVersion } from '../../model/booster.model';
+import { Cluster } from '../../model/cluster.model';
+import { Mission } from '../../model/mission.model';
+import { Projectile, StepState } from '../../model/projectile.model';
+import { EmptyReason, MissionRuntimeService } from '../../service/mission-runtime.service';
+import { broadcast } from '../../shared/telemetry.decorator';
 import {
   createViewMissions,
   createViewRuntimes,
   ViewMission,
   ViewRuntime
 } from './mission-runtime-step.model';
-import { broadcast } from '../../shared/telemetry.decorator';
-import { Projectile, StepState } from '../../model/projectile.model';
-import { Cluster } from '../../model/cluster.model';
 
 
 @Component({

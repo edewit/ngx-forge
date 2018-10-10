@@ -1,8 +1,8 @@
-import { Observable } from 'rxjs';
 import * as _ from 'lodash';
-import { Catalog, CatalogMission, CatalogRuntime } from '../model/catalog.model';
-import { Booster, BoosterRuntime, BoosterVersion } from '../model/booster.model';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Booster, BoosterRuntime, BoosterVersion } from '../model/booster.model';
+import { Catalog, CatalogMission, CatalogRuntime } from '../model/catalog.model';
 
 
 export enum EmptyReason {
@@ -95,7 +95,7 @@ export abstract class MissionRuntimeService {
       const mission: CatalogMission = missionById[b.mission];
       const version = runtime && runtime.versions.find(v => v.id === b.version);
       if (!mission || !runtime || !version) {
-        throw new Error(`Invalid catalog booster: ${JSON.stringify(b)}`  );
+        throw new Error(`Invalid catalog booster: ${JSON.stringify(b)}`);
       }
       return {
         name: b.name,

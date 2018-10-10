@@ -1,8 +1,8 @@
 import * as _ from 'lodash';
 
+import { Booster, BoosterVersion } from '../../model/booster.model';
 import { Mission } from '../../model/mission.model';
 import { Runtime } from '../../model/runtime.model';
-import { Booster, BoosterVersion } from '../../model/booster.model';
 import { EmptyReason } from '../../service/mission-runtime.service';
 
 export class ViewMission extends Mission {

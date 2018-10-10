@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { DependencyCheckService } from '../../../projects/ngx-launcher/src/lib/service/dependency-check.service';
 import { DependencyCheck } from '../../../projects/ngx-launcher/src/lib/model/dependency-check.model';
+import { DependencyCheckService } from '../../../projects/ngx-launcher/src/lib/service/dependency-check.service';
 
 @Injectable()
 export class DemoDependencyCheckService implements DependencyCheckService {

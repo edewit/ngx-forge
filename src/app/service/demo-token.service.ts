@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { TokenService } from '../../../projects/ngx-launcher/src/lib/service/token.service';
-import { Cluster } from '../../../projects/ngx-launcher/src/lib/model/cluster.model';
 import { delay } from 'rxjs/operators';
+import { Cluster } from '../../../projects/ngx-launcher/src/lib/model/cluster.model';
+import { TokenService } from '../../../projects/ngx-launcher/src/lib/service/token.service';
 
 const mockClusters = require('../mock/demo-token.json');
 @Injectable()

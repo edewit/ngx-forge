@@ -1,6 +1,6 @@
+import { Observable, of } from 'rxjs';
 import { Pipeline } from '../../model/pipeline.model';
 import { PipelineService } from '../../service/pipeline.service';
-import { Observable, of } from 'rxjs';
 
 export class StubbedPipelineService implements PipelineService {
   getPipelines(filterByRuntime?: string): Observable<Pipeline[]> {

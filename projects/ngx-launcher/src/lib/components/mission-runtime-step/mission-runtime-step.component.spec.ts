@@ -8,16 +8,16 @@ import { Broadcaster } from 'ngx-base';
 import { BsDropdownModule, PopoverModule } from 'ngx-bootstrap';
 import { SortArrayPipeModule, TruncatePipeModule } from 'patternfly-ng/pipe';
 
-import { MissionRuntimeStepComponent } from './mission-runtime-step.component';
-import { MissionRuntimeService } from '../../service/mission-runtime.service';
-import { Mission } from '../../model/mission.model';
-import { Runtime } from '../../model/runtime.model';
-import { createBooster, createMission, createRuntime } from '../../service/mission-runtime.service.spec';
-import { BroadcasterTestProvider } from '../targetenvironment-step/target-environment-step.component.spec';
 import { Observable, of } from 'rxjs';
 import { Catalog } from '../../model/catalog.model';
+import { Mission } from '../../model/mission.model';
 import { Projectile } from '../../model/projectile.model';
+import { Runtime } from '../../model/runtime.model';
+import { MissionRuntimeService } from '../../service/mission-runtime.service';
+import { createBooster, createMission, createRuntime } from '../../service/mission-runtime.service.spec';
 import { ButtonNextStepComponent } from '../../shared/button-next-step.component';
+import { BroadcasterTestProvider } from '../targetenvironment-step/target-environment-step.component.spec';
+import { MissionRuntimeStepComponent } from './mission-runtime-step.component';
 
 
 const longDescription = `An innovative approach to packaging and running Java EE applications,
@@ -69,7 +69,7 @@ describe('MissionRuntimeStepComponent', () => {
   }
 
   function selectItem(item: Element) {
-    const radioBtn = <HTMLInputElement>item.querySelector('input[type="radio"]');
+    const radioBtn = <HTMLInputElement> item.querySelector('input[type="radio"]');
     radioBtn.click();
     tick();
     fixture.detectChanges();
@@ -169,7 +169,7 @@ describe('MissionRuntimeStepComponent', () => {
     const missionHead = missionsSection.querySelectorAll('.list-group-item-heading');
     const missions = component.missions, len = missions.length;
     for (let i = 0; i < len; ++ i) {
-      expect((<HTMLDivElement>missionHead[i]).innerText.trim()).toBe(missions[i].name);
+      expect((<HTMLDivElement> missionHead[i]).innerText.trim()).toBe(missions[i].name);
     }
   });
 
@@ -178,7 +178,7 @@ describe('MissionRuntimeStepComponent', () => {
     const missionText = missionsSection.querySelectorAll('.list-group-item-text');
     const missions = component.missions, len = missions.length;
     for (let i = 0; i < len; ++ i) {
-      expect((<HTMLDivElement>missionText[i].children[0]).innerText.trim()).toBe(missions[i].description);
+      expect((<HTMLDivElement> missionText[i].children[0]).innerText.trim()).toBe(missions[i].description);
     }
   });
 
@@ -191,7 +191,8 @@ describe('MissionRuntimeStepComponent', () => {
     const missionText = missionsSection.querySelectorAll('.list-group-item-text');
     const missions = component.missions, len = missions.length;
     for (let i = 0; i < len; ++ i) {
-      expect((<HTMLDivElement>missionText[i].children[0]).innerText.trim()).toBe(longDescription.substr(0, 65) + '...');
+      expect((<HTMLDivElement> missionText[i].children[0]).innerText.trim())
+      .toBe(longDescription.substr(0, 65) + '...');
     }
   }));
 
@@ -202,7 +203,7 @@ describe('MissionRuntimeStepComponent', () => {
     const missionItem1 = getMissionItem(0);
     expect(missionItem1.querySelector('.description.truncated')).toBeTruthy();
     expect(missionItem1.querySelector('.description.full')).toBeFalsy();
-    const showMore = <HTMLAnchorElement>missionItem1.querySelector('.description-more a');
+    const showMore = <HTMLAnchorElement> missionItem1.querySelector('.description-more a');
     expect(showMore.innerText.trim()).toBe('More');
     showMore.click();
     tick();
@@ -270,7 +271,7 @@ describe('MissionRuntimeStepComponent', () => {
     const head = runtimeSection.querySelectorAll('.list-group-item-heading');
     const runtimes = component.runtimes, len = runtimes.length;
     for (let i = 0; i < len; ++ i) {
-      expect((<HTMLDivElement>head[i]).innerText.trim()).toBe(runtimes[i].name);
+      expect((<HTMLDivElement> head[i]).innerText.trim()).toBe(runtimes[i].name);
     }
   });
 
@@ -279,7 +280,7 @@ describe('MissionRuntimeStepComponent', () => {
     const text = runtimeSection.querySelectorAll('.list-group-item-text');
     const runtimes = component.runtimes, len = runtimes.length;
     for (let i = 0; i < len; ++ i) {
-      expect((<HTMLDivElement>text[i].children[0]).innerText.trim()).toBe(runtimes[i].description);
+      expect((<HTMLDivElement> text[i].children[0]).innerText.trim()).toBe(runtimes[i].description);
     }
   });
 
@@ -291,7 +292,7 @@ describe('MissionRuntimeStepComponent', () => {
     const runtimeSection = getRuntimesSection();
     const text = runtimeSection.querySelectorAll('.list-group-item-text');
     for (let i = 0; i < component.runtimes.length; ++ i) {
-      expect((<HTMLDivElement>text[i].children[0]).innerText.trim()).toBe(longDescription.substr(0, 65) + '...');
+      expect((<HTMLDivElement> text[i].children[0]).innerText.trim()).toBe(longDescription.substr(0, 65) + '...');
     }
   }));
 
@@ -302,7 +303,7 @@ describe('MissionRuntimeStepComponent', () => {
     const item1 = getRuntimeItem(0);
     expect(item1.querySelector('.description.truncated')).toBeTruthy();
     expect(item1.querySelector('.description.full')).toBeFalsy();
-    const showMore = <HTMLAnchorElement>item1.querySelector('.description-more a');
+    const showMore = <HTMLAnchorElement> item1.querySelector('.description-more a');
     expect(showMore.innerText.trim()).toBe('More');
     showMore.click();
     tick();
@@ -372,12 +373,12 @@ describe('MissionRuntimeStepComponent', () => {
     selectItem(getRuntimeItem(0));
     expect(component.booster.runtime.version.id).toBe('community');
     const item1 = getRuntimeItem(0);
-    const versionDropdownButton = <HTMLButtonElement>item1.querySelector('.dropdown button.dropdown-toggle');
+    const versionDropdownButton = <HTMLButtonElement> item1.querySelector('.dropdown button.dropdown-toggle');
     expect(versionDropdownButton).toBeTruthy();
     versionDropdownButton.click();
     tick();
     fixture.detectChanges();
-    const redhatVersion = <HTMLLinkElement>item1.querySelectorAll('.dropdown ul.dropdown-menu li a')[1];
+    const redhatVersion = <HTMLLinkElement> item1.querySelectorAll('.dropdown ul.dropdown-menu li a')[1];
     expect(redhatVersion).toBeTruthy();
     redhatVersion.click();
     tick();

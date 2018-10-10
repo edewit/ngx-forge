@@ -4,18 +4,18 @@ import {
   OnDestroy, OnInit, Optional,
   ViewEncapsulation
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Subscription } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 import { Broadcaster } from 'ngx-base';
+import { Subscription } from 'rxjs';
 
+import { LauncherStep } from '../../launcher-step';
+import { LauncherComponent } from '../../launcher.component';
+import { Cluster } from '../../model/cluster.model';
+import { Projectile, StepState } from '../../model/projectile.model';
 import { TargetEnvironment, TargetEnvironmentSelection } from '../../model/target-environment.model';
 import { TargetEnvironmentService } from '../../service/target-environment.service';
-import { LauncherComponent } from '../../launcher.component';
-import { LauncherStep } from '../../launcher-step';
-import { Cluster } from '../../model/cluster.model';
 import { TokenService } from '../../service/token.service';
-import { Projectile, StepState } from '../../model/projectile.model';
 
 import * as _ from 'lodash';
 

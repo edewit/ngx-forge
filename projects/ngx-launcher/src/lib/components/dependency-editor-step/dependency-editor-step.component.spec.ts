@@ -1,21 +1,21 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Observable, of} from 'rxjs';
-import { DependencyEditorModule,  URLProvider, DependencyEditorTokenProvider } from 'fabric8-analytics-dependency-editor';
+import { DependencyEditorModule } from 'fabric8-analytics-dependency-editor';
 import { Broadcaster } from 'ngx-base';
+import { Observable, of } from 'rxjs';
 
+import { DemoDependencyEditorService } from '../../../../../../src/app/service/demo-dependency-editor.service';
+import { TokenProvider } from '../../../lib/service/token-provider';
 import { DependencyCheck } from '../../launcher.module';
+import { Projectile, StepState } from '../../model/projectile.model';
 import { DependencyCheckService } from '../../service/dependency-check.service';
 import { DependencyEditorService } from '../../service/dependency-editor.service';
-import { DependencyEditorStepComponent } from './dependency-editor-step.component';
 import { HelperService } from '../../service/helper.service';
-import { TokenProvider } from '../../../lib/service/token-provider';
-import { BroadcasterTestProvider } from '../targetenvironment-step/target-environment-step.component.spec';
-import { DemoDependencyEditorService } from '../../../../../../src/app/service/demo-dependency-editor.service';
-import { Projectile, StepState } from '../../model/projectile.model';
 import { ButtonNextStepComponent } from '../../shared/button-next-step.component';
+import { BroadcasterTestProvider } from '../targetenvironment-step/target-environment-step.component.spec';
+import { DependencyEditorStepComponent } from './dependency-editor-step.component';
 
 const mockHelperService = {
   getBackendUrl(): string {

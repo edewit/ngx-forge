@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { timer, Subject, Subscription } from 'rxjs';
+import { Subject, Subscription, timer } from 'rxjs';
 import { ProjectProgressService } from '../../../projects/ngx-launcher/src/lib/service/project-progress.service';
 
 const PROGRESS_ERROR = [
@@ -15,7 +15,7 @@ const PROGRESS_ERROR = [
     data: {
       error: 'Failed to create the Openshift application'
     }
-  },
+  }
 ];
 
 const PROGRESS_RETRY = [

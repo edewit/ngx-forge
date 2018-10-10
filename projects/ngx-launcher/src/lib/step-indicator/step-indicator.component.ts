@@ -2,16 +2,16 @@ import {
   Component,
   Host,
   Input,
-  ViewEncapsulation,
-  OnInit
+  OnInit,
+  ViewEncapsulation
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { LauncherComponent } from '../launcher.component';
-import { broadcast } from '../shared/telemetry.decorator';
 import { Broadcaster } from 'ngx-base';
-import { Projectile } from '../model/projectile.model';
+import { LauncherComponent } from '../launcher.component';
 import { DependencyCheck } from '../model/dependency-check.model';
+import { Projectile } from '../model/projectile.model';
+import { broadcast } from '../shared/telemetry.decorator';
 
 @Component({
   encapsulation: ViewEncapsulation.None,

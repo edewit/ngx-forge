@@ -1,6 +1,6 @@
-import { StepState, Projectile } from './projectile.model';
-import { GitHubDetails } from './github-details.model';
 import { HttpParams } from '@angular/common/http';
+import { GitHubDetails } from './github-details.model';
+import { Projectile, StepState } from './projectile.model';
 
 describe('State saving and restoring', () => {
   class TestableProjectile<T> extends Projectile<T> {
@@ -23,7 +23,8 @@ describe('State saving and restoring', () => {
 
     projectile.setState('myId', state);
 
-    expect(projectile.toUrl()).toBe('?selectedSection=&myId=%7B%22repository%22%3A%22repo%22%2C%22organization%22%3A%22org%22%7D');
+    expect(projectile.toUrl())
+      .toBe('?selectedSection=&myId=%7B%22repository%22%3A%22repo%22%2C%22organization%22%3A%22org%22%7D');
     expect(projectile.getSavedState('myId')).toEqual({ repository: 'repo', organization: 'org' });
   });
 

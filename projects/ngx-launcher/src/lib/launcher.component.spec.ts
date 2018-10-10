@@ -1,27 +1,29 @@
 import {
   Component,
   Host,
-  ViewChild,
-  OnInit
+  OnInit,
+  ViewChild
 } from '@angular/core';
 
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 
 import { RouterTestingModule } from '@angular/router/testing';
 import { LauncherComponent } from './launcher.component';
 
 import { DependencyEditorModule } from 'fabric8-analytics-dependency-editor';
-import { Projectile } from './model/projectile.model';
+import { Broadcaster } from 'ngx-base';
 import { CancelOverlayComponent } from './cancel-overlay/cancel-overlay.component';
-import { LauncherStep } from './launcher-step';
 import {
   ActivateBoosterNextstepComponent
 } from './components/activate-booster-nextstep/activate-booster-nextstep.component';
-import { ProjectProgressNextstepComponent } from './components/project-progress-nextstep/project-progress-nextstep.component';
-import { Broadcaster } from 'ngx-base';
+import {
+  ProjectProgressNextstepComponent
+} from './components/project-progress-nextstep/project-progress-nextstep.component';
 import { BroadcasterTestProvider } from './components/targetenvironment-step/target-environment-step.component.spec';
+import { LauncherStep } from './launcher-step';
+import { Projectile } from './model/projectile.model';
 
 @Component({
   template: `

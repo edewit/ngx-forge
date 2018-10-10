@@ -1,23 +1,23 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { CommonModule } from '@angular/common';
 import {
   Component,
-  Input} from '@angular/core';
-import { CommonModule } from '@angular/common';
+  Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Observable, of } from 'rxjs';
 
-import { ProjectSummaryStepComponent } from './project-summary-step.component';
-import { ProjectSummaryService } from '../../service/project-summary.service';
-import { LauncherComponent } from '../../launcher.component';
-import { LauncherStep } from '../../launcher-step';
 import { Broadcaster } from 'ngx-base';
-import { BroadcasterTestProvider } from '../targetenvironment-step/target-environment-step.component.spec';
-import { Projectile } from '../../model/projectile.model';
-import { ButtonNextStepComponent } from '../../shared/button-next-step.component';
-import { DependencyCheckService } from '../../service/dependency-check.service';
+import { LauncherStep } from '../../launcher-step';
+import { LauncherComponent } from '../../launcher.component';
 import { DependencyCheck } from '../../model/dependency-check.model';
+import { Projectile } from '../../model/projectile.model';
+import { DependencyCheckService } from '../../service/dependency-check.service';
+import { ProjectSummaryService } from '../../service/project-summary.service';
+import { ButtonNextStepComponent } from '../../shared/button-next-step.component';
+import { BroadcasterTestProvider } from '../targetenvironment-step/target-environment-step.component.spec';
+import { ProjectSummaryStepComponent } from './project-summary-step.component';
 
 @Component({
   selector: 'fab-toast-notification',

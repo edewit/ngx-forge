@@ -3,22 +3,22 @@ import {
   Component,
   ElementRef,
   Host,
+  Input,
   OnDestroy,
   OnInit,
-  ViewChild,
-  ViewEncapsulation,
   Optional,
-  Input
+  ViewChild,
+  ViewEncapsulation
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
-import { GitProviderService } from '../../service/git-provider.service';
-import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
-import { broadcast } from '../../shared/telemetry.decorator';
+import { LauncherComponent } from '../../launcher.component';
 import { GitHubDetails } from '../../model/github-details.model';
 import { Projectile, StepState } from '../../model/projectile.model';
+import { GitProviderService } from '../../service/git-provider.service';
+import { broadcast } from '../../shared/telemetry.decorator';
 
 @Component({
   encapsulation: ViewEncapsulation.None,

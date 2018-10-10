@@ -1,11 +1,20 @@
-import { Component, Host, Input, OnChanges, OnDestroy, SimpleChanges, ViewEncapsulation, Optional } from '@angular/core';
+import {
+  Component,
+  Host,
+  Input,
+  OnChanges,
+  OnDestroy,
+  Optional,
+  SimpleChanges,
+  ViewEncapsulation
+} from '@angular/core';
 
-import { Progress } from '../../model/progress.model';
-import { ProjectProgressService } from '../../service/project-progress.service';
-import { LauncherComponent } from '../../launcher.component';
-import { ProjectSummaryService } from '../../service/project-summary.service';
 import { Broadcaster } from 'ngx-base';
+import { LauncherComponent } from '../../launcher.component';
+import { Progress } from '../../model/progress.model';
 import { Projectile } from '../../model/projectile.model';
+import { ProjectProgressService } from '../../service/project-progress.service';
+import { ProjectSummaryService } from '../../service/project-summary.service';
 
 @Component({
   encapsulation: ViewEncapsulation.None,

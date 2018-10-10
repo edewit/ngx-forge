@@ -1,4 +1,4 @@
-import { Component, Host, OnDestroy, OnInit, ViewChild, ViewEncapsulation, Optional, Input } from '@angular/core';
+import { Component, Host, Input, OnDestroy, OnInit, Optional, ViewChild, ViewEncapsulation } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Broadcaster } from 'ngx-base';
@@ -7,9 +7,9 @@ import { Subscription } from 'rxjs';
 import { LauncherStep } from '../../launcher-step';
 import { LauncherComponent } from '../../launcher.component';
 import { Projectile } from '../../model/projectile.model';
+import { DependencyCheckService } from '../../service/dependency-check.service';
 import { ProjectSummaryService } from '../../service/project-summary.service';
 import { broadcast } from '../../shared/telemetry.decorator';
-import { DependencyCheckService } from '../../service/dependency-check.service';
 
 import * as _ from 'lodash';
 

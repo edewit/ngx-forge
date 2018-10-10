@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
+import { Projectile } from 'projects/ngx-launcher/src/lib/model/projectile.model';
 import { Observable, of } from 'rxjs';
 import { ProjectSummaryService } from '../../../projects/ngx-launcher/src/lib/service/project-summary.service';
-import { Projectile } from 'projects/ngx-launcher/src/lib/model/projectile.model';
 
 @Injectable()
 export class DemoProjectSummaryService implements ProjectSummaryService {

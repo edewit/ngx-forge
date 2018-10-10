@@ -1,6 +1,6 @@
+import { Injector } from '@angular/core';
 import * as _ from 'lodash';
 import { Broadcaster } from 'ngx-base';
-import { Injector } from '@angular/core';
 import { PropertiesGetter } from './properties';
 import { eventKeyMap } from './woopra-key-map';
 
@@ -16,11 +16,11 @@ export class StaticInjector {
 }
 
 export function broadcast(event: string, properties: any): MethodDecorator {
-    return function (target: Function, methodName: string, descriptor: any) {
+    return function(target: Function, methodName: string, descriptor: any) {
 
         const originalMethod = descriptor.value;
 
-        descriptor.value = function (...args: any[]) {
+        descriptor.value = function(...args: any[]) {
             const injectorInstance = StaticInjector.getInjector();
             if (!injectorInstance || !injectorInstance.get(Broadcaster)) {
                 return originalMethod.apply(this, args);

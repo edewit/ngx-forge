@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { MissionRuntimeService } from '../../../projects/ngx-launcher/src/lib/service/mission-runtime.service';
 import { Catalog, CatalogBooster } from '../../../projects/ngx-launcher/src/lib/model/catalog.model';
+import { MissionRuntimeService } from '../../../projects/ngx-launcher/src/lib/service/mission-runtime.service';
 
 const osioMockData = require('../mock/demo-catalog-osio.json') as Catalog;
 const launchMockData = require('../mock/demo-catalog-launch.json') as Catalog;
@@ -26,7 +26,7 @@ export class DemoMissionRuntimeService extends MissionRuntimeService {
 
     mock.runtimes.forEach((r) => {
       r.versions.forEach((v) => {
-        const run = <CatalogBooster>{
+        const run = <CatalogBooster> {
           name: 'Blank Mission',
           description: 'Blank mission flow',
           metadata: null,

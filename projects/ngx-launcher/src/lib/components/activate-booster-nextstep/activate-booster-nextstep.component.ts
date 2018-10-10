@@ -5,8 +5,8 @@ import {
 } from '@angular/core';
 
 import { LauncherComponent } from '../../launcher.component';
-import { Projectile } from '../../model/projectile.model';
 import { DependencyCheck } from '../../model/dependency-check.model';
+import { Projectile } from '../../model/projectile.model';
 import { TargetEnvironmentSelection } from '../../model/target-environment.model';
 
 @Component({

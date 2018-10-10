@@ -1,9 +1,9 @@
 import { Directive, forwardRef } from '@angular/core';
-import { NG_ASYNC_VALIDATORS, Validator, AbstractControl } from '@angular/forms';
+import { AbstractControl, NG_ASYNC_VALIDATORS, Validator } from '@angular/forms';
 import { Observable } from 'rxjs';
 
-import { DependencyCheckService } from '../service/dependency-check.service';
 import { debounceTime, distinctUntilChanged, first } from 'rxjs/operators';
+import { DependencyCheckService } from '../service/dependency-check.service';
 
 @Directive({
   selector: '[validateProjectName]',
@@ -33,7 +33,7 @@ export class ProjectNameValidatorDirective implements Validator {
       } else {
         this.dependencyCheckService.getApplicationsInASpace().subscribe(apps => {
           const applicationNames = apps.map(
-            app => app.attributes.name ? (<string>app.attributes.name).toLowerCase() : ''
+            app => app.attributes.name ? (<string> app.attributes.name).toLowerCase() : ''
           );
           resolve.next(applicationNames.indexOf(value) !== -1 ? this.createError('duplicate', value) : {});
         });

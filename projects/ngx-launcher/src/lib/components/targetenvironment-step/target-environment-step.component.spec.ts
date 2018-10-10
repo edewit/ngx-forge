@@ -2,20 +2,20 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { Observable, of } from 'rxjs';
+import { RouterTestingModule } from '@angular/router/testing';
 import { Broadcaster } from 'ngx-base';
+import { Observable, of } from 'rxjs';
 
-import { TargetEnvironmentStepComponent } from './target-environment-step.component';
-import { TargetEnvironment } from '../../model/target-environment.model';
-import { TargetEnvironmentService } from '../../service/target-environment.service';
-import { TokenService } from '../../service/token.service';
-import { LinkAccountsStepComponent } from '../link-accounts-step/link-accounts-step.component';
-import { MissionRuntimeService } from '../../service/mission-runtime.service';
 import { Catalog } from '../../model/catalog.model';
 import { Projectile } from '../../model/projectile.model';
+import { TargetEnvironment } from '../../model/target-environment.model';
+import { MissionRuntimeService } from '../../service/mission-runtime.service';
+import { TargetEnvironmentService } from '../../service/target-environment.service';
+import { TokenService } from '../../service/token.service';
 import { ButtonNextStepComponent } from '../../shared/button-next-step.component';
+import { LinkAccountsStepComponent } from '../link-accounts-step/link-accounts-step.component';
+import { TargetEnvironmentStepComponent } from './target-environment-step.component';
 
 export class BroadcasterTestProvider {
   static broadcaster = new Broadcaster();
@@ -23,7 +23,7 @@ export class BroadcasterTestProvider {
 
 const mockTargetEnvironmentService = {
   getTargetEnvironments(): Observable<TargetEnvironment[]> {
-    const targetEnvironments = of( [{
+    const targetEnvironments = of([{
       /* tslint:disable */
       description: 'Here is a brief description of what OpenShift Online is. ' +
                    'There is a distinction between what OpenShift Online does compared to OpenShift.io.',

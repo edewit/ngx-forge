@@ -1,16 +1,16 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
-import { Observable, of, Subject} from 'rxjs';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Observable, of, Subject } from 'rxjs';
 
-import { ProjectProgressNextstepComponent } from './project-progress-nextstep.component';
-import { ProjectProgressService } from '../../service/project-progress.service';
-import { Progress } from '../../model/progress.model';
-import { LauncherComponent } from '../../launcher.component';
-import { ProjectSummaryService } from '../../service/project-summary.service';
 import { Broadcaster } from 'ngx-base';
-import { BroadcasterTestProvider } from '../targetenvironment-step/target-environment-step.component.spec';
+import { LauncherComponent } from '../../launcher.component';
+import { Progress } from '../../model/progress.model';
 import { Projectile } from '../../model/projectile.model';
+import { ProjectProgressService } from '../../service/project-progress.service';
+import { ProjectSummaryService } from '../../service/project-summary.service';
 import { ButtonNextStepComponent } from '../../shared/button-next-step.component';
+import { BroadcasterTestProvider } from '../targetenvironment-step/target-environment-step.component.spec';
+import { ProjectProgressNextstepComponent } from './project-progress-nextstep.component';
 
 const progressSubject: Subject<Progress[]> = new Subject();
 const mockProjectProgressService = {

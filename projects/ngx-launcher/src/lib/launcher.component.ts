@@ -7,9 +7,9 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 
-import { Projectile } from './model/projectile.model';
-import { LauncherStep } from './launcher-step';
 import { Broadcaster } from 'ngx-base';
+import { LauncherStep } from './launcher-step';
+import { Projectile } from './model/projectile.model';
 
 @Component({
   encapsulation: ViewEncapsulation.None,

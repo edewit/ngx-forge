@@ -10,8 +10,8 @@ export class TokenProvider {
     return '';
   }
 
-  isPromise(token: string| Promise<string>): token is Promise<string> {
-    return (<Promise<string>>token).then !== undefined;
+  isPromise(token: string | Promise<string>): token is Promise<string> {
+    return (<Promise<string>> token).then !== undefined;
   }
 
   get token(): Promise<string> {

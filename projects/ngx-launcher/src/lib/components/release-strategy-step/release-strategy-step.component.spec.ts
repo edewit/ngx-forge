@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed, tick} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, tick } from '@angular/core/testing';
 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -6,15 +6,15 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { SortArrayPipeModule } from 'patternfly-ng/pipe';
 
+import { Projectile } from '../../model/projectile.model';
 import { PipelineService } from '../../service/pipeline.service';
 import { ReleaseStrategyStepComponent } from './release-strategy-step.component';
-import { Projectile } from '../../model/projectile.model';
 
-import { BroadcasterTestProvider } from '../targetenvironment-step/target-environment-step.component.spec';
 import { Broadcaster } from 'ngx-base';
-import { mavenReleasePipeline, StubbedPipelineService } from './pipelines.fixture.spec';
-import { ViewRuntime } from '../mission-runtime-step/mission-runtime-step.model';
 import { ButtonNextStepComponent } from '../../shared/button-next-step.component';
+import { ViewRuntime } from '../mission-runtime-step/mission-runtime-step.model';
+import { BroadcasterTestProvider } from '../targetenvironment-step/target-environment-step.component.spec';
+import { mavenReleasePipeline, StubbedPipelineService } from './pipelines.fixture.spec';
 
 describe('ReleaseStrategyStepComponent', () => {
   let releaseStrategyComponent: ReleaseStrategyStepComponent;
@@ -63,7 +63,7 @@ describe('ReleaseStrategyStepComponent', () => {
       // then
       expect(pipelines.length).toBe(2);
       expect(pipelines.map(value => value.id))
-        .toContain( 'node-releaseandstage', 'node-releasestageapproveandpromote' );
+        .toContain('node-releaseandstage', 'node-releasestageapproveandpromote');
     });
 
     it('should reset pipeline selection when runtime changes from maven to node', () => {
@@ -81,7 +81,7 @@ describe('ReleaseStrategyStepComponent', () => {
       // then
       expect(pipelines.length).toBe(2);
       expect(pipelines.map(value => value.id))
-        .toContain( 'node-releaseandstage', 'node-releasestageapproveandpromote' );
+        .toContain('node-releaseandstage', 'node-releasestageapproveandpromote');
     });
 
     it('should not show pipelines when runtime not selected', () => {

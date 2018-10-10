@@ -1,9 +1,9 @@
 import { Directive, forwardRef, Input } from '@angular/core';
-import { NG_ASYNC_VALIDATORS, Validator, AbstractControl } from '@angular/forms';
+import { AbstractControl, NG_ASYNC_VALIDATORS, Validator } from '@angular/forms';
 import { Observable } from 'rxjs';
 
-import { GitProviderService } from '../../service/git-provider.service';
 import { debounceTime, distinctUntilChanged, first } from 'rxjs/operators';
+import { GitProviderService } from '../../service/git-provider.service';
 
 @Directive({
   selector: '[validateRepository]',

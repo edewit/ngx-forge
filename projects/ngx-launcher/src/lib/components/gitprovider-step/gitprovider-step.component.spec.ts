@@ -7,8 +7,8 @@ import { Observable, of } from 'rxjs';
 
 import { PopoverModule, TypeaheadModule } from 'ngx-bootstrap';
 
-import { GitproviderStepComponent } from './gitprovider-step.component';
 import { GitProviderService } from '../../service/git-provider.service';
+import { GitproviderStepComponent } from './gitprovider-step.component';
 
 import { GitHubDetails } from '../../model/github-details.model';
 import { Projectile } from '../../model/projectile.model';
@@ -21,7 +21,7 @@ const mockGitProviderService = {
     '&redirect_uri=' + encodeURIComponent(redirectUrl);
   },
   getGitHubDetails(): Observable<GitHubDetails> {
-    const gitHubDetails = of( <GitHubDetails>{
+    const gitHubDetails = of(<GitHubDetails> {
       avatar: 'https://avatars3.githubusercontent.com/u/17882357?v=4',
       login: 'testuser',
       organizations: ['fabric-ui']

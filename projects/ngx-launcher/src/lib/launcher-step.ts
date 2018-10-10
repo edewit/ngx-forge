@@ -36,7 +36,8 @@ export abstract class LauncherStep implements OnDestroy {
 
   @ViewChild('section') element: ElementRef;
 
-  private scrollEvents: Subscription = fromEvent(window, 'scroll').pipe(debounceTime(100)).subscribe(() => this.isInView());
+  private scrollEvents: Subscription = fromEvent(window, 'scroll')
+    .pipe(debounceTime(100)).subscribe(() => this.isInView());
 
   constructor(private _projectile: Projectile<any>) {}
 

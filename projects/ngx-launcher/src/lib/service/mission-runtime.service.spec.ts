@@ -1,7 +1,7 @@
-import { EmptyReason, MissionRuntimeService } from './mission-runtime.service';
 import { Observable, of } from 'rxjs';
-import { Catalog, CatalogBooster, CatalogMission, CatalogRuntime, CatalogRuntimeVersion } from '../model/catalog.model';
 import { BoosterVersion } from '../model/booster.model';
+import { Catalog, CatalogBooster, CatalogMission, CatalogRuntime, CatalogRuntimeVersion } from '../model/catalog.model';
+import { EmptyReason, MissionRuntimeService } from './mission-runtime.service';
 
 export const createMission = (name: string): CatalogMission => ({
   id: name,
@@ -97,7 +97,7 @@ describe('MissionRuntimeService', () => {
     spyOn(subscriber, 'errorHandler');
     service.getBoosters().subscribe(subscriber.successHandler, subscriber.errorHandler);
     expect(subscriber.successHandler).not.toHaveBeenCalled();
-    const expectedError = new Error(`Invalid catalog booster: ${JSON.stringify(service.catalog.boosters[0])}`  );
+    const expectedError = new Error(`Invalid catalog booster: ${JSON.stringify(service.catalog.boosters[0])}`);
     expect(subscriber.errorHandler).toHaveBeenCalledWith(expectedError);
   });
 

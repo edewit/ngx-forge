@@ -3,17 +3,17 @@ import {
   Host,
   OnDestroy,
   OnInit,
-  ViewEncapsulation,
-  Optional } from '@angular/core';
-import { PipelineService } from '../../service/pipeline.service';
-import { Pipeline } from '../../model/pipeline.model';
-import { LauncherComponent } from '../../launcher.component';
-import { LauncherStep } from '../../launcher-step';
-import { broadcast } from '../../shared/telemetry.decorator';
-import { Broadcaster} from 'ngx-base';
-import { Runtime } from '../../model/runtime.model';
+  Optional,
+  ViewEncapsulation } from '@angular/core';
+import { Broadcaster } from 'ngx-base';
 import { Subscription } from 'rxjs';
+import { LauncherStep } from '../../launcher-step';
+import { LauncherComponent } from '../../launcher.component';
+import { Pipeline } from '../../model/pipeline.model';
 import { Projectile, StepState } from '../../model/projectile.model';
+import { Runtime } from '../../model/runtime.model';
+import { PipelineService } from '../../service/pipeline.service';
+import { broadcast } from '../../shared/telemetry.decorator';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -96,6 +96,7 @@ export class ReleaseStrategyStepComponent extends LauncherStep implements OnInit
   }
 
   private filterPipelines(selectedPlatform: string) {
-    this._pipelines = this._allPipelines.filter(({ platform }) => selectedPlatform ? platform === selectedPlatform : true);
+    this._pipelines = this._allPipelines
+      .filter(({ platform }) => selectedPlatform ? platform === selectedPlatform : true);
   }
 }

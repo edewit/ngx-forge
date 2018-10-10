@@ -1,12 +1,12 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 @Injectable()
 export class MockAuthenticationService {
     getToken(): string | Promise<string> {
         return '';
     }
 
-    isPromise(token: string| Promise<string>): token is Promise<string> {
-        return (<Promise<string>>token).then !== undefined;
+    isPromise(token: string | Promise<string>): token is Promise<string> {
+        return (<Promise<string>> token).then !== undefined;
     }
 
     get token(): Promise<string> {

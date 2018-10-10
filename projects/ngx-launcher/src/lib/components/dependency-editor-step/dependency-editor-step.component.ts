@@ -7,16 +7,16 @@ import {
   Optional,
   ViewEncapsulation
 } from '@angular/core';
-import { Subscription } from 'rxjs';
 import { Broadcaster } from 'ngx-base';
+import { Subscription } from 'rxjs';
 
-import { DependencyCheckService } from '../../service/dependency-check.service';
-import { DependencyEditorService } from '../../service/dependency-editor.service';
-import { LauncherComponent } from '../../launcher.component';
 import { LauncherStep } from '../../launcher-step';
+import { LauncherComponent } from '../../launcher.component';
+import { DependencyCheck } from '../../model/dependency-check.model';
 import { DependencyEditor } from '../../model/dependency-editor/dependency-editor.model';
 import { Projectile, StepState } from '../../model/projectile.model';
-import { DependencyCheck } from '../../model/dependency-check.model';
+import { DependencyCheckService } from '../../service/dependency-check.service';
+import { DependencyEditorService } from '../../service/dependency-editor.service';
 
 import * as _ from 'lodash';
 import { BoosterState } from '../../model/booster.model';
@@ -54,7 +54,7 @@ export class DependencyEditorStepComponent extends LauncherStep implements OnIni
           const artifactTS: number = Date.now();
           const artifactRuntime = booster.runtime.id.replace(/[.\-_]/g, '');
           const artifactMission = booster.mission.id.replace(/[.\-_]/g, '');
-          (<any>this.dependencyCheck).mission = booster.mission;
+          (<any> this.dependencyCheck).mission = booster.mission;
           this.dependencyCheck.mavenArtifact = `booster-${artifactMission}-${artifactRuntime}-${artifactTS}`;
 
           this.boosterInfo = _.cloneDeep(booster);
