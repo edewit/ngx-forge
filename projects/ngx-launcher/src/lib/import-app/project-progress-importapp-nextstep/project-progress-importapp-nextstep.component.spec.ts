@@ -1,9 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
 import { Observable, Subject } from 'rxjs';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { ProjectProgressImportappNextstepComponent } from './project-progress-importapp-nextstep.component';
 import { ProjectProgressService } from '../../service/project-progress.service';
+
 import { Progress } from '../../model/progress.model';
 import { LauncherComponent } from '../../launcher.component';
 import { Broadcaster } from 'ngx-base';
@@ -34,7 +36,8 @@ describe('Import ProjectProgressComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        CommonModule
+        CommonModule,
+        RouterTestingModule
       ],
       declarations: [
         ProjectProgressImportappNextstepComponent
@@ -70,5 +73,11 @@ describe('Import ProjectProgressComponent', () => {
     spyOn(component, 'ngOnChanges');
     component.ngOnChanges(input);
     expect(component.ngOnChanges).toHaveBeenCalledWith(input);
+  });
+
+  it('View pipeline button should not be visible if nextbuttons value is false', () => {
+    fixture.detectChanges();
+    const viewPipelineButton: HTMLElement = fixture.nativeElement.querySelector('.f8launcher-viewpipeline');
+    expect(viewPipelineButton).toBeFalsy();
   });
 });

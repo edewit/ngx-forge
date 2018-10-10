@@ -19,7 +19,7 @@
     "ngx-bootstrap": "^3.0.1",
     "patternfly": "^3.28.0",
     "patternfly-ng": "^4.0.1",
-    "fabric8-analytics-dependency-editor": "^1.0.0"
+    "fabric8-analytics-dependency-editor": "^1.0.3"
   },
   "peerDependencies": {
     "@angular/common": "^6.1.1",

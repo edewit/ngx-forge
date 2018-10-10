@@ -1,9 +1,11 @@
-import { Component, Host, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { Component, Host, Input, OnChanges, OnDestroy, SimpleChanges, ViewEncapsulation } from '@angular/core';
 
 import { Progress } from '../../model/progress.model';
 import { ProjectProgressService } from '../../service/project-progress.service';
 import { LauncherComponent } from '../../launcher.component';
 import { Broadcaster } from 'ngx-base';
+import { Router } from '@angular/router';
+import { broadcast } from '../../shared/telemetry.decorator';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -19,7 +21,8 @@ export class ProjectProgressImportappNextstepComponent implements OnChanges, OnD
 
   constructor(@Host() public launcherComponent: LauncherComponent,
               private broadcaster: Broadcaster,
-              private projectProgressService: ProjectProgressService) {
+              private projectProgressService: ProjectProgressService,
+              private router: Router) {
     this.broadcaster.on('progressEvents').subscribe((events: Progress[]) => this._progress = events);
   }
 
@@ -57,11 +60,21 @@ export class ProjectProgressImportappNextstepComponent implements OnChanges, OnD
         status.hyperText = data.location;
       }
     }
-  };
+  }
 
   ngOnDestroy() {
     this.closeConnections();
   }
+
+  addQuery() {
+    const query = '{\"application\":[\"' + this.launcherComponent.currentSelection.projectName + '\"]}';
+    return {
+      q: query
+    };
+  }
+
+  @broadcast('ImportFlowViewPipelineButtonClicked', {})
+  viewPipeline() {}
 
   // Accessors
 

@@ -41,6 +41,12 @@ export class LauncherComponent implements AfterViewInit, OnInit {
    * Setting the flag to show dependency editor as internal feature
    */
   @Input() depEditorFlag = false;
+
+  /**
+   * Setting the flag to show or hide the View pipeline and Open IDE button
+   */
+  @Input() nextButtons = false;
+
   /**
    * The event emitted when an cancel has been selected
    */

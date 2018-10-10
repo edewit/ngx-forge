@@ -44,9 +44,12 @@ import {
   ProjectProgressService,
   ProjectSummaryService,
   TargetEnvironmentService,
-  TokenService, URLProvider
+  TokenService, URLProvider,
+  CheService, WorkSpacesService
 } from '../../projects/ngx-launcher/src/lib/launcher.module';
 
+import { DemoCheService } from './service/demo-che.service';
+import { DemoWorkSpacesService } from './service/demo-workSpaces.service';
 
 @NgModule({
   imports: [
@@ -81,7 +84,9 @@ import {
     { provide: TokenProvider, useClass: MockAuthenticationService },
     { provide: TokenService, useClass: DemoTokenService},
     { provide: DependencyEditorTokenProvider, useExisting: TokenProvider },
-    { provide: URLProvider, useClass: AnalyticsUrlService }
+    { provide: URLProvider, useClass: AnalyticsUrlService },
+    { provide: CheService, useClass: DemoCheService },
+    { provide: WorkSpacesService, useClass: DemoWorkSpacesService }
   ],
   bootstrap: [AppComponent]
 })
