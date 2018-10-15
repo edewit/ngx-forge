@@ -28,11 +28,6 @@ export class LauncherComponent implements AfterViewInit {
   /**
 
   /**
-   * Setting the flag to show or hide the View pipeline and Open IDE button
-   */
-  @Input() nextButtons = false;
-
-  /**
    * The event emitted when an cancel has been selected
    */
   @Output('onCancel') onCancel = new EventEmitter();
