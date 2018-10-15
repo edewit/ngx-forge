@@ -25,8 +25,13 @@
     </div>
     <div class="f8launcher-container_completed-footer">
       <button class="btn btn-primary btn-lg" (click)="complete()">
-          Start a new project
+        Return to your dashboard
       </button>
+      <span>
+        <a class="btn btn-primary btn-lg margin-left-10 f8launcher-viewpipeline"
+          [routerLink]="['/', 'create', 'pipelines']" [queryParams]="addQuery()">
+          View Pipeline</a>
+      </span>
     </div>
   </f8launcher>
 </div>

@@ -118,7 +118,7 @@ export class StepState<T> {
    *    this.get({ bla: [{ test: [{ mission: 'ha' }, { mission: 'ga' }] }] }, 'bla.test.mission');
    *    // returns ["ha", "ga"]
    */
-  private get(object: any, path: string| string[]) {
+  private get(object: any, path: string | string[]) {
     if (typeof path === 'string') {
       path = path.split('.');
     }
