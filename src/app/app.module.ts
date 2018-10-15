@@ -45,6 +45,7 @@ import {
   TargetEnvironmentService,
   TokenService, URLProvider
 } from '../../projects/ngx-launcher/src/lib/launcher.module';
+import { PipelineDemoComponent } from './create-app/pipeline-demo.component';
 
 @NgModule({
   imports: [
@@ -57,6 +58,7 @@ import {
   declarations: [
     AppComponent,
     CreateAppComponent,
+    PipelineDemoComponent,
     GettingStartedLauncherComponent,
     GettingStartedOsioComponent,
     ImportAppComponent,

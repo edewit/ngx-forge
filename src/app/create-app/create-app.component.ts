@@ -28,11 +28,4 @@ export class CreateAppComponent implements OnInit {
   createWorkSpace() {
     window.open('http://che.openshift.io', '_blank');
   }
-
-  addQuery() {
-    const query = '{\"application\":[\"' + this.route.snapshot.params['projectName'] + '\"]}';
-    return {
-      q: query
-    };
-  }
 }
