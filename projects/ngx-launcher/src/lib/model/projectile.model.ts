@@ -58,9 +58,7 @@ export class Projectile<T> {
   }
 
   get redirectUrl(): string {
-    const url = new URL(this.toUrl(), window.location.href);
-    url.hash = window.location.hash;
-    return url.toString();
+    return '/' + window.location.hash + this.toUrl();
   }
 
   toUrl(): string {
@@ -86,8 +84,12 @@ export class Projectile<T> {
     return `"${f.name}":${JSON.stringify(_.get(state, f.value, ''))}`;
   }
 
+  /**
+   * Angular doesn't use the searchParams part of the url, but appends the query string on the hash
+   * this function converts to a URL object and uses that to create URLSearchParams.
+   */
   protected searchParams(): URLSearchParams {
-    return new URL(window.location.href).searchParams;
+    return new URL(window.location.href.substr(window.location.href.indexOf('?')), 'http://dummy').searchParams;
   }
 }
 
