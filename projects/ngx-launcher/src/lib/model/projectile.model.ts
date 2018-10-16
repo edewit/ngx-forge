@@ -58,7 +58,7 @@ export class Projectile<T> {
   }
 
   get redirectUrl(): string {
-    return '/' + window.location.hash + this.toUrl();
+    return window.location.href + this.toUrl();
   }
 
   toUrl(): string {
