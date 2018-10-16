@@ -30,6 +30,7 @@ export class GitproviderStepComponent extends LauncherStep implements AfterViewI
   @Input() import: boolean;
   @ViewChild('form') form: NgForm;
   @ViewChild('versionSelect') versionSelect: ElementRef;
+  Object = Object;
 
   private subscriptions: Subscription[] = [];
   gitHubDetails: GitHubDetails = {};
@@ -78,8 +79,8 @@ export class GitproviderStepComponent extends LauncherStep implements AfterViewI
   }
 
   restoreModel(model: any): void {
-    this.gitHubDetails.organization = model.organization;
-    this.gitHubDetails.repository = model.repository;
+    this.gitHubDetails.organization = model.gitOrganization;
+    this.gitHubDetails.repository = model.gitRepository;
   }
 
   // Accessors
@@ -90,7 +91,7 @@ export class GitproviderStepComponent extends LauncherStep implements AfterViewI
    * @returns {boolean} True if step is completed
    */
   get completed(): boolean {
-    return this.form.valid;
+    return !this.form.invalid;
   }
 
   // Steps

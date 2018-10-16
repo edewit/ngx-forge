@@ -9,9 +9,13 @@ const GitHubMock = require('../mock/demo-git-provider.json');
 @Injectable()
 export class DemoGitProviderService implements GitProviderService {
 
-  private existingRepo = ['fabric8-ui', 'fabric8-uxd', 'patternfly'];
+  private existingRepo: { [name: string]: string } = {};
 
   constructor() {
+    for (let i = 0; i < GitHubMock.organisations.length; i++) {
+      this.existingRepo[GitHubMock.organisations[i].login] = GitHubMock.organisations[i].login;
+    }
+    this.existingRepo[GitHubMock.user.login] = undefined;
   }
 
   /**
@@ -29,15 +33,11 @@ export class DemoGitProviderService implements GitProviderService {
    * @returns {Observable<GitHubDetails>} The GitHub details associated with the logged in user
    */
   getGitHubDetails(): Observable<GitHubDetails> {
-    const orgs = [];
-    for (let i = 0; i < GitHubMock.organisations.length; i++) {
-      orgs.push(GitHubMock.organisations[i].login);
-    }
     const gitHubDetails = {
       authenticated: this.isPageRedirect() ? true : false,
       avatar: GitHubMock.user.avatar_url,
       login: GitHubMock.user.login,
-      organizations: orgs
+      organizations: this.existingRepo
     } as GitHubDetails;
     return this.isPageRedirect() ? of(gitHubDetails) : EMPTY;
   }
@@ -49,7 +49,7 @@ export class DemoGitProviderService implements GitProviderService {
    * @returns {Observable<boolean>} True if GitHub repo exists
    */
   isGitHubRepo(org: string, repoName: string): Observable<boolean> {
-    return of(this.existingRepo.indexOf(repoName) != -1);
+    return of(Object.keys(this.existingRepo).indexOf(repoName) != -1);
   }
 
   /**

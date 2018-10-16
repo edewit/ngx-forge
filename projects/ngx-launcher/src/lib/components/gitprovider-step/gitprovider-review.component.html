@@ -1,6 +1,6 @@
 <div class="col-xs-12 col-md-6">
   <div class="card-pf card-pf--small">
-    <div *ngIf="!data.organization || !data.repository
+    <div *ngIf="!data.repository
                       then showNoGitHubTemplate else showGitHubTemplate"></div>
     <ng-template #showNoGitHubTemplate>
       <div class="card-pf-heading">
@@ -43,7 +43,7 @@
           <div class="form-group f8launcher-project-summary-data-form-group">
             <label class="col-xs-5 control-label">Location</label>
             <div class="col-xs-6 f8launcher-project-summary-data-field">
-              <span>{{data.organization}}</span>
+              <span>{{data.organization || data.login}}</span>
             </div>
           </div>
           <div class="form-group f8launcher-project-summary-data-form-group">

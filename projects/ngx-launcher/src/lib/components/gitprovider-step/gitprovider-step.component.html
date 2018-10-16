@@ -41,7 +41,7 @@
                         *ngIf="gitHubDetails?.login === undefined"> None
                   </span>
                   <button class="btn btn-primary btn-lg f8launcher-authorize-account"
-                          [disabled]="gitHubDetails?.login"
+                          [disabled]="gitHubDetails.login"
                           (click)="connectAccount()">Log In &amp; Authorize Account</button>
               </div>
             </div>
@@ -50,12 +50,12 @@
                 <label for="ghOrg" class="col-sm-2 control-label">Location</label>
                 <div class="col-sm-10">
                   <select id="ghOrg" class="form-control" name="ghOrg" placeholder="Select organization"
-                          [disabled]="gitHubDetails?.organizations === undefined"
+                          [disabled]="!gitHubDetails.organizations"
                           (ngModelChange)="getGitHubRepos()"
-                          [(ngModel)]="gitHubDetails.organization" required>
-                    <option [ngValue]="org"
-                            *ngFor="let org of gitHubDetails?.organizations">
-                      {{org}}
+                          [(ngModel)]="gitHubDetails.organization">
+                    <option [ngValue]="gitHubDetails.organizations[key]"
+                            *ngFor="let key of Object.keys(gitHubDetails.organizations)">
+                      {{key}}
                     </option>
                   </select>
                 </div>
@@ -66,7 +66,7 @@
                     [class.has-error]="ghRepo.invalid">
                   <input id="ghRepo" class="form-control" name="ghRepo" type="text" #ghRepo="ngModel" lowercase required
                         [placeholder]="import ? 'Select Repository' : 'Enter a unique name for your repository'"
-                        [disabled]="!gitHubDetails.organization"
+                        [disabled]="!gitHubDetails.organizations"
                         [(ngModel)]="gitHubDetails.repository"
                         [autocomplete]="import ? 'off' : 'on'"
                         [typeahead]="import ? gitHubDetails.repositoryList : []"
