@@ -4,7 +4,8 @@ import {
   EventEmitter,
   Input,
   Output,
-  ViewEncapsulation
+  ViewEncapsulation,
+  OnDestroy
 } from '@angular/core';
 
 import { Broadcaster } from 'ngx-base';
@@ -17,7 +18,7 @@ import { Projectile } from './model/projectile.model';
   templateUrl: './launcher.component.html',
   styleUrls: ['./launcher.component.less']
 })
-export class LauncherComponent implements AfterViewInit {
+export class LauncherComponent implements AfterViewInit, OnDestroy {
   /**
    * Flag indicating to show the getting started info after the process is completed.
    *
@@ -45,6 +46,10 @@ export class LauncherComponent implements AfterViewInit {
     setTimeout(() => {
       this.broadcaster.broadcast('navigate-to', id);
     }, 2000);
+  }
+
+  ngOnDestroy(): void {
+    this.projectile.selectedSection = '';
   }
 
   /**
@@ -107,7 +112,6 @@ export class LauncherComponent implements AfterViewInit {
    * Cancel has been confirmed
    */
   cancelConfirmed() {
-    this.projectile.selectedSection = '';
     this._showCancelOverlay = false;
     this.onCancel.emit();
   }
@@ -134,7 +138,6 @@ export class LauncherComponent implements AfterViewInit {
    * Navigate to next step
    */
   completed(): void {
-    this.projectile.selectedSection = '';
     this.summaryCompleted = true;
   }
 
