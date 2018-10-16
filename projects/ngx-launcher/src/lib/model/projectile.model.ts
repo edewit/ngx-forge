@@ -63,25 +63,23 @@ export class Projectile<T> {
 
   toUrl(): string {
     return `?selectedSection=${encodeURIComponent(this._selectedSection)}&`
-      + Object.keys(this._state).map(k => {
-        this._state[k].save();
-        return `${encodeURIComponent(k)}=${encodeURIComponent('{' +
-          this._state[k].filters.map((f: Filter) => this.stateToJsonPart(f, this._state[k].state)) + '}')}`;
-      }).join('&');
+      + Object.keys(this._state).map(k =>
+        `${encodeURIComponent(k)}=${encodeURIComponent('{'
+          + this._state[k].save().map(o => this.stateToJsonPart(o))
+          + '}')}`
+      ).join('&');
   }
 
   toHttpPayload(): HttpParams {
     const params: {[param: string]: string} = {};
     Object.keys(this._state).map(k => {
-      this._state[k].save();
-      this._state[k].filters
-        .map(f => params[f.name] = _.get(this._state[k].state, f.value));
+      this._state[k].save().map(f => params[f.name] = f.value);
     });
     return new HttpParams({fromObject: params});
   }
 
-  private stateToJsonPart(f: Filter, state: any) {
-    return `"${f.name}":${JSON.stringify(_.get(state, f.value, ''))}`;
+  private stateToJsonPart(o: any) {
+    return `"${o.name}":"${o.value}"`;
   }
 
   /**
