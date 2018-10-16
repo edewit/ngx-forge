@@ -71,13 +71,13 @@ export class Projectile<T> {
   }
 
   toHttpPayload(): HttpParams {
-    const params = new HttpParams();
+    const params: {[param: string]: string} = {};
     Object.keys(this._state).map(k => {
       this._state[k].save();
-      Object.keys(this._state[k].state)
-        .map(e => params.append(e, this._state[k].state[e]));
+      this._state[k].filters
+        .map(f => params[f.name] = _.get(this._state[k].state, f.value));
     });
-    return params;
+    return new HttpParams({fromObject: params});
   }
 
   private stateToJsonPart(f: Filter, state: any) {

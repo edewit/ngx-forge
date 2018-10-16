@@ -34,11 +34,11 @@ describe('State saving and restoring', () => {
     projectile.setState('1', new StepState<any>({ 'param1': 'value1' }, [{ name: 'p1', value: 'param1' }]));
     projectile.setState('2', new StepState<any>({ 'param2': 'value2' }, [{ name: 'p2', value: 'param2' }]));
 
-    const http = new HttpParams();
-    http.append('p1', 'value1');
-    http.append('p2', 'value2');
+    const http = new HttpParams()
+      .append('p1', 'value1')
+      .append('p2', 'value2');
 
-    expect(projectile.toHttpPayload()).toEqual(http);
+    expect(projectile.toHttpPayload().toString()).toEqual(http.toString());
   });
 
   it('should restore state from an url', () => {
