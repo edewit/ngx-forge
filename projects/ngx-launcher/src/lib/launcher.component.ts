@@ -133,6 +133,7 @@ export class LauncherComponent implements AfterViewInit {
    * Navigate to next step
    */
   completed(): void {
+    this.projectile.selectedSection = '';
     this.summaryCompleted = true;
   }
 
