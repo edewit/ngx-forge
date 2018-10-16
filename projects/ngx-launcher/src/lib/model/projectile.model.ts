@@ -89,7 +89,8 @@ export class Projectile<T> {
    * this function converts to a URL object and uses that to create URLSearchParams.
    */
   protected searchParams(): URLSearchParams {
-    return new URL(window.location.href.substr(window.location.href.indexOf('?')), 'http://dummy').searchParams;
+    const href = window.location.href;
+    return new URL(href.substr(href.indexOf('?')), 'http://dummy').searchParams;
   }
 }
 

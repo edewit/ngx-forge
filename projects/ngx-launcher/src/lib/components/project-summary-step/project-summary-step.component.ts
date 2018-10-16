@@ -114,19 +114,16 @@ export class ProjectSummaryStepComponent extends LauncherStep implements OnDestr
     );
   }
 
-  restoreModel(): void {
-  }
-
-    /**
-     * displaySetUpErrorResponse - takes a message string and returns nothing
-     * Displays the response received from the setup in case of error
-     */
-    displaySetUpErrorResponse(err: any): void {
-      const notification = {
-          iconClass: 'pficon-error-circle-o',
-          alertClass: 'alert-danger',
-          text: err
-      };
-      this.setUpErrResponse.push(notification);
+  /**
+   * displaySetUpErrorResponse - takes a message string and returns nothing
+   * Displays the response received from the setup in case of error
+   */
+  displaySetUpErrorResponse(err: any): void {
+    const notification = {
+        iconClass: 'pficon-error-circle-o',
+        alertClass: 'alert-danger',
+        text: err
+    };
+    this.setUpErrResponse.push(notification);
   }
 }
