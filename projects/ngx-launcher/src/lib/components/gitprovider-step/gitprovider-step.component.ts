@@ -55,8 +55,8 @@ export class GitproviderStepComponent extends LauncherStep implements AfterViewI
     this.gitHubDetails.repository = this.import ? '' : this.projectile.sharedState.state.projectName;
     this.gitHubDetails.repositoryList = [];
     const state = new StepState(this.gitHubDetails, [
-      { name: 'repository', value: 'repository' },
-      { name: 'organization', value: 'organization' }
+      { name: 'gitRepository', value: 'repository' },
+      { name: 'gitOrganization', value: 'organization' }
     ]);
     this.projectile.setState(this.id, state);
     if (this.launcherComponent) {
