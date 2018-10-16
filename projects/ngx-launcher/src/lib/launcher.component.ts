@@ -107,6 +107,7 @@ export class LauncherComponent implements AfterViewInit {
    * Cancel has been confirmed
    */
   cancelConfirmed() {
+    this.projectile.selectedSection = '';
     this._showCancelOverlay = false;
     this.onCancel.emit();
   }
