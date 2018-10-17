@@ -36,7 +36,7 @@
     "npm": ">= 5.5.0"
   },
   "dependencies": {
-    "@angular/common": "^6.1.1",
+    "@angular/common": "^6.1.10",
     "@angular/core": "^6.1.1",
     "@angular/compiler": "^6.1.1",
     "@angular/animations": "^6.1.1",
