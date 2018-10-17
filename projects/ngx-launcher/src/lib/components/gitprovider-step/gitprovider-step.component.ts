@@ -30,9 +30,9 @@ export class GitproviderStepComponent extends LauncherStep implements AfterViewI
   @Input() import: boolean;
   @ViewChild('form') form: NgForm;
   @ViewChild('versionSelect') versionSelect: ElementRef;
-  Object = Object;
 
   private subscriptions: Subscription[] = [];
+  private _organizationsKeys;
   gitHubDetails: GitHubDetails = {};
   gitHubReposSubscription: Subscription;
 
@@ -101,6 +101,13 @@ export class GitproviderStepComponent extends LauncherStep implements AfterViewI
    */
   connectAccount(): void {
     this.gitProviderService.connectGitHubAccount(this.projectile.redirectUrl);
+  }
+
+  get organizationsKeys(): IterableIterator<string> {
+    if (!this._organizationsKeys && this.gitHubDetails.organizations) {
+      this._organizationsKeys = Object.keys(this.gitHubDetails.organizations);
+    }
+    return this._organizationsKeys;
   }
 
   getGitHubRepos(): void {

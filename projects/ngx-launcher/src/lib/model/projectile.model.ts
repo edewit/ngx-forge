@@ -71,11 +71,14 @@ export class Projectile<T> {
   }
 
   toHttpPayload(): HttpParams {
-    const params: {[param: string]: string} = {};
-    Object.keys(this._state).map(k => {
-      this._state[k].save().map(f => params[f.name] = f.value);
-    });
-    return new HttpParams({fromObject: params});
+    const params: { [param: string]: string } = {};
+    Object.keys(this._state).map(k =>
+      this._state[k].save().map(f => {
+        if (f.value) {
+          params[f.name] = f.value;
+        }
+      }));
+    return new HttpParams({ fromObject: params });
   }
 
   private stateToJsonPart(o: any) {

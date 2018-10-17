@@ -54,7 +54,7 @@
                           (ngModelChange)="getGitHubRepos()"
                           [(ngModel)]="gitHubDetails.organization">
                     <option [ngValue]="gitHubDetails.organizations[key]"
-                            *ngFor="let key of Object.keys(gitHubDetails.organizations)">
+                            *ngFor="let key of organizationsKeys">
                       {{key}}
                     </option>
                   </select>

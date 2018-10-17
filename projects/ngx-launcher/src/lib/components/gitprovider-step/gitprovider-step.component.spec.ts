@@ -24,7 +24,7 @@ const mockGitProviderService = {
     const gitHubDetails = of(<GitHubDetails> {
       avatar: 'https://avatars3.githubusercontent.com/u/17882357?v=4',
       login: 'testuser',
-      organizations: ['fabric-ui']
+      organizations: {'fabric-ui': 'fabric-ui'}
     });
     return gitHubDetails;
   },
