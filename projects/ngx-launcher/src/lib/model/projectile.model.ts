@@ -29,8 +29,8 @@ export class Projectile<T> {
         { name: 'projectName', value: 'projectName' },
         { name: 'projectVersion', value: 'projectVersion' },
         { name: 'groupId', value: 'groupId' },
-        { name: 'artifactId', value: 'artifactId' },
-        { name: 'spacePath', value: 'spacePath' },
+        { name: 'artifactId', value: 'mavenArtifact' },
+        { name: 'space', value: 'spacePath' },
         { name: 'targetEnvironment', value: 'targetEnvironment' }
       ]);
       this.setState('shared', state);

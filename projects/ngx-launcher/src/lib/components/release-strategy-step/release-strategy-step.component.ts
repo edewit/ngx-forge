@@ -37,7 +37,7 @@ export class ReleaseStrategyStepComponent extends LauncherStep implements OnInit
 
   ngOnInit() {
     const state = new StepState(this.pipeline, [
-      { name: 'pipelineId', value: 'id' }
+      { name: 'pipeline', value: 'id' }
     ]);
     this.projectile.setState(this.id, state);
 
