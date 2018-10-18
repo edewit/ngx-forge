@@ -62,10 +62,9 @@
           <div>
             <b>{{data?.runtime?.name}} {{data?.runtime?.version?.name}}</b>
           </div>
-          <div class="pull-right">
+          <div class="pull-right" *ngIf="data?.runtime?.icon">
             <img class="card-column_runtime-icon"
-                  [src]="_DomSanitizer.bypassSecurityTrustUrl(data?.runtime?.icon)"
-                  *ngIf="data?.runtime?.icon !== null">
+                  [src]="_DomSanitizer.bypassSecurityTrustUrl(data?.runtime?.icon)">
           </div>
           <p>{{data?.runtime?.description}}</p>
         </div>
