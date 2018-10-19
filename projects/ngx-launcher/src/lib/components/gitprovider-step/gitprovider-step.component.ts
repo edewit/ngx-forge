@@ -115,7 +115,8 @@ export class GitproviderStepComponent extends LauncherStep implements AfterViewI
       if (this.gitHubReposSubscription) {
         this.gitHubReposSubscription.unsubscribe();
       }
-      this.gitHubReposSubscription = this.gitProviderService.getGitHubRepoList(this.gitHubDetails.organization)
+      const org = this.gitHubDetails.organization || this.gitHubDetails.login;
+      this.gitHubReposSubscription = this.gitProviderService.getGitHubRepoList(org)
         .subscribe(list => this.gitHubDetails.repositoryList = list);
     }
   }
