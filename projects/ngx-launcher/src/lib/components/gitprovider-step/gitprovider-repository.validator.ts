@@ -27,7 +27,7 @@ export class GitProviderRepositoryValidatorDirective implements Validator {
       const org = control.parent.get('ghOrg').value;
       if (!valid) {
         resolve.next(this.createError('pattern', control.value));
-      } else if (org) {
+      } else {
         this.gitProvider.isGitHubRepo(org, control.value).subscribe(
           duplicate => {
             if (duplicate && !this.missing) {
