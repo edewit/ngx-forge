@@ -46,7 +46,8 @@ export class ReleaseStrategyStepComponent extends LauncherStep implements OnInit
     }
     this.subscriptions.push(this.pipelineService.getPipelines().subscribe((result: Array<Pipeline>) => {
       this._allPipelines = result;
-      this.restore();
+      this.restore(this._allPipelines);
+      this.filterPipelines(this.pipeline.platform);
     }));
     this.subscriptions.push(this.broadcaster.on<Runtime>('runtime-changed').subscribe(runtime => {
       this.filterPipelines(runtime.pipelinePlatform);
@@ -86,17 +87,12 @@ export class ReleaseStrategyStepComponent extends LauncherStep implements OnInit
     Object.assign(this.pipeline, pipeline);
   }
 
-  restoreModel(model: any): void {
-    this.updatePipelineSelection(this._allPipelines.find(p => p.id === model.pipelineId));
-    this.filterPipelines(this.pipeline.platform);
-  }
-
   toggleExpanded(pipeline: Pipeline) {
     pipeline.expanded = !pipeline.expanded;
   }
 
   private filterPipelines(selectedPlatform: string) {
     this._pipelines = this._allPipelines
-      .filter(({ platform }) => selectedPlatform ? platform === selectedPlatform : true);
+      .filter(({ platform }) => selectedPlatform ? platform === selectedPlatform : platform === 'maven');
   }
 }
