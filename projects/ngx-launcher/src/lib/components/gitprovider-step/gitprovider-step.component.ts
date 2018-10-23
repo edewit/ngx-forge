@@ -110,12 +110,13 @@ export class GitproviderStepComponent extends LauncherStep implements AfterViewI
     return this._organizationsKeys;
   }
 
-  getGitHubRepos(): void {
+  getGitHubRepos(value: string): void {
     if (this.import) {
       if (this.gitHubReposSubscription) {
         this.gitHubReposSubscription.unsubscribe();
       }
-      this.gitHubReposSubscription = this.gitProviderService.getGitHubRepoList(this.gitHubDetails.organization)
+      const org = value || this.gitHubDetails.login;
+      this.gitHubReposSubscription = this.gitProviderService.getGitHubRepoList(org)
         .subscribe(list => this.gitHubDetails.repositoryList = list);
     }
   }

@@ -53,7 +53,7 @@ describe('ReleaseStrategyStepComponent', () => {
     it('should change pipeline selection to node when runtime event change', () => {
       // given
       let pipelines = releaseStrategyComponent.pipelines;
-      expect(pipelines.length).toBe(0);
+      expect(pipelines.length).toBe(3);
       BroadcasterTestProvider.broadcaster.broadcast('runtime-changed', {pipelinePlatform: 'node'} as ViewRuntime);
 
       // when
@@ -85,7 +85,7 @@ describe('ReleaseStrategyStepComponent', () => {
     });
 
     it('should not show pipelines when runtime not selected', () => {
-      expect(releaseStrategyComponent.pipelines.length).toBe(0);
+      expect(releaseStrategyComponent.pipelines.length).toBe(3);
     });
 
   });

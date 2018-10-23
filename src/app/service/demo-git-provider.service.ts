@@ -59,7 +59,7 @@ export class DemoGitProviderService implements GitProviderService {
    * @returns {Observable<boolean>} True if GitHub repo exists
    */
   getGitHubRepoList(): Observable<any> {
-    return of(this.existingRepo);
+    return of(Object.keys(this.existingRepo));
   }
 
   // Private
