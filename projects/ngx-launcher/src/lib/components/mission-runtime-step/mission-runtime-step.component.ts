@@ -155,19 +155,7 @@ export class MissionRuntimeStepComponent extends LauncherStep implements OnInit,
       this.broadcaster.broadcast('runtime-changed', runtime);
     }
 
-    this.handleBlankMissionFlow();
     this.updateBoosterViewStatus();
-  }
-
-  handleBlankMissionFlow(): void {
-    if (this.booster.mission && this.booster.runtime &&
-      this.booster.mission.id === 'blank-mission') {
-      const runtimeSp: any = this.booster.runtime;
-      if (runtimeSp && runtimeSp.boosters && runtimeSp.boosters.length > 0) {
-        const supportedMission: any = runtimeSp.boosters[0];
-        this.booster.mission.meta = supportedMission.mission.id;
-      }
-    }
   }
 
   private updateBoosterViewStatus(): void {
