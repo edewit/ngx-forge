@@ -77,6 +77,7 @@ export class MissionRuntimeStepComponent extends LauncherStep implements OnInit,
     this.subscriptions.forEach((sub) => {
       sub.unsubscribe();
     });
+    this.projectile.unSetState(this.id);
   }
 
   initBoosters(): void {
