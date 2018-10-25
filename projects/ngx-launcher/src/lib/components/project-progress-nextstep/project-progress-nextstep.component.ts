@@ -27,8 +27,6 @@ export class ProjectProgressNextstepComponent implements OnChanges, OnDestroy {
   @Input() gettingStartedInfo: boolean;
   @Input() statusLink: string;
   errorMessage: string;
-  codeBaseCreated = false;
-  codebaseId: string;
   private _progress: Progress[];
   private socket: WebSocket;
 
@@ -62,8 +60,7 @@ export class ProjectProgressNextstepComponent implements OnChanges, OnDestroy {
       console.log('data from ws', message);
       const data = message.data || {};
       if (data.codeBaseId !== undefined) {
-        this.codeBaseCreated = true;
-        this.codebaseId = data.codeBaseId;
+        this.projectile.sharedState.state.codebaseId = data.codeBaseId;
       }
       if (data && data.error) {
         console.log(message.data.error);

@@ -2,7 +2,9 @@ import {
   Component,
   OnInit
 } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
+import { DependencyCheck } from '../../../projects/ngx-launcher/src/lib/model/dependency-check.model';
+import { Projectile } from '../../../projects/ngx-launcher/src/lib/model/projectile.model';
 
 @Component({
   selector: 'create-app',
@@ -10,8 +12,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class CreateAppComponent implements OnInit {
   depEditorFlag = true;
-  codeBaseCreated = true;
-  constructor(private router: Router, private route: ActivatedRoute) {
+  codebaseId: string;
+  constructor(private router: Router, projectile: Projectile<DependencyCheck>) {
+    this.codebaseId = projectile.sharedState.state.codebaseId;
   }
 
   ngOnInit(): void {
