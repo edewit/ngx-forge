@@ -35,7 +35,7 @@ import { MockAuthenticationService } from './shared/mock-auth.service';
 import { HelperService } from '../../projects/ngx-launcher/src/lib/service/helper.service';
 
 import {
-  DependencyCheckService, DependencyEditorTokenProvider,
+  DependencyCheckService,
   GitProviderService,
   LauncherModule,
   MissionRuntimeService,
@@ -43,7 +43,7 @@ import {
   ProjectProgressService,
   ProjectSummaryService,
   TargetEnvironmentService,
-  TokenService, URLProvider
+  TokenService
 } from '../../projects/ngx-launcher/src/lib/launcher.module';
 import { PipelineDemoComponent } from './create-app/pipeline-demo.component';
 
@@ -79,9 +79,7 @@ import { PipelineDemoComponent } from './create-app/pipeline-demo.component';
     { provide: FABRIC8_FORGE_API_URL, useValue: 'https://forge.api.prod-preview.openshift.io' },
     { provide: FABRIC8_ORIGIN, useValue: 'osio' },
     { provide: TokenProvider, useClass: MockAuthenticationService },
-    { provide: TokenService, useClass: DemoTokenService},
-    { provide: DependencyEditorTokenProvider, useExisting: TokenProvider },
-    { provide: URLProvider, useClass: AnalyticsUrlService }
+    { provide: TokenService, useClass: DemoTokenService}
   ],
   bootstrap: [AppComponent]
 })

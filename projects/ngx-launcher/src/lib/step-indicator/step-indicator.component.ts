@@ -2,6 +2,7 @@ import {
   Component,
   Host,
   Input,
+  OnDestroy,
   OnInit,
   ViewEncapsulation
 } from '@angular/core';
@@ -19,7 +20,7 @@ import { broadcast } from '../shared/telemetry.decorator';
   templateUrl: './step-indicator.component.html',
   styleUrls: ['./step-indicator.component.less']
 })
-export class StepIndicatorComponent implements OnInit {
+export class StepIndicatorComponent implements OnInit, OnDestroy {
   /**
    * Show appropriate style while steps are in progress of being shown
    *
@@ -40,6 +41,10 @@ export class StepIndicatorComponent implements OnInit {
     this.dependencyCheck = this.projectile.sharedState.state;
     this.dependencyCheck.projectName = this.dependencyCheck.projectName
       || this.route.snapshot.params['projectName'];
+  }
+
+  ngOnDestroy(): void {
+    this.projectile.sharedState.state.projectName = undefined;
   }
 
   // Steps

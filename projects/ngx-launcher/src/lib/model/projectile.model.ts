@@ -42,6 +42,10 @@ export class Projectile<T> {
     this._state[stepId] = state;
   }
 
+  unSetState(stepId: string) {
+    delete this._state[stepId];
+  }
+
   getState(stepId: string): StepState<T> {
     return this._state[stepId];
   }

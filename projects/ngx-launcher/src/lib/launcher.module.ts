@@ -4,11 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ModalModule } from 'ngx-modal';
 
-import {
-  DependencyEditorModule,
-  DependencyEditorTokenProvider,
-  URLProvider
-} from 'fabric8-analytics-dependency-editor';
 import { BsDropdownConfig, BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
@@ -22,7 +17,6 @@ import { StepIndicatorComponent } from './step-indicator/step-indicator.componen
 import {
   ActivateBoosterNextstepComponent
 } from './components/activate-booster-nextstep/activate-booster-nextstep.component';
-import { DependencyEditorStepComponent } from './components/dependency-editor-step/dependency-editor-step.component';
 import {
   GitProviderRepositoryValidatorDirective
 } from './components/gitprovider-step/gitprovider-repository.validator';
@@ -44,9 +38,6 @@ import { GitproviderReviewComponent } from './components/gitprovider-step/gitpro
 import { MissionRuntimeReviewComponent } from './components/mission-runtime-step/mission-runtime-review.component';
 
 import { Broadcaster } from 'ngx-base';
-import {
-  DependencyEditorReviewComponent
-} from './components/dependency-editor-step/dependency-editor-review.component';
 import { ReleaseStrategyReviewComponent } from './components/release-strategy-step/release-strategy-review.component';
 import {
   TargetEnvironmentReviewComponent
@@ -59,7 +50,6 @@ import { ButtonNextStepComponent } from './shared/button-next-step.component';
   imports: [
     BsDropdownModule.forRoot(),
     CommonModule,
-    DependencyEditorModule,
     FormsModule,
     ModalModule,
     PopoverModule.forRoot(),
@@ -80,16 +70,12 @@ import { ButtonNextStepComponent } from './shared/button-next-step.component';
     GitproviderReviewComponent,
     ReleaseStrategyStepComponent,
     ReleaseStrategyReviewComponent,
-    DependencyEditorStepComponent,
-    DependencyEditorReviewComponent,
     MissionRuntimeReviewComponent
   ],
   declarations: [
     ButtonNextStepComponent,
     ActivateBoosterNextstepComponent,
     CancelOverlayComponent,
-    DependencyEditorStepComponent,
-    DependencyEditorReviewComponent,
     GitproviderStepComponent,
     LowerCaseDirective,
     ProjectNameValidatorDirective,
@@ -132,7 +118,6 @@ export { TargetEnvironment } from './model/target-environment.model';
 // Services
 export { ClusterService } from './service/cluster.service';
 export { DependencyCheckService } from './service/dependency-check.service';
-export { DependencyEditorService } from './service/dependency-editor.service';
 export { GitProviderService } from './service/git-provider.service';
 export { MissionRuntimeService } from './service/mission-runtime.service';
 export { PipelineService } from './service/pipeline.service';
@@ -143,5 +128,3 @@ export { TokenService } from './service/token.service';
 
 // Utility Service
 export { HelperService } from './service/helper.service';
-
-export { DependencyEditorModule, URLProvider, DependencyEditorTokenProvider };

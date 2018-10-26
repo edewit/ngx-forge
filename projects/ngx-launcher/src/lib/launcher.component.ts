@@ -3,9 +3,9 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnDestroy,
   Output,
-  ViewEncapsulation,
-  OnDestroy
+  ViewEncapsulation
 } from '@angular/core';
 
 import { Broadcaster } from 'ngx-base';

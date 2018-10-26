@@ -5,4 +5,5 @@ export class DependencyCheck {
   projectVersion: string;
   spacePath: string;
   targetEnvironment?: string;
+  codebaseId?: string;
 }

@@ -12,7 +12,6 @@ import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { LauncherComponent } from './launcher.component';
 
-import { DependencyEditorModule } from 'fabric8-analytics-dependency-editor';
 import { Broadcaster } from 'ngx-base';
 import { CancelOverlayComponent } from './cancel-overlay/cancel-overlay.component';
 import {
@@ -60,7 +59,6 @@ describe('LauncherComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         CommonModule,
-        DependencyEditorModule,
         FormsModule,
         RouterTestingModule
       ],
