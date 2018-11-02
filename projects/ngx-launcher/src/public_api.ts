@@ -16,6 +16,7 @@ export { TargetEnvironment } from './lib/model/target-environment.model';
 
 // Launcher services
 export { ClusterService } from './lib/service/cluster.service';
+export { CapabilitiesService } from './lib/service/capabilities.service';
 export { DependencyCheckService } from './lib/service/dependency-check.service';
 export { GitProviderService } from './lib/service/git-provider.service';
 export { MissionRuntimeService } from './lib/service/mission-runtime.service';

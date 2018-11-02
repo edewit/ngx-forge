@@ -17,6 +17,7 @@ import { StepIndicatorComponent } from './step-indicator/step-indicator.componen
 import {
   ActivateBoosterNextstepComponent
 } from './components/activate-booster-nextstep/activate-booster-nextstep.component';
+import { CapabilitiesStepComponent } from './components/capabilities-step/capabilities-step.component';
 import {
   GitProviderRepositoryValidatorDirective
 } from './components/gitprovider-step/gitprovider-repository.validator';
@@ -38,6 +39,7 @@ import { GitproviderReviewComponent } from './components/gitprovider-step/gitpro
 import { MissionRuntimeReviewComponent } from './components/mission-runtime-step/mission-runtime-review.component';
 
 import { Broadcaster } from 'ngx-base';
+import { InputComponent } from './components/capabilities-step/input.component';
 import { ReleaseStrategyReviewComponent } from './components/release-strategy-step/release-strategy-review.component';
 import {
   TargetEnvironmentReviewComponent
@@ -64,6 +66,7 @@ import { ButtonNextStepComponent } from './shared/button-next-step.component';
     StepIndicatorComponent,
     TargetEnvironmentStepComponent,
     MissionRuntimeStepComponent,
+    CapabilitiesStepComponent,
     GitproviderStepComponent,
     ProjectSummaryStepComponent,
     TargetEnvironmentReviewComponent,
@@ -74,6 +77,7 @@ import { ButtonNextStepComponent } from './shared/button-next-step.component';
   ],
   declarations: [
     ButtonNextStepComponent,
+    InputComponent,
     ActivateBoosterNextstepComponent,
     CancelOverlayComponent,
     GitproviderStepComponent,
@@ -83,6 +87,7 @@ import { ButtonNextStepComponent } from './shared/button-next-step.component';
     GitproviderReviewComponent,
     MissionRuntimeReviewComponent,
     MissionRuntimeStepComponent,
+    CapabilitiesStepComponent,
     ProjectProgressNextstepComponent,
     ProjectSummaryStepComponent,
     ReleaseStrategyStepComponent,
@@ -117,6 +122,7 @@ export { TargetEnvironment } from './model/target-environment.model';
 
 // Services
 export { ClusterService } from './service/cluster.service';
+export { CapabilitiesService } from './service/capabilities.service';
 export { DependencyCheckService } from './service/dependency-check.service';
 export { GitProviderService } from './service/git-provider.service';
 export { MissionRuntimeService } from './service/mission-runtime.service';

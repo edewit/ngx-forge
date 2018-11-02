@@ -1,0 +1,30 @@
+<label class="col-sm-4 control-label" [attr.for]="input.name" [class.required]="input.required">{{input.description}}</label>
+<div class="col-sm-8" [ngSwitch]="input.type">
+  <span *ngSwitchCase="'string'">
+    <input [attr.id]="input.name" type="text" name="{{input.name}}" [(ngModel)]="input.value" class="form-control"
+      [required]="input.required" [title]="input.description" (change)="change()" [class.ng-invalid]="messageForInput(input.name)" #control (keyup)="keyUp.next(control.value)">
+    <div class="errorLabel help-block">
+      <span *ngIf="messageForInput(input.name)">{{messageForInput(input.name).description}}</span>
+      <span *ngIf="input.name.errors && (input.name.dirty || input.name.touched)">{{input.label}} is required</span>
+    </div>
+  </span>
+  <span *ngSwitchCase="'enum'">
+    <span *ngIf="input.values.length <= 5">
+    <div class="row" *ngFor="let option of input.values">
+      <span>
+        <label>
+          <input [name]="input.name" [disabled]="!input.enabled" type="radio" [(ngModel)]="input.value" [value]="option.id" (ngModelChange)="change()">
+            {{option.name}}
+          </label>
+      </span>
+    </div>
+    </span>
+    <span *ngIf="input.values.length > 5">
+    <select [attr.id]="input.name" class="form-control" [disabled]="!input.enabled" [(ngModel)]="input.value" name="{{input.name}}" [title]="input.description" (change)="change()">
+      <option value="{{option.id}}" *ngFor="let option of input.values">
+          {{option.name}}
+      </option>
+    </select>
+    </span>
+  </span>
+</div>
