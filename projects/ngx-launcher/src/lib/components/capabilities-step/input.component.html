@@ -4,7 +4,6 @@
     <input [attr.id]="input.name" type="text" name="{{input.name}}" [(ngModel)]="input.value" class="form-control"
       [required]="input.required" [title]="input.description" (change)="change()" [class.ng-invalid]="messageForInput(input.name)" #control (keyup)="keyUp.next(control.value)">
     <div class="errorLabel help-block">
-      <span *ngIf="messageForInput(input.name)">{{messageForInput(input.name).description}}</span>
       <span *ngIf="input.name.errors && (input.name.dirty || input.name.touched)">{{input.label}} is required</span>
     </div>
   </span>
@@ -13,14 +12,14 @@
     <div class="row" *ngFor="let option of input.values">
       <span>
         <label>
-          <input [name]="input.name" [disabled]="!input.enabled" type="radio" [(ngModel)]="input.value" [value]="option.id" (ngModelChange)="change()">
+          <input [name]="input.name" type="radio" [(ngModel)]="input.value" [value]="option.id" (ngModelChange)="change()">
             {{option.name}}
           </label>
       </span>
     </div>
     </span>
     <span *ngIf="input.values.length > 5">
-    <select [attr.id]="input.name" class="form-control" [disabled]="!input.enabled" [(ngModel)]="input.value" name="{{input.name}}" [title]="input.description" (change)="change()">
+    <select [attr.id]="input.name" class="form-control" [(ngModel)]="input.value" name="{{input.name}}" [title]="input.description" (change)="change()">
       <option value="{{option.id}}" *ngFor="let option of input.values">
           {{option.name}}
       </option>

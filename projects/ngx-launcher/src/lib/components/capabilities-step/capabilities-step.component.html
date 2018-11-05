@@ -1,45 +1,51 @@
-<section id="Capabilities" class="f8launcher-section-capabilities f8launcher-container_main--start" [class.hiddn]="hidden">
+<section [id]="id" class="f8launcher-section-capabilities f8launcher-container_main--start" [class.hidden]="hidden">
   <div>
     <div class="container-fluid">
       <h1>{{title}}</h1>
     </div>
-
+  </div>
+  <div>
     <div id="pf-list-standard" class="list-group list-view-pf list-view-pf-view">
-      <div class="list-group-item" *ngFor="let capability of capabilities; let i = index">
-        <div class="list-view-pf-expand">
-          <span class="fa fa-angle-right" [class.fa-angle-down]="capability.expand" (click)="capability.expand = !capability.expand"></span>
+      <div class="list-group-item" [class.list-view-pf-expand-active]="input.checked && properties(capability).length" *ngFor="let capability of capabilities; let i = index">
+        <div class="list-view-pf-expand" *ngIf="properties(capability).length" >
+          <span class="fa fa-angle-right" [class.fa-angle-down]="input.checked" (click)="input.click()"></span>
         </div>
         <div class="list-view-pf-checkbox">
-          <input type="checkbox" [ngModel]="selectedCapabilities[i]" [value]="capability.module" (change)="selectModule($event.target, i)">
+          <input type="checkbox" [ngModel]="selected.capabilities[i]" [value]="capability.module" (change)="selectModule($event.target, i)" #input>
         </div>
-        <div class="list-view-pf-main-info">
-          <div class="list-view-pf-left" *ngIf="capability.icon">
-            <img [src]="_DomSanitizer.bypassSecurityTrustUrl(capability.icon)">
-          </div>
-          <div class="list-view-pf-body">
-            <div class="list-view-pf-description">
-              <div class="list-group-item-heading">
-                {{capability.name}}
-              </div>
-              <div class="list-group-item-text">
-                {{capability.description}}
+        <div (click)="input.click()">
+          <div class="list-view-pf-main-info">
+            <div class="list-view-pf-left" *ngIf="capability.icon">
+              <img [src]="_DomSanitizer.bypassSecurityTrustUrl(capability.icon)">
+            </div>
+            <div class="list-view-pf-body">
+              <div class="list-view-pf-description">
+                <div class="list-group-item-heading">
+                  {{capability.name}}
+                </div>
+                <div class="list-group-item-text">
+                  {{capability.description}}
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="list-group-item-container container-fluid" *ngIf="capability.expand">
-          <div class="close" (click)="capability.expand = false">
+        <div class="list-group-item-container container-fluid" *ngIf="input.checked && properties(capability).length">
+          <div class="close" (click)="input.checked = false">
             <span class="pficon pficon-close"></span>
           </div>
           <div class="row">
             <div class="col-md-12">
               <div class="form-group" *ngFor="let key of properties(capability)">
-                <f8launcher-input [ngModel]="capability.props[key]"></f8launcher-input>
+                <f8launcher-input [ngModel]="capability.props[key]" (change)="selectProperty(key, i, capability.props[key].value)"></f8launcher-input>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
+  <div *ngIf="launcherComponent">
+    <f8launcher-button-next-step [navFromId]="id"></f8launcher-button-next-step>
   </div>
 </section>

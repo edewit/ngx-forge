@@ -3,9 +3,9 @@ import { DomSanitizer } from '@angular/platform-browser';
 
 import { LauncherStep } from '../../launcher-step';
 import { LauncherComponent } from '../../launcher.component';
-import { Projectile } from '../../model/projectile.model';
+import { Projectile, StepState } from '../../model/projectile.model';
 
-import { Capability } from '../../model/capabilities.model';
+import { Capability, SelectedCapability } from '../../model/capabilities.model';
 import { CapabilitiesService } from '../../service/capabilities.service';
 
 @Component({
@@ -14,26 +14,44 @@ import { CapabilitiesService } from '../../service/capabilities.service';
   styleUrls: ['./capabilities-step.component.less']
 })
 export class CapabilitiesStepComponent extends LauncherStep implements OnInit {
-  completed: boolean;
+  completed: boolean = true;
   capabilities: Capability[];
-  selectedCapabilities: string[] = [];
+  selected: SelectedCapability = new SelectedCapability();
 
   constructor(@Host() @Optional() public launcherComponent: LauncherComponent,
       private capabilitiesService: CapabilitiesService,
       public _DomSanitizer: DomSanitizer,
-      private projectile: Projectile<any>) {
+      private projectile: Projectile<SelectedCapability>) {
     super(projectile);
   }
 
   ngOnInit(): void {
+    const state = new StepState(this.selected, [
+      { name: 'capabilities', value: 'capabilities' }
+    ]);
+    this.projectile.setState(this.id, state);
+
     if (this.launcherComponent) {
       this.launcherComponent.addStep(this);
     }
-    this.capabilitiesService.getCapabilities().subscribe(capabilities => this.capabilities = capabilities);
+    this.capabilitiesService.getFilteredCapabilities().subscribe(capabilities => {
+      this.capabilities = capabilities;
+      this.restore();
+    });
   }
 
   selectModule(input: HTMLInputElement, i: number): void {
-    this.selectedCapabilities[i] = input.checked ? input.value : undefined;
+    this.selected.capabilities[i] = input.checked ? { module: input.value } : undefined;
+  }
+
+  selectProperty(key: string, i: number, value: string) {
+    if (this.selected.capabilities[i]) {
+      this.selected.capabilities[i][key] = value;
+    }
+  }
+
+  restoreModel(model: any): void {
+    this.selected.capabilities = model.capabilities;
   }
 
   properties(capability: Capability) {

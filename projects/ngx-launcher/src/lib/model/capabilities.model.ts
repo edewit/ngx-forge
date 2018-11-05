@@ -11,3 +11,7 @@ export class Capability {
     }
   };
 }
+
+export class SelectedCapability {
+  capabilities: any[] = [];
+}

@@ -7,7 +7,6 @@ import { debounceTime, distinctUntilChanged, first } from 'rxjs/operators';
 @Component({
   selector: 'f8launcher-input',
   templateUrl: './input.component.html',
-  //styleUrls: ['./input.component.less'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -19,7 +18,6 @@ import { debounceTime, distinctUntilChanged, first } from 'rxjs/operators';
 })
 export class InputComponent extends DefaultValueAccessor implements OnInit {
   @Input('ngModel') input;
-  //@Input() messages: [];
   @Input() changeOnKey: boolean;
 
   protected keyUp = new Subject<string>();
@@ -46,17 +44,4 @@ export class InputComponent extends DefaultValueAccessor implements OnInit {
       this.onChange(this.input.value);
     }
   }
-
-  // messageForInput(name: string): any {
-  //   let result;
-  //   if (!this.messages) {
-  //     return null;
-  //   }
-  //   for (let message of this.messages) {
-  //     if (message.input === name) {
-  //       result = message;
-  //     }
-  //   }
-  //   return result;
-  // }
 }

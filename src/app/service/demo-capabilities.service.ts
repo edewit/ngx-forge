@@ -8,7 +8,7 @@ import { CapabilitiesService } from 'projects/ngx-launcher/src/public_api';
 const mockCapabilities = require('../mock/demo-capabilities.json');
 
 @Injectable()
-export class DemoCapabilitiesService implements CapabilitiesService {
+export class DemoCapabilitiesService extends CapabilitiesService {
 
   getCapabilities(): Observable<Capability[]> {
     return of(mockCapabilities).pipe(

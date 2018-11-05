@@ -86,7 +86,7 @@ export class Projectile<T> {
   }
 
   private stateToJsonPart(o: any) {
-    return `"${o.name}":"${o.value}"`;
+    return `"${o.name}":${o.value ? JSON.stringify(o.value) : '""'}`;
   }
 
   /**
