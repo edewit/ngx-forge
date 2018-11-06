@@ -2,13 +2,16 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { Capability } from '../model/capabilities.model';
+import { Runtime } from '../model/runtime.model';
 
-export abstract class CapabilitiesService {
+export abstract class AppCreatorService {
   /**
    * Retrieve capabilities list
    * @returns {Observable<Capability[]>}
    */
   abstract getCapabilities(): Observable<Capability[]>;
+
+  abstract getRuntimes(): Observable<Runtime[]>;
 
   getFilteredCapabilities(): Observable<Capability[]> {
     return this.getCapabilities().pipe(map(capabilities => this.filter(capabilities)));

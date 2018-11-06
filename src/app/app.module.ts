@@ -34,7 +34,7 @@ import { MockAuthenticationService } from './shared/mock-auth.service';
 import { HelperService } from '../../projects/ngx-launcher/src/lib/service/helper.service';
 
 import {
-  CapabilitiesService,
+  AppCreatorService,
   DependencyCheckService,
   GitProviderService,
   LauncherModule,
@@ -46,7 +46,7 @@ import {
   TokenService
 } from '../../projects/ngx-launcher/src/lib/launcher.module';
 import { PipelineDemoComponent } from './create-app/pipeline-demo.component';
-import { DemoCapabilitiesService } from './service/demo-capabilities.service';
+import { DemoAppCreatorService } from './service/demo-capabilities.service';
 
 @NgModule({
   imports: [
@@ -69,7 +69,7 @@ import { DemoCapabilitiesService } from './service/demo-capabilities.service';
   providers: [
     Broadcaster,
     HelperService,
-    { provide: CapabilitiesService, useClass: DemoCapabilitiesService },
+    { provide: AppCreatorService, useClass: DemoAppCreatorService },
     { provide: DependencyCheckService, useClass: DemoDependencyCheckService},
     { provide: GitProviderService, useClass: DemoGitProviderService},
     { provide: MissionRuntimeService, useClass: DemoMissionRuntimeService },

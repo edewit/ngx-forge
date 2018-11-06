@@ -6,7 +6,7 @@ import { LauncherComponent } from '../../launcher.component';
 import { Projectile, StepState } from '../../model/projectile.model';
 
 import { Capability, SelectedCapability } from '../../model/capabilities.model';
-import { CapabilitiesService } from '../../service/capabilities.service';
+import { AppCreatorService } from '../../service/app-creator.service';
 
 @Component({
   selector: 'f8launcher-capabilities-step',
@@ -19,7 +19,7 @@ export class CapabilitiesStepComponent extends LauncherStep implements OnInit {
   selected: SelectedCapability = new SelectedCapability();
 
   constructor(@Host() @Optional() public launcherComponent: LauncherComponent,
-      private capabilitiesService: CapabilitiesService,
+      private appCreatorService: AppCreatorService,
       public _DomSanitizer: DomSanitizer,
       private projectile: Projectile<SelectedCapability>) {
     super(projectile);
@@ -34,7 +34,7 @@ export class CapabilitiesStepComponent extends LauncherStep implements OnInit {
     if (this.launcherComponent) {
       this.launcherComponent.addStep(this);
     }
-    this.capabilitiesService.getFilteredCapabilities().subscribe(capabilities => {
+    this.appCreatorService.getFilteredCapabilities().subscribe(capabilities => {
       this.capabilities = capabilities;
       this.restore();
     });

@@ -1,0 +1,35 @@
+<section [id]="id" class="f8launcher-section-runtime f8launcher-container_main--start" [class.hidden]="hidden" #section>
+  <div>
+    <div class="container-fluid">
+      <h1>{{title}}</h1>
+    </div>
+  </div>
+  <div>
+    <div id="pf-list-standard" class="list-group list-view-pf list-view-pf-view">
+      <div class="list-group-item" *ngFor="let runtime of runtimes" (click)="radio.click()">
+        <div class="list-view-pf-checkbox">
+          <input type="radio" [(ngModel)]="selectedRuntime.id" [value]="runtime.id" #radio>
+        </div>
+        <div class="list-view-pf-main-info">
+            <div class="list-view-pf-left">
+              <img class="runtime-icon" *ngIf="runtime.icon" [src]="_DomSanitizer.bypassSecurityTrustUrl(runtime.icon)">
+              <div class="runtime-icon" *ngIf="!runtime.icon">&nbsp;</div>
+            </div>
+            <div class="list-view-pf-body">
+              <div class="list-view-pf-description">
+                <div class="list-group-item-heading">
+                  {{runtime.name}}
+                </div>
+                <div class="list-group-item-text">
+                  {{runtime.description}}
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="launcherComponent">
+    <f8launcher-button-next-step [navFromId]="id"></f8launcher-button-next-step>
+  </div>
+</section>

@@ -41,6 +41,7 @@ import { MissionRuntimeReviewComponent } from './components/mission-runtime-step
 import { Broadcaster } from 'ngx-base';
 import { InputComponent } from './components/capabilities-step/input.component';
 import { ReleaseStrategyReviewComponent } from './components/release-strategy-step/release-strategy-review.component';
+import { RuntimeStepComponent } from './components/runtime-step/runtime-step.component';
 import {
   TargetEnvironmentReviewComponent
 } from './components/targetenvironment-step/target-environment-review.component';
@@ -66,6 +67,7 @@ import { ButtonNextStepComponent } from './shared/button-next-step.component';
     StepIndicatorComponent,
     TargetEnvironmentStepComponent,
     MissionRuntimeStepComponent,
+    RuntimeStepComponent,
     CapabilitiesStepComponent,
     GitproviderStepComponent,
     ProjectSummaryStepComponent,
@@ -87,6 +89,7 @@ import { ButtonNextStepComponent } from './shared/button-next-step.component';
     GitproviderReviewComponent,
     MissionRuntimeReviewComponent,
     MissionRuntimeStepComponent,
+    RuntimeStepComponent,
     CapabilitiesStepComponent,
     ProjectProgressNextstepComponent,
     ProjectSummaryStepComponent,
@@ -122,7 +125,7 @@ export { TargetEnvironment } from './model/target-environment.model';
 
 // Services
 export { ClusterService } from './service/cluster.service';
-export { CapabilitiesService } from './service/capabilities.service';
+export { AppCreatorService } from './service/app-creator.service';
 export { DependencyCheckService } from './service/dependency-check.service';
 export { GitProviderService } from './service/git-provider.service';
 export { MissionRuntimeService } from './service/mission-runtime.service';
