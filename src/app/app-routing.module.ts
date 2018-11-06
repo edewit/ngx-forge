@@ -6,6 +6,7 @@ import { PipelineDemoComponent } from './create-app/pipeline-demo.component';
 import { GettingStartedLauncherComponent } from './getting-started-launcher/getting-started-launcher.component';
 import { GettingStartedOsioComponent } from './getting-started-osio/getting-started-osio.component';
 import { ImportAppComponent } from './import-app/import-app.component';
+import { LauncherAppCreatorComponent } from './launcher-app-creator/launcher-app-creator.component';
 import { LauncherAppComponent } from './launcher-app/launcher-app.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 
@@ -24,6 +25,10 @@ const routes: Routes = [{
   }, {
     path: 'launcherapp',
     component: LauncherAppComponent,
+    pathMatch: 'full'
+  }, {
+    path: 'launcherappcreator',
+    component: LauncherAppCreatorComponent,
     pathMatch: 'full'
   }, {
     path: 'createapp/:projectName',

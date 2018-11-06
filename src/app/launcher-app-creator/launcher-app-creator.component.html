@@ -5,9 +5,10 @@
   <div class="f8launcher-container_main">
     <f8launcher-targetenvironment-step #targetEnvStep id="TargetEnvironment" styleClass="target-environment" title="Select Target Environment">
     </f8launcher-targetenvironment-step>
-    <f8launcher-missionruntime-step #missionRuntimeStep id="MissionRuntime" styleClass="mission-runtime"
-      title="Select Mission & Runtime" [canChangeVersion]="true">
-    </f8launcher-missionruntime-step>
+    <f8launcher-runtime-step id="Runtimes" title="Select a Runtime">
+    </f8launcher-runtime-step>
+    <f8launcher-capabilities-step id="Capabilities" title="Select a Capability">
+    </f8launcher-capabilities-step>
     <f8launcher-gitprovider-step #gitProvider [hidden]="!(targetEnvStep.selection.dependencyCheck.targetEnvironment === 'os' && targetEnvStep.completed)"
       id="GitProvider" styleClass="git-provider" title="Authorize Git Provider">
     </f8launcher-gitprovider-step>

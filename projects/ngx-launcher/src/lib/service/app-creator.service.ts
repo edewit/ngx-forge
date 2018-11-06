@@ -11,6 +11,10 @@ export abstract class AppCreatorService {
    */
   abstract getCapabilities(): Observable<Capability[]>;
 
+  /**
+   * Retrieve runtime list
+   * @returns {Observable<Runtime[]>}
+   */
   abstract getRuntimes(): Observable<Runtime[]>;
 
   getFilteredCapabilities(): Observable<Capability[]> {

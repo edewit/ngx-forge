@@ -46,6 +46,7 @@ import {
   TokenService
 } from '../../projects/ngx-launcher/src/lib/launcher.module';
 import { PipelineDemoComponent } from './create-app/pipeline-demo.component';
+import { LauncherAppCreatorComponent } from './launcher-app-creator/launcher-app-creator.component';
 import { DemoAppCreatorService } from './service/demo-capabilities.service';
 
 @NgModule({
@@ -64,6 +65,7 @@ import { DemoAppCreatorService } from './service/demo-capabilities.service';
     GettingStartedOsioComponent,
     ImportAppComponent,
     LauncherAppComponent,
+    LauncherAppCreatorComponent,
     WelcomeComponent
   ],
   providers: [
