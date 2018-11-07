@@ -1,0 +1,40 @@
+<div class="col-xs-12 col-md-6">
+    <div class="card-pf card-pf--xsmall">
+      <div *ngIf="!data.id;
+                  then showNoRuntimeTemplate else showRuntimeTemplate"></div>
+      <ng-template #showNoRuntimeTemplate>
+        <div class="card-pf-heading">
+          <h2 class="card-pf-title">
+            Runtime
+          </h2>
+        </div>
+        <div class="card-pf-body f8launcher-project-summary-data-unavailable">
+          <h2>
+            <b>Incomplete</b>
+          </h2>
+          <p>To proceed with setting up this application, this section must be completed.</p>
+          <button class="btn btn-default btn-lg f8launcher-authorize-account"
+                  (click)="navToStep()">Complete Section</button>
+        </div>
+      </ng-template>
+      <ng-template #showRuntimeTemplate>
+        <div class="card-pf-heading">
+          <h2 class="card-pf-title">
+            Runtime
+          </h2>
+        </div>
+        <div class="card-pf-body card-column">
+          <div>
+            <div>
+              <b>{{data.name}} {{data.version?.name}}</b>
+            </div>
+            <div class="pull-right" *ngIf="data.icon">
+              <img class="card-column_runtime-icon"
+                    [src]="_DomSanitizer.bypassSecurityTrustUrl(data.icon)">
+            </div>
+            <p>{{data.description}}</p>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>

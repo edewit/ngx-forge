@@ -39,8 +39,10 @@ import { GitproviderReviewComponent } from './components/gitprovider-step/gitpro
 import { MissionRuntimeReviewComponent } from './components/mission-runtime-step/mission-runtime-review.component';
 
 import { Broadcaster } from 'ngx-base';
+import { CapabilityReviewComponent } from './components/capabilities-step/capabilities-review.component';
 import { InputComponent } from './components/capabilities-step/input.component';
 import { ReleaseStrategyReviewComponent } from './components/release-strategy-step/release-strategy-review.component';
+import { RuntimeReviewComponent } from './components/runtime-step/runtime-review.component';
 import { RuntimeStepComponent } from './components/runtime-step/runtime-step.component';
 import {
   TargetEnvironmentReviewComponent
@@ -68,7 +70,9 @@ import { ButtonNextStepComponent } from './shared/button-next-step.component';
     TargetEnvironmentStepComponent,
     MissionRuntimeStepComponent,
     RuntimeStepComponent,
+    RuntimeReviewComponent,
     CapabilitiesStepComponent,
+    CapabilityReviewComponent,
     GitproviderStepComponent,
     ProjectSummaryStepComponent,
     TargetEnvironmentReviewComponent,
@@ -90,7 +94,9 @@ import { ButtonNextStepComponent } from './shared/button-next-step.component';
     MissionRuntimeReviewComponent,
     MissionRuntimeStepComponent,
     RuntimeStepComponent,
+    RuntimeReviewComponent,
     CapabilitiesStepComponent,
+    CapabilityReviewComponent,
     ProjectProgressNextstepComponent,
     ProjectSummaryStepComponent,
     ReleaseStrategyStepComponent,

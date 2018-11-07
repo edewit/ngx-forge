@@ -41,6 +41,10 @@ export class RuntimeStepComponent extends LauncherStep implements OnInit {
     });
   }
 
+  selectRuntime(runtime: Runtime) {
+    Object.assign(this.selectedRuntime, runtime);
+  }
+
   get completed(): boolean {
     return !!this.selectedRuntime.id;
   }

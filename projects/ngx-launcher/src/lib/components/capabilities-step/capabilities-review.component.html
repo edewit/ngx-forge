@@ -1,0 +1,31 @@
+<div class="col-xs-12 col-md-6">
+    <div class="card-pf card-pf--xsmall">
+      <div class="card-pf-heading">
+        <h2 class="card-pf-title">
+          Capabilities
+        </h2>
+      </div>
+      <div class="card-pf-body f8launcher-project-summary-data-unavailable" *ngIf="data.capabilities?.length == 0">
+        <h2>
+          <b>No capabilities selected</b>
+        </h2>
+        <p>With no capabilities selected this app will be very empty</p>
+        <button class="btn btn-default btn-lg f8launcher-authorize-account"
+                (click)="navToStep()">Complete Section</button>
+      </div>
+      <div class="card-pf-body card-column" *ngIf="data.capabilities">
+        <div class="card-column-70">
+          <div class="form-group f8launcher-project-summary-data-form-group" *ngFor="let capability of data.capabilities">
+            <label class="col-xs-5 control-label">Name</label>
+            <div class="col-xs-6 f8launcher-project-summary-data-field">
+              <div class="f8launcher-project-summary-data-field-account">
+                <span class="f8launcher-project-summary-data-field-account-username">
+                  {{capability?.module}}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
