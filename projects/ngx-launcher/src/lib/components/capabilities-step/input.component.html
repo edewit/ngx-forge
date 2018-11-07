@@ -2,7 +2,7 @@
 <div class="col-sm-8" [ngSwitch]="input.type">
   <span *ngSwitchCase="'string'">
     <input [attr.id]="input.name" type="text" name="{{input.name}}" [(ngModel)]="input.value" class="form-control"
-      [required]="input.required" [title]="input.description" (change)="change()" [class.ng-invalid]="messageForInput(input.name)" #control (keyup)="keyUp.next(control.value)">
+      [required]="input.required" [title]="input.description" (change)="change()" #control (keyup)="keyUp.next(control.value)">
     <div class="errorLabel help-block">
       <span *ngIf="input.name.errors && (input.name.dirty || input.name.touched)">{{input.label}} is required</span>
     </div>

@@ -13,6 +13,8 @@ export { Projectile } from './lib/model/projectile.model';
 export { Catalog, CatalogMission, CatalogRuntime, CatalogBooster } from './lib/model/catalog.model';
 export { Booster, BoosterVersion, BoosterMission, BoosterRuntime } from './lib/model/booster.model';
 export { TargetEnvironment } from './lib/model/target-environment.model';
+export { Runtime } from './lib/model/runtime.model';
+export { Capability } from './lib/model/capabilities.model';
 
 // Launcher services
 export { ClusterService } from './lib/service/cluster.service';

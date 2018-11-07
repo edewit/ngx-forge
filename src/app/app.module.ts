@@ -47,7 +47,7 @@ import {
 } from '../../projects/ngx-launcher/src/lib/launcher.module';
 import { PipelineDemoComponent } from './create-app/pipeline-demo.component';
 import { LauncherAppCreatorComponent } from './launcher-app-creator/launcher-app-creator.component';
-import { DemoAppCreatorService } from './service/demo-capabilities.service';
+import { DemoAppCreatorService } from './service/demo-app-creator.service';
 
 @NgModule({
   imports: [

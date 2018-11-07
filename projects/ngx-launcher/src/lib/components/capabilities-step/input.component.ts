@@ -20,7 +20,7 @@ export class InputComponent extends DefaultValueAccessor implements OnInit {
   @Input('ngModel') input;
   @Input() changeOnKey: boolean;
 
-  protected keyUp = new Subject<string>();
+  keyUp = new Subject<string>();
 
   ngOnInit() {
     if (this.changeOnKey) {

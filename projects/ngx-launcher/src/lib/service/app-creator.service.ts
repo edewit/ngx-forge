@@ -17,14 +17,5 @@ export abstract class AppCreatorService {
    */
   abstract getRuntimes(): Observable<Runtime[]>;
 
-  getFilteredCapabilities(): Observable<Capability[]> {
-    return this.getCapabilities().pipe(map(capabilities => this.filter(capabilities)));
-  }
-
-  private filter(capabilities: Capability[]): Capability[] {
-    for (let capability of capabilities) {
-      delete capability.props.runtime;
-    }
-    return capabilities;
-  }
+  abstract getFilteredCapabilities(): Observable<Capability[]>;
 }
