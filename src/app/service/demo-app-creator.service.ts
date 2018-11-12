@@ -3,7 +3,7 @@ import { Observable, of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
 
 import { Runtime } from 'projects/ngx-launcher/src/lib/launcher.module.js';
-import { Capability } from 'projects/ngx-launcher/src/lib/model/capabilities.model';
+import { Capability, Property } from 'projects/ngx-launcher/src/lib/model/capabilities.model';
 import { AppCreatorService } from 'projects/ngx-launcher/src/public_api';
 
 const mockCapabilities = require('../mock/demo-capabilities.json');
@@ -11,6 +11,7 @@ const mockRuntime = require('../mock/demo-runtimes.json');
 
 @Injectable()
 export class DemoAppCreatorService implements AppCreatorService {
+  private enums: any;
 
   getCapabilities(): Observable<Capability[]> {
     return of(mockCapabilities).pipe(
@@ -19,7 +20,10 @@ export class DemoAppCreatorService implements AppCreatorService {
   }
 
   getRuntimes(): Observable<Runtime[]> {
-    return of(mockRuntime).pipe(delay(2000));
+    return of(mockRuntime).pipe(map((value) => {
+      this.enums = value;
+      return value.runtime;
+    }), delay(2000));
   }
 
   getFilteredCapabilities(): Observable<Capability[]> {
@@ -27,8 +31,15 @@ export class DemoAppCreatorService implements AppCreatorService {
   }
 
   private filter(capabilities: Capability[]): Capability[] {
-    for (let capability of capabilities) {
-      delete capability.props.runtime;
+    for (const capability of capabilities) {
+      const props: Property[] = [];
+      for (const prop of capability.props) {
+        if (!prop.shared || prop.id === 'runtime') {
+          prop.values = prop.id === 'runtime' ? prop.values : this.enums[prop.id];
+          props.push(prop);
+        }
+      }
+      capability.props = props;
     }
     return capabilities;
   }

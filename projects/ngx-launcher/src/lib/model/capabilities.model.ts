@@ -1,15 +1,15 @@
-import { Runtime } from './runtime.model';
-
 export class Capability {
   module: string;
   name: string;
   description: string;
   icon?: string;
-  props: {
-    runtime?: {
-      values: [Runtime];
-    }
-  };
+  props: Property[];
+}
+
+export class Property {
+  id;
+  values?;
+  shared?: boolean;
 }
 
 export class SelectedCapability {
