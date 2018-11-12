@@ -6,7 +6,7 @@ import { LauncherComponent } from '../../launcher.component';
 import { Projectile, StepState } from '../../model/projectile.model';
 
 import { Broadcaster } from 'ngx-base';
-import { Capability, SelectedCapability } from '../../model/capabilities.model';
+import { Capability, Property, SelectedCapability } from '../../model/capabilities.model';
 import { Runtime } from '../../model/runtime.model';
 import { AppCreatorService } from '../../service/app-creator.service';
 
@@ -61,18 +61,14 @@ export class CapabilitiesStepComponent extends LauncherStep implements OnInit {
     this.selected.capabilities[i] = input.checked ? { module: input.value } : undefined;
   }
 
-  selectProperty(key: string, i: number, value: string) {
+  selectProperty(key: Property, i: number, value: string) {
     if (this.selected.capabilities[i]) {
-      this.selected.capabilities[i][key] = value;
+      this.selected.capabilities[i][key.id] = value;
     }
   }
 
   restoreModel(model: any): void {
     this.selected.capabilities = model.capabilities;
-  }
-
-  properties(capability: Capability) {
-    return Object.keys(capability.props);
   }
 
   navToPrevStep() {
