@@ -1,7 +1,6 @@
 import { Component, Host, OnInit, Optional } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
-import { Broadcaster } from 'ngx-base';
 import { LauncherStep } from '../../launcher-step';
 import { LauncherComponent } from '../../launcher.component';
 import { Runtime } from '../../launcher.module';
@@ -21,7 +20,6 @@ export class RuntimeStepComponent extends LauncherStep implements OnInit {
   constructor(@Host() @Optional() public launcherComponent: LauncherComponent,
     public _DomSanitizer: DomSanitizer,
     private appCreatorService: AppCreatorService,
-    private broadcaster: Broadcaster,
     private projectile: Projectile<Runtime>) {
     super(projectile);
   }
@@ -45,7 +43,6 @@ export class RuntimeStepComponent extends LauncherStep implements OnInit {
 
   selectRuntime(runtime: Runtime) {
     Object.assign(this.selectedRuntime, runtime);
-    this.broadcaster.broadcast('runtime-changed', runtime);
   }
 
   get completed(): boolean {
