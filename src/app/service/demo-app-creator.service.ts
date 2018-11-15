@@ -34,8 +34,8 @@ export class DemoAppCreatorService implements AppCreatorService {
     for (const capability of capabilities) {
       const props: Property[] = [];
       for (const prop of capability.props) {
-        if (!prop.shared) {
-          prop.values = this.enums[prop.id];
+        if (!prop.shared || prop.id === 'runtime') {
+          prop.values = prop.id === 'runtime' ? prop.values : this.enums[prop.id];
           props.push(prop);
         }
       }
