@@ -5,9 +5,14 @@
     </div>
   </div>
   <div>
+    <div *ngIf="capabilities?.length === 0">
+      <p>There are no capabilities for this runtime please select another one</p>
+      <button class="btn btn-default btn-lg"
+              (click)="navToPrevStep()">Complete Section</button>
+    </div>
     <div id="pf-list-standard" class="list-group list-view-pf list-view-pf-view">
-      <div class="list-group-item" [class.list-view-pf-expand-active]="input.checked && properties(capability).length" *ngFor="let capability of capabilities; let i = index">
-        <div class="list-view-pf-expand" *ngIf="properties(capability).length" >
+      <div class="list-group-item" [class.list-view-pf-expand-active]="input.checked && capability.props.length > 1" *ngFor="let capability of capabilities; let i = index">
+        <div class="list-view-pf-expand" *ngIf="capability.props.length > 1" >
           <span class="fa fa-angle-right" [class.fa-angle-down]="input.checked" (click)="input.click()"></span>
         </div>
         <div class="list-view-pf-checkbox">
@@ -30,14 +35,14 @@
             </div>
           </div>
         </div>
-        <div class="list-group-item-container container-fluid" *ngIf="input.checked && properties(capability).length">
+        <div class="list-group-item-container container-fluid" *ngIf="input.checked && capability.props.length > 1">
           <div class="close" (click)="input.checked = false">
             <span class="pficon pficon-close"></span>
           </div>
           <div class="row">
             <div class="col-md-12">
-              <div class="form-group" *ngFor="let key of properties(capability)">
-                <f8launcher-input [ngModel]="capability.props[key]" (change)="selectProperty(key, i, capability.props[key].value)"></f8launcher-input>
+              <div class="form-group" *ngFor="let prop of capability.props">
+                <f8launcher-input [ngModel]="prop" (change)="selectProperty(prop, i, prop.value)" *ngIf="prop.id !== 'runtime'"></f8launcher-input>
               </div>
             </div>
           </div>
