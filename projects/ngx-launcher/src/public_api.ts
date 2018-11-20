@@ -9,12 +9,13 @@ export { DependencyCheck } from './lib/model/dependency-check.model';
 export { GitHubDetails } from './lib/model/github-details.model';
 export { Pipeline } from './lib/model/pipeline.model';
 export { Progress } from './lib/model/progress.model';
-export { Projectile } from './lib/model/projectile.model';
+export { Projectile, StepState } from './lib/model/projectile.model';
 export { Catalog, CatalogMission, CatalogRuntime, CatalogBooster } from './lib/model/catalog.model';
 export { Booster, BoosterVersion, BoosterMission, BoosterRuntime } from './lib/model/booster.model';
 export { TargetEnvironment } from './lib/model/target-environment.model';
 export { Runtime } from './lib/model/runtime.model';
 export { Capability, Property } from './lib/model/capabilities.model';
+export { LauncherComponent } from './lib/launcher.component';
 
 // Launcher services
 export { ClusterService } from './lib/service/cluster.service';

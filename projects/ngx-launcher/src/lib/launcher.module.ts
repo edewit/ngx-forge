@@ -67,6 +67,7 @@ import { ButtonNextStepComponent } from './shared/button-next-step.component';
   exports: [
     LauncherComponent,
     StepIndicatorComponent,
+    ButtonNextStepComponent,
     TargetEnvironmentStepComponent,
     MissionRuntimeStepComponent,
     RuntimeStepComponent,
