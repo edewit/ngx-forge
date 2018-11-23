@@ -25,7 +25,7 @@ import { ProjectSummaryService } from '../../service/project-summary.service';
 })
 export class ProjectProgressNextstepComponent implements OnChanges, OnDestroy {
   @Input() gettingStartedInfo: boolean;
-  @Input() statusLink: string;
+  @Input() statusLink: {};
   errorMessage: string;
   private _progress: Progress[];
   private socket: WebSocket;
@@ -44,7 +44,7 @@ export class ProjectProgressNextstepComponent implements OnChanges, OnDestroy {
   ngOnChanges(changes: SimpleChanges) {
     const statusLink = changes['statusLink']['currentValue'];
     if (statusLink) {
-      this.socket = this.projectProgressService.getProgress(statusLink);
+      this.socket = this.projectProgressService.getProgress(statusLink['uuid_link']);
       this.socket.onmessage = this.handleMessage;
       this.socket.onerror = (error: ErrorEvent) => {
         console.log('error in fetching messages in progress Component: Create', error);

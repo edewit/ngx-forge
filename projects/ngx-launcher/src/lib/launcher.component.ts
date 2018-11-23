@@ -33,7 +33,7 @@ export class LauncherComponent implements AfterViewInit, OnDestroy {
    */
   @Output('onCancel') onCancel = new EventEmitter();
 
-  public statusLink: string;
+  public statusLink: {};
   private _showCancelOverlay = false;
   private _steps: LauncherStep[] = [];
   private summaryCompleted = false;
