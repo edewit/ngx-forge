@@ -48,11 +48,11 @@ export class CapabilitiesStepComponent extends LauncherStep implements OnInit {
     this.broadcaster.on<Runtime>('runtime-changed').subscribe(runtime => {
       this.capabilities = this.allCapabilities.filter(capability => {
         for (const prop of capability.props) {
-          if (prop.id === 'runtime' && prop.values.indexOf(runtime.id) !== -1) {
-            return true;
+          if (prop.id === 'runtime') {
+            return prop.values.indexOf(runtime.id) !== -1;
           }
         }
-        return false;
+        return true;
       });
     });
   }
