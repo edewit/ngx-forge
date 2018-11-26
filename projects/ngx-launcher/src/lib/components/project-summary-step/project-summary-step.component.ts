@@ -101,7 +101,7 @@ export class ProjectSummaryStepComponent extends LauncherStep implements OnDestr
           this.displaySetUpErrorResponse('Invalid response from server!');
         }
 
-        this.launcherComponent.statusLink = val['uuid_link'];
+        this.launcherComponent.statusLink = val;
         this.broadcaster.broadcast('progressEvents', val.events);
         this.launcherComponent.completed();
       }, (error) => {

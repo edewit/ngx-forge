@@ -4,8 +4,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { LauncherStep } from '../../launcher-step';
 import { LauncherComponent } from '../../launcher.component';
-import { Projectile, StepState } from '../../model/projectile.model';
-import { TargetEnvironmentSelection } from '../../model/target-environment.model';
+import { Projectile } from '../../model/projectile.model';
+import { Config } from '../../service/config.component';
 import { ActivateBoosterNextstepComponent } from './activate-booster-nextstep.component';
 
 export interface TypeWizardComponent {
@@ -39,6 +39,7 @@ describe('ActivateBoosterComponent', () => {
         ActivateBoosterNextstepComponent
       ],
       providers: [
+        { provide: Config, useValue: {} as Config },
         { provide: Projectile, useValue: projectile },
         { provide: LauncherComponent, useValue: mockWizardComponent }
       ]
