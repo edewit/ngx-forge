@@ -31,7 +31,7 @@ export class CapabilitiesStepComponent extends LauncherStep implements OnInit {
 
   ngOnInit(): void {
     const state = new StepState(this.selected, [
-      { name: 'capabilities', value: 'capabilities' }
+      { name: 'capabilities', value: 'values' }
     ]);
     this.projectile.setState(this.id, state);
 
@@ -57,18 +57,20 @@ export class CapabilitiesStepComponent extends LauncherStep implements OnInit {
     });
   }
 
-  selectModule(input: HTMLInputElement, i: number): void {
-    this.selected.capabilities[i] = input.checked ? { module: input.value } : undefined;
-  }
-
-  selectProperty(key: Property, i: number, value: string) {
-    if (this.selected.capabilities[i]) {
-      this.selected.capabilities[i][key.id] = value;
+  selectModule(input: HTMLInputElement): void {
+    if (input.checked) {
+      this.selected.capabilities.set(input.value, { module: input.value });
+    } else {
+      this.selected.capabilities.delete(input.value);
     }
   }
 
+  selectProperty(module: string, key: Property) {
+    this.selected.capabilities.get(module)[key.id] = key['value'];
+  }
+
   restoreModel(model: any): void {
-    this.selected.capabilities = model.capabilities;
+    this.selected.values = model.capabilities;
   }
 
   navToPrevStep() {

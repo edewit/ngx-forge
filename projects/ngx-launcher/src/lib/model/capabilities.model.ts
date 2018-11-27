@@ -13,5 +13,15 @@ export class Property {
 }
 
 export class SelectedCapability {
-  capabilities: any[] = [];
+  capabilities: Map<string, any> = new Map<string, any>();
+
+  get values(): any[] {
+    return Array.from(this.capabilities.values());
+  }
+
+  set values(values: any[]) {
+    for (const value of values) {
+      this.capabilities.set(value['module'], value);
+    }
+  }
 }
