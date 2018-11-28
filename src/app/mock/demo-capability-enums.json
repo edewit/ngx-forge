@@ -1,5 +1,5 @@
 {
-  "runtime": [
+  "runtime.name": [
     {
       "id": "nodejs",
       "name": "Node.js",
@@ -34,6 +34,30 @@
       "metadata": {
         "language": "java"
       }
+    }
+  ],
+  "runtime.version.nodejs": [
+    {
+      "id": "community",
+      "name": "Community"
+    }
+  ],
+  "runtime.version.springboot": [
+    {
+      "id": "community",
+      "name": "Community"
+    }
+  ],
+  "runtime.version.thorntail": [
+    {
+      "id": "community",
+      "name": "Community"
+    }
+  ],
+  "runtime.version.vertx": [
+    {
+      "id": "community",
+      "name": "Community"
     }
   ],
   "databaseType": [

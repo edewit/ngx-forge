@@ -1,8 +1,7 @@
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 import { Capability } from '../model/capabilities.model';
-import { Runtime } from '../model/runtime.model';
+import { Enums } from '../model/runtime.model';
 
 export abstract class AppCreatorService {
   /**
@@ -15,7 +14,7 @@ export abstract class AppCreatorService {
    * Retrieve runtime list
    * @returns {Observable<Runtime[]>}
    */
-  abstract getRuntimes(): Observable<Runtime[]>;
+  abstract getEnums(): Observable<Enums>;
 
   abstract getFilteredCapabilities(): Observable<Capability[]>;
 }

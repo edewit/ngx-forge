@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
 
-import { Runtime } from 'projects/ngx-launcher/src/lib/launcher.module.js';
 import { Capability, Property } from 'projects/ngx-launcher/src/lib/model/capabilities.model';
+import { Enums } from 'projects/ngx-launcher/src/lib/model/runtime.model';
 import { AppCreatorService } from 'projects/ngx-launcher/src/public_api';
 
 const mockCapabilities = require('../mock/demo-capabilities.json');
-const mockRuntime = require('../mock/demo-runtimes.json');
+const mockEnums = require('../mock/demo-capability-enums.json');
 
 @Injectable()
 export class DemoAppCreatorService implements AppCreatorService {
@@ -19,10 +19,10 @@ export class DemoAppCreatorService implements AppCreatorService {
      );
   }
 
-  getRuntimes(): Observable<Runtime[]> {
-    return of(mockRuntime).pipe(map((value) => {
+  getEnums(): Observable<Enums> {
+    return of(mockEnums).pipe(map((value) => {
       this.enums = value;
-      return value.runtime;
+      return value;
     }), delay(2000));
   }
 

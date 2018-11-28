@@ -8,7 +8,7 @@
     <div id="pf-list-standard" class="list-group list-view-pf list-view-pf-view">
       <div class="list-group-item" *ngFor="let runtime of runtimes" (click)="radio.click()">
         <div class="list-view-pf-checkbox">
-          <input type="radio" [(ngModel)]="selectedRuntime.id" [value]="runtime.id" #radio (change)="selectRuntime(runtime)">
+          <input type="radio" [(ngModel)]="selectedRuntime.value.id" [value]="runtime.id" #radio (change)="selectRuntime(runtime)">
         </div>
         <div class="list-view-pf-main-info">
             <div class="list-view-pf-left">
