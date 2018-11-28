@@ -41,6 +41,7 @@ import { MissionRuntimeReviewComponent } from './components/mission-runtime-step
 import { Broadcaster } from 'ngx-base';
 import { CapabilityReviewComponent } from './components/capabilities-step/capabilities-review.component';
 import { InputComponent } from './components/capabilities-step/input.component';
+import { FrontendStepComponent } from './components/frontend-step/frontend-step.component';
 import { ReleaseStrategyReviewComponent } from './components/release-strategy-step/release-strategy-review.component';
 import { RuntimeReviewComponent } from './components/runtime-step/runtime-review.component';
 import { RuntimeStepComponent } from './components/runtime-step/runtime-step.component';
@@ -71,6 +72,7 @@ import { ButtonNextStepComponent } from './shared/button-next-step.component';
     TargetEnvironmentStepComponent,
     MissionRuntimeStepComponent,
     RuntimeStepComponent,
+    FrontendStepComponent,
     RuntimeReviewComponent,
     CapabilitiesStepComponent,
     CapabilityReviewComponent,
@@ -92,6 +94,7 @@ import { ButtonNextStepComponent } from './shared/button-next-step.component';
     ProjectNameValidatorDirective,
     GitProviderRepositoryValidatorDirective,
     GitproviderReviewComponent,
+    FrontendStepComponent,
     MissionRuntimeReviewComponent,
     MissionRuntimeStepComponent,
     RuntimeStepComponent,
