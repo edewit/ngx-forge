@@ -2,14 +2,15 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Broadcaster } from 'ngx-base';
 import { Observable, of } from 'rxjs';
 
 import { Catalog } from '../../model/catalog.model';
+import { DependencyCheck } from '../../model/dependency-check.model';
 import { Projectile } from '../../model/projectile.model';
 import { TargetEnvironment } from '../../model/target-environment.model';
+import { DependencyCheckService } from '../../service/dependency-check.service';
 import { MissionRuntimeService } from '../../service/mission-runtime.service';
 import { TargetEnvironmentService } from '../../service/target-environment.service';
 import { TokenService } from '../../service/token.service';
@@ -54,6 +55,15 @@ class MockMissionRuntimeService extends MissionRuntimeService {
   }
 }
 
+class MockDependencyCheckService extends DependencyCheckService {
+  getDependencyCheck(): Observable<DependencyCheck> {
+    return of();
+  }
+  getApplicationsInASpace(): Observable<any[]> {
+    return of([]);
+  }
+}
+
 describe('TargetEnvironmentStepComponent', () => {
   let component: TargetEnvironmentStepComponent;
   let fixture: ComponentFixture<TargetEnvironmentStepComponent>;
@@ -63,8 +73,7 @@ describe('TargetEnvironmentStepComponent', () => {
       imports: [
         CommonModule,
         FormsModule,
-        RouterTestingModule,
-        NoopAnimationsModule
+        RouterTestingModule
       ],
       declarations: [
         TargetEnvironmentStepComponent,
@@ -73,13 +82,10 @@ describe('TargetEnvironmentStepComponent', () => {
       ],
       providers: [
         Projectile,
-        {
-          provide: TargetEnvironmentService, useValue: mockTargetEnvironmentService
-        },
+        { provide: TargetEnvironmentService, useValue: mockTargetEnvironmentService },
         { provide: Broadcaster, useValue: BroadcasterTestProvider.broadcaster },
-        {
-          provide: MissionRuntimeService, useClass: MockMissionRuntimeService
-        },
+        { provide: MissionRuntimeService, useClass: MockMissionRuntimeService },
+        { provide: DependencyCheckService, useClass: MockDependencyCheckService },
         { provide: TokenService, useValue: mockTokenService }
       ]
     }).compileComponents();
