@@ -149,10 +149,10 @@ export class MissionRuntimeStepComponent extends LauncherStep implements OnInit,
       Object.assign(this.booster.runtime, runtime);
       const newVersion = version ? version : runtime.selectedVersion;
       Object.assign(this.booster.runtime.version, newVersion);
-      if (this.completed) {
-        this.broadcaster.broadcast('booster-changed', this.booster);
-      }
       this.broadcaster.broadcast('runtime-changed', runtime);
+    }
+    if (this.completed) {
+      this.broadcaster.broadcast('booster-changed', this.booster);
     }
 
     this.updateBoosterViewStatus();
