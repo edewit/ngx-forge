@@ -4,7 +4,7 @@ import { delay, map } from 'rxjs/operators';
 
 import { Capability, Property } from 'projects/ngx-launcher/src/lib/model/capabilities.model';
 import { Enums } from 'projects/ngx-launcher/src/lib/model/runtime.model';
-import { AppCreatorService } from 'projects/ngx-launcher/src/public_api';
+import { AppCreatorService } from 'projects/ngx-launcher/src/lib/service/app-creator.service';
 
 const mockCapabilities = require('../mock/demo-capabilities.json');
 const mockEnums = require('../mock/demo-capability-enums.json');
