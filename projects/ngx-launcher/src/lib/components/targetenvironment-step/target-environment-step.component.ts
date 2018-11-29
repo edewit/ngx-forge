@@ -5,7 +5,6 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
 import { Broadcaster } from 'ngx-base';
 import { Subscription } from 'rxjs';
 
@@ -14,6 +13,7 @@ import { LauncherComponent } from '../../launcher.component';
 import { Cluster } from '../../model/cluster.model';
 import { Projectile, StepState } from '../../model/projectile.model';
 import { TargetEnvironment, TargetEnvironmentSelection } from '../../model/target-environment.model';
+import { DependencyCheckService } from '../../service/dependency-check.service';
 import { TargetEnvironmentService } from '../../service/target-environment.service';
 import { TokenService } from '../../service/token.service';
 
@@ -34,6 +34,7 @@ export class TargetEnvironmentStepComponent extends LauncherStep implements OnDe
   constructor(@Host() @Optional() public launcherComponent: LauncherComponent,
               private targetEnvironmentService: TargetEnvironmentService,
               @Optional() private tokenService: TokenService,
+              private dependencyCheckService: DependencyCheckService,
               private broadcaster: Broadcaster,
               private projectile: Projectile<any>,
               public _DomSanitizer: DomSanitizer) {
@@ -48,11 +49,6 @@ export class TargetEnvironmentStepComponent extends LauncherStep implements OnDe
 
   ngOnInit() {
     this.selection.dependencyCheck = this.projectile.sharedState.state;
-    _.merge(this.projectile.sharedState.state, {
-      mavenArtifact: 'booster',
-      groupId: 'io.openshift.booster',
-      projectVersion: '1.0.0-SNAPSHOT'
-    });
     const state = new StepState(this.selection, [
       { name: 'clusterId', value: 'cluster.id', restorePath: 'clusters.id' }
     ]);
@@ -75,9 +71,11 @@ export class TargetEnvironmentStepComponent extends LauncherStep implements OnDe
       if (booster.runtime.id !== 'nodejs') {
         const artifactRuntime = booster.runtime.id.replace(/[.\-_]/g, '');
         const artifactMission = booster.mission.id.replace(/[.\-_]/g, '');
-        this.selection.dependencyCheck.mavenArtifact = `booster-${artifactMission}-${artifactRuntime}`;
-        this.selection.dependencyCheck.groupId = 'io.openshift.booster';
-        this.selection.dependencyCheck.projectVersion = '1.0.0-SNAPSHOT';
+        this.selection.dependencyCheck.mavenArtifact = `newapp-${artifactMission}-${artifactRuntime}`;
+        this.subscriptions.push(this.dependencyCheckService.getDependencyCheck()
+        .subscribe((val) => {
+          _.defaults(this.selection.dependencyCheck, val);
+        }));
       } else {
         this.selection.dependencyCheck.mavenArtifact = undefined;
         this.selection.dependencyCheck.groupId = undefined;

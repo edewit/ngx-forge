@@ -15,8 +15,8 @@ export class DemoDependencyCheckService implements DependencyCheckService {
    */
   getDependencyCheck(): Observable<DependencyCheck> {
     return of({
-      mavenArtifact: 'd4-345',
-      groupId: 'io.openshift.booster',
+      mavenArtifact: 'newapp',
+      groupId: 'com.yourcompany.newapp',
       projectName: 'app-test-1',
       projectVersion: '1.0.0-SNAPSHOT',
       spacePath: '/myspace',
