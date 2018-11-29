@@ -12,7 +12,7 @@
       id="GitProvider" styleClass="git-provider" title="Authorize Git Provider">
     </f8launcher-gitprovider-step>
     <f8launcher-projectsummary-step id="ProjectSummary" styleClass="project-summary" title="Confirm Application Summary & Setup">
-      <!-- <f8launcher-mission-runtime-review [stepId]="missionRuntimeStep.id"></f8launcher-mission-runtime-review> -->
+      <f8launcher-mission-runtime-review [stepId]="missionRuntimeStep.id"></f8launcher-mission-runtime-review>
       <f8launcher-target-environment-review stepId="shared"></f8launcher-target-environment-review>
       <f8launcher-gitprovider-review [stepId]="gitProvider.id" *ngIf="targetEnvStep.selection.dependencyCheck.targetEnvironment === 'os' && targetEnvStep.completed"></f8launcher-gitprovider-review>
     </f8launcher-projectsummary-step>
