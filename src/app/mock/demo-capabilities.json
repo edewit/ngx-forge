@@ -20,14 +20,34 @@
       },
       {
         "id": "runtime",
-        "name": "Runtime Type",
-        "description": "The type of runtime to use",
+        "name": "Runtime",
+        "description": "The runtime to use",
         "required": true,
         "shared": true,
-        "type": "enum",
-        "values": [
-          "vertx",
-          "nodejs"
+        "type": "object",
+        "props": [
+          {
+            "id": "name",
+            "name": "Runtime Name",
+            "description": "The name of the runtime to use",
+            "required": true,
+            "shared": true,
+            "type": "enum",
+            "values": [
+              "nodejs",
+              "springboot",
+              "thorntail",
+              "vertx"
+            ]
+          },
+          {
+            "id": "version",
+            "name": "Runtime Version",
+            "description": "The version of the runtime to use",
+            "shared": true,
+            "type": "enum",
+            "enumRef": "runtime.version.${runtime.name}"
+          }
         ]
       },
       {
@@ -37,9 +57,11 @@
         "required": true,
         "shared": true,
         "enabledWhen": {
-          "propId": "runtime",
+          "propId": "runtime.name",
           "equals": [
-            "vertx"
+            "vertx",
+            "springboot",
+            "thorntail"
           ]
         },
         "type": "object",
@@ -77,7 +99,7 @@
         "required": true,
         "shared": true,
         "enabledWhen": {
-          "propId": "runtime",
+          "propId": "runtime.name",
           "equals": [
             "nodejs"
           ]
@@ -113,14 +135,34 @@
     "props": [
       {
         "id": "runtime",
-        "name": "Runtime Type",
-        "description": "The type of runtime to use",
+        "name": "Runtime",
+        "description": "The runtime to use",
         "required": true,
         "shared": true,
-        "type": "enum",
-        "values": [
-          "vertx",
-          "nodejs"
+        "type": "object",
+        "props": [
+          {
+            "id": "name",
+            "name": "Runtime Name",
+            "description": "The name of the runtime to use",
+            "required": true,
+            "shared": true,
+            "type": "enum",
+            "values": [
+              "nodejs",
+              "springboot",
+              "thorntail",
+              "vertx"
+            ]
+          },
+          {
+            "id": "version",
+            "name": "Runtime Version",
+            "description": "The version of the runtime to use",
+            "shared": true,
+            "type": "enum",
+            "enumRef": "runtime.version.${runtime.name}"
+          }
         ]
       },
       {
@@ -130,9 +172,11 @@
         "required": true,
         "shared": true,
         "enabledWhen": {
-          "propId": "runtime",
+          "propId": "runtime.name",
           "equals": [
-            "vertx"
+            "vertx",
+            "springboot",
+            "thorntail"
           ]
         },
         "type": "object",
@@ -170,7 +214,7 @@
         "required": true,
         "shared": true,
         "enabledWhen": {
-          "propId": "runtime",
+          "propId": "runtime.name",
           "equals": [
             "nodejs"
           ]

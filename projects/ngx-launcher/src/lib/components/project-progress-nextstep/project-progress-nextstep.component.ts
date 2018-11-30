@@ -100,7 +100,7 @@ export class ProjectProgressNextstepComponent implements OnChanges, OnDestroy {
         for (const step of this._progress.filter((s) => !s.completed)) {
           step.error = false;
         }
-        this.launcherComponent.statusLink = val['uuid_link'];
+        this.launcherComponent.statusLink = val;
       });
   }
 
