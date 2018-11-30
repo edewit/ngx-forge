@@ -10,8 +10,10 @@ import { Subscription } from 'rxjs';
 
 import { LauncherStep } from '../../launcher-step';
 import { LauncherComponent } from '../../launcher.component';
+import { Booster } from '../../model/booster.model';
 import { Cluster } from '../../model/cluster.model';
 import { Projectile, StepState } from '../../model/projectile.model';
+import { Runtime } from '../../model/runtime.model';
 import { TargetEnvironment, TargetEnvironmentSelection } from '../../model/target-environment.model';
 import { DependencyCheckService } from '../../service/dependency-check.service';
 import { TargetEnvironmentService } from '../../service/target-environment.service';
@@ -67,21 +69,28 @@ export class TargetEnvironmentStepComponent extends LauncherStep implements OnDe
         this._targetEnvironments = val;
       }
     }));
-    this.subscriptions.push(this.broadcaster.on<any>('booster-changed').subscribe(booster => {
-      if (booster.runtime.id !== 'nodejs') {
-        const artifactRuntime = booster.runtime.id.replace(/[.\-_]/g, '');
-        const artifactMission = booster.mission.id.replace(/[.\-_]/g, '');
-        this.selection.dependencyCheck.mavenArtifact = `newapp-${artifactMission}-${artifactRuntime}`;
-        this.subscriptions.push(this.dependencyCheckService.getDependencyCheck()
+    this.subscriptions.push(this.broadcaster.on<Booster>('booster-changed').subscribe(booster => {
+      this.updateArtifactInfo(booster.runtime.id, booster.mission.id);
+    }));
+    this.subscriptions.push(this.broadcaster.on<Runtime>('runtime-changed').subscribe(runtime => {
+      this.updateArtifactInfo(runtime.id);
+    }));
+  }
+
+  private updateArtifactInfo(runtimeId: string, missionId?: string) {
+    if (runtimeId !== 'nodejs') {
+      const artifactRuntime = runtimeId.replace(/[.\-_]/g, '');
+      const artifactMission = missionId ? (missionId.replace(/[.\-_]/g, '') + '-') : '';
+      this.selection.dependencyCheck.mavenArtifact = `newapp-${artifactMission}${artifactRuntime}`;
+      this.subscriptions.push(this.dependencyCheckService.getDependencyCheck()
         .subscribe((val) => {
           _.defaults(this.selection.dependencyCheck, val);
         }));
-      } else {
-        this.selection.dependencyCheck.mavenArtifact = undefined;
-        this.selection.dependencyCheck.groupId = undefined;
-        this.selection.dependencyCheck.projectVersion = '0.0.1';
-      }
-    }));
+    } else {
+      this.selection.dependencyCheck.mavenArtifact = undefined;
+      this.selection.dependencyCheck.groupId = undefined;
+      this.selection.dependencyCheck.projectVersion = '1.0.0';
+    }
   }
 
   // Accessors
