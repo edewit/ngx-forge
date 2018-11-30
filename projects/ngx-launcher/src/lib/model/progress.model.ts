@@ -4,4 +4,5 @@ export class Progress {
   hyperText?: string;
   completed?: boolean;
   error?: boolean;
+  routes?: {[key: string]: string};
 }

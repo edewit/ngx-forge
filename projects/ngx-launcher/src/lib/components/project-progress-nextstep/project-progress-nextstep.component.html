@@ -83,8 +83,28 @@
                           <h1>While you wait...</h1>
                         </div>
                         <div class="col-sm-8">
-                          <a target="_blank" [href]="getProgressByKey('OPENSHIFT_CREATE').hyperText">Take a look at your build</a><br />
+                          <a target="_blank" [href]="getProgressByKey('OPENSHIFT_CREATE').hyperText">
+                            Take a look at your build <i class="fa fa-external-link"></i>
+                          </a><br />
                           <i>This will take a couple of minutes</i>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="list-pf-item" *ngIf="getProgressByKey('OPENSHIFT_PIPELINE').routes['welcome-app-route']">
+                  <div class="list-pf-container">
+                    <div class="container">
+                      <div class="row">
+                        <div class="col-sm-4">
+                          <h1>Check out your capabilities</h1>
+                        </div>
+                        <div class="col-sm-8">
+                          We prepared a set of examples to let you directly start playing with your new application. Those examples are there
+                          to get you started,soon it will be time for you to remove them and start developing your awesome application.<br />
+                          <a target="_blank" [href]="getProgressByKey('OPENSHIFT_PIPELINE').routes['welcome-app-route']">
+                            Check out your new Application <i class="fa fa-external-link"></i>
+                          </a>
                         </div>
                       </div>
                     </div>
@@ -99,14 +119,21 @@
                         </div>
                         <div class="col-sm-8">
                           <h4>Next Steps: Update your booster using Continuous Delivery</h4>
-                          <p>Your booster is automatically configured to build and deploy with new commits.</p>
+                          <p>
+                            Your booster is automatically configured to build and deploy with new commits.<br/>
+                            <a target="_blank" [href]="getProgressByKey('GITHUB_CREATE').hyperText">
+                                {{getProgressByKey('GITHUB_CREATE').hyperText}} <i class="fa fa-external-link"></i>
+                            </a>
+                          </p>
                           <div class="olist arabic">
                             <ol class="arabic">
                               <li>
                                 <p>Clone your project from GitHub.</p>
                                 <div class="listingblock">
                                   <div class="content">
-                                    <pre class="highlightjs highlight nowrap"><code class="language-bash hljs" data-lang="bash">$ git clone {{getProgressByKey('GITHUB_CREATE').hyperText}}</code></pre>
+                                    <pre class="highlightjs highlight nowrap">
+                                      <code class="language-bash hljs" data-lang="bash">
+    $ git clone {{getProgressByKey('GITHUB_CREATE').hyperText}}</code></pre>
                                   </div>
                                 </div>
                               </li>
@@ -124,9 +151,7 @@
                                       <code class="language-bash hljs" data-lang="bash">
     $ git add .
     $ git commit -m "Made an update"
-    $ git push
-                                      </code>
-                                    </pre>
+    $ git push</code></pre>
                                   </div>
                                 </div>
                               </li>
@@ -138,7 +163,11 @@
                             When changes are pushed to your GitHub repository, a new build is automatically triggered on your OpenShift project with those changes.
                           </div>
                           <div class="paragraph">
-                            <p>More details on interacting with your booster can be found in your booster’s <a href="{{getProgressByKey('GITHUB_CREATE').hyperText}}/blob/master/README.adoc" target="_blank" rel="noopener">README.adoc</a>.</p>
+                            <p>More details on interacting with your booster can be found in your booster’s
+                              <a href="{{getProgressByKey('GITHUB_CREATE').hyperText}}/blob/master/README.adoc" target="_blank" rel="noopener">
+                                README.adoc <i class="fa fa-external-link"></i>
+                              </a>.
+                            </p>
                           </div>
                         </div>
                       </div>

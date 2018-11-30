@@ -74,9 +74,8 @@ export class ProjectProgressNextstepComponent implements OnChanges, OnDestroy {
       const status = this._progress.find((p) => p.name === message.statusMessage);
       if (status) {
         status.completed = true;
-        if (data.location != null) {
-          status.hyperText = data.location;
-        }
+        status.hyperText = data.location;
+        status.routes = data.routes;
       }
   }
 
