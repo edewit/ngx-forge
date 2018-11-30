@@ -47,17 +47,17 @@ export class RuntimeStepComponent extends LauncherStep implements OnInit {
 
   selectRuntime(runtime: Enum) {
     Object.assign(this.selectedRuntime, runtime);
-    this.selectedRuntime.value.version = this.enums['runtime.version.' + runtime.id][0].name;
+    this.selectedRuntime.value.version = this.enums['runtime.version.' + runtime.id][0].id;
     this.broadcaster.broadcast('runtime-changed', runtime);
   }
 
   restoreModel?(model: any): void {
     this.selectedRuntime.value = model.runtime;
-    const runtime = this.runtimes.find(runtime => runtime.id === model.runtime.id);
+    const runtime = this.runtimes.find(runtime => runtime.id === model.runtime.name);
     Object.assign(this.selectedRuntime, runtime);
   }
 
   get completed(): boolean {
-    return !!this.selectedRuntime.value.id;
+    return !!this.selectedRuntime.value.name;
   }
 }
