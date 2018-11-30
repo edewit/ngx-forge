@@ -49,7 +49,7 @@ export class CapabilitiesStepComponent extends LauncherStep implements OnInit {
       this.capabilities = this.allCapabilities.filter(capability => {
         for (const prop of capability.props) {
           if (prop.id === 'runtime') {
-            return prop.values.indexOf(runtime.id) !== -1;
+            return prop['props'].find(p => p.id === 'name').values.indexOf(runtime.id) !== -1;
           }
         }
         return true;
