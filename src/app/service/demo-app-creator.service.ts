@@ -26,11 +26,18 @@ export class DemoAppCreatorService implements AppCreatorService {
     }), delay(2000));
   }
 
-  getFilteredCapabilities(): Observable<Capability[]> {
-    return this.getCapabilities().pipe(map(capabilities => this.filter(capabilities)));
+  getFrontendCapabilities(): Observable<Capability[]> {
+    return this.getCapabilities().pipe(map(capabilities =>
+      this.filter(capabilities, cap => cap.metadata.category === 'support')));
   }
 
-  private filter(capabilities: Capability[]): Capability[] {
+  getFilteredCapabilities(): Observable<Capability[]> {
+    return this.getCapabilities().pipe(map(capabilities =>
+      this.filter(capabilities, cap => cap.metadata.category !== 'support')));
+  }
+
+  private filter(capabilities: Capability[],
+    filterFunction: (value: Capability, index: number, array: Capability[]) => any): Capability[] {
     for (const capability of capabilities) {
       const props: Property[] = [];
       for (const prop of capability.props) {
@@ -42,7 +49,7 @@ export class DemoAppCreatorService implements AppCreatorService {
       }
       capability.props = props;
     }
-    return capabilities;
+    return capabilities.filter(filterFunction);
   }
 
 }

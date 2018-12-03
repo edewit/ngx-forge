@@ -4,6 +4,7 @@ export class Capability {
   description: string;
   icon?: string;
   props: Property[];
+  metadata: any;
 }
 
 export class Property {
