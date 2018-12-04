@@ -11,12 +11,14 @@
               (click)="navToPrevStep()">Complete Section</button>
     </div>
     <div id="pf-list-standard" class="list-group list-view-pf list-view-pf-view">
-      <div class="list-group-item" [class.list-view-pf-expand-active]="input.checked && capability.props.length > 1" *ngFor="let capability of capabilities">
+      <div class="list-group-item" [class.list-view-pf-expand-active]="input.checked && capability.props.length > 1"
+          *ngFor="let capability of capabilities" [class.disabled]="capability.module === 'welcome'">
         <div class="list-view-pf-expand" *ngIf="capability.props.length > 1" >
           <span class="fa fa-angle-right" [class.fa-angle-down]="input.checked" (click)="input.click()"></span>
         </div>
         <div class="list-view-pf-checkbox">
-          <input type="checkbox" [ngModel]="selected.capabilities.get(capability.module)" [value]="capability.module" (change)="selectModule($event.target)" #input>
+          <input type="checkbox" [ngModel]="selected.capabilities.get(capability.module)" [value]="capability.module"
+            (change)="selectModule($event.target)" [disabled]="capability.module === 'welcome'" #input>
         </div>
         <div (click)="input.click()">
           <div class="list-view-pf-main-info">

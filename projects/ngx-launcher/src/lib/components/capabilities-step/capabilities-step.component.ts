@@ -42,6 +42,7 @@ export class CapabilitiesStepComponent extends LauncherStep implements OnInit {
       .subscribe(capabilities => {
         this.allCapabilities = capabilities;
         this.capabilities = capabilities;
+        this.selected.capabilities.set('welcome', { module: 'welcome' });
         this.restore();
       });
 
