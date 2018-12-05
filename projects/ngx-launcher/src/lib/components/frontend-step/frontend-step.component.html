@@ -11,24 +11,24 @@
     </p>
     <div class="container container-cards-pf">
       <div class="row row-cards-pf">
-        <div class="col-xs-3" *ngFor="let capability of capabilities" (click)="radio.click()">
+        <div class="col-xs-3" *ngFor="let capability of frontendCapabilities" (click)="radio.click()">
           <div class="card-pf card-pf-view card-pf-view-select card-pf-view-single-select card-pf--xsmall"
-            [class.selected-card]="selectedCapability.module === capability.module">
+            [class.selected-card]="selectedFrontend.value.name === capability.id">
             <div class="card-title">
-              <input type="radio" [(ngModel)]="selectedCapability.module" [value]="capability.module" #radio (change)="selectCapability(capability)">
+              <input type="radio" [(ngModel)]="selectedFrontend.value.name" [value]="capability.id" #radio (change)="selectFrontend(capability)">
               <h2 class="card-pf-title--title">{{capability.name}}</h2>
             </div>
-            <div class="card-pf-body--body runtime-card">
-              <img class="runtime-icon2" *ngIf="capability.metadata.icon" [src]="_DomSanitizer.bypassSecurityTrustUrl(capability.metadata.icon)">
+            <div class="card-pf-body--body card">
+              <img class="icon" *ngIf="capability.icon" [src]="_DomSanitizer.bypassSecurityTrustUrl(capability.icon)">
               <p>{{capability.description}}</p>
             </div>
           </div>
         </div>
         <div class="col-xs-3" (click)="radio.click()">
           <div class="card-pf card-pf-view card-pf-view-select card-pf-view-single-select card-pf--xsmall"
-            [class.selected-card]="!selectedCapability.module">
+            [class.selected-card]="!selectedFrontend.value.name">
             <div class="card-title">
-              <input type="radio" [checked]="!selectedCapability.module" #radio (change)="removeCapabilities()">
+              <input type="radio" [checked]="!selectedFrontend.value.name" #radio (change)="selectFrontend(null)">
               <h2 class="card-pf-title--title">None</h2>
             </div>
             <div class="card-pf-body--body none">

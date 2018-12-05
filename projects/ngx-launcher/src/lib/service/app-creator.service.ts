@@ -16,7 +16,5 @@ export abstract class AppCreatorService {
    */
   abstract getEnums(): Observable<Enums>;
 
-  abstract getFrontendCapabilities(): Observable<Capability[]>;
-
   abstract getFilteredCapabilities(): Observable<Capability[]>;
 }

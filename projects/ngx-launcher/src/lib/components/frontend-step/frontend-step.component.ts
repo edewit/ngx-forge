@@ -5,6 +5,7 @@ import { LauncherStep } from '../../launcher-step';
 import { LauncherComponent } from '../../launcher.component';
 import { Capability } from '../../model/capabilities.model';
 import { Projectile, StepState } from '../../model/projectile.model';
+import { Enum } from '../../model/runtime.model';
 import { AppCreatorService } from '../../service/app-creator.service';
 
 @Component({
@@ -14,8 +15,8 @@ import { AppCreatorService } from '../../service/app-creator.service';
 })
 export class FrontendStepComponent extends LauncherStep implements OnInit {
   completed: boolean = true;
-  capabilities: Capability[];
-  selectedCapability: Capability = new Capability();
+  frontendCapabilities: Enum[];
+  selectedFrontend: any = { value: {} };
 
   constructor(@Host() @Optional() public launcherComponent: LauncherComponent,
     public _DomSanitizer: DomSanitizer,
@@ -25,8 +26,8 @@ export class FrontendStepComponent extends LauncherStep implements OnInit {
   }
 
   ngOnInit(): void {
-    const state = new StepState(this.selectedCapability,
-      [{ name: 'frontend', value: 'module', restorePath: 'capabilities.module' }]
+    const state = new StepState(this.selectedFrontend,
+      [{ name: 'frontend', value: 'value' }]
     );
     this.projectile.setState(this.id, state);
 
@@ -34,26 +35,33 @@ export class FrontendStepComponent extends LauncherStep implements OnInit {
       this.launcherComponent.addStep(this);
     }
 
-    this.appCreatorService.getFrontendCapabilities()
-      .subscribe(capabilities => {
-        this.capabilities = capabilities;
-        this.restore(this);
-        if (this.selectedCapability.module) {
-          this.selectCapability(this.selectedCapability);
-        }
+    this.appCreatorService.getEnums()
+      .subscribe(enums => {
+        this.frontendCapabilities = enums['framework.name'];
+        this.restore();
       });
   }
 
-  selectCapability(capability: Capability) {
-    const value = capability.module;
-    this.projectile.getState('Capabilities').state.capabilities.set(value, { module: value });
-  }
-
-  removeCapabilities() {
-    for (const capability of this.capabilities) {
-      this.projectile.getState('Capabilities').state.capabilities.delete(capability.module);
+  selectFrontend(frontend: Enum) {
+    Object.assign(this.selectedFrontend, frontend);
+    if (!frontend) {
+      this.selectedFrontend.value.name = null;
     }
 
-    this.selectedCapability.module = null;
+    this.updateCapabilityState();
+  }
+
+  restoreModel(model: any): void {
+    this.selectedFrontend.value = model.frontend;
+    const frontend = this.frontendCapabilities.find(frontend => frontend.id === model.frontend.name);
+    Object.assign(this.selectedFrontend, frontend);
+    this.updateCapabilityState();
+  }
+
+  private updateCapabilityState() {
+    const capabilities = this.projectile.getState('Capabilities').state.capabilities;
+    capabilities.set(this.selectedFrontend.value.name,
+      { module: 'web-app', 'framework': this.selectedFrontend.value }
+    );
   }
 }
