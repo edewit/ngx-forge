@@ -3,18 +3,18 @@
     <f8launcher-step-indicator #stepIndicator></f8launcher-step-indicator>
   </div>
   <div class="f8launcher-container_main">
-    <f8launcher-targetenvironment-step #targetEnvStep id="TargetEnvironment" styleClass="target-environment" title="Select Target Environment">
+    <f8launcher-targetenvironment-step #targetEnvStep id="TargetEnvironment" styleClass="target-environment" title="Target Environment">
     </f8launcher-targetenvironment-step>
-    <f8launcher-frontend-step id="Frontend" title="Select Frontend">
+    <f8launcher-frontend-step id="Frontend" title="Frontend">
     </f8launcher-frontend-step>
-    <f8launcher-runtime-step id="Runtimes" title="Select a Runtime">
+    <f8launcher-runtime-step id="Runtimes" title="Runtime">
     </f8launcher-runtime-step>
-    <f8launcher-capabilities-step id="Capabilities" title="Select a Capability">
+    <f8launcher-capabilities-step id="Capabilities" title="Capabilities">
     </f8launcher-capabilities-step>
     <f8launcher-gitprovider-step #gitProvider [hidden]="!(targetEnvStep.selection.dependencyCheck.targetEnvironment === 'os' && targetEnvStep.completed)"
-      id="GitProvider" styleClass="git-provider" title="Authorize Git Provider">
+      id="GitProvider" styleClass="git-provider" title="Git Provider">
     </f8launcher-gitprovider-step>
-    <f8launcher-projectsummary-step id="ProjectSummary" styleClass="project-summary" title="Confirm Application Summary & Setup">
+    <f8launcher-projectsummary-step id="ProjectSummary" styleClass="project-summary" title="Application Summary">
       <f8launcher-runtime-review stepId="Runtimes"></f8launcher-runtime-review>
       <f8launcher-capabilities-review stepId="Capabilities"></f8launcher-capabilities-review>
       <f8launcher-target-environment-review stepId="shared"></f8launcher-target-environment-review>

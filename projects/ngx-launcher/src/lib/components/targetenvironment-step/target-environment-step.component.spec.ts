@@ -34,7 +34,7 @@ const mockTargetEnvironmentService = {
         'Use OpenShift Online to build and deploy your code automatically on each push to your repository’s master branch.'
       ],
       footer: 'OpenShift',
-      header: 'Code Locally, Build & Deploy Online',
+      header: 'Build & Deploy Online',
       /* tslint:disable */
       icon: 'data:image',
       id: 'os',

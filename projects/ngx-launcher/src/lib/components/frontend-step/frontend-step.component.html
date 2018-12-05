@@ -3,12 +3,12 @@
   <div>
     <div class="container-fluid">
       <h1>{{title}}</h1>
+      <p>
+        You may optionally select a frontend application to bootstrap your web-based development.  These options scaffold a starting point in your framework of choice.
+      </p>
     </div>
   </div>
   <div>
-    <p>
-      Add a front-end to the microservice that your are about to create.
-    </p>
     <div class="container container-cards-pf">
       <div class="row row-cards-pf">
         <div class="col-xs-3" *ngFor="let capability of frontendCapabilities" (click)="radio.click()">

@@ -3,12 +3,12 @@
   <div>
     <div class="container-fluid">
       <h1>{{title}}</h1>
+      <p>
+        Runtimes power the server-side processing of your application, and we can get you set up in one of several languages and frameworks.  If you're looking to expose an HTTP API or interact with services like a database, choosing one here will hook that together for you.
+      </p>
     </div>
   </div>
   <div class="container container-cards-pf">
-    <p>
-      Add a backend to the microservice.
-    </p>
     <div class="row row-cards-pf">
       <div class="col-xs-4" *ngFor="let runtime of runtimes" (click)="radio.click()">
         <div class="card-pf card-pf-view card-pf-view-select card-pf-view-single-select card-pf--xsmall"
