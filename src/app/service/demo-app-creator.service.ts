@@ -28,11 +28,6 @@ export class DemoAppCreatorService implements AppCreatorService {
     }), delay(2000));
   }
 
-  getFrontendCapabilities(): Observable<Capability[]> {
-    return this.getCapabilities().pipe(map(capabilities =>
-      capabilities.filter(cap => cap.metadata.category === 'frontend')));
-  }
-
   getFilteredCapabilities(): Observable<Capability[]> {
     return this.getCapabilities().pipe(map(capabilities =>
       this.filter(capabilities, cap => cap.metadata.category !== 'frontend')));
