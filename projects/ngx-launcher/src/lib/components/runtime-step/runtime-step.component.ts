@@ -54,8 +54,8 @@ export class RuntimeStepComponent extends LauncherStep implements OnInit {
   }
 
   restoreModel?(model: any): void {
-    this.selectedRuntime.value = model.runtime;
-    const runtime = this.runtimes.find(runtime => runtime.id === model.runtime.name);
+    this.selectedRuntime.value = model['creator-runtime'];
+    const runtime = this.runtimes.find(runtime => runtime.id === this.selectedRuntime.value.name);
     Object.assign(this.selectedRuntime, runtime);
   }
 

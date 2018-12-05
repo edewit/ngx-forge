@@ -25,7 +25,7 @@ const PROGRESS_RETRY = [
       location: 'https://console.starter-us-east-2.openshift.com/console/projects'
     }
   },
-  { statusMessage: 'OPENSHIFT_PIPELINE' },
+  { statusMessage: 'OPENSHIFT_PIPELINE', data: { routes: []} },
   { statusMessage: 'GITHUB_WEBHOOK' }
 ];
 
