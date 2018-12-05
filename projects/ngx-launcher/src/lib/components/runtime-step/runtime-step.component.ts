@@ -29,9 +29,7 @@ export class RuntimeStepComponent extends LauncherStep implements OnInit {
 
   ngOnInit(): void {
     const state = new StepState(this.selectedRuntime,
-      [
-        { name: 'runtime', value: 'value' }
-      ]
+      [{ name: 'creator-runtime', value: 'value' }]
     );
     this.projectile.setState(this.id, state);
     if (this.launcherComponent) {
