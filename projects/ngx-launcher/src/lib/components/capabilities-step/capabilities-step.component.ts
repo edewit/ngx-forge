@@ -60,7 +60,7 @@ export class CapabilitiesStepComponent extends LauncherStep implements OnInit {
 
   selectModule(input: HTMLInputElement): void {
     if (input.checked) {
-      this.selected.capabilities.set(input.value, { module: input.value });
+      this.selected.capabilities.set(input.value, { module: input.value, tier: 'backend' });
     } else {
       this.selected.capabilities.delete(input.value);
     }

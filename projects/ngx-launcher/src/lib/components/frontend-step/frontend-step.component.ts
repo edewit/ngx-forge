@@ -61,7 +61,7 @@ export class FrontendStepComponent extends LauncherStep implements OnInit {
   private updateCapabilityState() {
     const capabilities = this.projectile.getState('Capabilities').state.capabilities;
     capabilities.set(this.selectedFrontend.value.name,
-      { module: 'web-app', 'framework': this.selectedFrontend.value }
+      { module: 'web-app', 'framework': this.selectedFrontend.value, tier: 'frontend'}
     );
   }
 }
