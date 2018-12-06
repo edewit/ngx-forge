@@ -46,9 +46,9 @@ export class FrontendStepComponent extends LauncherStep implements OnInit {
     Object.assign(this.selectedFrontend, frontend);
     if (!frontend) {
       this.selectedFrontend.value.name = null;
+    } else {
+      this.updateCapabilityState();
     }
-
-    this.updateCapabilityState();
   }
 
   restoreModel(model: any): void {
