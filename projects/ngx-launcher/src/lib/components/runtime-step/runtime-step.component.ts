@@ -15,6 +15,7 @@ import { AppCreatorService } from '../../service/app-creator.service';
   styleUrls: ['./runtime-step.component.less']
 })
 export class RuntimeStepComponent extends LauncherStep implements OnInit {
+  completed = true;
   private enums: Enums;
   runtimes: Enum[];
   selectedRuntime: any = { value: {} };
@@ -57,9 +58,5 @@ export class RuntimeStepComponent extends LauncherStep implements OnInit {
     this.selectedRuntime.value = model['creator-runtime'];
     const runtime = this.runtimes.find(runtime => runtime.id === this.selectedRuntime.value.name);
     Object.assign(this.selectedRuntime, runtime);
-  }
-
-  get completed(): boolean {
-    return !!this.selectedRuntime.value.name;
   }
 }
