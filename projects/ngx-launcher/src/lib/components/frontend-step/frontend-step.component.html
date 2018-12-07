@@ -16,7 +16,7 @@
           <div class="card-pf card-pf-view card-pf-view-select card-pf-view-single-select card-pf--xsmall"
             [class.selected-card]="selectedFrontend.value.name === capability.id">
             <div class="card-title">
-              <input type="radio" [(ngModel)]="selectedFrontend.value.name" [value]="capability.id" #radio (change)="selectFrontend(capability)">
+              <input type="radio" name="frontend" [(ngModel)]="selectedFrontend.value.name" [value]="capability.id" #radio (change)="selectFrontend(capability)">
               <h2 class="card-pf-title--title">{{capability.name}}</h2>
             </div>
             <div class="card-pf-body--body card">
@@ -29,7 +29,7 @@
           <div class="card-pf card-pf-view card-pf-view-select card-pf-view-single-select card-pf--xsmall"
             [class.selected-card]="!selectedFrontend.value.name">
             <div class="card-title">
-              <input type="radio" [checked]="!selectedFrontend.value.name" #radio (change)="selectFrontend(null)">
+              <input type="radio" name="frontend" [checked]="!selectedFrontend.value.name" #radio (change)="selectFrontend(null)">
               <h2 class="card-pf-title--title">None</h2>
             </div>
             <div class="card-pf-body--body none">
