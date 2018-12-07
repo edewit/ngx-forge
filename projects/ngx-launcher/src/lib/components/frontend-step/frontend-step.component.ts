@@ -3,7 +3,6 @@ import { DomSanitizer } from '@angular/platform-browser';
 
 import { LauncherStep } from '../../launcher-step';
 import { LauncherComponent } from '../../launcher.component';
-import { Capability } from '../../model/capabilities.model';
 import { Projectile, StepState } from '../../model/projectile.model';
 import { Enum } from '../../model/runtime.model';
 import { AppCreatorService } from '../../service/app-creator.service';
@@ -46,8 +45,9 @@ export class FrontendStepComponent extends LauncherStep implements OnInit {
     Object.assign(this.selectedFrontend, frontend);
     if (!frontend) {
       this.selectedFrontend.value.name = null;
+      this.updateCapabilityState(null);
     } else {
-      this.updateCapabilityState();
+      this.updateCapabilityState(this.selectedFrontend.value);
     }
   }
 
@@ -55,13 +55,17 @@ export class FrontendStepComponent extends LauncherStep implements OnInit {
     this.selectedFrontend.value = model.frontend;
     const frontend = this.frontendCapabilities.find(frontend => frontend.id === model.frontend.name);
     Object.assign(this.selectedFrontend, frontend);
-    this.updateCapabilityState();
+    this.updateCapabilityState(this.selectedFrontend.value);
   }
 
-  private updateCapabilityState() {
+  private updateCapabilityState(value: any) {
     const capabilities = this.projectile.getState('Capabilities').state.capabilities;
-    capabilities.set(this.selectedFrontend.value.name,
-      { module: 'web-app', 'framework': this.selectedFrontend.value }
-    );
+    if (value) {
+      capabilities.set(value.name,
+        { module: 'web-app', 'framework': value }
+      );
+    } else {
+      this.frontendCapabilities.forEach(fe => capabilities.delete(fe.id));
+    }
   }
 }
