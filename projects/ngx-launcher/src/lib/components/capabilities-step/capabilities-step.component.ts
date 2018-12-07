@@ -66,8 +66,10 @@ export class CapabilitiesStepComponent extends LauncherStep implements OnInit {
     }
   }
 
-  selectProperty(module: string, key: Property) {
-    this.selected.capabilities.get(module)[key.id] = key['value'];
+  selectProperty(moduleKey: string, key: Property) {
+    const module = this.selected.capabilities.get(moduleKey);
+    module.props = {};
+    module.props[key.id] = key['value'];
   }
 
   restoreModel(model: any): void {
