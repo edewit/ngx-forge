@@ -62,7 +62,7 @@ export class FrontendStepComponent extends LauncherStep implements OnInit {
     const capabilities = this.projectile.getState('Capabilities').state.capabilities;
     if (value) {
       capabilities.set(value.name,
-        { module: 'web-app', 'framework': value }
+        { module: 'web-app', 'framework': { name: value }}
       );
     } else {
       this.frontendCapabilities.forEach(fe => capabilities.delete(fe.id));
