@@ -6,14 +6,14 @@ import {
   Optional,
   ViewEncapsulation } from '@angular/core';
 import { Broadcaster } from 'ngx-base';
-import { Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { LauncherStep } from '../../launcher-step';
 import { LauncherComponent } from '../../launcher.component';
 import { Pipeline } from '../../model/pipeline.model';
 import { Projectile, StepState } from '../../model/projectile.model';
 import { Runtime } from '../../model/runtime.model';
 import { PipelineService } from '../../service/pipeline.service';
-import { broadcast } from '../../shared/telemetry.decorator';
+import { tap, map, switchMap, startWith } from 'rxjs/operators';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -22,11 +22,9 @@ import { broadcast } from '../../shared/telemetry.decorator';
   styleUrls: ['./release-strategy-step.component.less']
 })
 export class ReleaseStrategyStepComponent extends LauncherStep implements OnInit, OnDestroy {
-  private _pipelines: Pipeline[] = [];
+  private _pipelines: Observable<Pipeline[]>;
   private _allPipelines: Pipeline[] = [];
   public pipeline: Pipeline = new Pipeline();
-
-  private subscriptions: Subscription[] = [];
 
   constructor(@Host() @Optional() public launcherComponent: LauncherComponent,
               private pipelineService: PipelineService,
@@ -44,23 +42,25 @@ export class ReleaseStrategyStepComponent extends LauncherStep implements OnInit
     if (this.launcherComponent) {
       this.launcherComponent.addStep(this);
     }
-    this.subscriptions.push(this.pipelineService.getPipelines().subscribe((result: Array<Pipeline>) => {
-      this._allPipelines = result;
-      this.restore(this._allPipelines);
-      this.filterPipelines(this.pipeline.platform);
-    }));
-    this.subscriptions.push(this.broadcaster.on<Runtime>('runtime-changed').subscribe(runtime => {
-      this.filterPipelines(runtime.pipelinePlatform);
-      if (this.pipeline.platform !== runtime.pipelinePlatform) {
-        this.updatePipelineSelection(new Pipeline());
-      }
-    }));
-  }
+    this._pipelines = this.broadcaster.on<Runtime>('runtime-changed').pipe(
+      tap(runtime => {
+        if (this.pipeline.platform !== runtime.pipelinePlatform) {
+          this.pipeline.id = undefined;
+        }
+        return runtime;
+      }),
+      switchMap(runtime => {
+        return this.pipelineService.getPipelines(runtime.pipelinePlatform).pipe(
+          map(result => {
+            this._allPipelines = result;
+            this.restore(this._allPipelines);
+            return this.filterPipelines(runtime.pipelinePlatform);
+          })
+        )
+      }),
+      startWith([])
+    );
 
-  ngOnDestroy() {
-    this.subscriptions.forEach((sub) => {
-      sub.unsubscribe();
-    });
   }
 
   // Accessors
@@ -70,7 +70,7 @@ export class ReleaseStrategyStepComponent extends LauncherStep implements OnInit
    *
    * @returns {Pipeline[]} The list of pipelines
    */
-  get pipelines(): Pipeline[] {
+  get pipelines(): Observable<Pipeline[]> {
     return this._pipelines;
   }
 
@@ -92,7 +92,7 @@ export class ReleaseStrategyStepComponent extends LauncherStep implements OnInit
   }
 
   private filterPipelines(selectedPlatform: string) {
-    this._pipelines = this._allPipelines
+    return this._allPipelines
       .filter(({ platform }) => selectedPlatform ? platform === selectedPlatform : platform === 'maven');
   }
 }

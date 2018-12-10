@@ -22,7 +22,7 @@
               <div class="list-group list-view-pf list-view-pf-view">
                 <div class="list-group-item"
                      [ngClass]="{'suggested': pipe.suggested || pipe.techPreview}"
-                     *ngFor="let pipe of (pipelines | sortArray: 'suggested': true)">
+                     *ngFor="let pipe of ((pipelines | async) | sortArray: 'suggested': true)">
                      <div class="group" [ngClass]="{'with-tag': pipe.suggested || pipe.techPreview}">
                         <div class="list-view-pf-expand">
                               <span class="fa"
