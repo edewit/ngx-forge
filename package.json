@@ -19,6 +19,7 @@
     "pretest": "npm run build:lib",
     "test:app": "ng test --watch=false",
     "test:lib": "ng test ngx-launcher --watch=false --browsers ChromeHeadlessNoSandbox",
+    "test:debug": "ng test ngx-launcher --browsers ChromeDebug",
     "test:lib:dev": "ng test ngx-launcher",
     "rimraf": "rimraf",
     "semantic-release": "semantic-release"

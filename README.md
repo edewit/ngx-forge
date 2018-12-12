@@ -50,7 +50,14 @@ The main application is the demo app. The library source is under [/projects/ngx
  ```
  npm test
  ```
-> NOTE: to run the library test in watch mode: `npm run test:lib:dev`
+* to run the library test in watch mode:
+```
+npm run test:lib:dev
+```
+* to run library test in debug mode:
+```
+npm run test:debug
+```
 
 #### Build library and demo app:
  ```
