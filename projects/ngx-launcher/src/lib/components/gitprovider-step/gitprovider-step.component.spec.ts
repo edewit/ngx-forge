@@ -24,7 +24,8 @@ const mockGitProviderService = {
     const gitHubDetails = of(<GitHubDetails> {
       avatar: 'https://avatars3.githubusercontent.com/u/17882357?v=4',
       login: 'testuser',
-      organizations: {'fabric-ui': 'fabric-ui'}
+      organizations: {'fabric-ui': 'fabric-ui'},
+      repositoryList: ['test', 'ngx-launcher', 'fabric-ui']
     });
     return gitHubDetails;
   },
@@ -99,4 +100,52 @@ describe('GitProviderStepComponent', () => {
     expect(userGitLoginBtn.hasAttribute('disabled'));
   });
 
+  it('should show location column', () => {
+    fixture.detectChanges();
+    element = fixture.nativeElement;
+    const userGitLocation = element.
+      querySelector('#ghOrg');
+    expect(userGitLocation.innerHTML).toContain('fabric-ui');
+  });
+
+  it('should show repository column for create flow', () => {
+    fixture.detectChanges();
+    element = fixture.nativeElement;
+    const userGitLocation = element.
+      querySelector('#ghOrg');
+    userGitLocation.setAttribute('val', 'fabric-ui');
+    expect(userGitLocation.innerHTML).toContain('fabric-ui');
+    const userGitRepo = element.
+      querySelector('#ghRepo');
+    userGitRepo.setAttribute('val', 'app-test-1');
+    expect(component.import).isNot;
+    component.gitHubDetails.repository = 'app-test-1';
+    expect(component.gitHubDetails.repository).toEqual('app-test-1');
+    expect(userGitRepo.getAttribute('val')).toContain('app-test-1');
+    expect(component.completed).toBe(true);
+  });
+
+  it('should show repository column for import flow', async (() => {
+    fixture.detectChanges();
+    element = fixture.nativeElement;
+    const userGitLocation = element.
+      querySelector('#ghOrg');
+    component.import = true;
+    userGitLocation.setAttribute('val', 'fabric-ui');
+    expect(userGitLocation.getAttribute('val')).toContain('fabric-ui');
+    const userGitRepo = element.
+      querySelector('#ghRepo');
+    expect(component.import).toBe(true);
+    component.gitHubDetails.repository = 'test';
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+    userGitRepo.setAttribute('val', 'test');
+    expect(component.gitHubDetails.repositoryList).toContain('test');
+    expect(userGitRepo.getAttribute('val')).toBe('test');
+    const gitRepoDropdown = element.
+      querySelector('#gitRt');
+    expect(gitRepoDropdown.innerHTML).toContain('test');
+    expect(component.completed).toBe(true);
+  });
+  }));
 });
