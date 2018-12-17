@@ -1,6 +1,5 @@
 import {
   Component,
-  Host,
   Input,
   OnDestroy,
   OnInit,
@@ -30,11 +29,11 @@ export class StepIndicatorComponent implements OnInit, OnDestroy {
   dependencyCheck: DependencyCheck = new DependencyCheck();
 
   constructor(public launcherComponent: LauncherComponent,
-    public projectile: Projectile<any>,
-    private route: ActivatedRoute,
-    broadcaster: Broadcaster) {
-      broadcaster.on<string>('navigate-to').subscribe(id => this.navToStep(id));
-      broadcaster.on<string>('navigate-from').subscribe(id => this.navToNextStep(id));
+      public projectile: Projectile<any>,
+      private route: ActivatedRoute,
+      broadcaster: Broadcaster) {
+    broadcaster.on<string>('navigate-to').subscribe(id => this.navToStep(id));
+    broadcaster.on<string>('navigate-from').subscribe(id => this.navToNextStep(id));
   }
 
   ngOnInit(): void {

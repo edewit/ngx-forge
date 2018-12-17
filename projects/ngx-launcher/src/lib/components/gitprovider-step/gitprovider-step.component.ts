@@ -1,9 +1,12 @@
 import {
   AfterViewInit,
   Component,
+  DoCheck,
   ElementRef,
   Host,
   Input,
+  KeyValueDiffer,
+  KeyValueDiffers,
   OnDestroy,
   OnInit,
   Optional,
@@ -18,7 +21,6 @@ import { LauncherComponent } from '../../launcher.component';
 import { GitHubDetails } from '../../model/github-details.model';
 import { Projectile, StepState } from '../../model/projectile.model';
 import { GitProviderService } from '../../service/git-provider.service';
-import { broadcast } from '../../shared/telemetry.decorator';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -26,11 +28,12 @@ import { broadcast } from '../../shared/telemetry.decorator';
   templateUrl: './gitprovider-step.component.html',
   styleUrls: ['./gitprovider-step.component.less']
 })
-export class GitproviderStepComponent extends LauncherStep implements AfterViewInit, OnDestroy, OnInit {
+export class GitproviderStepComponent extends LauncherStep implements AfterViewInit, OnDestroy, OnInit, DoCheck {
   @Input() import: boolean;
   @ViewChild('form') form: NgForm;
   @ViewChild('versionSelect') versionSelect: ElementRef;
 
+  private projectNameDiff: KeyValueDiffer<string, any>;
   private subscriptions: Subscription[] = [];
   private _organizationsKeys;
   gitHubDetails: GitHubDetails = {};
@@ -38,8 +41,10 @@ export class GitproviderStepComponent extends LauncherStep implements AfterViewI
 
   constructor(@Host() @Optional() public launcherComponent: LauncherComponent,
               private projectile: Projectile<GitHubDetails>,
+              differs: KeyValueDiffers,
               private gitProviderService: GitProviderService) {
     super(projectile);
+    this.projectNameDiff = differs.find(this.projectile.sharedState.state).create();
   }
 
   ngAfterViewInit() {
@@ -49,6 +54,17 @@ export class GitproviderStepComponent extends LauncherStep implements AfterViewI
           this.versionSelect.nativeElement.focus();
         }
       }, 10);
+    }
+  }
+
+  ngDoCheck(): void {
+    const changes = this.projectNameDiff.diff(this.projectile.sharedState.state);
+    if (changes) {
+      changes.forEachChangedItem(item => {
+        if (item.key === 'projectName' && item.previousValue === this.gitHubDetails.repository) {
+          this.gitHubDetails.repository = item.currentValue;
+        }
+      });
     }
   }
 
