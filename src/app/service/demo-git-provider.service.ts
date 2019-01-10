@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { EMPTY, Observable, of } from 'rxjs';
+import { delay } from 'rxjs/operators';
 import { GitHubDetails } from '../../../projects/ngx-launcher/src/lib/model/github-details.model';
 import { GitProviderService } from '../../../projects/ngx-launcher/src/lib/service/git-provider.service';
+import { BuildTool } from './../../../projects/ngx-launcher/src/lib/model/build-tool.model';
 
 const GitHubMock = require('../mock/demo-git-provider.json');
 
@@ -60,6 +62,10 @@ export class DemoGitProviderService implements GitProviderService {
    */
   getGitHubRepoList(): Observable<any> {
     return of(Object.keys(this.existingRepo));
+  }
+
+  getDetectedBuildRuntime(): Observable<BuildTool> {
+    return of({'build-tool-type': 'maven'}).pipe(delay(1000));
   }
 
   // Private

@@ -15,6 +15,7 @@ export { Booster, BoosterVersion, BoosterMission, BoosterRuntime } from './lib/m
 export { TargetEnvironment } from './lib/model/target-environment.model';
 export { Enums, Enum, Runtime } from './lib/model/runtime.model';
 export { Capability, Property } from './lib/model/capabilities.model';
+export { BuildTool } from './lib/model/build-tool.model';
 export { LauncherComponent } from './lib/launcher.component';
 
 // Launcher services

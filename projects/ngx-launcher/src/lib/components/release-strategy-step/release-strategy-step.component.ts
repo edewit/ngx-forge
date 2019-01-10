@@ -55,6 +55,12 @@ export class ReleaseStrategyStepComponent extends LauncherStep implements OnInit
         this.updatePipelineSelection(new Pipeline());
       }
     }));
+    this.subscriptions.push(this.broadcaster.on<string>('buildTool-detected').subscribe(buildTool => {
+      this.filterPipelines(buildTool);
+      if (this.pipeline.platform !== buildTool) {
+        this.updatePipelineSelection(new Pipeline());
+      }
+    }));
   }
 
   ngOnDestroy() {
@@ -93,6 +99,6 @@ export class ReleaseStrategyStepComponent extends LauncherStep implements OnInit
 
   private filterPipelines(selectedPlatform: string) {
     this._pipelines = this._allPipelines
-      .filter(({ platform }) => selectedPlatform ? platform === selectedPlatform : platform === 'maven');
+      .filter(({ platform }) => platform === selectedPlatform);
   }
 }

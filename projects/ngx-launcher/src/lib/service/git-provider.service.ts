@@ -1,5 +1,6 @@
 import { Observable } from 'rxjs';
 
+import { BuildTool } from '../model/build-tool.model';
 import { GitHubDetails } from '../model/github-details.model';
 
 /**
@@ -36,4 +37,11 @@ export abstract class GitProviderService {
    * @returns {Observable<any>} List of GitHub repos
    */
   abstract getGitHubRepoList(org: string): Observable<any>;
+
+  /**
+   * Returns detected build tools
+   * @param {string} repoUrl url of github repository
+   * @return {Observable<BuildTool>}
+  */
+  abstract getDetectedBuildRuntime(repoUrl: string): Observable<BuildTool>;
 }

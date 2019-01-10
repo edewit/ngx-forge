@@ -14,7 +14,9 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Broadcaster } from 'ngx-base';
 import { Subscription } from 'rxjs';
+import { BuildTool } from './../../model/build-tool.model';
 
 import { LauncherStep } from '../../launcher-step';
 import { LauncherComponent } from '../../launcher.component';
@@ -38,11 +40,15 @@ export class GitproviderStepComponent extends LauncherStep implements AfterViewI
   private _organizationsKeys;
   gitHubDetails: GitHubDetails = {};
   gitHubReposSubscription: Subscription;
+  detectedTool: BuildTool;
+  runtimeDetectionSecVisible: boolean = false;
+  isRuntimeDetected: boolean = false;
 
   constructor(@Host() @Optional() public launcherComponent: LauncherComponent,
               private projectile: Projectile<GitHubDetails>,
               differs: KeyValueDiffers,
-              private gitProviderService: GitProviderService) {
+              private gitProviderService: GitProviderService,
+              private broadcaster: Broadcaster) {
     super(projectile);
     this.projectNameDiff = differs.find(this.projectile.sharedState.state).create();
   }
@@ -135,5 +141,31 @@ export class GitproviderStepComponent extends LauncherStep implements AfterViewI
       this.gitHubReposSubscription = this.gitProviderService.getGitHubRepoList(org)
         .subscribe(list => this.gitHubDetails.repositoryList = list);
     }
+  }
+
+  onRepositorySelect(repo) {
+    let repoUrl = 'https://github.com/' + this.gitHubDetails.organization + '/' + repo.value;
+    if (this.gitHubDetails.organization === undefined) {
+      repoUrl = 'https://github.com/' + this.gitHubDetails.login + '/' + repo.value;
+    }
+    this.runtimeDetectionSecVisible = true;
+    this.isRuntimeDetected = false;
+    this.gitProviderService.getDetectedBuildRuntime(encodeURIComponent(repoUrl))
+      .subscribe((detectedTool: BuildTool) => {
+        this.detectedTool = detectedTool;
+        let dTool = detectedTool['build-tool-type'];
+        if (detectedTool['build-tool-type'] === 'nodejs') {
+          dTool = 'node';
+        }
+        this.broadcaster.broadcast('buildTool-detected', dTool);
+        this.isRuntimeDetected = true;
+    });
+  }
+
+  onChangeBuildTool(buildTool: string) {
+    if (buildTool === 'nodejs') {
+      buildTool = 'node';
+    }
+    this.broadcaster.broadcast('buildTool-detected', buildTool);
   }
 }

@@ -24,6 +24,7 @@ import { DemoTargetEnvironmentService } from './service/demo-target-environment.
 import { DemoTokenService } from './service/demo-token.service';
 
 import { Config } from '../../projects/ngx-launcher/src/lib/service/config.component';
+import { FABRIC8_BUILD_TOOL_DETECTOR_API_URL } from './shared/build-tool-detector-api-url';
 import { FABRIC8_FORGE_API_URL } from './shared/forge-api-url';
 import { ForgeConfig } from './shared/forge-config';
 import { FABRIC8_ORIGIN } from './shared/forge-origin';
@@ -81,6 +82,8 @@ import { DemoAppCreatorService } from './service/demo-app-creator.service';
     { provide: TargetEnvironmentService, useClass: DemoTargetEnvironmentService},
     { provide: Config, useClass: ForgeConfig },
     { provide: FABRIC8_FORGE_API_URL, useValue: 'https://forge.api.prod-preview.openshift.io' },
+    {provide: FABRIC8_BUILD_TOOL_DETECTOR_API_URL,
+      useValue: 'https://detector.api.prod-preview.openshift.io/api/detect/build/'},
     { provide: FABRIC8_ORIGIN, useValue: 'osio' },
     { provide: TokenProvider, useClass: MockAuthenticationService },
     { provide: TokenService, useClass: DemoTokenService}
