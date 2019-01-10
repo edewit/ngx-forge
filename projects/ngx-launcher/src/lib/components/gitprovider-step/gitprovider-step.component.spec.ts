@@ -5,14 +5,15 @@ import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Observable, of } from 'rxjs';
 
+import { Broadcaster } from 'ngx-base';
 import { PopoverModule, TypeaheadModule } from 'ngx-bootstrap';
-
 import { GitProviderService } from '../../service/git-provider.service';
 import { GitproviderStepComponent } from './gitprovider-step.component';
 
 import { GitHubDetails } from '../../model/github-details.model';
 import { Projectile } from '../../model/projectile.model';
 import { ButtonNextStepComponent } from '../../shared/button-next-step.component';
+import { BroadcasterTestProvider } from '../targetenvironment-step/target-environment-step.component.spec';
 import { GitProviderRepositoryValidatorDirective } from './gitprovider-repository.validator';
 
 const mockGitProviderService = {
@@ -62,7 +63,8 @@ describe('GitProviderStepComponent', () => {
         Projectile,
         {
           provide: GitProviderService, useValue: mockGitProviderService
-        }
+        },
+        { provide: Broadcaster, useValue: BroadcasterTestProvider.broadcaster }
       ]
     }).compileComponents();
   }));
