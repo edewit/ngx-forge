@@ -43,5 +43,5 @@ export abstract class GitProviderService {
    * @param {string} repoUrl url of github repository
    * @return {Observable<BuildTool>}
   */
-  abstract getDetectedBuildRuntime(repoUrl: string): Observable<BuildTool>;
+ getDetectedBuildRuntime?(repoUrl: string): Observable<BuildTool>;
 }
