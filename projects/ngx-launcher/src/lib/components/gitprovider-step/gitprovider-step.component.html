@@ -94,7 +94,7 @@
           <div class="col-xs-12" *ngIf="import">
             <div class="f8launcher-provider-card-detected-runtime" *ngIf="runtimeDetectionSecVisible">
               <h3>
-                Detected Runtime
+                {{ !isRuntimeDetected ? 'Detecting Runtime' : 'Detected Runtime' }}
               </h3>
               <div *ngIf="!isRuntimeDetected">
                 <i class="pficon pficon-in-progress fa-spin"></i>

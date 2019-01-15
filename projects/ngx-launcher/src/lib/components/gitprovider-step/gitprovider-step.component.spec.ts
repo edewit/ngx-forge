@@ -147,6 +147,7 @@ describe('GitProviderStepComponent', () => {
     const gitRepoDropdown = element.
       querySelector('#gitRt');
     expect(gitRepoDropdown.innerHTML).toContain('test');
+    component.isRuntimeDetected = true;
     expect(component.completed).toBe(true);
   });
   }));
