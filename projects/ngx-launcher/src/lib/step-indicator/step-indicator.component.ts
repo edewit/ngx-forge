@@ -52,7 +52,7 @@ export class StepIndicatorComponent implements OnInit, OnDestroy {
    * Navigate to next step
    */
   @broadcast('stepIndicatorClicked', {
-    'state': 'projectile'
+    'state': 'projectile.toJson'
   })
   navToNextStep(fromStepId?: string): void {
     this.projectile.selectedSection = fromStepId;

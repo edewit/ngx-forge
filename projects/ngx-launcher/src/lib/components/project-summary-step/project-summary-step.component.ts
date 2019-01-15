@@ -80,16 +80,7 @@ export class ProjectSummaryStepComponent extends LauncherStep implements OnDestr
    * Set up this application
    */
   @broadcast('completeSummaryStep_Create', {
-    'launcherComponent.summary': {
-      location: 'gitHubDetails.organization',
-      mission: 'mission.name',
-      pipeline: 'pipeline.name',
-      projectName: 'dependencyCheck.projectName',
-      repository: 'gitHubDetails.repository',
-      runtime: 'runtime.name',
-      spacePath: 'dependencyCheck.spacePath',
-      username: 'gitHubDetails.login'
-    }
+    'state': 'projectile.toJson'
   })
   setup(): void {
     this.setupInProgress = true;

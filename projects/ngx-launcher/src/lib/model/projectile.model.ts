@@ -75,10 +75,10 @@ export class Projectile<T> {
   }
 
   toHttpPayload(): HttpParams {
-    return new HttpParams({ fromObject: this.toJson() });
+    return new HttpParams({ fromObject: this.toJson });
   }
 
-  toJson(): any {
+  get toJson(): any {
     const result: { [param: string]: string } = {};
     Object.keys(this._state).map(k =>
       this._state[k].save().map(f => {
