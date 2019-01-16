@@ -113,6 +113,9 @@ export class GitproviderStepComponent extends LauncherStep implements AfterViewI
    * @returns {boolean} True if step is completed
    */
   get completed(): boolean {
+    if (this.import) {
+      return this.form.valid && this.isRuntimeDetected;
+    }
     return this.form.valid;
   }
 

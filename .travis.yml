@@ -1,10 +1,5 @@
 dist: trusty
-cache:
-  directories:
-    - node_modules
-cache:
-  directories:
-    - node_modules
+cache: npm
 addons:
   apt:
     sources:
