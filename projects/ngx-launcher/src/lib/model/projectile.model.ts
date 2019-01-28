@@ -61,6 +61,10 @@ export class Projectile<T> {
     return this._state[stepId];
   }
 
+  resetState() {
+    this._state = {};
+  }
+
   get redirectUrl(): string {
     return window.location.href + this.toUrl();
   }
