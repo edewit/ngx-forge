@@ -15,9 +15,10 @@ import {
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Broadcaster } from 'ngx-base';
-import { Subscription } from 'rxjs';
+import { Subscription, throwError } from 'rxjs';
 import { BuildTool } from './../../model/build-tool.model';
 
+import { catchError } from 'rxjs/operators';
 import { LauncherStep } from '../../launcher-step';
 import { LauncherComponent } from '../../launcher.component';
 import { GitHubDetails } from '../../model/github-details.model';
@@ -43,6 +44,7 @@ export class GitproviderStepComponent extends LauncherStep implements AfterViewI
   detectedTool: BuildTool;
   runtimeDetectionSecVisible: boolean = false;
   isRuntimeDetected: boolean = false;
+  gitHubDetailLoaded: boolean = false;
 
   constructor(@Host() @Optional() public launcherComponent: LauncherComponent,
               private projectile: Projectile<GitHubDetails>,
@@ -86,8 +88,15 @@ export class GitproviderStepComponent extends LauncherStep implements AfterViewI
       this.launcherComponent.addStep(this);
     }
 
-    this.subscriptions.push(this.gitProviderService.getGitHubDetails().subscribe((val) => {
+    this.subscriptions.push(this.gitProviderService.getGitHubDetails().pipe(
+      catchError((error) => {
+        this.gitHubDetailLoaded = true;
+        return throwError(error);
+      })
+    )
+    .subscribe((val) => {
       if (val !== undefined) {
+        this.gitHubDetailLoaded = true;
         Object.assign(this.gitHubDetails, val);
         this.restore();
       }

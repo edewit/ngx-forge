@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { EMPTY, Observable, of } from 'rxjs';
+import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { GitHubDetails } from '../../../projects/ngx-launcher/src/lib/model/github-details.model';
 import { GitProviderService } from '../../../projects/ngx-launcher/src/lib/service/git-provider.service';
@@ -41,7 +41,7 @@ export class DemoGitProviderService implements GitProviderService {
       login: GitHubMock.user.login,
       organizations: this.existingRepo
     } as GitHubDetails;
-    return this.isPageRedirect() ? of(gitHubDetails) : EMPTY;
+    return this.isPageRedirect() ? of(gitHubDetails) : throwError({status: 404});
   }
 
   /**
