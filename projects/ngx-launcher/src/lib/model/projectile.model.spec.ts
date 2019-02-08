@@ -1,4 +1,5 @@
 import { HttpParams } from '@angular/common/http';
+import { async } from '@angular/core/testing';
 import { GitHubDetails } from './github-details.model';
 import { Mission } from './mission.model';
 import { Projectile, StepState } from './projectile.model';
@@ -62,4 +63,20 @@ describe('State saving and restoring', () => {
     const restoredMission = projectile.restore(testStateId, missions);
     expect(restoredMission.state.mission.description).toEqual(description);
   });
+
+  it('should set the state of the component', async(() => {
+    const projectile = new TestableProjectile<any>();
+    projectile.setState('newState', new StepState<any>({ 'param1': 'value1' }, [{ name: 'p1', value: 'param1' }]));
+    const newState = { p1: 'value1' };
+    const _newState = projectile.getSavedState('newState');
+    expect(_newState).toEqual(newState);
+  }));
+
+  it('should reset the state of the component', async(() => {
+    const projectile = new TestableProjectile<any>();
+    projectile.setState('newState', new StepState<any>({ 'param1': 'value1' }, [{ name: 'p1', value: 'param1' }]));
+    projectile.resetState();
+    const currentState = projectile.getSavedState('newState');
+    expect(currentState).toBeNull();
+  }));
 });
