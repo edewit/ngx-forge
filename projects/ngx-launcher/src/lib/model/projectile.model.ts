@@ -29,10 +29,11 @@ export class Projectile<T> {
         { name: 'projectName', value: 'projectName' },
         { name: 'projectVersion', value: 'projectVersion' },
         { name: 'groupId', value: 'groupId' },
-        { name: 'mavenArtifact', value: 'mavenArtifact' },
-        { name: 'spacePath', value: 'spacePath' },
+        { name: 'artifactId', value: 'mavenArtifact' },
+        { name: 'space', value: 'spacePath' },
         { name: 'targetEnvironment', value: 'targetEnvironment' }
       ]);
+      state.filters.map(f => _.set(state._state, f.value, _.get(dependencyCheck, f.name)));
       this.setState('shared', state);
     }
     return state;

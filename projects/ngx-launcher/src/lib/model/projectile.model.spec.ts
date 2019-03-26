@@ -76,13 +76,12 @@ describe('State saving and restoring', () => {
     class SharedStateProjectile<T> extends Projectile<T> {
       protected searchParams() {
         // tslint:disable-next-line:max-line-length
-        return new URLSearchParams('?selectedSection=&shared=%7B%22projectName%22%3A%22projectName%22%2C%22projectVersion%22%3A%22%22%2C%22groupId%22%3A%22%22%2C%22mavenArtifact%22%3A%22some-value%22%2C%22space%22%3A%22%22%2C%22targetEnvironment%22%3A%22%22%7D');
+        return new URLSearchParams('?selectedSection=&shared=%7B%22projectName%22%3A%22projectName%22%2C%22projectVersion%22%3A%22%22%2C%22groupId%22%3A%22%22%2C%22artifactId%22%3A%22some-value%22%2C%22space%22%3A%22%22%2C%22targetEnvironment%22%3A%22%22%7D');
       }
     }
 
     const projectile = new SharedStateProjectile();
     projectile.sharedState.state;
-    projectile.restore('shared', projectile.getSavedState('shared'));
     expect(projectile.sharedState.state.projectName).toBe('projectName');
     expect(projectile.sharedState.state.mavenArtifact).toBe('some-value');
   });
